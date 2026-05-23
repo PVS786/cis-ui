@@ -1,8 +1,8 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { BadgeCheck, Building2, FileText, Handshake, Map, Search, Target, ChevronRight } from 'lucide-react';
-import React, { useState } from 'react';
+import { BadgeCheck, Building2, FileText, Handshake, Map, Search, Target } from 'lucide-react';
+import { useState } from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
@@ -205,7 +205,8 @@ export function InteractiveProcessMapSection() {
               <Image 
                 src="/image.png" 
                 alt="Process Roadmap" 
-                fill 
+                fill
+                sizes="(max-width: 1024px) 100vw, 1024px"
                 className="object-cover object-center" 
               />
               <div className="absolute inset-0 bg-gradient-to-t from-brand-navy via-brand-navy/40 to-transparent" />
