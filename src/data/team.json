@@ -1,0 +1,32 @@
+[
+  {
+    "id": "sarah-jenkins",
+    "name": "Sarah Jenkins",
+    "title": "Managing Director",
+    "department": "Leadership",
+    "bio": "Over 20 years of experience in global infrastructure development and corporate strategy.",
+    "imageUrl": "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?q=80&w=800&auto=format&fit=crop",
+    "imageAlt": "Sarah Jenkins portrait",
+    "linkedin": "https://linkedin.com/"
+  },
+  {
+    "id": "david-chen",
+    "name": "David Chen",
+    "title": "Chief Engineer",
+    "department": "Engineering",
+    "bio": "Specializes in seismic-resistant structures and advanced materials for commercial high-rises.",
+    "imageUrl": "https://images.unsplash.com/photo-1560250097-0b93528c311a?q=80&w=800&auto=format&fit=crop",
+    "imageAlt": "David Chen portrait",
+    "linkedin": "https://linkedin.com/"
+  },
+  {
+    "id": "anya-patel",
+    "name": "Anya Patel",
+    "title": "Head of Land Acquisition",
+    "department": "Acquisitions",
+    "bio": "Expert in regulatory compliance, zoning laws, and strategic site selection across India.",
+    "imageUrl": "https://images.unsplash.com/photo-1580489944761-15a19d654956?q=80&w=800&auto=format&fit=crop",
+    "imageAlt": "Anya Patel portrait",
+    "linkedin": "https://linkedin.com/"
+  }
+]

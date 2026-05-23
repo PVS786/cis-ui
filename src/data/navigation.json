@@ -1,0 +1,28 @@
+{
+  "mainNav": [
+    { "label": "Home", "href": "/" },
+    { "label": "About Us", "href": "/about" },
+    { "label": "Services", "href": "/services" },
+    { "label": "Projects", "href": "/projects" },
+    { "label": "Land Acquisition", "href": "/land-acquisition" }
+  ],
+  "footerLinks": {
+    "divisions": [
+      { "label": "Residential Infrastructure", "href": "/services#residential" },
+      { "label": "Semiconductor Labs", "href": "/services#labs" },
+      { "label": "Logistics & Supply Chain", "href": "/services#logistics" },
+      { "label": "Energy Grid Systems", "href": "/services#energy" }
+    ],
+    "experience": [
+      { "label": "Case Portfolios", "href": "/projects" },
+      { "label": "Innovation Hub", "href": "/about#innovation" },
+      { "label": "Sustainability", "href": "/about#sustainability" },
+      { "label": "News & Media", "href": "/news" }
+    ],
+    "legal": [
+      { "label": "Privacy Policy", "href": "/privacy" },
+      { "label": "Terms of Use", "href": "/terms" },
+      { "label": "Security", "href": "/security" }
+    ]
+  }
+}
