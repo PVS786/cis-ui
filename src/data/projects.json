@@ -1,0 +1,54 @@
+[
+  {
+    "id": "silicon-valley-hub",
+    "title": "Silicon Valley Hub",
+    "category": "Tech Lab",
+    "location": "California, USA",
+    "year": 2023,
+    "description": "State-of-the-art research and development facility for advanced semiconductor manufacturing.",
+    "imageUrl": "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1200&auto=format&fit=crop",
+    "imageAlt": "Silicon Valley Hub exterior view",
+    "featured": true,
+    "value": "$120M",
+    "area": "150,000 sq ft"
+  },
+  {
+    "id": "mumbai-express-corridor",
+    "title": "Mumbai Express Corridor",
+    "category": "Infrastructure",
+    "location": "Mumbai, India",
+    "year": 2024,
+    "description": "High-speed transportation network connecting major economic zones with sustainable engineering.",
+    "imageUrl": "https://images.unsplash.com/photo-1541888946425-d81bb19480c5?q=80&w=1200&auto=format&fit=crop",
+    "imageAlt": "Mumbai Express Corridor aerial view",
+    "featured": true,
+    "value": "₹4,500 Cr",
+    "area": "45 km stretch"
+  },
+  {
+    "id": "dubai-smart-tower",
+    "title": "Dubai Smart Tower",
+    "category": "Commercial",
+    "location": "Dubai, UAE",
+    "year": 2022,
+    "description": "A 60-story intelligent commercial skyscraper with fully integrated IoT building management systems.",
+    "imageUrl": "https://images.unsplash.com/photo-1500382017468-9049fed747ef?q=80&w=1200&auto=format&fit=crop",
+    "imageAlt": "Dubai Smart Tower against skyline",
+    "featured": false,
+    "value": "$200M",
+    "area": "1.2M sq ft"
+  },
+  {
+    "id": "seoul-fab-7",
+    "title": "Seoul Fab 7",
+    "category": "Industrial",
+    "location": "Seoul, South Korea",
+    "year": 2024,
+    "description": "Next-generation fabrication plant built with advanced seismic isolation and clean room technologies.",
+    "imageUrl": "https://images.unsplash.com/photo-1497366754035-f200968a6e72?q=80&w=1200&auto=format&fit=crop",
+    "imageAlt": "Seoul Fab 7 clean room interior",
+    "featured": false,
+    "value": "$850M",
+    "area": "400,000 sq ft"
+  }
+]

@@ -1,0 +1,24 @@
+[
+  {
+    "id": "testimonial-1",
+    "quote": "CONSERVVE didn't just build our facility; they engineered a solution that saved us 15% on long-term operational costs.",
+    "author": "Michael Chang",
+    "role": "VP of Operations",
+    "company": "TechGlobal Systems",
+    "projectId": "silicon-valley-hub"
+  },
+  {
+    "id": "testimonial-2",
+    "quote": "Their land acquisition team navigated the complex regulatory landscape seamlessly, ensuring our project started on time with zero legal hurdles.",
+    "author": "Priya Sharma",
+    "role": "Director of Development",
+    "company": "Apex Real Estate"
+  },
+  {
+    "id": "testimonial-3",
+    "quote": "The level of precision and accountability CONSERVVE brings to the table is unmatched in the infrastructure sector.",
+    "author": "James Wilson",
+    "role": "CEO",
+    "company": "Wilson Logistics"
+  }
+]

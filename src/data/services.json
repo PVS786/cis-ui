@@ -1,0 +1,26 @@
+[
+  {
+    "id": "structural-design",
+    "title": "Structural Design",
+    "shortDescription": "Advanced CAD modeling and seismic-resistant frameworks for massive scale industrial hubs.",
+    "fullDescription": "We provide end-to-end structural engineering services, ensuring the highest standards of safety, durability, and innovation for modern infrastructure.",
+    "icon": "Building2",
+    "highlights": ["Seismic Resistance", "Advanced CAD", "Load Optimization"]
+  },
+  {
+    "id": "silicon-labs",
+    "title": "Silicon Labs",
+    "shortDescription": "Integrating smart-building technology and specialized lab environments for tech giants.",
+    "fullDescription": "ISO-Certified clean room environments with precision isolation. We design and build the most advanced laboratory spaces for the technology sector.",
+    "icon": "Cpu",
+    "highlights": ["ISO-Certified", "Precision Isolation", "Smart Integration"]
+  },
+  {
+    "id": "global-logistics",
+    "title": "Global Logistics",
+    "shortDescription": "End-to-end project management ensuring timelines and safety benchmarks are exceeded.",
+    "fullDescription": "Our logistics experts ensure that materials, machinery, and manpower are deployed efficiently across global project sites without delays.",
+    "icon": "Globe",
+    "highlights": ["Supply Chain Management", "Safety Benchmarks", "Timeline Delivery"]
+  }
+]

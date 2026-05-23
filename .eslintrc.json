@@ -1,0 +1,13 @@
+{
+  "extends": ["next/core-web-vitals", "next/typescript"],
+  "rules": {
+    "@typescript-eslint/no-explicit-any": "error",
+    "@typescript-eslint/no-unused-vars": "error",
+    "react/self-closing-comp": "warn",
+    "react/jsx-sort-props": ["warn", { "callbacksLast": true, "reservedFirst": true }],
+    "import/order": ["warn", {
+      "groups": ["builtin", "external", "internal"],
+      "newlines-between": "always"
+    }]
+  }
+}
