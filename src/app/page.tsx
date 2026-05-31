@@ -1,14 +1,10 @@
-import { AboutSection } from '@/components/sections/about-section';
-import { ContactCTA } from '@/components/sections/contact-cta';
 import { ExecutionPillars } from '@/components/sections/execution-pillars';
 import { Hero } from '@/components/sections/hero';
 import { IntegratedSolutionsSection } from '@/components/sections/integrated-solutions';
 import { HowWeDeliverSection } from '@/components/sections/how-we-deliver/HowWeDeliverSection';
 import { LandOpportunitySection } from '@/components/sections/land-opportunity';
-import { PortfolioSection } from '@/components/sections/portfolio-section';
-import { ServicesGrid } from '@/components/sections/services-grid';
-import { StatsSection } from '@/components/sections/stats-section';
 import { WhyPartnerSection } from '@/components/sections/why-partner';
+import { OperationalPresenceSection } from '@/components/sections/operational-presence';
 
 export default function Home() {
   return (
@@ -19,11 +15,7 @@ export default function Home() {
       <IntegratedSolutionsSection />
       <HowWeDeliverSection />
       <WhyPartnerSection />
-      <StatsSection />
-      <AboutSection />
-      <ServicesGrid />
-      <PortfolioSection />
-      <ContactCTA />
+      <OperationalPresenceSection />
     </>
   );
 }
