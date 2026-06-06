@@ -3,6 +3,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
+import Image from 'next/image';
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 
@@ -28,27 +29,77 @@ export function Header() {
   return (
     <nav className={cn(
       "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-      isScrolled ? "bg-white shadow-md py-4" : "bg-transparent py-8"
+      isScrolled ? "bg-white shadow-md py-2.5" : "bg-transparent py-4"
     )}>
-      <div className="max-w-7xl mx-auto px-16 flex justify-between items-center">
-        <div className="flex items-center gap-1 cursor-pointer group">
-          <span className={cn(
-            "font-sans text-4xl font-black tracking-tighter transition-colors duration-300",
-            isScrolled ? "text-brand-navy" : "text-white"
-          )}>
-            CONSERVVE
-          </span>
-          <div className="w-1.5 h-1.5 bg-brand-gold rounded-full mt-4 ml-0.5" />
+      <div className="max-w-[90rem] mx-auto pl-2 md:pl-4 lg:pl-6 pr-6 md:pr-12 lg:pr-16 flex justify-between items-center">
+        <div className="flex items-center gap-[14px] cursor-pointer group">
+          {/* Logo Container */}
+          <div className="w-[48px] h-[48px] relative flex items-center justify-center shrink-0 overflow-hidden">
+            {/* White Logo (Unscrolled) */}
+            <motion.div
+              initial={false}
+              animate={{
+                opacity: isScrolled ? 0 : 1,
+                y: isScrolled ? -15 : 1,
+              }}
+              style={{ scale: 1.34 }}
+              transition={{ duration: 0.35, ease: 'easeInOut' }}
+              className="absolute inset-0 w-full h-full"
+            >
+              <Image
+                src="/logo-white-transparent.png"
+                alt="Conservve Logo Light"
+                fill
+                className="object-contain"
+                priority
+              />
+            </motion.div>
+
+            {/* Dark Logo (Scrolled) */}
+            <motion.div
+              initial={false}
+              animate={{
+                opacity: isScrolled ? 1 : 0,
+                y: isScrolled ? 0 : 15,
+              }}
+              transition={{ duration: 0.35, ease: 'easeInOut' }}
+              className="absolute inset-0 w-full h-full"
+            >
+              <Image
+                src="/logo-dark-transparent.png"
+                alt="Conservve Logo Dark"
+                fill
+                className="object-contain"
+                priority
+              />
+            </motion.div>
+          </div>
+          
+          {/* Company Name Container */}
+          <div className="flex flex-col items-center justify-center text-center">
+            <span className={cn(
+              "font-tibere font-bold leading-none transition-colors duration-300",
+              isScrolled ? "text-brand-navy" : "text-white"
+            )} style={{ fontFamily: "'Tibere OTW03-Bold', Georgia, serif", fontSize: '32px', letterSpacing: '0.06em' }}>
+              CONSERVVE
+            </span>
+            <span className={cn(
+              "font-tibere font-bold leading-none mt-1 transition-colors duration-300",
+              isScrolled ? "text-brand-navy/90" : "text-white/90"
+            )} style={{ fontFamily: "'Tibere OTW03-Bold', Georgia, serif", fontSize: '15px', letterSpacing: '0.235em' }}>
+              INFRA SOLUTIONSS
+            </span>
+          </div>
         </div>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-12">
+        <div className="hidden md:flex items-center gap-8">
           {navLinks.map((link) => (
             <Link 
               key={link.name} 
               href={link.href} 
               className={cn(
-                "text-sm font-bold tracking-tight transition-colors duration-300 hover:text-brand-gold",
+                "font-sans text-sm font-bold antialiased uppercase tracking-wide transition-colors duration-300 hover:text-brand-gold",
                 isScrolled ? "text-brand-navy" : "text-white"
               )}
             >
@@ -95,7 +146,7 @@ export function Header() {
               <Link 
                 key={link.name} 
                 href={link.href} 
-                className="text-sm font-black uppercase tracking-[0.1em] text-brand-navy hover:text-brand-gold"
+                className="font-sans text-sm font-bold antialiased uppercase tracking-[0.1em] text-brand-navy hover:text-brand-gold"
                 onClick={() => setMobileMenuOpen(false)}
               >
                 {link.name}
