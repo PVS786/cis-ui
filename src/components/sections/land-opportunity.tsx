@@ -28,9 +28,21 @@ export function LandOpportunitySection() {
           className="bg-white rounded-2xl shadow-[0_20px_50px_rgba(12,44,77,0.06)] flex flex-col lg:flex-row overflow-hidden relative"
         >
           {/* Unique Left Border Accent from Image 2 */}
-          <div className="absolute left-0 top-0 bottom-0 w-2 flex flex-col z-20">
-             <motion.div initial={{ scaleY: 0 }} whileInView={{ scaleY: 1 }} transition={{ duration: 0.8, delay: 0.2 }} className="flex-[0.4] bg-brand-gold origin-top" />
-             <motion.div initial={{ scaleY: 0 }} whileInView={{ scaleY: 1 }} transition={{ duration: 0.8, delay: 0.4 }} className="flex-[0.6] bg-brand-navy origin-bottom" />
+          <div className="absolute left-0 top-0 bottom-0 w-2 z-20">
+             <motion.div 
+               initial={{ height: 0 }} 
+               whileInView={{ height: '40%' }} 
+               transition={{ duration: 0.8, delay: 0.2 }} 
+               viewport={{ once: true }}
+               className="absolute top-0 left-0 right-0 bg-brand-gold" 
+             />
+             <motion.div 
+               initial={{ height: 0 }} 
+               whileInView={{ height: '60%' }} 
+               transition={{ duration: 0.8, delay: 0.4 }} 
+               viewport={{ once: true }}
+               className="absolute bottom-0 left-0 right-0 bg-brand-navy" 
+             />
           </div>
 
           {/* Left Content Area */}
@@ -101,29 +113,18 @@ export function LandOpportunitySection() {
               className="absolute inset-0 w-full h-full"
             >
               <Image
-                src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=2000&auto=format&fit=crop" 
+                src="/turn-into-land-opp.png" 
                 alt="Strategic Land Development"
                 className="object-cover"
                 fill
                 sizes="(max-width: 1024px) 100vw, 40vw"
+                priority
               />
             </motion.div>
             {/* Soft gradient overlay on image to match the refined corporate feel */}
             <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/40 via-transparent to-transparent opacity-80 mix-blend-multiply pointer-events-none z-10" />
             
-            {/* Decorative bottom text (from Image 1 "BUILDING FUTURES") */}
-            <motion.div 
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 0.9, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.8 }}
-              viewport={{ once: true }}
-              className="absolute bottom-8 left-8 flex items-center gap-4 z-20"
-            >
-               <div className="w-8 h-[2px] bg-brand-gold" />
-               <span className="text-[10px] font-sans font-bold uppercase tracking-[0.2em] text-white drop-shadow-md">
-                 Building Futures
-               </span>
-            </motion.div>
+            {/* Decorative bottom text (from Image 1 "BUILDING FUTURES") removed as per request */}
           </div>
         </motion.div>
       </div>

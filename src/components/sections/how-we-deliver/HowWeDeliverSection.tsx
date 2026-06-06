@@ -1,116 +1,167 @@
 'use client';
 
 import { motion, AnimatePresence } from 'framer-motion';
-import { useState } from 'react';
+import { useState, useEffect, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
-/*
- * ──────────────────────────────────────────────────────────────
- *  "How We Deliver" — Physical Rise Effect
- * ──────────────────────────────────────────────────────────────
- *  On hover, the EXACT zone from the base image physically
- *  lifts up (same visual, same position, just elevated) with a
- *  shadow underneath. Text panel appears beside the risen block.
- *  This creates the illusion that the block detached from the map.
- * ──────────────────────────────────────────────────────────────
- */
+// Base image 1672×941. Container aspect = 1672/941 ≈ 1.7769
+const CAR = 1672 / 941;
+const STEP_DURATION = 1500; // ms per section in auto-play
+
+/** Compute top-left corner of block image given its center point and display width */
+function tlCorner(cx: number, cy: number, dw: number, imgW: number, imgH: number) {
+  const dh = (dw / (imgW / imgH)) * CAR;
+  return { lp: cx - dw / 2, tp: cy - dh / 2 };
+}
 
 interface Step {
   id: number;
   title: string;
   desc: string;
   imagePath: string;
-  // Zone coordinates on the base image (percentages)
-  x: number;  // left edge
-  y: number;  // top edge
-  w: number;  // width
-  h: number;  // height
-  // Which side to show text panel
+  imgW: number;
+  imgH: number;
+  cx: number;
+  cy: number;
+  dw: number;
+  hx: number;
+  hy: number;
+  hw: number;
+  hh: number;
   panelSide: 'left' | 'right';
 }
 
+const steps: Step[] = [
+  {
+    id: 1,
+    title: 'Identification & Strategic Aggregation',
+    desc: 'We identify and consolidate high-potential land opportunities aligned with your project vision, location strategy, and long-term value.',
+    imagePath: '/how_we_deliver/HWD_Section_1.png',
+    imgW: 1672, imgH: 941,
+    cx: 10, cy: 28, dw: 34,
+    hx: 0, hy: 0, hw: 22, hh: 57,
+    panelSide: 'right',
+  },
+  {
+    id: 2,
+    title: 'Comprehensive Technical Due Diligence',
+    desc: 'Every parcel undergoes rigorous legal scrutiny to ensure clear titles, compliance, and zero-risk acquisition.',
+    imagePath: '/how_we_deliver/HWD_Section_2.png',
+    imgW: 1457, imgH: 1079,
+    cx: 29, cy: 27, dw: 34,
+    hx: 20, hy: 0, hw: 20, hh: 57,
+    panelSide: 'right',
+  },
+  {
+    id: 3,
+    title: 'Commercial Structuring & Closure',
+    desc: 'We manage negotiations with a focus on transparency, optimal value, and secure deal finalization.',
+    imagePath: '/how_we_deliver/HWD_Section_3.png',
+    imgW: 1448, imgH: 1086,
+    cx: 48, cy: 26, dw: 34,
+    hx: 38, hy: 0, hw: 22, hh: 54,
+    panelSide: 'right',
+  },
+  {
+    id: 4,
+    title: 'Land Registration & Documentation',
+    desc: 'Accurate and timely execution of all legal documentation and registration processes.',
+    imagePath: '/how_we_deliver/HWD_Section_4.png',
+    imgW: 1448, imgH: 1086,
+    cx: 78, cy: 25, dw: 34,
+    hx: 60, hy: 0, hw: 40, hh: 54,
+    panelSide: 'left',
+  },
+  {
+    id: 5,
+    title: 'Regulatory Approvals & Clearance',
+    desc: 'Seamless coordination with authorities to secure all statutory approvals efficiently and compliantly.',
+    imagePath: '/how_we_deliver/HWD_Section_5.png',
+    imgW: 1433, imgH: 941,
+    cx: 81, cy: 73, dw: 34,
+    hx: 62, hy: 46, hw: 38, hh: 54,
+    panelSide: 'left',
+  },
+  {
+    id: 6,
+    title: 'End-to-End Post-Acquisition',
+    desc: 'Ongoing assistance to ensure a smooth transition from land acquisition to project readiness.',
+    imagePath: '/how_we_deliver/HWD_Section_6.png',
+    imgW: 1479, imgH: 941,
+    cx: 49, cy: 74, dw: 34,
+    hx: 34, hy: 46, hw: 30, hh: 54,
+    panelSide: 'right',
+  },
+  {
+    id: 7,
+    title: 'Complete Project Execution',
+    desc: 'Through our associate company Conservve Buildcon, we deliver fully integrated commercial project execution.',
+    imagePath: '/how_we_deliver/HWD_Section_7.png',
+    imgW: 1448, imgH: 1086,
+    cx: 17, cy: 73, dw: 34,
+    hx: 0, hy: 46, hw: 35, hh: 54,
+    panelSide: 'right',
+  },
+];
+
 export function HowWeDeliverSection() {
-  const [activeId, setActiveId] = useState<number | null>(null);
+  const [activeId, setActiveId] = useState<number>(1);
+  // cycleKey increments each time auto-play advances → forces progress bar to restart
+  const [cycleKey, setCycleKey] = useState(0);
+  // True while the user has their mouse over a block — auto-play pauses
+  const isUserHovering = useRef(false);
+  const autoIndexRef = useRef(0); // 0-based index into steps[]
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
-  // Zone coordinates: x,y = top-left corner; w,h = size (all in %)
-  // Precisely mapped by analyzing the base image layout.
-  const steps: Step[] = [
-    {
-      id: 1,
-      title: 'Identification & Strategic Aggregation',
-      desc: 'We identify and consolidate high-potential land opportunities aligned with your project vision, location strategy, and long-term value.',
-      imagePath: '/how_we_deliver/sec_1.png',
-      x: 0, y: 2, w: 21, h: 56,
-      panelSide: 'right',
-    },
-    {
-      id: 2,
-      title: 'Comprehensive Technical Due Diligence',
-      desc: 'Every parcel undergoes rigorous legal scrutiny to ensure clear titles, compliance, and zero-risk acquisition.',
-      imagePath: '/how_we_deliver/sec_2.png',
-      x: 21, y: 0, w: 17, h: 56,
-      panelSide: 'right',
-    },
-    {
-      id: 3,
-      title: 'Commercial Structuring & Closure',
-      desc: 'We manage negotiations with a focus on transparency, optimal value, and secure deal finalization.',
-      imagePath: '/how_we_deliver/sec_3.png',
-      x: 38, y: 0, w: 20, h: 54,
-      panelSide: 'right',
-    },
-    {
-      id: 4,
-      title: 'Land Registration & Documentation',
-      desc: 'Accurate and timely execution of all legal documentation and registration processes.',
-      imagePath: '/how_we_deliver/sec_4.png',
-      x: 60, y: 0, w: 36, h: 52,
-      panelSide: 'left',
-    },
-    {
-      id: 5,
-      title: 'Regulatory Approvals & Clearance',
-      desc: 'Seamless coordination with authorities to secure all statutory approvals efficiently and compliantly.',
-      imagePath: '/how_we_deliver/sec_5.png',
-      x: 64, y: 44, w: 34, h: 56,
-      panelSide: 'left',
-    },
-    {
-      id: 6,
-      title: 'End-to-End Post-Acquisition',
-      desc: 'Ongoing assistance to ensure a smooth transition from land acquisition to project readiness.',
-      imagePath: '/how_we_deliver/sec_6.png',
-      x: 33, y: 44, w: 31, h: 56,
-      panelSide: 'right',
-    },
-    {
-      id: 7,
-      title: 'Complete Project Execution',
-      desc: 'Through our associate company Conservve Buildcon, we deliver fully integrated commercial project execution.',
-      imagePath: '/how_we_deliver/sec_7.png',
-      x: 2, y: 44, w: 31, h: 56,
-      panelSide: 'right',
-    },
-  ];
+  const startAutoPlay = useCallback(() => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
+      if (isUserHovering.current) return; // paused — user is hovering
+      autoIndexRef.current = (autoIndexRef.current + 1) % steps.length;
+      setActiveId(steps[autoIndexRef.current].id);
+      setCycleKey((k) => k + 1);
+    }, STEP_DURATION);
+  }, []);
 
-  const active = steps.find((s) => s.id === activeId) ?? null;
+  // Mount: begin auto-play from step 1
+  useEffect(() => {
+    setActiveId(steps[0].id);
+    startAutoPlay();
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [startAutoPlay]);
+
+  const handleHoverStart = (id: number) => {
+    isUserHovering.current = true;
+    // Sync auto-index so resume continues from this section
+    const idx = steps.findIndex((s) => s.id === id);
+    if (idx >= 0) autoIndexRef.current = idx;
+    setActiveId(id);
+  };
+
+  const handleHoverEnd = () => {
+    isUserHovering.current = false;
+    // Resume auto-play immediately from the current section
+    setCycleKey((k) => k + 1); // restart bar at current position
+  };
+
+  const active = steps.find((s) => s.id === activeId) ?? steps[0];
 
   return (
     <section className="bg-[#fcfbf9] relative overflow-hidden">
-      {/* Subtle background pattern */}
+      {/* Subtle grid */}
       <div
         className="absolute inset-0 pointer-events-none"
         style={{
-          backgroundImage: `
-            linear-gradient(to right, rgba(12, 44, 77, 0.03) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(12, 44, 77, 0.03) 1px, transparent 1px)
-          `,
+          backgroundImage:
+            'linear-gradient(to right,rgba(12,44,77,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(12,44,77,0.03) 1px,transparent 1px)',
           backgroundSize: '64px 64px',
         }}
       />
 
-      {/* ─── SECTION HEADER ─── */}
+      {/* ── HEADER ── */}
       <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16 pt-16 lg:pt-24 pb-12 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
@@ -120,295 +171,245 @@ export function HowWeDeliverSection() {
         >
           <div className="flex items-center gap-4 mb-6">
             <div className="w-10 h-[2px] bg-brand-gold" />
-            <span className="text-xs font-sans font-bold uppercase tracking-[0.2em] text-brand-navy">
+            <span className="text-xs font-gotham font-bold uppercase tracking-[0.2em] text-brand-navy">
               The Process
             </span>
           </div>
-          <h2 className="text-5xl md:text-6xl font-sans font-black text-brand-navy tracking-tight mb-6">
+          <h2 className="text-5xl md:text-6xl font-tibere text-brand-navy tracking-tight mb-6">
             How We Deliver
           </h2>
           <div className="text-xl text-brand-navy font-medium leading-relaxed border-l-4 border-brand-gold pl-6 max-w-3xl">
             A complete lifecycle from strategic land aggregation to project execution.
             <br />
-            <span className="text-gray-500 font-normal">
-              Hover over each stage to explore our process.
+            <span className="text-gray-500 font-gotham font-normal text-base">
+              Hover over any stage — or watch the journey unfold automatically.
             </span>
           </div>
         </motion.div>
       </div>
 
-      {/* ═══════════════════════════════════════════════════════════
-           THE IMMERSIVE CANVAS — with breathing room
-           ═══════════════════════════════════════════════════════════ */}
-      <div className="relative w-full px-4 md:px-8 lg:px-12 pb-4">
-        <div className="relative max-w-[110rem] mx-auto">
-        {/* Base World Image */}
-        <Image
-          src="/how-we-deliver.png"
-          alt="Conservve Infra Solutions — How We Deliver"
-          width={3840}
-          height={2160}
-          className={cn(
-            'w-full h-auto block transition-all duration-700 ease-out rounded-xl',
-            activeId !== null && 'brightness-[0.25] saturate-50'
-          )}
-          priority
-          sizes="100vw"
-        />
+      {/* ── INTEGRATED MAP & NAV CONTAINER ── */}
+      <div className="relative w-full px-4 md:px-8 lg:px-12 pb-12">
+        <div
+          className="relative max-w-[110rem] mx-auto rounded-xl shadow-[0_20px_40px_rgba(12,44,77,0.1)] border border-gray-200 overflow-hidden bg-white flex flex-col"
+          onMouseLeave={handleHoverEnd}
+        >
+          {/* BASE IMAGE AREA */}
+          <div className="relative w-full overflow-hidden bg-brand-navy">
+            <Image
+              src="/how-we-deliver.png"
+              alt="Conservve Infra Solutions — How We Deliver"
+              width={1672}
+              height={941}
+              className={cn(
+                'w-full h-auto block select-none',
+                'transition-[filter] duration-500 ease-out',
+                'brightness-[0.75] saturate-[0.9]'
+              )}
+              priority
+              sizes="100vw"
+              draggable={false}
+            />
 
-        {/* ─── Hotspot Zones ─── */}
-        {steps.map((step) => (
-          <div
-            key={step.id}
-            className="absolute z-20 cursor-pointer"
-            style={{
-              left: `${step.x}%`,
-              top: `${step.y}%`,
-              width: `${step.w}%`,
-              height: `${step.h}%`,
-            }}
-            onMouseEnter={() => setActiveId(step.id)}
-            onMouseLeave={() => setActiveId(null)}
-          >
-            {/* Pulsing dot */}
-            {activeId === null && (
-              <motion.div
-                initial={{ opacity: 0, scale: 0 }}
-                animate={{ opacity: 1, scale: 1 }}
-                transition={{ delay: step.id * 0.08 }}
-                className="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
-              >
-                <div className="relative">
-                  <div className="w-2.5 h-2.5 rounded-full bg-brand-gold shadow-[0_0_16px_rgba(191,160,82,0.7)]" />
-                  <div className="absolute inset-0 w-2.5 h-2.5 rounded-full bg-brand-gold/30 animate-ping" />
-                </div>
-              </motion.div>
-            )}
-          </div>
-        ))}
-
-        {/* ═══════════════════════════════════════════════════════
-             THE PHYSICAL RISE EFFECT
-             The SAME zone from the base image is clipped and 
-             physically elevated — so it looks like that exact block
-             is detaching from the map.
-             ═══════════════════════════════════════════════════════ */}
-        <AnimatePresence>
-          {active && (
-            <motion.div
-              key={`rise-${active.id}`}
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              exit={{ opacity: 0 }}
-              transition={{ duration: 0.3 }}
-              className="absolute inset-0 z-30 pointer-events-none"
-            >
-              {/* ── THE RISEN BLOCK (clipped from base image) ── */}
-              <motion.div
-                initial={{ y: 0, scale: 1 }}
-                animate={{ y: -20, scale: 1.06 }}
-                exit={{ y: 0, scale: 1 }}
-                transition={{ type: 'spring', bounce: 0.25, duration: 0.6 }}
-                className="absolute rounded-xl overflow-hidden"
-                style={{
-                  left: `${active.x}%`,
-                  top: `${active.y}%`,
-                  width: `${active.w}%`,
-                  height: `${active.h}%`,
-                  // Heavy shadow to create depth — block is "floating"
-                  boxShadow: '0 40px 80px rgba(0,0,0,0.6), 0 0 0 1px rgba(191,160,82,0.3)',
-                }}
-              >
-                {/* Re-render the base image, positioned so only this zone is visible */}
-                <div
-                  className="absolute"
-                  style={{
-                    width: `${100 / (active.w / 100)}%`,
-                    height: `${100 / (active.h / 100)}%`,
-                    left: `-${active.x / (active.w / 100)}%`,
-                    top: `-${active.y / (active.h / 100)}%`,
-                  }}
-                >
-                  <Image
-                    src="/how-we-deliver.png"
-                    alt=""
-                    width={3840}
-                    height={2160}
-                    className="w-full h-full object-fill brightness-110 contrast-[1.05]"
-                    priority
-                  />
-                </div>
-              </motion.div>
-
-              {/* ── SHADOW FOOTPRINT on the base (where it lifted from) ── */}
+            {/* HOTSPOT ZONES */}
+            {steps.map((step) => (
               <div
-                className="absolute rounded-xl bg-black/30 blur-xl"
+                key={step.id}
+                className="absolute z-20 cursor-pointer"
                 style={{
-                  left: `${active.x + 1}%`,
-                  top: `${active.y + 2}%`,
-                  width: `${active.w - 2}%`,
-                  height: `${active.h - 2}%`,
+                  left: `${step.hx}%`,
+                  top: `${step.hy}%`,
+                  width: `${step.hw}%`,
+                  height: `${step.hh}%`,
                 }}
+                onMouseEnter={() => handleHoverStart(step.id)}
               />
+            ))}
 
-              {/* ── GOLDEN GLOW EDGE around risen block ── */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ delay: 0.2 }}
-                className="absolute rounded-xl"
-                style={{
-                  left: `${active.x}%`,
-                  top: `${active.y}%`,
-                  width: `${active.w}%`,
-                  height: `${active.h}%`,
-                  transform: 'translateY(-20px) scale(1.06)',
-                  boxShadow: '0 0 40px rgba(191,160,82,0.2), inset 0 0 0 1.5px rgba(191,160,82,0.4)',
-                }}
-              />
+            {/* SHADOW PIT — navy blue shadow under lifted block */}
+            <AnimatePresence>
+              {active && (
+                <motion.div
+                  key={`pit-${active.id}`}
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  exit={{ opacity: 0 }}
+                  transition={{ duration: 0.35 }}
+                  className="absolute z-[24] pointer-events-none"
+                  style={{
+                    left: `${active.hx + 2}%`,
+                    top: `${active.hy + 4}%`,
+                    width: `${active.hw - 4}%`,
+                    height: `${active.hh - 6}%`,
+                    background:
+                      'radial-gradient(ellipse at 50% 60%, rgba(12,44,77,0.82) 20%, rgba(12,44,77,0.45) 60%, transparent 100%)',
+                    filter: 'blur(12px)',
+                  }}
+                />
+              )}
+            </AnimatePresence>
 
-              {/* ═══════════════════════════════════════════════
-                   TEXT PANEL — beside the risen block
-                   Clean white frosted glass for readability.
-                   Positioned dynamically based on panelSide.
-                   ═══════════════════════════════════════════════ */}
-              <motion.div
-                initial={{ opacity: 0, x: active.panelSide === 'right' ? 30 : -30 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0 }}
-                transition={{ duration: 0.4, delay: 0.15 }}
-                className={cn(
-                  'absolute pointer-events-auto w-[280px] lg:w-[320px]',
-                )}
-                style={{
-                  top: `${active.y}%`,
-                  ...(active.panelSide === 'right'
-                    ? { left: `${active.x + active.w + 2}%` }
-                    : { left: `${active.x - 2}%`, transform: 'translateX(-100%)' }
-                  ),
-                }}
-              >
-                {/* Outer glow */}
-                <div className="absolute -inset-1 bg-brand-gold/10 rounded-2xl blur-lg" />
-
-                {/* Panel */}
-                <div className="relative bg-white/95 backdrop-blur-xl rounded-2xl shadow-[0_30px_60px_rgba(0,0,0,0.3)] overflow-hidden border border-white/80">
-                  
-                  {/* Top gold bar */}
-                  <motion.div
-                    className="h-[2px] bg-gradient-to-r from-transparent via-brand-gold to-transparent"
-                    initial={{ scaleX: 0 }}
-                    animate={{ scaleX: 1 }}
-                    transition={{ duration: 0.5, delay: 0.2 }}
-                  />
-
-                  <div className="p-6 lg:p-7">
-                    {/* Phase badge */}
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 rounded-lg bg-brand-navy flex items-center justify-center shadow-md">
-                        <span className="text-brand-gold font-serif font-bold text-lg">
-                          {active.id}
-                        </span>
-                      </div>
-                      <div>
-                        <div className="text-[10px] font-bold uppercase tracking-[0.2em] text-brand-gold">
-                          Phase 0{active.id}
-                        </div>
-                        <div className="text-[9px] uppercase tracking-wider text-gray-400">
-                          of 07 stages
-                        </div>
-                      </div>
-                    </div>
-
-                    {/* Gold divider */}
-                    <motion.div
-                      className="w-12 h-[2px] bg-brand-gold mb-4 rounded-full"
-                      initial={{ width: 0 }}
-                      animate={{ width: 48 }}
-                      transition={{ duration: 0.4, delay: 0.25 }}
-                    />
-
-                    {/* Title */}
-                    <motion.h4
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.35, delay: 0.2 }}
-                      className="text-xl lg:text-[1.35rem] font-serif font-bold text-brand-navy leading-snug tracking-tight mb-3"
-                    >
-                      {active.title}
-                    </motion.h4>
-
-                    {/* Description */}
-                    <motion.p
-                      initial={{ opacity: 0, y: 8 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ duration: 0.35, delay: 0.3 }}
-                      className="text-[13px] text-gray-600 font-sans leading-relaxed"
-                    >
-                      {active.desc}
-                    </motion.p>
-
-                    {/* Progress dots */}
-                    <div className="mt-5 flex items-center gap-1.5">
-                      {steps.map((s) => (
-                        <div
-                          key={s.id}
-                          className={cn(
-                            'h-1 rounded-full transition-all duration-500',
-                            s.id === active.id
-                              ? 'w-8 bg-brand-gold'
-                              : s.id < active.id
-                                ? 'w-2.5 bg-brand-gold/30'
-                                : 'w-2.5 bg-gray-200'
-                          )}
-                        />
-                      ))}
-                    </div>
-                  </div>
-
-                  {/* Bottom accent */}
-                  <div className="h-[1px] bg-gradient-to-r from-transparent via-gray-200 to-transparent" />
-                </div>
-              </motion.div>
-            </motion.div>
-          )}
-        </AnimatePresence>
-        </div>
-      </div>
-
-      {/* ─── BOTTOM PHASE NAV STRIP ─── */}
-      <div className="relative z-10 bg-white border-t border-gray-100">
-        <div className="max-w-7xl mx-auto">
-          <div className="flex">
+            {/* RISING BLOCKS — all mounted, z & opacity toggled */}
             {steps.map((step) => {
               const isActive = activeId === step.id;
+              const { lp, tp } = tlCorner(step.cx, step.cy, step.dw, step.imgW, step.imgH);
               return (
-                <button
+                <div
+                  key={`block-${step.id}`}
+                  className="absolute pointer-events-none"
+                  style={{
+                    left: `${lp}%`,
+                    top: `${tp}%`,
+                    width: `${step.dw}%`,
+                    zIndex: isActive ? 30 : -1,
+                  }}
+                >
+                  <motion.div
+                    animate={{
+                      y: isActive ? -32 : 0,
+                      opacity: isActive ? 1 : 0,
+                      filter: isActive
+                        ? 'drop-shadow(0px 28px 20px rgba(12,44,77,0.55)) drop-shadow(0px 4px 12px rgba(191,160,82,0.25))'
+                        : 'drop-shadow(0px 0px 0px rgba(0,0,0,0))',
+                    }}
+                    transition={{
+                      y: { type: 'spring', stiffness: 280, damping: 26, restDelta: 0.5 },
+                      opacity: { duration: 0.18 },
+                      filter: { duration: 0.3 },
+                    }}
+                  >
+                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    <img
+                      src={step.imagePath}
+                      alt={step.title}
+                      className="w-full h-auto block select-none"
+                      draggable={false}
+                    />
+                  </motion.div>
+                </div>
+              );
+            })}
+
+            {/* INFO CARD — positioned relative to block image edges */}
+            <AnimatePresence>
+              {active && (() => {
+                const { lp, tp } = tlCorner(active.cx, active.cy, active.dw, active.imgW, active.imgH);
+                const cardTop = `${Math.max(tp + 1, 1)}%`;
+                const cardPos = active.panelSide === 'right'
+                  ? { left: `${lp + active.dw + 1.5}%` }
+                  : { left: `${lp - 1.5}%`, transform: 'translateX(-100%)' };
+                return (
+                  <motion.div
+                    key={`card-${active.id}`}
+                    initial={{ opacity: 0, y: 8 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: 4 }}
+                    transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                    className="absolute z-40 pointer-events-auto w-[240px] lg:w-[272px]"
+                    style={{ top: cardTop, ...cardPos }}
+                  >
+                    <div
+                      className="bg-white rounded-sm overflow-hidden"
+                      style={{
+                        borderLeft: '3px solid #BFA052',
+                        boxShadow: '0 4px 16px rgba(12,44,77,0.14), 0 1px 4px rgba(12,44,77,0.08)',
+                      }}
+                    >
+                      <div className="p-5 lg:p-6">
+                        <div className="flex items-center gap-2 mb-3">
+                          <div
+                            className="w-7 h-7 flex items-center justify-center rounded-sm font-gotham text-white text-xs font-bold shrink-0"
+                            style={{ background: '#0C2C4D' }}
+                          >
+                            {active.id < 10 ? `0${active.id}` : active.id}
+                          </div>
+                          <div className="h-[1px] flex-1" style={{ background: '#BFA052', opacity: 0.4 }} />
+                        </div>
+                        <h3
+                          className="font-tibere mb-2 leading-snug"
+                          style={{ color: '#0C2C4D', fontSize: 'clamp(17px,1.3vw,20px)', letterSpacing: '-0.015em' }}
+                        >
+                          {active.title}
+                        </h3>
+                        <div className="mb-3" style={{ width: 32, height: 2, background: '#BFA052', borderRadius: 1 }} />
+                        <p
+                          className="font-gotham leading-relaxed"
+                          style={{ color: '#2E3A4A', fontSize: 13, lineHeight: 1.65 }}
+                        >
+                          {active.desc}
+                        </p>
+                      </div>
+                    </div>
+                  </motion.div>
+                );
+              })()}
+            </AnimatePresence>
+          </div>
+
+          {/* ══ INTEGRATED ABSTRACT NAV BAR ══ */}
+          <div className="relative w-full flex bg-white border-t border-gray-200 min-h-[90px]">
+            
+            {/* Abstract Progress Background that spans the entire nav bar */}
+            <div className="absolute inset-0 pointer-events-none z-0">
+               {/* Past fills */}
+               <div 
+                 className="absolute top-0 left-0 h-full transition-all duration-300" 
+                 style={{ width: `${((activeId - 1) / steps.length) * 100}%`, background: 'rgba(191, 160, 82, 0.1)' }} 
+               />
+               {/* Current fill */}
+               <div 
+                 className="absolute top-0 h-full" 
+                 style={{ left: `${((activeId - 1) / steps.length) * 100}%`, width: `${(1 / steps.length) * 100}%` }}
+               >
+                 <motion.div 
+                   key={`prog-${activeId}-${cycleKey}`} 
+                   className="absolute top-0 left-0 h-full" 
+                   style={{ background: 'rgba(191, 160, 82, 0.1)' }}
+                   initial={{ width: '0%' }} 
+                   animate={{ width: '100%' }} 
+                   transition={{ duration: STEP_DURATION / 1000, ease: 'linear' }} 
+                 />
+               </div>
+               
+               {/* Thick Gold tracking line indicator at the very top of the nav */}
+               <div className="absolute top-0 left-0 h-1 z-10 transition-all duration-300" style={{ background: '#BFA052', width: `${((activeId - 1) / steps.length) * 100}%` }} />
+               <div className="absolute top-0 h-1 z-10" style={{ left: `${((activeId - 1) / steps.length) * 100}%`, width: `${(1 / steps.length) * 100}%` }}>
+                 <motion.div 
+                   key={`line-${activeId}-${cycleKey}`} 
+                   className="absolute top-0 left-0 h-full" 
+                   style={{ background: '#BFA052' }}
+                   initial={{ width: '0%' }} 
+                   animate={{ width: '100%' }} 
+                   transition={{ duration: STEP_DURATION / 1000, ease: 'linear' }} 
+                 />
+               </div>
+            </div>
+
+            {/* Step Tabs (Text & Content) */}
+            {steps.map(step => {
+              const isActive = activeId === step.id;
+              const isPast = step.id < activeId;
+              
+              return (
+                <button 
                   key={step.id}
-                  onMouseEnter={() => setActiveId(step.id)}
-                  onMouseLeave={() => setActiveId(null)}
+                  onMouseEnter={() => handleHoverStart(step.id)}
                   className={cn(
-                    'flex-1 relative py-4 md:py-5 flex flex-col items-center gap-1 transition-all duration-500 border-t-[3px] cursor-pointer',
-                    isActive
-                      ? 'border-brand-gold bg-brand-navy/[0.03]'
-                      : 'border-transparent hover:bg-gray-50/80'
+                    "flex-1 relative z-10 px-2 py-4 md:py-5 flex flex-col items-center justify-start gap-1.5 md:gap-2 border-r border-gray-100 last:border-r-0 cursor-pointer",
+                    !isActive && !isPast && "hover:bg-gray-50/50 transition-colors"
                   )}
                 >
-                  <span
-                    className={cn(
-                      'text-xs md:text-sm font-bold transition-colors duration-300',
-                      isActive ? 'text-brand-gold' : 'text-gray-300'
-                    )}
-                  >
+                  <span className={cn(
+                    "font-tibere text-xl md:text-2xl transition-all duration-300", 
+                    isActive ? "text-brand-gold scale-110" : (isPast ? "text-brand-gold/70" : "text-gray-300")
+                  )}>
                     0{step.id}
                   </span>
-                  <span
-                    className={cn(
-                      'text-[8px] md:text-[10px] font-sans font-semibold text-center leading-tight px-1 transition-colors duration-300 hidden sm:block',
-                      isActive ? 'text-brand-navy' : 'text-gray-400'
-                    )}
-                  >
-                    {step.title.split(' ').slice(0, 2).join(' ')}
+                  <span className={cn(
+                    "font-gotham text-[8.5px] md:text-[11px] text-center leading-tight transition-all duration-300 hidden sm:block w-full px-1", 
+                    isActive ? "text-brand-navy font-bold" : (isPast ? "text-brand-navy/70 font-medium" : "text-gray-400 font-medium")
+                  )}>
+                    {step.title}
                   </span>
                 </button>
               );

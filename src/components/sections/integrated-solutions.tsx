@@ -12,7 +12,7 @@ export function IntegratedSolutionsSection() {
         "You shouldn't have to choose between speed and strategy. We work alongside you to identify, evaluate, and secure the right land for your development project, aligned with your long-term vision, investment goals, and the locations that actually makes business sense. Every acquisition we lead is future-ready and risk-mitigated, so you move forward with complete confidence.",
         "We handle everything from market scanning and site feasibility to technical due diligence and deal structuring, so you stay focused on building, not searching. Our ground-level insight combined with data-backed analysis means no blind spots, no missed opportunities, and no surprises at the table."
       ],
-      img: "https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?q=80&w=1000&auto=format&fit=crop"
+      img: "/strat-land-acq.png"
     },
     {
       title: "Regulatory Approvals & Clearance Management",
@@ -20,7 +20,7 @@ export function IntegratedSolutionsSection() {
         "From NOC to OC, every approval, handled end to end. We take full ownership of the regulatory process, managing every submission, clearance, and compliance requirement on your behalf, with precision and care. From environmental clearances and layout sanctions to building plan approvals and occupancy sign-offs, we navigate every stage, stay present at every window, and make sure nothing gets delayed, duplicated, or missed.",
         "This includes title verification, land use conversions, NA orders, TDR applications, and zoning compliance checks — every technical prerequisite handled before a single brick is laid. Your project keeps moving, your timelines stay intact, and nothing falls through the cracks."
       ],
-      img: "https://images.unsplash.com/photo-1541888946425-d81bb19480c5?q=80&w=1000&auto=format&fit=crop"
+      img: "/reg-appr.png"
     }
   ];
 
