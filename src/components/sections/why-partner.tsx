@@ -41,8 +41,8 @@ const pillars: Pillar[] = [
     title: 'Experienced Leadership',
     description: 'Led by industry professionals with deep expertise in land acquisition and regulatory processes, we bring strategic direction, informed decision-making, and execution confidence to every project.',
     iconName: 'Shield',
-    left: '33%',
-    top: '5.5%'
+    left: '35%',
+    top: '0.7%'
   },
   {
     id: 2,
@@ -50,8 +50,8 @@ const pillars: Pillar[] = [
     title: 'Deal Structuring & Negotiation Support',
     description: 'We help structure financially sound deals that align with your strategic goals.',
     iconName: 'Handshake',
-    left: '58.5%',
-    top: '19.25%'
+    left: '62.7%',
+    top: '16.7%'
   },
   {
     id: 3,
@@ -59,8 +59,8 @@ const pillars: Pillar[] = [
     title: 'On-Ground Execution Support',
     description: 'From site visits to coordination, we ensure strong physical presence where it matters most.',
     iconName: 'Users',
-    left: '58.5%',
-    top: '46.75%'
+    left: '62.7%',
+    top: '48.7%'
   },
   {
     id: 4,
@@ -68,8 +68,8 @@ const pillars: Pillar[] = [
     title: 'Tailored, Client-Centric Solutions',
     description: 'Every requirement is unique. We deliver customized land and approval strategies aligned with your business goals, risk appetite, and long-term vision.',
     iconName: 'Cpu',
-    left: '33%',
-    top: '60.5%'
+    left: '35%',
+    top: '64.7%'
   },
   {
     id: 5,
@@ -77,8 +77,8 @@ const pillars: Pillar[] = [
     title: 'End-to-End Development Capability',
     description: 'From land acquisition to final construction, we deliver fully integrated project execution through our associate company, Conservve',
     iconName: 'Layers',
-    left: '7.5%',
-    top: '46.75%'
+    left: '7.3%',
+    top: '48.7%'
   },
   {
     id: 6,
@@ -86,14 +86,14 @@ const pillars: Pillar[] = [
     title: 'Long-Term Partnership Approach',
     description: 'We focus on building lasting relationships, supporting you not just for one transaction but across multiple growth phases.',
     iconName: 'Network',
-    left: '7.5%',
-    top: '19.25%'
+    left: '7.3%',
+    top: '16.7%'
   }
 ];
 
 export function WhyPartnerSection() {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
-  const [activeId, setActiveId] = useState<number>(1);
+  const [activeId, setActiveId] = useState<number | null>(null);
 
   // Derive the active node
   const currentActiveId = hoveredId !== null ? hoveredId : activeId;
@@ -170,18 +170,18 @@ export function WhyPartnerSection() {
             {/* Section Label */}
             <div className="flex items-center gap-4">
               <div className="w-10 h-[2px] bg-brand-gold" />
-              <span className="text-xs font-sans font-bold uppercase tracking-[0.2em] text-brand-gold">
+              <span className="text-xs font-gotham font-bold uppercase tracking-[0.2em] text-brand-gold">
                 The Distinction
               </span>
             </div>
             
             {/* Main Heading */}
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-sans font-black text-white tracking-tight leading-none">
+            <h2 className="text-4xl md:text-5xl lg:text-6xl font-tibere text-white tracking-tight leading-none">
               Why Partner <span className="text-brand-gold">With Us</span>
             </h2>
             
             {/* Introductory Paragraph */}
-            <div className="text-sm md:text-base text-slate-300 font-medium leading-relaxed border-l-4 border-brand-gold pl-6 max-w-2xl mt-6">
+            <div className="text-sm md:text-base text-slate-300 font-gotham leading-relaxed border-l-4 border-brand-gold pl-6 max-w-2xl mt-6">
               We understand that every decision you make carries risk, timelines, and long-term impact. That’s why we approach every engagement with a sharp focus on due diligence, clarity, and foresight, helping you navigate uncertainty, anticipate challenges early, and make well-informed choices that stand strong not just today, but well into the future.
             </div>
           </div>
@@ -221,7 +221,7 @@ export function WhyPartnerSection() {
                     <div className="flex items-center gap-3">
                       {/* Number Indicator */}
                       <span className={cn(
-                        'font-mono text-xs font-bold transition-colors duration-300',
+                        'font-gotham text-xs font-bold transition-colors duration-300',
                         isPillarActive ? 'text-brand-gold' : 'text-slate-400'
                       )}>
                         0{pillar.id}
@@ -229,7 +229,7 @@ export function WhyPartnerSection() {
                       
                       {/* Accordion Title */}
                       <h3 className={cn(
-                        'font-sans text-xs sm:text-sm font-extrabold uppercase tracking-wider transition-colors duration-300',
+                        'font-gotham text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors duration-300',
                         isPillarActive ? 'text-brand-gold' : 'text-slate-200'
                       )}>
                         {pillar.title}
@@ -250,7 +250,7 @@ export function WhyPartnerSection() {
                     transition={{ duration: 0.3, ease: 'easeInOut' }}
                     className="overflow-hidden"
                   >
-                    <p className="mt-1 text-[13px] sm:text-[14px] leading-relaxed text-white/80 font-sans font-light border-l border-brand-gold/40 pl-4 py-0.5 select-text tracking-wide">
+                    <p className="mt-1 text-[13px] sm:text-[14px] leading-relaxed text-white/80 font-gotham font-normal border-l border-brand-gold/40 pl-4 py-0.5 select-text tracking-wide">
                       {pillar.description}
                     </p>
                   </motion.div>
@@ -262,7 +262,7 @@ export function WhyPartnerSection() {
 
         {/* Right Column: Structured, symmetric architectural Hexagon Grid */}
         <div className="flex items-center justify-center relative w-full overflow-visible select-none lg:pl-3 xl:pl-6">
-          <div className="relative w-full min-w-[280px] max-w-[340px] xs:max-w-[380px] sm:max-w-[420px] md:max-w-[450px] lg:max-w-[540px] xl:max-w-[600px] aspect-square mx-auto">
+          <div className="relative w-full min-w-[280px] max-w-[340px] xs:max-w-[380px] sm:max-w-[420px] md:max-w-[480px] lg:max-w-[580px] xl:max-w-[640px] aspect-square mx-auto">
             
             {/* Subtle architectural background alignment cross-axis layout */}
             <div className="absolute inset-x-[-3%] inset-y-[-3%] border border-dashed border-white/5 opacity-20 pointer-events-none z-0">
@@ -284,12 +284,12 @@ export function WhyPartnerSection() {
                 let endX = '50%';
                 let endY = '50%';
 
-                if (pillar.id === 1) { endX = '50%'; endY = '22.5%'; }
-                else if (pillar.id === 2) { endX = '75.5%'; endY = '36.25%'; }
-                else if (pillar.id === 3) { endX = '75.5%'; endY = '63.75%'; }
-                else if (pillar.id === 4) { endX = '50%'; endY = '77.5%'; }
-                else if (pillar.id === 5) { endX = '24.5%'; endY = '63.75%'; }
-                else if (pillar.id === 6) { endX = '24.5%'; endY = '36.25%'; }
+                if (pillar.id === 1) { endX = '50%'; endY = '18%'; }
+                else if (pillar.id === 2) { endX = '77.7%'; endY = '34%'; }
+                else if (pillar.id === 3) { endX = '77.7%'; endY = '66%'; }
+                else if (pillar.id === 4) { endX = '50%'; endY = '82%'; }
+                else if (pillar.id === 5) { endX = '22.3%'; endY = '66%'; }
+                else if (pillar.id === 6) { endX = '22.3%'; endY = '34%'; }
 
                 return (
                   <g key={`mesh-wire-${pillar.id}`}>
@@ -345,10 +345,9 @@ export function WhyPartnerSection() {
                       id="pillar-hex-partnership"
                       className="absolute aspect-[208/240] cursor-pointer"
                       style={{
-                        left: '33%',
-                        top: '33%',
-                        width: '34%',
-                        height: '34%',
+                        left: '35%',
+                        top: '32.7%',
+                        width: '30%',
                         zIndex: 35,
                         transformStyle: 'preserve-3d',
                       }}
@@ -475,9 +474,9 @@ export function WhyPartnerSection() {
                   const isAnyActive = currentActiveId !== null;
                   const isOtherActive = isAnyActive && !isPillarActive;
 
-                  // Flyout assembly variables based on current 34% hex grid bounds
-                  const initX = ((33 - parseFloat(pillar.left)) / 34) * 100 + '%';
-                  const initY = ((33 - parseFloat(pillar.top)) / 34) * 100 + '%';
+                  // Flyout assembly variables based on current 30% hex grid bounds
+                  const initX = ((35 - parseFloat(pillar.left)) / 30) * 100 + '%';
+                  const initY = ((32.7 - parseFloat(pillar.top)) / 34.6) * 100 + '%';
                   const isLongTitle = pillar.title.length > 25;
 
                   return (
@@ -488,8 +487,7 @@ export function WhyPartnerSection() {
                       style={{
                         left: pillar.left,
                         top: pillar.top,
-                        width: '34%',
-                        height: '34%',
+                        width: '30%',
                         zIndex: isPillarActive ? 40 : 20,
                         transformStyle: 'preserve-3d',
                       }}
@@ -599,7 +597,7 @@ export function WhyPartnerSection() {
 
                         {/* Top vertex micro outline badge indicating the sequence number exactly matching the design */}
                         <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-2 z-20">
-                          <div className={`px-2 py-0.5 border text-[9px] font-mono rounded-md font-extrabold tracking-tight transition-all duration-500 ${
+                          <div className={`px-2 py-0.5 border text-[9px] font-gotham rounded-md font-bold tracking-tight transition-all duration-500 ${
                             isPillarActive 
                               ? 'border-brand-gold text-white bg-brand-gold shadow-[0_0_10px_rgba(191,160,82,0.5)]' 
                               : 'border-white/10 text-brand-gold bg-[#07182b]'
@@ -610,7 +608,7 @@ export function WhyPartnerSection() {
 
                         {/* Outer cell descriptive interactive block details */}
                         <div 
-                          className="absolute inset-0 flex flex-col justify-center items-center text-center p-3 sm:p-4 select-none z-10"
+                          className="absolute inset-0 flex flex-col justify-center items-center text-center px-1.5 py-3 sm:px-2.5 sm:py-4 select-none z-10"
                           style={{ transform: 'translateZ(10px)' }}
                         >
                           
@@ -642,11 +640,11 @@ export function WhyPartnerSection() {
                           {/* Highly polished upper Title heading */}
                           {/* Long titles dynamically scale down their font sizes to avoid wrapping too tightly or clipping */}
                           <h3 className={cn(
-                            'font-sans font-bold uppercase tracking-wider text-center leading-tight transition-colors duration-300 w-full px-1',
-                            isPillarActive ? 'text-brand-gold drop-shadow-[0_0_4px_rgba(191,160,82,0.25)]' : 'text-white/95',
+                            'font-gotham font-semibold uppercase tracking-wide text-center leading-tight transition-colors duration-300 w-full px-1',
+                            isPillarActive ? 'text-brand-gold' : 'text-white/95',
                             isLongTitle 
-                              ? 'text-[7.5px] xs:text-[8.5px] sm:text-[9px] md:text-[10px] lg:text-[10.5px]' 
-                              : 'text-[8.5px] xs:text-[9.5px] sm:text-[10px] md:text-[11px] lg:text-[12px]'
+                              ? 'text-[8px] xs:text-[9px] sm:text-[10px] md:text-[11px] lg:text-[11.5px]' 
+                              : 'text-[9px] xs:text-[10px] sm:text-[11px] md:text-[12px] lg:text-[12.5px]'
                           )}>
                             {pillar.title}
                           </h3>
