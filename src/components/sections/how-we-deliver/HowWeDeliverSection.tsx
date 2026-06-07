@@ -351,38 +351,27 @@ export function HowWeDeliverSection() {
             
             {/* Abstract Progress Background that spans the entire nav bar */}
             <div className="absolute inset-0 pointer-events-none z-0">
-               {/* Past fills */}
-               <div 
-                 className="absolute top-0 left-0 h-full transition-all duration-300" 
-                 style={{ width: `${((activeId - 1) / steps.length) * 100}%`, background: 'rgba(191, 160, 82, 0.1)' }} 
+               {/* Continuous Abstract Progress Background */}
+               <motion.div 
+                 className="absolute top-0 left-0 h-full z-0" 
+                 style={{ background: 'rgba(191, 160, 82, 0.08)' }}
+                 animate={{ width: `${(activeId / steps.length) * 100}%` }}
+                 transition={{ duration: STEP_DURATION / 1000, ease: 'linear' }}
                />
-               {/* Current fill */}
-               <div 
-                 className="absolute top-0 h-full" 
-                 style={{ left: `${((activeId - 1) / steps.length) * 100}%`, width: `${(1 / steps.length) * 100}%` }}
-               >
-                 <motion.div 
-                   key={`prog-${activeId}-${cycleKey}`} 
-                   className="absolute top-0 left-0 h-full" 
-                   style={{ background: 'rgba(191, 160, 82, 0.1)' }}
-                   initial={{ width: '0%' }} 
-                   animate={{ width: '100%' }} 
-                   transition={{ duration: STEP_DURATION / 1000, ease: 'linear' }} 
-                 />
-               </div>
                
-               {/* Thick Gold tracking line indicator at the very top of the nav */}
-               <div className="absolute top-0 left-0 h-1 z-10 transition-all duration-300" style={{ background: '#BFA052', width: `${((activeId - 1) / steps.length) * 100}%` }} />
-               <div className="absolute top-0 h-1 z-10" style={{ left: `${((activeId - 1) / steps.length) * 100}%`, width: `${(1 / steps.length) * 100}%` }}>
-                 <motion.div 
-                   key={`line-${activeId}-${cycleKey}`} 
-                   className="absolute top-0 left-0 h-full" 
-                   style={{ background: '#BFA052' }}
-                   initial={{ width: '0%' }} 
-                   animate={{ width: '100%' }} 
-                   transition={{ duration: STEP_DURATION / 1000, ease: 'linear' }} 
-                 />
-               </div>
+               {/* Continuous Thick Gold tracking lines (Top & Bottom) to match logo */}
+               <motion.div 
+                 className="absolute top-0 left-0 h-[5px] z-30" 
+                 style={{ background: '#BFA052' }}
+                 animate={{ width: `${(activeId / steps.length) * 100}%` }}
+                 transition={{ duration: STEP_DURATION / 1000, ease: 'linear' }}
+               />
+               <motion.div 
+                 className="absolute bottom-0 left-0 h-[5px] z-30" 
+                 style={{ background: '#BFA052' }}
+                 animate={{ width: `${(activeId / steps.length) * 100}%` }}
+                 transition={{ duration: STEP_DURATION / 1000, ease: 'linear' }}
+               />
             </div>
 
             {/* Step Tabs (Text & Content) */}
@@ -395,19 +384,20 @@ export function HowWeDeliverSection() {
                   key={step.id}
                   onMouseEnter={() => handleHoverStart(step.id)}
                   className={cn(
-                    "flex-1 relative z-10 px-2 py-4 md:py-5 flex flex-col items-center justify-start gap-1.5 md:gap-2 border-r border-gray-100 last:border-r-0 cursor-pointer",
+                    "flex-1 relative px-2 py-4 md:py-5 flex flex-col items-center justify-start gap-1.5 md:gap-2 border-r border-gray-100 last:border-r-0 cursor-pointer",
+                    isActive ? "z-20" : "z-10",
                     !isActive && !isPast && "hover:bg-gray-50/50 transition-colors"
                   )}
                 >
                   <span className={cn(
-                    "font-tibere text-xl md:text-2xl transition-all duration-300", 
-                    isActive ? "text-brand-gold scale-110" : (isPast ? "text-brand-gold/70" : "text-gray-300")
+                    "font-tibere text-2xl md:text-3xl transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]", 
+                    isActive ? "text-brand-gold scale-[1.35] -translate-y-1 drop-shadow-md" : (isPast ? "text-brand-gold/80" : "text-gray-300")
                   )}>
                     0{step.id}
                   </span>
                   <span className={cn(
-                    "font-gotham text-[8.5px] md:text-[11px] text-center leading-tight transition-all duration-300 hidden sm:block w-full px-1", 
-                    isActive ? "text-brand-navy font-bold" : (isPast ? "text-brand-navy/70 font-medium" : "text-gray-400 font-medium")
+                    "font-gotham text-[10px] md:text-xs lg:text-[13px] text-center leading-tight transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hidden sm:block w-full px-2 origin-top", 
+                    isActive ? "text-brand-navy font-bold scale-110" : (isPast ? "text-brand-navy/80 font-medium" : "text-gray-400 font-medium")
                   )}>
                     {step.title}
                   </span>

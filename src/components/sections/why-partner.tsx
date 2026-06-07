@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
   Shield,
@@ -93,7 +93,43 @@ const pillars: Pillar[] = [
 
 export function WhyPartnerSection() {
   const [hoveredId, setHoveredId] = useState<number | null>(null);
-  const [activeId, setActiveId] = useState<number | null>(null);
+  const [activeId, setActiveId] = useState<number | null>(99);
+
+  const isUserHovering = useRef(false);
+  const autoIndexRef = useRef(0);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  // The complete loop sequence including the center node (99) and the 6 outer pillars
+  const loopSequence = [99, 1, 2, 3, 4, 5, 6];
+
+  const startAutoPlay = useCallback(() => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
+      if (isUserHovering.current) return;
+      autoIndexRef.current = (autoIndexRef.current + 1) % loopSequence.length;
+      setActiveId(loopSequence[autoIndexRef.current]);
+    }, 3000); // 3 seconds per item
+  }, []);
+
+  useEffect(() => {
+    startAutoPlay();
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [startAutoPlay]);
+
+  const handleHoverStart = (id: number) => {
+    isUserHovering.current = true;
+    setHoveredId(id);
+    const idx = loopSequence.indexOf(id);
+    if (idx >= 0) autoIndexRef.current = idx;
+    setActiveId(id);
+  };
+
+  const handleHoverEnd = () => {
+    isUserHovering.current = false;
+    setHoveredId(null);
+  };
 
   // Derive the active node
   const currentActiveId = hoveredId !== null ? hoveredId : activeId;
@@ -202,8 +238,8 @@ export function WhyPartnerSection() {
                       : 'bg-white/[0.005]'
                   )}
                   onClick={() => setActiveId(pillar.id)}
-                  onMouseEnter={() => setHoveredId(pillar.id)}
-                  onMouseLeave={() => setHoveredId(null)}
+                  onMouseEnter={() => handleHoverStart(pillar.id)}
+                  onMouseLeave={handleHoverEnd}
                 >
                   {/* Glowing background accent on active */}
                   {isPillarActive && (
@@ -376,8 +412,8 @@ export function WhyPartnerSection() {
                         },
                         opacity: { duration: 0.3 }
                       }}
-                      onMouseEnter={() => setHoveredId(99)}
-                      onMouseLeave={() => setHoveredId(null)}
+                      onMouseEnter={() => handleHoverStart(99)}
+                      onMouseLeave={handleHoverEnd}
                     >
                       <div className="relative w-full h-full animate-fade-in" style={{ transformStyle: 'preserve-3d' }}>
                         
@@ -536,8 +572,8 @@ export function WhyPartnerSection() {
                           duration: 0.25 
                         },
                       }}
-                      onMouseEnter={() => setHoveredId(pillar.id)}
-                      onMouseLeave={() => setHoveredId(null)}
+                      onMouseEnter={() => handleHoverStart(pillar.id)}
+                      onMouseLeave={handleHoverEnd}
                       onClick={() => {
                         setActiveId(pillar.id);
                         setHoveredId(null);
