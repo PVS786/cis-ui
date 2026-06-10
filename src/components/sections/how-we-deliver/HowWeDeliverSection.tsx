@@ -108,7 +108,7 @@ const steps: Step[] = [
 export function HowWeDeliverSection() {
   const [activeId, setActiveId] = useState<number>(1);
   // cycleKey increments each time auto-play advances → forces progress bar to restart
-  const [cycleKey, setCycleKey] = useState(0);
+  const [_cycleKey, setCycleKey] = useState(0);
   // True while the user has their mouse over a block — auto-play pauses
   const isUserHovering = useRef(false);
   const autoIndexRef = useRef(0); // 0-based index into steps[]
