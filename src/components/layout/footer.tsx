@@ -60,7 +60,7 @@ export function Footer() {
                   <span 
                     className="font-tibere"
                     style={{ 
-                      fontFamily: "'Tibere OTW03-Bold', Georgia, serif", 
+                      fontFamily: "'Tibere OT W03 Medium', 'FF Tibere Medium', 'FF Tibere Std Medium', 'FF Tibere Std-Bold', 'FFTibereStd-Bold', 'FF Tibere Std', 'FF Tibere', 'Tibere OTW03-Bold', 'TibereOTW03-Bold', 'Tibere', 'Cormorant Garamond', 'EB Garamond', 'Gelasio', 'Cinzel', Georgia, serif", 
                       fontSize: '22px', 
                       fontWeight: 700, 
                       color: '#FFFFFF', 
