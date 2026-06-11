@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 export function LandOpportunitySection() {
   return (
-    <section className="bg-[#fcfbf9] py-16 lg:py-24 relative overflow-hidden">
+    <section className="bg-[#fcfbf9] pt-16 lg:pt-24 pb-4 lg:pb-6 relative overflow-hidden">
       {/* Subtle background pattern */}
       <div 
         className="absolute inset-0 pointer-events-none" 
