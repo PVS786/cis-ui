@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 export function Hero() {
   return (
-    <section className="relative min-h-[90vh] flex items-center bg-brand-gray-light pt-20">
+    <section className="relative min-h-[90vh] flex items-center bg-brand-gray-light pt-20 md:pt-28">
       <div className="section-container grid lg:grid-cols-[1.2fr_1fr] gap-20 items-center">
         <motion.div
           initial={{ opacity: 0, y: 20 }}

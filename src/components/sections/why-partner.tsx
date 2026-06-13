@@ -12,6 +12,7 @@ import {
   ChevronDown
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
+import Image from 'next/image';
 
 // Architectural premium icon mapping matching the reference image
 const IconMap: { [key: string]: React.ComponentType<any> } = {
@@ -416,8 +417,7 @@ export function WhyPartnerSection() {
                       onMouseLeave={handleHoverEnd}
                     >
                       <div className="relative w-full h-full animate-fade-in" style={{ transformStyle: 'preserve-3d' }}>
-                        
-                        {/* Pointy-topped hexagon SVG center node */}
+                                                {/* Pointy-topped hexagon SVG center node with slightly rounded corners */}
                         <svg
                           className="absolute inset-0 w-full h-full transition-all duration-500 ease-out z-0"
                           viewBox="0 0 208 240"
@@ -428,8 +428,8 @@ export function WhyPartnerSection() {
                           }}
                         >
                           {/* Center back shadow block */}
-                          <polygon
-                            points="104,4.5 203.5,62 203.5,178 104,235.5 4.5,178 4.5,62"
+                          <path
+                            d="M 112.6,9.5 L 194.9,57.0 Q 203.5,62 203.5,72.0 L 203.5,168.0 Q 203.5,178 194.9,183.0 L 112.6,230.5 Q 104,235.5 95.4,230.5 L 13.1,183.0 Q 4.5,178 4.5,168.0 L 4.5,72.0 Q 4.5,62 13.1,57.0 L 95.4,9.5 Q 104,4.5 112.6,9.5 Z"
                             fill="#051424"
                             stroke="rgba(191,160,82,0.2)"
                             strokeWidth="2"
@@ -437,9 +437,9 @@ export function WhyPartnerSection() {
                             className="pointer-events-none"
                           />
 
-                          {/* Main core center piece polygon block */}
-                          <polygon
-                            points="104,4.5 203.5,62 203.5,178 104,235.5 4.5,178 4.5,62"
+                          {/* Main core center piece block */}
+                          <path
+                            d="M 112.6,9.5 L 194.9,57.0 Q 203.5,62 203.5,72.0 L 203.5,168.0 Q 203.5,178 194.9,183.0 L 112.6,230.5 Q 104,235.5 95.4,230.5 L 13.1,183.0 Q 4.5,178 4.5,168.0 L 4.5,72.0 Q 4.5,62 13.1,57.0 L 95.4,9.5 Q 104,4.5 112.6,9.5 Z"
                             fill="url(#centerGlow)"
                             fillOpacity={1.0}
                             stroke="#BFA052"
@@ -448,8 +448,8 @@ export function WhyPartnerSection() {
                           />
 
                           {/* Hairline trace nested grid ring */}
-                          <polygon
-                            points="104,14.5 194.5,67 194.5,173 104,225.5 13.5,173 13.5,67"
+                          <path
+                            d="M 110.9,18.5 L 187.6,63.0 Q 194.5,67 194.5,75.0 L 194.5,165.0 Q 194.5,173 187.6,177.0 L 110.9,221.5 Q 104,225.5 97.1,221.5 L 20.4,177.0 Q 13.5,173 13.5,165.0 L 13.5,75.0 Q 13.5,67 20.4,63.0 L 97.1,18.5 Q 104,14.5 110.9,18.5 Z"
                             fill="none"
                             stroke="#BFA052"
                             strokeWidth="0.8"
@@ -463,40 +463,42 @@ export function WhyPartnerSection() {
                           className="absolute inset-[6%] flex flex-col justify-center items-center text-center text-white select-none z-10"
                           style={{ transform: 'translateZ(15px)' }}
                         >
-                          <svg viewBox="0 0 100 115" className="w-20 h-22 sm:w-24 sm:h-26 drop-shadow-[0_0_12px_rgba(191,160,82,0.45)]" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            {/* White outer square boundary */}
-                            <rect x="23" y="10" width="54" height="54" stroke="#FFFFFF" strokeWidth="2.4" />
-                            
-                            {/* Precision stylized block "C" */}
-                            <path d="M 48 22 L 35 22 L 35 45 L 48 45" stroke="#FFFFFF" strokeWidth="6" strokeLinecap="square" strokeLinejoin="miter" fill="none" />
-                            
-                            {/* Precision stylized block "I" */}
-                            <line x1="62" y1="22" x2="62" y2="45" stroke="#FFFFFF" strokeWidth="6" strokeLinecap="square" />
-                            
-                            {/* Parallel dual gold detail lines */}
-                            <line x1="31" y1="51" x2="69" y2="51" stroke="#BFA052" strokeWidth="3.2" strokeLinecap="square" />
-                            <line x1="31" y1="57" x2="69" y2="57" stroke="#BFA052" strokeWidth="3.2" strokeLinecap="square" />
+                          {/* Logo Image */}
+                          <div className="relative w-8 h-8 xs:w-10 xs:h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 xl:w-18 xl:h-18 -mb-1 xs:-mb-1.5 sm:-mb-2 drop-shadow-[0_0_12px_rgba(191,160,82,0.45)]">
+                            <Image
+                              src="/logo-transparent-dark.png"
+                              alt="Conservve Logo"
+                              fill
+                              className="object-contain"
+                              priority
+                            />
+                          </div>
 
-                            {/* Company Logo Wordmark Typography */}
-                            <text 
-                              x="50" 
-                              y="82" 
-                              textAnchor="middle" 
-                              fill="#FFFFFF"
-                              className="font-serif font-bold text-[9px] tracking-[0.16em] uppercase"
+                          {/* Company Name Typography matching Navbar */}
+                          <div className="flex flex-col items-center justify-center text-center w-full mt-0">
+                            <span 
+                              className="font-bold text-white tracking-wide whitespace-nowrap text-[8px] xs:text-[9.5px] sm:text-[10px] md:text-[12px] lg:text-[13px] xl:text-[14px]"
+                              style={{ 
+                                fontFamily: "'Tibere OT W03 Medium', 'FF Tibere Medium', 'FF Tibere Std Medium', 'FF Tibere Std-Bold', 'FFTibereStd-Bold', 'FF Tibere Std', 'FF Tibere', 'Tibere OTW03-Bold', 'TibereOTW03-Bold', 'Tibere', 'Cormorant Garamond', 'EB Garamond', 'Gelasio', 'Cinzel', Georgia, serif", 
+                                letterSpacing: '0.06em', 
+                                lineHeight: '0.9', 
+                                fontWeight: 700 
+                              }}
                             >
                               CONSERVVE
-                            </text>
-                            <text 
-                              x="50" 
-                              y="92" 
-                              textAnchor="middle" 
-                              fill="#FFFFFF"
-                              className="font-mono text-[4px] tracking-[0.22em] uppercase font-light opacity-90 text-slate-200"
+                            </span>
+                            <span 
+                              className="font-bold text-white/90 mt-0.5 sm:mt-1 whitespace-nowrap text-[5px] xs:text-[6px] sm:text-[6.5px] md:text-[7.5px] lg:text-[8px] xl:text-[8.5px]"
+                              style={{ 
+                                fontFamily: "'Tibere OT W03 Medium', 'FF Tibere Medium', 'FF Tibere Std Medium', 'FF Tibere Std-Bold', 'FFTibereStd-Bold', 'FF Tibere Std', 'FF Tibere', 'Tibere OTW03-Bold', 'TibereOTW03-Bold', 'Tibere', 'Cormorant Garamond', 'EB Garamond', 'Gelasio', 'Cinzel', Georgia, serif", 
+                                letterSpacing: '0.08em', 
+                                lineHeight: '0.9', 
+                                fontWeight: 700 
+                              }}
                             >
                               INFRA SOLUTIONS
-                            </text>
-                          </svg>
+                            </span>
+                          </div>
                         </div>
                       </div>
                     </motion.div>
@@ -580,8 +582,7 @@ export function WhyPartnerSection() {
                       }}
                     >
                       <div className="relative w-full h-full" style={{ transformStyle: 'preserve-3d' }}>
-                        
-                        {/* Pointy-topped crisp responsive outline cell */}
+                                                {/* Pointy-topped crisp responsive outline cell with slightly rounded corners */}
                         <svg
                           className="absolute inset-0 w-full h-full transition-all duration-500 ease-out z-0"
                           viewBox="0 0 208 240"
@@ -593,8 +594,8 @@ export function WhyPartnerSection() {
                         >
                           
                           {/* Base drop-layer shadow extrusion */}
-                          <polygon
-                            points="104,4.5 203.5,62 203.5,178 104,235.5 4.5,178 4.5,62"
+                          <path
+                            d="M 112.6,9.5 L 194.9,57.0 Q 203.5,62 203.5,72.0 L 203.5,168.0 Q 203.5,178 194.9,183.0 L 112.6,230.5 Q 104,235.5 95.4,230.5 L 13.1,183.0 Q 4.5,178 4.5,168.0 L 4.5,72.0 Q 4.5,62 13.1,57.0 L 95.4,9.5 Q 104,4.5 112.6,9.5 Z"
                             fill="#04101e"
                             stroke="rgba(191,160,82,0.12)"
                             strokeWidth="2"
@@ -603,8 +604,8 @@ export function WhyPartnerSection() {
                           />
 
                           {/* Inner central vector container reflecting deep radial/linear volumetric polish */}
-                          <polygon
-                            points="104,4.5 203.5,62 203.5,178 104,235.5 4.5,178 4.5,62"
+                          <path
+                            d="M 112.6,9.5 L 194.9,57.0 Q 203.5,62 203.5,72.0 L 203.5,168.0 Q 203.5,178 194.9,183.0 L 112.6,230.5 Q 104,235.5 95.4,230.5 L 13.1,183.0 Q 4.5,178 4.5,168.0 L 4.5,72.0 Q 4.5,62 13.1,57.0 L 95.4,9.5 Q 104,4.5 112.6,9.5 Z"
                             fill={isPillarActive ? 'url(#cellGlowGrad)' : 'url(#hexInnerDepth)'}
                             fillOpacity={1.0}
                             stroke={isPillarActive ? 'url(#goldBorderGrad)' : 'url(#inactiveBorderGrad)'}
@@ -613,8 +614,8 @@ export function WhyPartnerSection() {
                           />
                           
                           {/* Inner fine nested visual blueprint trace overlay */}
-                          <polygon
-                            points="104,14.5 194.5,67 194.5,173 104,225.5 13.5,173 13.5,67"
+                          <path
+                            d="M 110.9,18.5 L 187.6,63.0 Q 194.5,67 194.5,75.0 L 194.5,165.0 Q 194.5,173 187.6,177.0 L 110.9,221.5 Q 104,225.5 97.1,221.5 L 20.4,177.0 Q 13.5,173 13.5,165.0 L 13.5,75.0 Q 13.5,67 20.4,63.0 L 97.1,18.5 Q 104,14.5 110.9,18.5 Z"
                             fill="none"
                             stroke="#BFA052"
                             strokeWidth="0.5"

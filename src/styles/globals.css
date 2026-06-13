@@ -1,9 +1,30 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Cinzel:wght@500;700&family=EB+Garamond:wght@500;700&family=Gelasio:wght@500;700&display=swap');
 @import "tailwindcss";
 
 @font-face {
-  font-family: 'Tibere OTW03-Bold';
-  src: local('Tibere OTW03-Bold'), local('TibereOTW03-Bold'),
+  font-family: 'Tibere OT W03 Medium';
+  src: url('/Tibere_OT_W03_Medium/Tibere%20OT%20W03%20Medium.woff2') format('woff2'),
+       url('/Tibere_OT_W03_Medium/Tibere%20OT%20W03%20Medium.woff') format('woff'),
+       url('/Tibere_OT_W03_Medium/Tibere%20OT%20W03%20Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FF Tibere Std Bold';
+  src: local('FF Tibere Std Bold'),
+       local('FFTibereStd-Bold'),
+       local('FF Tibere Std-Bold'),
+       local('FF Tibere Bold'),
+       local('FFTibere-Bold'),
+       local('FF Tibere Std'),
+       local('FF Tibere'),
+       local('Tibere OTW03-Bold'),
+       local('TibereOTW03-Bold'),
+       local('Tibere OTW03 Bold'),
+       local('Tibere Bold'),
+       local('Tibere'),
        url('/fonts/TibereOTW03-Bold.woff2') format('woff2'),
        url('/fonts/TibereOTW03-Bold.woff') format('woff');
   font-weight: 700;
@@ -12,20 +33,23 @@
 }
 
 @font-face {
-  font-family: 'Gotham';
-  src: local('Gotham Book'), local('Gotham-Book'), local('GothamBook'),
-       url('/fonts/Gotham-Book.woff2') format('woff2'),
-       url('/fonts/Gotham-Book.woff') format('woff');
-  font-weight: 400;
-  font-style: normal;
-  font-display: swap;
-}
-
-@font-face {
-  font-family: 'Gotham';
-  src: local('Gotham Medium'), local('Gotham-Medium'), local('GothamMedium'),
-       url('/fonts/Gotham-Medium.woff2') format('woff2'),
-       url('/fonts/Gotham-Medium.woff') format('woff');
+  font-family: 'FF Tibere Medium';
+  src: local('Tibere OT W03 Medium'),
+       local('FF Tibere Std Medium'),
+       local('FFTibereStd-Medium'),
+       local('FF Tibere Medium'),
+       local('FFTibere-Medium'),
+       local('FF Tibere Std'),
+       local('FF Tibere'),
+       local('Tibere OTW03-Medium'),
+       local('TibereOTW03-Medium'),
+       local('Tibere OTW03 Medium'),
+       local('Tibere Medium'),
+       local('Tibere'),
+       url('/Tibere_OT_W03_Medium/Tibere%20OT%20W03%20Medium.woff2') format('woff2'),
+       url('/Tibere_OT_W03_Medium/Tibere%20OT%20W03%20Medium.woff') format('woff'),
+       url('/fonts/FFTibere-Medium.woff2') format('woff2'),
+       url('/fonts/FFTibere-Medium.woff') format('woff');
   font-weight: 500;
   font-style: normal;
   font-display: swap;
@@ -33,10 +57,36 @@
 
 @font-face {
   font-family: 'Gotham';
-  src: local('Gotham Bold'), local('Gotham-Bold'), local('GothamBold'),
-       url('/fonts/Gotham-Bold.woff2') format('woff2'),
-       url('/fonts/Gotham-Bold.woff') format('woff');
-  font-weight: 600;
+  src: url('/Gotham/Gotham.woff2') format('woff2'),
+       url('/Gotham/Gotham.woff') format('woff'),
+       url('/Gotham/Gotham.ttf') format('truetype'),
+       url('/Gotham/Gotham.otf') format('opentype'),
+       local('Gotham Book'), local('Gotham-Book'), local('GothamBook');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gotham';
+  src: url('/Gotham/Gotham.woff2') format('woff2'),
+       url('/Gotham/Gotham.woff') format('woff'),
+       url('/Gotham/Gotham.ttf') format('truetype'),
+       url('/Gotham/Gotham.otf') format('opentype'),
+       local('Gotham Medium'), local('Gotham-Medium'), local('GothamMedium');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gotham';
+  src: url('/Gotham/Gotham.woff2') format('woff2'),
+       url('/Gotham/Gotham.woff') format('woff'),
+       url('/Gotham/Gotham.ttf') format('truetype'),
+       url('/Gotham/Gotham.otf') format('opentype'),
+       local('Gotham Bold'), local('Gotham-Bold'), local('GothamBold');
+  font-weight: 600 700;
   font-style: normal;
   font-display: swap;
 }
@@ -64,7 +114,8 @@
 @theme {
   --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Cormorant Garamond", ui-serif, serif;
-  --font-tibere: "Tibere OTW03-Bold", Georgia, serif;
+  --font-tibere: "Tibere OT W03 Medium", "FF Tibere Std Bold", "FF Tibere Std-Bold", "FFTibereStd-Bold", "FF Tibere Bold", "FFTibere-Bold", "FF Tibere Std", "FF Tibere", "Tibere OTW03-Bold", "TibereOTW03-Bold", "Tibere OTW03 Bold", "Tibere Bold", "Tibere", "Cormorant Garamond", "EB Garamond", "Gelasio", "Cinzel", Georgia, serif;
+  --font-tibere-medium: "Tibere OT W03 Medium", "FF Tibere Std Medium", "FFTibereStd-Medium", "FF Tibere Medium", "FFTibere-Medium", "FF Tibere Std", "FF Tibere", "Tibere OTW03-Medium", "TibereOTW03-Medium", "Tibere OTW03 Medium", "Tibere Medium", "Tibere", "Cormorant Garamond", "EB Garamond", "Gelasio", "Cinzel", Georgia, serif;
   --font-gotham: "Gotham", "Montserrat", Arial, sans-serif;
 
   --color-brand-navy: #0C2C4D;

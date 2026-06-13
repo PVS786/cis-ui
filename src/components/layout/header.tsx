@@ -28,13 +28,14 @@ export function Header() {
 
   return (
     <nav className={cn(
-      "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
-      isScrolled ? "bg-white shadow-md py-2.5" : "bg-transparent py-4"
+      "fixed top-0 left-0 right-0 z-50 transition-all duration-300 py-5 md:py-8",
+      isScrolled ? "bg-white shadow-md" : "bg-transparent"
     )}>
-      <div className="max-w-[90rem] mx-auto pl-2 md:pl-4 lg:pl-6 pr-6 md:pr-12 lg:pr-16 flex justify-between items-center">
+      <div className="max-w-[90rem] mx-auto pl-2 md:pl-4 lg:pl-6 pr-6 md:pr-12 lg:pr-16 flex items-center justify-between">
+        {/* Left: Logo & Brand Lockup */}
         <div className="flex items-center gap-[14px] cursor-pointer group">
           {/* Logo Container */}
-          <div className="w-[48px] h-[48px] relative flex items-center justify-center shrink-0 overflow-hidden">
+          <div className="w-[58px] h-[58px] relative flex items-center justify-center shrink-0 overflow-hidden">
             {/* White Logo (Unscrolled) */}
             <motion.div
               initial={false}
@@ -76,61 +77,54 @@ export function Header() {
           </div>
           
           {/* Company Name Container */}
-          <div className="flex flex-col items-center justify-center text-center">
+          <div className="flex flex-col items-start justify-center text-left">
             <span className={cn(
-              "font-tibere font-bold leading-none transition-colors duration-300",
+              "font-tibere font-bold transition-colors duration-300",
               isScrolled ? "text-brand-navy" : "text-white"
-            )} style={{ fontFamily: "'Tibere OTW03-Bold', Georgia, serif", fontSize: '32px', letterSpacing: '0.06em' }}>
+            )} style={{ fontFamily: "'Tibere OT W03 Medium', 'FF Tibere Medium', 'FF Tibere Std Medium', 'FF Tibere Std-Bold', 'FFTibereStd-Bold', 'FF Tibere Std', 'FF Tibere', 'Tibere OTW03-Bold', 'TibereOTW03-Bold', 'Tibere', 'Cormorant Garamond', 'EB Garamond', 'Gelasio', 'Cinzel', Georgia, serif", fontSize: '36px', letterSpacing: '0.06em', lineHeight: '0.9', fontWeight: 700 }}>
               CONSERVVE
             </span>
             <span className={cn(
-              "font-tibere font-bold leading-none mt-1 transition-colors duration-300",
+              "font-tibere font-bold mt-1 transition-colors duration-300",
               isScrolled ? "text-brand-navy/90" : "text-white/90"
-            )} style={{ fontFamily: "'Tibere OTW03-Bold', Georgia, serif", fontSize: '15px', letterSpacing: '0.235em' }}>
+            )} style={{ fontFamily: "'Tibere OT W03 Medium', 'FF Tibere Medium', 'FF Tibere Std Medium', 'FF Tibere Std-Bold', 'FFTibereStd-Bold', 'FF Tibere Std', 'FF Tibere', 'Tibere OTW03-Bold', 'TibereOTW03-Bold', 'Tibere', 'Cormorant Garamond', 'EB Garamond', 'Gelasio', 'Cinzel', Georgia, serif", fontSize: '22px', letterSpacing: '0.08em', lineHeight: '0.9', fontWeight: 700 }}>
               INFRA SOLUTIONSS
             </span>
           </div>
         </div>
 
-        {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8">
-          {navLinks.map((link) => (
-            <Link 
-              key={link.name} 
-              href={link.href} 
-              className={cn(
-                "font-sans text-sm font-bold antialiased uppercase tracking-wide transition-colors duration-300 hover:text-brand-gold",
-                isScrolled ? "text-brand-navy" : "text-white"
-              )}
-            >
-              {link.name}
-            </Link>
-          ))}
-          <div className={cn(
-            "w-px h-6 mx-2 transition-colors",
-            isScrolled ? "bg-gray-200" : "bg-white/20"
-          )} />
+        {/* Right: Desktop Nav & Mobile Toggle */}
+        <div className="flex items-center gap-8">
+          {/* Desktop Nav */}
+          <div className="hidden lg:flex items-center gap-8">
+            {navLinks.map((link) => (
+              <Link 
+                key={link.name} 
+                href={link.href} 
+                className={cn(
+                  "font-gotham text-[18px] font-bold antialiased uppercase tracking-wide transition-colors duration-300 relative group py-2",
+                  isScrolled ? "text-brand-navy" : "text-white"
+                )}
+              >
+                <span className="group-hover:text-brand-gold transition-colors duration-300">
+                  {link.name}
+                </span>
+                <span className="absolute bottom-0 left-0 w-full h-[2.5px] bg-brand-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ease-out" />
+              </Link>
+            ))}
+          </div>
+
+          {/* Mobile Toggle */}
           <button 
             className={cn(
-              "transition-colors",
+              "lg:hidden transition-colors duration-300",
               isScrolled ? "text-brand-navy" : "text-white"
             )}
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
           >
-            <Menu className="w-6 h-6" />
+            {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
-
-        {/* Mobile Toggle */}
-        <button 
-          className={cn(
-            "md:hidden transition-colors",
-            isScrolled ? "text-brand-navy" : "text-white"
-          )}
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
-          {mobileMenuOpen ? <X /> : <Menu />}
-        </button>
       </div>
 
       {/* Mobile Menu */}
@@ -140,16 +134,19 @@ export function Header() {
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -20 }}
-            className="absolute top-full left-0 right-0 bg-white border-t border-gray-100 p-8 flex flex-col gap-6 md:hidden shadow-2xl"
+            className="absolute top-full left-0 right-0 bg-white border-t border-gray-100 p-8 flex flex-col gap-6 lg:hidden shadow-2xl"
           >
             {navLinks.map((link) => (
               <Link 
                 key={link.name} 
                 href={link.href} 
-                className="font-sans text-sm font-bold antialiased uppercase tracking-[0.1em] text-brand-navy hover:text-brand-gold"
+                className="font-gotham text-[18px] font-bold antialiased uppercase tracking-[0.1em] text-brand-navy hover:text-brand-gold relative py-1 self-start group transition-colors duration-300"
                 onClick={() => setMobileMenuOpen(false)}
               >
-                {link.name}
+                <span className="group-hover:text-brand-gold transition-colors duration-300">
+                  {link.name}
+                </span>
+                <span className="absolute bottom-0 left-0 w-full h-[2px] bg-brand-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ease-out" />
               </Link>
             ))}
           </motion.div>

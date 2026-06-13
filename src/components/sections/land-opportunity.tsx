@@ -5,7 +5,7 @@ import Image from 'next/image';
 
 export function LandOpportunitySection() {
   return (
-    <section className="bg-[#fcfbf9] py-16 lg:py-24 relative overflow-hidden">
+    <section className="bg-[#fcfbf9] pt-16 lg:pt-24 pb-4 lg:pb-6 relative overflow-hidden">
       {/* Subtle background pattern */}
       <div 
         className="absolute inset-0 pointer-events-none" 
@@ -48,16 +48,7 @@ export function LandOpportunitySection() {
           {/* Left Content Area */}
           <div className="lg:w-[60%] p-8 md:p-12 lg:p-14 pl-10 md:pl-16 xl:pl-20 flex flex-col justify-center">
             
-            <motion.div 
-              initial={{ opacity: 0, x: -20 }}
-              whileInView={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
-              viewport={{ once: true }}
-              className="flex items-center gap-4 mb-6"
-            >
-              <div className="w-10 h-[2px] bg-brand-gold" />
-              <span className="text-xs font-sans font-bold uppercase tracking-[0.2em] text-brand-navy">Our Mission</span>
-            </motion.div>
+            
 
             <motion.h2 
               initial={{ opacity: 0, y: 20 }}
@@ -104,13 +95,13 @@ export function LandOpportunitySection() {
           </div>
 
           {/* Right Image Area */}
-          <div className="lg:w-[40%] relative min-h-[400px] lg:min-h-auto overflow-hidden">
+          <div className="lg:w-[40%] relative min-h-[400px] lg:min-h-[500px] flex items-stretch p-2 md:p-3 lg:p-4">
             <motion.div 
-              initial={{ scale: 1.15, opacity: 0 }}
+              initial={{ scale: 1.05, opacity: 0 }}
               whileInView={{ scale: 1, opacity: 1 }}
               transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
               viewport={{ once: true }}
-              className="absolute inset-0 w-full h-full"
+              className="relative w-full h-full rounded-2xl overflow-hidden shadow-lg border-[8px] border-[#BFA052]"
             >
               <Image
                 src="/turn-into-land-opp.png" 
@@ -120,11 +111,9 @@ export function LandOpportunitySection() {
                 sizes="(max-width: 1024px) 100vw, 40vw"
                 priority
               />
+              {/* Soft gradient overlay on image to match the refined corporate feel */}
+              <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/40 via-transparent to-transparent opacity-80 mix-blend-multiply pointer-events-none z-10" />
             </motion.div>
-            {/* Soft gradient overlay on image to match the refined corporate feel */}
-            <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/40 via-transparent to-transparent opacity-80 mix-blend-multiply pointer-events-none z-10" />
-            
-            {/* Decorative bottom text (from Image 1 "BUILDING FUTURES") removed as per request */}
           </div>
         </motion.div>
       </div>
