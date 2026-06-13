@@ -153,28 +153,26 @@ export function HowWeDeliverSection() {
     <section className="bg-transparent relative overflow-hidden">
 
       {/* ── HEADER ── */}
-      <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16 pt-16 lg:pt-24 pb-12 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16 pt-8 lg:pt-12 pb-12 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
           viewport={{ once: true }}
+          className="max-w-5xl mx-auto text-center"
         >
-          <div className="flex items-center gap-4 mb-6">
+          <div className="flex items-center justify-center gap-4 mb-6">
             <div className="w-10 h-[2px] bg-brand-gold" />
             <span className="text-xs font-gotham font-bold uppercase tracking-[0.2em] text-brand-navy">
               The Process
             </span>
+            <div className="w-10 h-[2px] bg-brand-gold" />
           </div>
-          <h2 className="text-5xl md:text-6xl font-tibere text-brand-navy tracking-tight mb-6">
-            How We Deliver
+          <h2 className="text-5xl md:text-6xl font-tibere font-black text-brand-navy tracking-normal [word-spacing:0.25em] uppercase mb-6">
+            HOW WE DELIVER
           </h2>
-          <div className="text-xl text-brand-navy font-medium leading-relaxed border-l-4 border-brand-gold pl-6 max-w-3xl">
+          <div className="text-xl text-brand-navy font-gotham font-medium leading-relaxed max-w-5xl mx-auto">
             A complete lifecycle from strategic land aggregation to project execution.
-            <br />
-            <span className="text-gray-500 font-gotham font-normal text-base">
-              Hover over any stage — or watch the journey unfold automatically.
-            </span>
           </div>
         </motion.div>
       </div>

@@ -25,21 +25,21 @@ export function IntegratedSolutionsSection() {
   ];
 
   return (
-    <section className="bg-transparent py-32 border-t border-brand-gray-medium overflow-hidden relative">
+    <section className="bg-transparent pt-16 pb-16 border-t border-brand-gray-medium overflow-hidden relative">
       <div className="max-w-7xl mx-auto px-16">
-        <div className="max-w-4xl mb-24">
+        <div className="max-w-5xl mx-auto text-center mb-24">
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
           >
-            <h2 className="text-5xl md:text-6xl font-tibere font-black text-brand-navy tracking-tight mb-8">
-              Integrated Land Solutions
+            <h2 className="text-5xl md:text-6xl font-tibere font-black text-brand-navy tracking-tight uppercase mb-8">
+              INTEGRATED LAND SOLUTIONS
             </h2>
-            <div className="text-xl text-brand-navy font-poppins font-medium leading-relaxed border-l-4 border-brand-gold pl-6 max-w-3xl">
+            <div className="text-xl text-brand-navy font-gotham font-medium leading-relaxed max-w-5xl mx-auto">
               Two things define every successful development, the right land, and a clear path to build on it.
-              <br /><span className="text-brand-gray-medium/80 text-gray-500 font-medium">This is how we make that real.</span>
+              <br /><span className="text-[#BFA052] font-medium">This is how we make that real.</span>
             </div>
           </motion.div>
         </div>
@@ -47,7 +47,7 @@ export function IntegratedSolutionsSection() {
         <div className="space-y-40">
           {solutions.map((item, idx) => (
             <div key={idx} className={cn(
-              "flex flex-col gap-16 lg:gap-24 items-center group",
+              "flex flex-col gap-16 md:gap-32 lg:gap-48 xl:gap-56 items-center group",
               idx % 2 === 1 ? "md:flex-row-reverse" : "md:flex-row"
             )}>
               <motion.div
