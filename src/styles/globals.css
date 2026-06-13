@@ -86,10 +86,48 @@
        url('/Gotham/Gotham.ttf') format('truetype'),
        url('/Gotham/Gotham.otf') format('opentype'),
        local('Gotham Bold'), local('Gotham-Bold'), local('GothamBold');
-  font-weight: 600 700;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/Poppins/Poppins-Light.ttf') format('truetype');
+  font-weight: 300;
   font-style: normal;
   font-display: swap;
 }
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/Poppins/Poppins-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/Poppins/Poppins-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/Poppins/Poppins-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/Poppins/Poppins-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 
 @layer utilities {
   @keyframes slow-zoom {
@@ -117,6 +155,7 @@
   --font-tibere: "Tibere OT W03 Medium", "FF Tibere Std Bold", "FF Tibere Std-Bold", "FFTibereStd-Bold", "FF Tibere Bold", "FFTibere-Bold", "FF Tibere Std", "FF Tibere", "Tibere OTW03-Bold", "TibereOTW03-Bold", "Tibere OTW03 Bold", "Tibere Bold", "Tibere", "Cormorant Garamond", "EB Garamond", "Gelasio", "Cinzel", Georgia, serif;
   --font-tibere-medium: "Tibere OT W03 Medium", "FF Tibere Std Medium", "FFTibereStd-Medium", "FF Tibere Medium", "FFTibere-Medium", "FF Tibere Std", "FF Tibere", "Tibere OTW03-Medium", "TibereOTW03-Medium", "Tibere OTW03 Medium", "Tibere Medium", "Tibere", "Cormorant Garamond", "EB Garamond", "Gelasio", "Cinzel", Georgia, serif;
   --font-gotham: "Gotham", "Montserrat", Arial, sans-serif;
+  --font-poppins: "Poppins", "Montserrat", sans-serif;
 
   --color-brand-navy: #0C2C4D;
   --color-brand-gold: #BFA052;

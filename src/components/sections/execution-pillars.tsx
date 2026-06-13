@@ -29,12 +29,7 @@ export function ExecutionPillars() {
 
   return (
     <section 
-      className="overflow-hidden border-t border-brand-gray-medium"
-      style={{
-        backgroundImage: "linear-gradient(to bottom, rgba(255, 255, 255, 0.96) 0%, rgba(255, 255, 255, 0.88) 35%, rgba(255, 255, 255, 0.7) 100%), url('/Logo_Distort_BG.png')",
-        backgroundRepeat: 'repeat',
-        backgroundSize: '300px'
-      }}
+      className="overflow-hidden"
     >
       {/* Header Area Wrapper */}
       <div className="pt-16 pb-10">
