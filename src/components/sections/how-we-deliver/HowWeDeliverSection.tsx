@@ -150,16 +150,7 @@ export function HowWeDeliverSection() {
   const active = steps.find((s) => s.id === activeId) ?? steps[0];
 
   return (
-    <section className="bg-[#fcfbf9] relative overflow-hidden">
-      {/* Subtle grid */}
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          backgroundImage:
-            'linear-gradient(to right,rgba(12,44,77,0.03) 1px,transparent 1px),linear-gradient(to bottom,rgba(12,44,77,0.03) 1px,transparent 1px)',
-          backgroundSize: '64px 64px',
-        }}
-      />
+    <section className="bg-transparent relative overflow-hidden">
 
       {/* ── HEADER ── */}
       <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16 pt-16 lg:pt-24 pb-12 relative z-10">

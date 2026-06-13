@@ -5,19 +5,9 @@ import Image from 'next/image';
 
 export function LandOpportunitySection() {
   return (
-    <section className="bg-[#fcfbf9] pt-16 lg:pt-24 pb-4 lg:pb-6 relative overflow-hidden">
-      {/* Subtle background pattern */}
-      <div 
-        className="absolute inset-0 pointer-events-none" 
-        style={{
-          backgroundImage: `
-            linear-gradient(to right, rgba(12, 44, 77, 0.03) 1px, transparent 1px),
-            linear-gradient(to bottom, rgba(12, 44, 77, 0.03) 1px, transparent 1px)
-          `,
-          backgroundSize: '64px 64px'
-        }}
-      />
-      <div className="absolute inset-0 bg-gradient-to-br from-transparent to-white/50 pointer-events-none" />
+    <section 
+      className="pt-16 lg:pt-24 pb-4 lg:pb-6 relative overflow-hidden"
+    >
 
       <div className="max-w-[105rem] mx-auto px-4 md:px-8 lg:px-12 relative z-10">
         <motion.div 

@@ -10,10 +10,27 @@ export default function Home() {
   return (
     <>
       <Hero />
-      <LandOpportunitySection />
-      <ExecutionPillars />
-      <IntegratedSolutionsSection />
-      <HowWeDeliverSection />
+      <div 
+        style={{
+          backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.90), rgba(255, 255, 255, 0.90)), url('/Logo_Distort_BG.png')",
+          backgroundRepeat: 'repeat',
+          backgroundSize: '300px'
+        }}
+      >
+        <LandOpportunitySection />
+        <ExecutionPillars />
+      </div>
+      <div 
+        style={{
+          backgroundImage: "url('/contour-bg.png')",
+          backgroundRepeat: 'repeat',
+          backgroundSize: '1672px 941px',
+          backgroundPosition: 'top center'
+        }}
+      >
+        <IntegratedSolutionsSection />
+        <HowWeDeliverSection />
+      </div>
       <WhyPartnerSection />
       <OperationalPresenceSection />
     </>
