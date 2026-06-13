@@ -16,11 +16,11 @@ const PANEL_W = 220;  // info panel width px
 
 // ─────────────────────────────────────────────────────────────────────────────
 const LOCATIONS = [
-  { id: 'bhiwandi', label: 'Bhiwandi', region: 'Mumbai, Maharashtra',    x: 60.5, y: 49.6, toRight: true,  lineH: 72 },
-  { id: 'chakan',   label: 'Chakan',   region: 'Pune, Maharashtra',       x: 61.5, y: 55.8, toRight: true,  lineH: 72 },
-  { id: 'talegaon', label: 'Talegaon', region: 'Pune, Maharashtra',       x: 60.8, y: 58.1, toRight: false, lineH: 72 },
-  { id: 'hoskote',  label: 'Hoskote',  region: 'Bangalore, Karnataka',    x: 63.5, y: 70.1, toRight: true,  lineH: 52 },
-  { id: 'hosur',    label: 'Hosur',    region: 'Krishnagiri, Tamil Nadu', x: 63.0, y: 72.4, toRight: false, lineH: 52 },
+  { id: 'bhiwandi', label: 'Bhiwandi', region: 'Mumbai, Maharashtra',    x: 59.9, y: 49.1, toRight: true,  lineH: 72, toBottom: false },
+  { id: 'chakan',   label: 'Chakan',   region: 'Pune, Maharashtra',       x: 61.5, y: 52.1, toRight: true,  lineH: 72, toBottom: false },
+  { id: 'talegaon', label: 'Talegaon', region: 'Pune, Maharashtra',       x: 62.1, y: 54.4, toRight: true,  lineH: 72, toBottom: true },
+  { id: 'hoskote',  label: 'Hoskote',  region: 'Bangalore, Karnataka',    x: 67.0, y: 73.0, toRight: true,  lineH: 52, toBottom: false },
+  { id: 'hosur',    label: 'Hosur',    region: 'Krishnagiri, Tamil Nadu', x: 67.5, y: 76.4, toRight: true,  lineH: 52, toBottom: true },
 ] as const;
 
 type LocationId = (typeof LOCATIONS)[number]['id'];
@@ -59,15 +59,15 @@ function fadeUp(delay = 0) {
 // ─────────────────────────────────────────────────────────────────────────────
 const NETWORK_PATHS = [
   // Core operational connections
-  { from: [60.5, 49.6], to: [61.5, 55.8], type: 'core' },
-  { from: [61.5, 55.8], to: [60.8, 58.1], type: 'core' },
-  { from: [60.8, 58.1], to: [63.5, 70.1], type: 'core' },
-  { from: [63.5, 70.1], to: [63.0, 72.4], type: 'core' },
+  { from: [59.9, 49.1], to: [61.5, 52.1], type: 'core' },
+  { from: [61.5, 52.1], to: [62.1, 54.4], type: 'core' },
+  { from: [62.1, 54.4], to: [67.0, 73.0], type: 'core' },
+  { from: [67.0, 73.0], to: [67.5, 76.4], type: 'core' },
   // Outward strategic reach connections
-  { from: [60.5, 49.6], to: [61.0, 22.0], type: 'strategic' }, // To Delhi
-  { from: [60.5, 49.6], to: [75.0, 44.0], type: 'strategic' }, // To Kolkata
-  { from: [63.5, 70.1], to: [66.0, 72.0], type: 'strategic' }, // To Chennai
-  { from: [60.5, 49.6], to: [45.0, 45.0], type: 'strategic' }, // Off-screen West (Global)
+  { from: [59.9, 49.1], to: [61.0, 22.0], type: 'strategic' }, // To Delhi
+  { from: [59.9, 49.1], to: [75.0, 44.0], type: 'strategic' }, // To Kolkata
+  { from: [67.0, 73.0], to: [68.7, 74.0], type: 'strategic' }, // To Chennai
+  { from: [59.9, 49.1], to: [45.0, 45.0], type: 'strategic' }, // Off-screen West (Global)
 ] as const;
 
 function SVGLines() {
@@ -150,7 +150,7 @@ interface MarkerProps {
 }
 
 function MapMarker({ loc, isActive, onActivate, onDeactivate }: MarkerProps) {
-  const { toRight, lineH } = loc;
+  const { toRight, lineH, toBottom } = loc;
 
   return (
     <div
@@ -274,27 +274,29 @@ function MapMarker({ loc, isActive, onActivate, onDeactivate }: MarkerProps) {
               pointerEvents: 'none',
             }}
           >
-            {/* Step 2 — Vertical leader line, grows from dot upward */}
+            {/* Step 2 — Vertical leader line, grows from dot upward/downward */}
             <motion.span
               style={{
                 position: 'absolute',
-                bottom: 0,
+                top: toBottom ? 0 : 'auto',
+                bottom: toBottom ? 'auto' : 0,
                 left: -1.0,           // centres the 2 px line on the dot's x
                 width: 2.0,           // 2px thickness
                 height: lineH,
                 background: GOLD,
-                transformOrigin: 'bottom',
+                transformOrigin: toBottom ? 'top' : 'bottom',
               }}
               initial={{ scaleY: 0 }}
               animate={{ scaleY: 1 }}
               transition={{ duration: 0.3, ease: EASE_OUT, delay: 0.05 }}
             />
 
-            {/* Step 3 — Horizontal connector line (Accent Line 1), extends from line-top */}
+            {/* Step 3 — Horizontal connector line (Accent Line 1), extends from line-top/bottom */}
             <motion.span
               style={{
                 position: 'absolute',
-                bottom: lineH,
+                top: toBottom ? lineH : 'auto',
+                bottom: toBottom ? 'auto' : lineH,
                 left: toRight ? 0 : -PANEL_W,
                 width: PANEL_W,
                 height: 2.0,          // 2px thickness
@@ -310,7 +312,8 @@ function MapMarker({ loc, isActive, onActivate, onDeactivate }: MarkerProps) {
             <div
               style={{
                 position: 'absolute',
-                bottom: lineH,
+                top: toBottom ? lineH : 'auto',
+                bottom: toBottom ? 'auto' : lineH,
                 left: toRight ? 0 : -PANEL_W,
                 width: PANEL_W,
                 pointerEvents: 'none',
@@ -455,7 +458,7 @@ export function OperationalPresenceSection() {
           
           {/* Satellite Map Image */}
           <Image
-            src="/map.png"
+            src="/map-new.png"
             alt="India operational presence map — Bhiwandi, Chakan, Talegaon, Hoskote, Hosur"
             fill
             priority
