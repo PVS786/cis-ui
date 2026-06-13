@@ -22,10 +22,9 @@ export default function Home() {
       </div>
       <div 
         style={{
-          backgroundImage: "url('/contour-bg.png')",
+          backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.90), rgba(255, 255, 255, 0.90)), url('/Logo_Distort_BG.png')",
           backgroundRepeat: 'repeat',
-          backgroundSize: '1672px 941px',
-          backgroundPosition: 'top center'
+          backgroundSize: '300px'
         }}
       >
         <IntegratedSolutionsSection />
