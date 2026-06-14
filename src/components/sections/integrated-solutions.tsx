@@ -37,17 +37,45 @@ const containerVariantsRight = {
   }
 };
 
+const bgGroupVariants = {
+  hidden: {
+    opacity: 0,
+    x: -400,
+    skewX: -8,
+  },
+  visible: {
+    opacity: 1,
+    x: 0,
+    skewX: 0,
+    transition: {
+      type: "spring" as const,
+      stiffness: 45,
+      damping: 16,
+      mass: 1.0,
+      delay: 0.05,
+    }
+  }
+};
+
 function ArrowPattern({ isRight = false }: { isRight?: boolean }) {
   return (
-    <div style={{ transform: isRight ? 'scaleX(-1)' : 'none' }}>
+    <div style={{ transform: isRight ? 'scaleX(-1)' : 'none' }} className="overflow-visible">
       <svg
         width="160"
         height="120"
         viewBox="0 0 160 120"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
-        className="w-full h-auto"
+        className="w-full h-auto overflow-visible"
       >
+        {/* Faded Background Shape Silhouette (underneath like a 3d shadow) */}
+        <motion.path
+          d="M -300,0 L 20,0 L 80,36 L 80,10 L 160,60 L 80,110 L 80,84 L 20,120 L -300,120 Z"
+          fill="#EAD8B1"
+          fillOpacity={0.25}
+          variants={bgGroupVariants}
+        />
+
         {/* Navy Chevron with V-notch (points right, cutout points left) */}
         <motion.path
           d="M 20,10 L 77,45 L 50,60 L 77,75 L 20,110 Z"
@@ -104,7 +132,7 @@ export function IntegratedSolutionsSection() {
             whileInView="visible"
             viewport={{ once: true }}
             variants={containerVariantsLeft}
-            className="hidden lg:block absolute left-0 top-1/2 -translate-y-1/2 w-[220px] xl:w-[260px]"
+            className="hidden lg:block absolute left-0 top-1/2 -translate-y-1/2 w-[220px] xl:w-[260px] overflow-visible"
           >
             <ArrowPattern isRight={false} />
           </motion.div>
@@ -132,7 +160,7 @@ export function IntegratedSolutionsSection() {
             whileInView="visible"
             viewport={{ once: true }}
             variants={containerVariantsRight}
-            className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 w-[220px] xl:w-[260px]"
+            className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 w-[220px] xl:w-[260px] overflow-visible"
           >
             <ArrowPattern isRight={true} />
           </motion.div>
