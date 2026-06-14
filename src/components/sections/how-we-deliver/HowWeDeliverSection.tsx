@@ -266,7 +266,7 @@ export function HowWeDeliverSection() {
     <section className="bg-transparent relative overflow-hidden">
 
       {/* ── HEADER ── */}
-      <div className="max-w-[110rem] mx-auto px-4 md:px-8 lg:px-16 pt-8 lg:pt-12 pb-12 relative z-10">
+      <div className="max-w-[90rem] mx-auto px-6 md:px-12 lg:px-16 pt-8 lg:pt-12 pb-12 relative z-10">
         <div className="relative w-full flex items-center justify-center min-h-[220px]">
           {/* Left Corner Pattern (slides in from left, draws lines) */}
           <motion.div
@@ -298,7 +298,7 @@ export function HowWeDeliverSection() {
               HOW WE DELIVER
             </h2>
             <div className="text-xl text-brand-navy font-gotham font-medium leading-relaxed">
-              A complete lifecycle from strategic land aggregation to project execution.
+              A complete <span className="text-[#BFA052]">lifecycle</span> from strategic land aggregation to project execution.
             </div>
           </motion.div>
 
@@ -316,9 +316,9 @@ export function HowWeDeliverSection() {
       </div>
 
       {/* ── INTEGRATED MAP & NAV CONTAINER ── */}
-      <div className="relative w-full px-4 md:px-8 lg:px-12 pb-12">
+      <div className="relative w-full px-6 md:px-12 lg:px-16 pb-12">
         <div
-          className="relative max-w-[110rem] mx-auto rounded-xl shadow-[0_20px_40px_rgba(12,44,77,0.1)] border border-gray-200 overflow-hidden bg-white flex flex-col"
+          className="relative max-w-[90rem] mx-auto rounded-xl shadow-[0_20px_40px_rgba(12,44,77,0.1)] border border-gray-200 overflow-hidden bg-white flex flex-col"
           onMouseLeave={handleHoverEnd}
         >
           {/* BASE IMAGE AREA */}
@@ -432,20 +432,20 @@ export function HowWeDeliverSection() {
                     animate={{ opacity: 1, y: 0 }}
                     exit={{ opacity: 0, y: 4 }}
                     transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                    className="absolute z-40 pointer-events-auto w-[240px] lg:w-[272px]"
+                    className="absolute z-40 pointer-events-auto w-[220px] lg:w-[250px]"
                     style={{ top: cardTop, ...cardPos }}
                   >
                     <div
-                      className="bg-white rounded-sm overflow-hidden"
+                      className="bg-white rounded-xl overflow-hidden"
                       style={{
-                        borderLeft: '3px solid #BFA052',
-                        boxShadow: '0 4px 16px rgba(12,44,77,0.14), 0 1px 4px rgba(12,44,77,0.08)',
+                        borderLeft: '3.5px solid #BFA052',
+                        boxShadow: '0 10px 30px rgba(12,44,77,0.1), 0 2px 8px rgba(12,44,77,0.05)',
                       }}
                     >
-                      <div className="p-5 lg:p-6">
-                        <div className="flex items-center gap-2 mb-3">
+                      <div className="p-4 lg:p-4.5">
+                        <div className="flex items-center gap-2 mb-2.5">
                           <div
-                            className="w-7 h-7 flex items-center justify-center rounded-sm font-gotham text-white text-xs font-bold shrink-0"
+                            className="w-7 h-7 flex items-center justify-center rounded-md font-gotham text-white text-xs font-bold shrink-0"
                             style={{ background: '#0C2C4D' }}
                           >
                             {active.id < 10 ? `0${active.id}` : active.id}
@@ -453,15 +453,15 @@ export function HowWeDeliverSection() {
                           <div className="h-[1px] flex-1" style={{ background: '#BFA052', opacity: 0.4 }} />
                         </div>
                         <h3
-                          className="font-tibere mb-2 leading-snug"
+                          className="font-tibere mb-1.5 leading-snug"
                           style={{ color: '#0C2C4D', fontSize: 'clamp(17px,1.3vw,20px)', letterSpacing: '-0.015em' }}
                         >
                           {active.title}
                         </h3>
-                        <div className="mb-3" style={{ width: 32, height: 2, background: '#BFA052', borderRadius: 1 }} />
+                        <div className="mb-2" style={{ width: 32, height: 2, background: '#BFA052', borderRadius: 1 }} />
                         <p
-                          className="font-gotham leading-relaxed"
-                          style={{ color: '#2E3A4A', fontSize: 13, lineHeight: 1.65 }}
+                          className="font-poppins leading-relaxed font-medium"
+                          style={{ color: '#2E3A4A', fontSize: 13, lineHeight: 1.55 }}
                         >
                           {active.desc}
                         </p>
@@ -523,8 +523,8 @@ export function HowWeDeliverSection() {
                     0{step.id}
                   </span>
                   <span className={cn(
-                    "font-gotham text-[10px] md:text-xs lg:text-[13px] text-center leading-tight transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hidden sm:block w-full px-2 origin-top", 
-                    isActive ? "text-brand-navy font-bold scale-110" : (isPast ? "text-brand-navy/80 font-medium" : "text-gray-400 font-medium")
+                    "font-tibere font-bold text-xs md:text-sm lg:text-[15px] text-center leading-tight transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hidden sm:block w-full px-2 origin-top", 
+                    isActive ? "text-brand-navy scale-110" : (isPast ? "text-brand-navy/80" : "text-gray-400")
                   )}>
                     {step.title}
                   </span>

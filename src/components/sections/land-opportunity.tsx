@@ -52,7 +52,7 @@ export function LandOpportunitySection() {
       className="pt-16 lg:pt-24 pb-4 lg:pb-6 relative overflow-hidden"
     >
 
-      <div className="max-w-[105rem] mx-auto px-4 md:px-8 lg:px-12 relative z-10">
+      <div className="max-w-[90rem] mx-auto px-6 md:px-12 lg:px-16 relative z-10">
         <motion.div
           initial={{ opacity: 0, scale: 0.98, y: 30 }}
           whileInView={{ opacity: 1, scale: 1, y: 0 }}

@@ -145,6 +145,12 @@ export function WhyPartnerSection() {
         backgroundAttachment: 'fixed'
       }}
     >
+      {/* Top seamless blend gradient overlay from Operational Presence section (#081d33) */}
+      <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-[#081d33] to-transparent pointer-events-none z-10" />
+
+      {/* Bottom seamless blend gradient overlay to Footer section (#020c18) */}
+      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#020c18] to-transparent pointer-events-none z-10" />
+
       {/* Master definitions of premium visual gradients */}
       <svg className="absolute w-0 h-0 pointer-events-none" aria-hidden="true">
         <defs>
@@ -204,7 +210,7 @@ export function WhyPartnerSection() {
       <div className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] bg-[#1e5c94]/4 rounded-full blur-[120px] pointer-events-none z-0" />
 
       {/* Main Structural Block / True Two-Column Layout */}
-      <div className="max-w-7xl mx-auto w-full grid grid-cols-1 md:grid-cols-[52%_48%] lg:grid-cols-[48%_52%] xl:grid-cols-[45%_55%] gap-12 lg:gap-16 items-center relative z-10">
+      <div className="max-w-[90rem] mx-auto w-full grid grid-cols-1 md:grid-cols-[52%_48%] lg:grid-cols-[48%_52%] xl:grid-cols-[45%_55%] gap-12 lg:gap-16 items-center relative z-10">
         
         {/* Left Column: Heading, Introduction text, and Interactive Accordion */}
         <div className="flex flex-col justify-center space-y-6 lg:space-y-8 h-full">
@@ -218,7 +224,7 @@ export function WhyPartnerSection() {
             </div>
             
             {/* Main Heading */}
-            <h2 className="text-5xl font-tibere font-black text-white tracking-tight uppercase leading-none mb-0">
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-tibere font-black text-white tracking-normal uppercase leading-none mb-0 whitespace-nowrap" style={{ wordSpacing: '0.18em' }}>
               Why Partner <span className="text-brand-gold">With Us</span>
             </h2>
             
