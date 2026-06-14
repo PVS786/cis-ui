@@ -148,6 +148,11 @@ export function WhyPartnerSection() {
       {/* Master definitions of premium visual gradients */}
       <svg className="absolute w-0 h-0 pointer-events-none" aria-hidden="true">
         <defs>
+          {/* Active Hexagon watermark background pattern to carry design uniformity */}
+          <pattern id="activeHexPattern" x="0" y="0" width="120" height="120" patternUnits="userSpaceOnUse">
+            <rect width="120" height="120" fill="#FFFFFF" />
+            <image href="/Logo_Distort_BG.png" x="0" y="0" width="120" height="120" opacity="0.08" />
+          </pattern>
           {/* Central Hex glow gradient */}
           <linearGradient id="centerGlow" x1="0%" y1="0%" x2="100%" y2="100%">
             <stop offset="0%" stopColor="#1e5c94" stopOpacity="0.95" />
@@ -199,7 +204,7 @@ export function WhyPartnerSection() {
       <div className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] bg-[#1e5c94]/4 rounded-full blur-[120px] pointer-events-none z-0" />
 
       {/* Main Structural Block / True Two-Column Layout */}
-      <div className="max-w-7xl mx-auto w-full grid grid-cols-1 md:grid-cols-[60%_40%] lg:grid-cols-[55%_45%] gap-12 lg:gap-16 items-center relative z-10">
+      <div className="max-w-7xl mx-auto w-full grid grid-cols-1 md:grid-cols-[52%_48%] lg:grid-cols-[48%_52%] xl:grid-cols-[45%_55%] gap-12 lg:gap-16 items-center relative z-10">
         
         {/* Left Column: Heading, Introduction text, and Interactive Accordion */}
         <div className="flex flex-col justify-center space-y-6 lg:space-y-8 h-full">
@@ -213,13 +218,13 @@ export function WhyPartnerSection() {
             </div>
             
             {/* Main Heading */}
-            <h2 className="text-4xl md:text-5xl lg:text-6xl font-tibere text-white tracking-tight leading-none">
+            <h2 className="text-5xl font-tibere font-black text-white tracking-tight uppercase leading-none mb-0">
               Why Partner <span className="text-brand-gold">With Us</span>
             </h2>
             
             {/* Introductory Paragraph */}
-            <div className="text-sm md:text-base text-slate-300 font-gotham leading-relaxed border-l-4 border-brand-gold pl-6 max-w-2xl mt-6">
-              We understand that every decision you make carries risk, timelines, and long-term impact. That’s why we approach every engagement with a sharp focus on due diligence, clarity, and foresight, helping you navigate uncertainty, anticipate challenges early, and make well-informed choices that stand strong not just today, but well into the future.
+            <div className="text-sm md:text-base text-slate-300 font-poppins font-medium leading-relaxed border-l-4 border-brand-gold pl-6 max-w-2xl mt-6">
+              We understand that every decision you make carries risk, timelines, and long-term impact. That's why we approach every engagement with a sharp focus on due diligence, clarity, and foresight, helping you navigate uncertainty, anticipate challenges early, and make well-informed choices that stand strong not just today, but well into the future.
             </div>
           </div>
 
@@ -233,11 +238,17 @@ export function WhyPartnerSection() {
                   key={`pillar-accordion-${pillar.id}`}
                   id={`pillar-left-node-${pillar.id}`}
                   className={cn(
-                    'w-full border border-white/5 rounded-xl p-3 sm:p-4 transition-all duration-300 cursor-pointer select-none relative z-10 flex flex-col gap-2 hover:bg-white/[0.02]',
+                    'w-full border rounded-xl p-3 sm:p-4 transition-all duration-300 cursor-pointer select-none relative z-10 flex flex-col gap-2',
                     isPillarActive
-                      ? 'border-brand-gold/30 bg-brand-gold/[0.04] shadow-[0_0_20px_rgba(191,160,82,0.08)]'
-                      : 'bg-white/[0.005]'
+                      ? 'border-[#BFA052] shadow-[0_4px_20px_rgba(191,160,82,0.15)]'
+                      : 'border-white/5 bg-white/[0.005] hover:bg-white/[0.02]'
                   )}
+                  style={isPillarActive ? {
+                    backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92)), url('/Logo_Distort_BG.png')",
+                    backgroundRepeat: 'repeat',
+                    backgroundSize: '120px',
+                    backgroundColor: '#FFFFFF'
+                  } : undefined}
                   onClick={() => setActiveId(pillar.id)}
                   onMouseEnter={() => handleHoverStart(pillar.id)}
                   onMouseLeave={handleHoverEnd}
@@ -259,7 +270,7 @@ export function WhyPartnerSection() {
                       {/* Number Indicator */}
                       <span className={cn(
                         'font-gotham text-xs font-bold transition-colors duration-300',
-                        isPillarActive ? 'text-brand-gold' : 'text-slate-400'
+                        isPillarActive ? 'text-[#BFA052]' : 'text-slate-400'
                       )}>
                         0{pillar.id}
                       </span>
@@ -267,7 +278,7 @@ export function WhyPartnerSection() {
                       {/* Accordion Title */}
                       <h3 className={cn(
                         'font-gotham text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors duration-300',
-                        isPillarActive ? 'text-brand-gold' : 'text-slate-200'
+                        isPillarActive ? 'text-[#0C2C4D]' : 'text-slate-200'
                       )}>
                         {pillar.title}
                       </h3>
@@ -275,8 +286,8 @@ export function WhyPartnerSection() {
 
                     {/* Chevron Indicator */}
                     <ChevronDown className={cn(
-                      'w-4 h-4 text-brand-gold/50 transition-transform duration-300',
-                      isPillarActive && 'rotate-180 text-brand-gold'
+                      'w-4 h-4 transition-all duration-300',
+                      isPillarActive ? 'rotate-180 text-[#BFA052]' : 'text-brand-gold/50'
                     )} />
                   </div>
 
@@ -287,7 +298,12 @@ export function WhyPartnerSection() {
                     transition={{ duration: 0.3, ease: 'easeInOut' }}
                     className="overflow-hidden"
                   >
-                    <p className="mt-1 text-[13px] sm:text-[14px] leading-relaxed text-white/80 font-gotham font-normal border-l border-brand-gold/40 pl-4 py-0.5 select-text tracking-wide">
+                    <p className={cn(
+                      "mt-1 text-[13px] sm:text-[14px] leading-relaxed font-gotham font-normal border-l pl-4 py-0.5 select-text tracking-wide transition-all duration-300",
+                      isPillarActive
+                        ? "text-[#0C2C4D]/90 border-[#BFA052]"
+                        : "text-white/80 border-brand-gold/40"
+                    )}>
                       {pillar.description}
                     </p>
                   </motion.div>
@@ -299,7 +315,7 @@ export function WhyPartnerSection() {
 
         {/* Right Column: Structured, symmetric architectural Hexagon Grid */}
         <div className="flex items-center justify-center relative w-full overflow-visible select-none lg:pl-3 xl:pl-6">
-          <div className="relative w-full min-w-[280px] max-w-[340px] xs:max-w-[380px] sm:max-w-[420px] md:max-w-[480px] lg:max-w-[580px] xl:max-w-[640px] aspect-square mx-auto">
+          <div className="relative w-full min-w-[320px] max-w-[380px] xs:max-w-[420px] sm:max-w-[480px] md:max-w-[540px] lg:max-w-[660px] xl:max-w-[720px] aspect-square mx-auto">
             
             {/* Subtle architectural background alignment cross-axis layout */}
             <div className="absolute inset-x-[-3%] inset-y-[-3%] border border-dashed border-white/5 opacity-20 pointer-events-none z-0">
@@ -603,10 +619,10 @@ export function WhyPartnerSection() {
                             className="transition-all duration-500 ease-out pointer-events-none"
                           />
 
-                          {/* Inner central vector container reflecting deep radial/linear volumetric polish */}
+                          {/* Inner central vector container reflecting deep volumetric polish */}
                           <path
                             d="M 112.6,9.5 L 194.9,57.0 Q 203.5,62 203.5,72.0 L 203.5,168.0 Q 203.5,178 194.9,183.0 L 112.6,230.5 Q 104,235.5 95.4,230.5 L 13.1,183.0 Q 4.5,178 4.5,168.0 L 4.5,72.0 Q 4.5,62 13.1,57.0 L 95.4,9.5 Q 104,4.5 112.6,9.5 Z"
-                            fill={isPillarActive ? 'url(#cellGlowGrad)' : 'url(#hexInnerDepth)'}
+                            fill={isPillarActive ? 'url(#activeHexPattern)' : 'url(#hexInnerDepth)'}
                             fillOpacity={1.0}
                             stroke={isPillarActive ? 'url(#goldBorderGrad)' : 'url(#inactiveBorderGrad)'}
                             strokeWidth={isPillarActive ? 2.5 : 1.3}
@@ -663,14 +679,18 @@ export function WhyPartnerSection() {
                             <div className={`absolute -inset-5 bg-gradient-to-r from-brand-gold to-brand-gold/20 rounded-full blur-[12px] transition-opacity duration-500 ${
                               isPillarActive ? 'opacity-45' : 'opacity-0 group-hover:opacity-20'
                             }`} />
-                            <div className={`w-8 h-8 sm:w-10 sm:h-10 rounded-full border flex items-center justify-center transition-all duration-500 relative z-10 ${
-                              isPillarActive 
-                                ? 'border-brand-gold bg-gradient-to-br from-[#123e6b] to-[#04101e] shadow-[0_0_15px_rgba(191,160,82,0.5)]' 
-                                : 'border-white/10 bg-[#07182b]/70 backdrop-blur-sm group-hover:border-brand-gold/30'
-                            }`}>
-                              <IconComponent className={`w-4 h-4 sm:w-5 sm:h-5 transition-all duration-500 relative z-10 ${
-                                isPillarActive ? 'text-white scale-110 drop-shadow-[0_0_8px_#BFA052]' : 'text-brand-gold group-hover:text-white'
-                              }`} />
+                            <div className={cn(
+                              "w-8 h-8 sm:w-10 sm:h-10 rounded-full border flex items-center justify-center transition-all duration-500 relative z-10",
+                              isPillarActive
+                                ? "border-[#BFA052] bg-[#0C2C4D] shadow-[0_0_15px_rgba(191,160,82,0.55)]"
+                                : "border-white/10 bg-[#07182b]/70 backdrop-blur-sm group-hover:border-brand-gold/30"
+                            )}>
+                              <IconComponent className={cn(
+                                "w-4 h-4 sm:w-5 sm:h-5 transition-all duration-500 relative z-10",
+                                isPillarActive
+                                  ? "text-[#BFA052] scale-110 drop-shadow-[0_0_8px_#BFA052]"
+                                  : "text-brand-gold group-hover:text-white"
+                              )} />
                             </div>
                           </div>
 
@@ -678,7 +698,7 @@ export function WhyPartnerSection() {
                           {/* Long titles dynamically scale down their font sizes to avoid wrapping too tightly or clipping */}
                           <h3 className={cn(
                             'font-gotham font-semibold uppercase tracking-wide text-center leading-tight transition-colors duration-300 w-full px-1',
-                            isPillarActive ? 'text-brand-gold' : 'text-white/95',
+                            isPillarActive ? 'text-[#0C2C4D]' : 'text-white/95',
                             isLongTitle 
                               ? 'text-[8px] xs:text-[9px] sm:text-[10px] md:text-[11px] lg:text-[11.5px]' 
                               : 'text-[9px] xs:text-[10px] sm:text-[11px] md:text-[12px] lg:text-[12.5px]'

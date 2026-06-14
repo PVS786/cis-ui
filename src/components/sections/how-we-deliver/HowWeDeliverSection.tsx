@@ -121,6 +121,26 @@ const pathVariants = {
   })
 };
 
+const bgGroupVariants = {
+  hidden: { 
+    opacity: 0, 
+    x: -400,
+    skewX: -8,
+  },
+  visible: {
+    opacity: 1, 
+    x: 0,
+    skewX: 0,
+    transition: {
+      type: "spring" as const,
+      stiffness: 45,
+      damping: 16,
+      mass: 1.0,
+      delay: 0.05,
+    }
+  }
+};
+
 const containerVariantsLeft = {
   hidden: { opacity: 0, x: -60 },
   visible: {
@@ -150,6 +170,14 @@ function CornerPattern({ isRight = false }: { isRight?: boolean }) {
         xmlns="http://www.w3.org/2000/svg"
         className="w-full h-auto overflow-visible"
       >
+        {/* Faded Background Shape Silhouette (underneath like a 3d shadow) */}
+        <motion.path
+          d="M -300,5 L 250,5 L 175,105 L -300,105 Z"
+          fill="#F3EAD3"
+          fillOpacity={0.25}
+          variants={bgGroupVariants}
+        />
+
         {/* Shape 1: Cream bottom-left parallelogram */}
         <motion.path
           d="M 30,49 L 131,49 L 100,90 L 0,90 Z"
