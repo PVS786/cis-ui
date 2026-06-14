@@ -105,6 +105,91 @@ const steps: Step[] = [
   },
 ];
 
+const pathVariants = {
+  hidden: { opacity: 0, scale: 0.9, x: -20, y: 15 },
+  visible: (i: number) => ({
+    opacity: 1,
+    scale: 1,
+    x: 0,
+    y: 0,
+    transition: {
+      type: "spring" as const,
+      stiffness: 100,
+      damping: 15,
+      delay: i * 0.12,
+    }
+  })
+};
+
+const containerVariantsLeft = {
+  hidden: { opacity: 0, x: -60 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.8, ease: "easeOut" as const }
+  }
+};
+
+const containerVariantsRight = {
+  hidden: { opacity: 0, x: 60 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.8, ease: "easeOut" as const }
+  }
+};
+
+function CornerPattern({ isRight = false }: { isRight?: boolean }) {
+  return (
+    <div style={{ transform: isRight ? 'scaleX(-1)' : 'none' }} className="overflow-visible">
+      <svg
+        width="280"
+        height="100"
+        viewBox="0 0 280 100"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="w-full h-auto overflow-visible"
+      >
+        {/* Shape 1: Cream bottom-left parallelogram */}
+        <motion.path
+          d="M 30,49 L 131,49 L 100,90 L 0,90 Z"
+          fill="#F3EAD3"
+          variants={pathVariants}
+          custom={0}
+        />
+        {/* Shape 2: Navy top-middle parallelogram */}
+        <motion.path
+          d="M 60,10 L 161,10 L 131,50.5 L 30,50.5 Z"
+          fill="#0C2C4D"
+          variants={pathVariants}
+          custom={1}
+        />
+        {/* Shape 3: Cream left wedge (triangle pointing up-right) */}
+        <motion.path
+          d="M 129,50.5 L 161,9.5 L 161,50.5 Z"
+          fill="#FFF1D0"
+          variants={pathVariants}
+          custom={2}
+        />
+        {/* Shape 4: Cream right wedge (triangle pointing down-left) */}
+        <motion.path
+          d="M 159.5,9.5 L 159.5,50.5 L 191,9.5 Z"
+          fill="#BFA052"
+          variants={pathVariants}
+          custom={3}
+        />
+        {/* Shape 5: Gold right-most parallelogram */}
+        <motion.path
+          d="M 189,9.5 L 231,9.5 L 201,50.5 L 159,50.5 Z"
+          fill="#BFA052"
+          variants={pathVariants}
+          custom={4}
+        />
+      </svg>
+    </div>
+  );
+}
+
 export function HowWeDeliverSection() {
   const [activeId, setActiveId] = useState<number>(1);
   // cycleKey increments each time auto-play advances → forces progress bar to restart
@@ -153,28 +238,53 @@ export function HowWeDeliverSection() {
     <section className="bg-transparent relative overflow-hidden">
 
       {/* ── HEADER ── */}
-      <div className="max-w-7xl mx-auto px-4 md:px-8 lg:px-16 pt-8 lg:pt-12 pb-12 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="max-w-5xl mx-auto text-center"
-        >
-          <div className="flex items-center justify-center gap-4 mb-6">
-            <div className="w-10 h-[2px] bg-brand-gold" />
-            <span className="text-xs font-gotham font-bold uppercase tracking-[0.2em] text-brand-navy">
-              The Process
-            </span>
-            <div className="w-10 h-[2px] bg-brand-gold" />
-          </div>
-          <h2 className="text-5xl md:text-6xl font-tibere font-black text-brand-navy tracking-normal [word-spacing:0.25em] uppercase mb-6">
-            HOW WE DELIVER
-          </h2>
-          <div className="text-xl text-brand-navy font-gotham font-medium leading-relaxed max-w-5xl mx-auto">
-            A complete lifecycle from strategic land aggregation to project execution.
-          </div>
-        </motion.div>
+      <div className="max-w-[110rem] mx-auto px-4 md:px-8 lg:px-16 pt-8 lg:pt-12 pb-12 relative z-10">
+        <div className="relative w-full flex items-center justify-center min-h-[220px]">
+          {/* Left Corner Pattern (slides in from left, draws lines) */}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={containerVariantsLeft}
+            className="hidden lg:block absolute left-0 top-1/2 -translate-y-1/2 w-[280px] xl:w-[340px] overflow-visible"
+          >
+            <CornerPattern isRight={false} />
+          </motion.div>
+
+          {/* Centered Content */}
+          <motion.div
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            viewport={{ once: true }}
+            className="max-w-4xl xl:max-w-5xl text-center z-10 mx-auto"
+          >
+            <div className="flex items-center justify-center gap-4 mb-6">
+              <div className="w-10 h-[2px] bg-brand-gold" />
+              <span className="text-xs font-gotham font-bold uppercase tracking-[0.2em] text-brand-navy">
+                The Process
+              </span>
+              <div className="w-10 h-[2px] bg-brand-gold" />
+            </div>
+            <h2 className="text-5xl md:text-6xl font-tibere font-black text-brand-navy tracking-normal [word-spacing:0.25em] uppercase mb-6">
+              HOW WE DELIVER
+            </h2>
+            <div className="text-xl text-brand-navy font-gotham font-medium leading-relaxed">
+              A complete lifecycle from strategic land aggregation to project execution.
+            </div>
+          </motion.div>
+
+          {/* Right Corner Pattern (slides in from right, draws lines) */}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={containerVariantsRight}
+            className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 w-[280px] xl:w-[340px] overflow-visible"
+          >
+            <CornerPattern isRight={true} />
+          </motion.div>
+        </div>
       </div>
 
       {/* ── INTEGRATED MAP & NAV CONTAINER ── */}

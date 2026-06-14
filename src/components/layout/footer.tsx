@@ -88,7 +88,7 @@ export function Footer() {
             </div>
 
             {/* COLUMN 2: Navigation Links (3fr, Centered Horizontally) */}
-            <div className="flex flex-col items-center pt-2 w-full justify-self-center text-center">
+            <div className="flex flex-col items-center lg:pt-[30px] pt-6 w-full justify-self-center text-center">
               <div className="grid grid-cols-3 gap-x-12 gap-y-6 md:gap-x-16 w-full max-w-[480px] xl:max-w-[560px]">
                 {/* HOME */}
                 <Link 
@@ -228,7 +228,7 @@ export function Footer() {
             </div>
 
             {/* COLUMN 3: Mini Contact Form (4fr, Right-Justified) */}
-            <div className="flex flex-col space-y-6 w-full lg:max-w-[380px] lg:ml-auto pt-2 justify-self-end text-left">
+            <div className="flex flex-col space-y-6 w-full lg:max-w-[380px] lg:ml-auto pt-[19px] justify-self-end text-left">
               <h4 
                 className="font-gotham text-center"
                 style={{ 
