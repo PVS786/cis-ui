@@ -4,6 +4,76 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
+const triangleVariants = {
+  hidden: { opacity: 0, scale: 0.8, x: -25 },
+  visible: (i: number) => ({
+    opacity: 1,
+    scale: 1,
+    x: 0,
+    transition: {
+      type: "spring" as const,
+      stiffness: 120,
+      damping: 16,
+      delay: i * 0.15,
+    }
+  })
+};
+
+const containerVariantsLeft = {
+  hidden: { opacity: 0, x: -60 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.8, ease: "easeOut" as const }
+  }
+};
+
+const containerVariantsRight = {
+  hidden: { opacity: 0, x: 60 },
+  visible: {
+    opacity: 1,
+    x: 0,
+    transition: { duration: 0.8, ease: "easeOut" as const }
+  }
+};
+
+function ArrowPattern({ isRight = false }: { isRight?: boolean }) {
+  return (
+    <div style={{ transform: isRight ? 'scaleX(-1)' : 'none' }}>
+      <svg
+        width="160"
+        height="120"
+        viewBox="0 0 160 120"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+        className="w-full h-auto"
+      >
+        {/* Navy Chevron with V-notch (points right, cutout points left) */}
+        <motion.path
+          d="M 20,10 L 77,45 L 50,60 L 77,75 L 20,110 Z"
+          fill="#0C2C4D"
+          variants={triangleVariants}
+          custom={0}
+        />
+        {/* Gold Triangle (points left, nesting into navy notch) */}
+        <motion.path
+          d="M 77,45 L 50,60 L 77,75 Z"
+          fill="#BFA052"
+          variants={triangleVariants}
+          custom={1}
+        />
+        {/* Cream Triangle (points right, sitting on the right of the notch) */}
+        <motion.path
+          d="M 75,25 L 75,95 L 130,60 Z"
+          fill="#EAD8B1"
+          variants={triangleVariants}
+          custom={2}
+        />
+      </svg>
+    </div>
+  );
+}
+
 export function IntegratedSolutionsSection() {
   const solutions = [
     {
@@ -25,26 +95,50 @@ export function IntegratedSolutionsSection() {
   ];
 
   return (
-    <section className="bg-transparent pt-16 pb-16 border-t border-brand-gray-medium overflow-hidden relative">
-      <div className="max-w-7xl mx-auto px-16">
-        <div className="max-w-5xl mx-auto text-center mb-24">
+    <section className="bg-transparent pt-2 pb-16 overflow-hidden relative">
+      <div className="max-w-[110rem] mx-auto px-4 md:px-8 lg:px-16">
+        <div className="relative w-full flex items-center justify-center min-h-[220px] mb-16">
+          {/* Left Arrow Accents */}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={containerVariantsLeft}
+            className="hidden lg:block absolute left-0 top-1/2 -translate-y-1/2 w-[220px] xl:w-[260px]"
+          >
+            <ArrowPattern isRight={false} />
+          </motion.div>
+
+          {/* Centered Heading */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
+            className="max-w-4xl xl:max-w-5xl text-center z-10 mx-auto"
           >
-            <h2 className="text-5xl md:text-6xl font-tibere font-black text-brand-navy tracking-tight uppercase mb-8">
+            <h2 className="text-5xl md:text-6xl font-tibere font-black text-brand-navy tracking-tight uppercase mb-6">
               INTEGRATED LAND SOLUTIONS
             </h2>
-            <div className="text-xl text-brand-navy font-gotham font-medium leading-relaxed max-w-5xl mx-auto">
+            <div className="text-xl text-brand-navy font-gotham font-medium leading-relaxed">
               Two things define every successful development, the right land, and a clear path to build on it.
               <br /><span className="text-[#BFA052] font-medium">This is how we make that real.</span>
             </div>
           </motion.div>
+
+          {/* Right Arrow Accents */}
+          <motion.div
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true }}
+            variants={containerVariantsRight}
+            className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 w-[220px] xl:w-[260px]"
+          >
+            <ArrowPattern isRight={true} />
+          </motion.div>
         </div>
 
-        <div className="space-y-40">
+        <div className="max-w-7xl mx-auto space-y-40">
           {solutions.map((item, idx) => (
             <div key={idx} className={cn(
               "flex flex-col gap-16 md:gap-32 lg:gap-48 xl:gap-56 items-center group",
