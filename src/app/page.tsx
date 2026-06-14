@@ -22,8 +22,8 @@ export default function Home() {
         <IntegratedSolutionsSection />
         <HowWeDeliverSection />
       </div>
-      <WhyPartnerSection />
       <OperationalPresenceSection />
+      <WhyPartnerSection />
     </>
   );
 }

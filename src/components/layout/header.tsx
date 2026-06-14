@@ -80,9 +80,9 @@ export function Header() {
           </div>
           
           {/* Company Name Container */}
-          <div className="flex flex-col items-start justify-center text-left">
+          <div className="flex flex-col items-center justify-center text-center">
             <span className={cn(
-              "font-tibere font-bold transition-colors duration-300",
+              "block font-tibere font-bold transition-colors duration-300",
               isScrolled ? "text-brand-navy" : "text-white"
             )} style={{ 
               fontFamily: "'Tibere OT W03 Medium', 'FF Tibere Medium', 'FF Tibere Std Medium', 'FF Tibere Std-Bold', 'FFTibereStd-Bold', 'FF Tibere Std', 'FF Tibere', 'Tibere OTW03-Bold', 'TibereOTW03-Bold', 'Tibere', 'Cormorant Garamond', 'EB Garamond', 'Gelasio', 'Cinzel', Georgia, serif", 
@@ -90,19 +90,23 @@ export function Header() {
               letterSpacing: '0.06em', 
               lineHeight: '0.9', 
               fontWeight: 700,
+              color: isScrolled ? '#0C2C4D' : '#ffffff',
+              textAlign: 'center',
               transition: 'all 300ms cubic-bezier(0.4, 0, 0.2, 1)'
             }}>
               CONSERVVE
             </span>
             <span className={cn(
-              "font-tibere font-bold mt-0.5 transition-colors duration-300",
-              isScrolled ? "text-brand-navy/90" : "text-white/90"
+              "block font-tibere font-bold mt-0.5 transition-colors duration-300",
+              isScrolled ? "text-brand-navy" : "text-white"
             )} style={{ 
               fontFamily: "'Tibere OT W03 Medium', 'FF Tibere Medium', 'FF Tibere Std Medium', 'FF Tibere Std-Bold', 'FFTibereStd-Bold', 'FF Tibere Std', 'FF Tibere', 'Tibere OTW03-Bold', 'TibereOTW03-Bold', 'Tibere', 'Cormorant Garamond', 'EB Garamond', 'Gelasio', 'Cinzel', Georgia, serif", 
               fontSize: isScrolled ? '14px' : '17px', 
               letterSpacing: '0.08em', 
               lineHeight: '0.9', 
               fontWeight: 700,
+              color: isScrolled ? '#0C2C4D' : '#ffffff',
+              textAlign: 'center',
               transition: 'all 300ms cubic-bezier(0.4, 0, 0.2, 1)'
             }}>
               INFRA SOLUTIONSS

@@ -25,6 +25,8 @@ export function Footer() {
 
   return (
     <footer className="w-full flex flex-col text-white z-10">
+      {/* Brand Gold Ribbon */}
+      <div className="w-full h-2 bg-[#BFA052]" />
       
       {/* ─── TOP SECTION: CONTENT & ARTWORK BACKGROUND ─── */}
       <div 
@@ -36,7 +38,7 @@ export function Footer() {
           backgroundRepeat: 'no-repeat',
         }}
       >
-        <div className="max-w-[1400px] mx-auto pl-4 md:pl-8 lg:pl-0 pr-4 md:pr-8 lg:pr-0 relative z-10 w-full">
+        <div className="max-w-[90rem] mx-auto px-6 md:px-12 lg:px-16 relative z-10 w-full">
           {/* Responsive Redesigned 3-Column CSS Grid Layout (3.5fr / 3fr / 3.5fr ratio) */}
           <div className="grid grid-cols-1 lg:grid-cols-[3.5fr_3fr_3.5fr] gap-12 lg:gap-16 justify-between items-start w-full">
             

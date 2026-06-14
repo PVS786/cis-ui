@@ -283,7 +283,7 @@ function MapMarker({ loc, isActive, onActivate, onDeactivate }: MarkerProps) {
                 left: -1.0,           // centres the 2 px line on the dot's x
                 width: 2.0,           // 2px thickness
                 height: lineH,
-                background: GOLD,
+                background: '#FFFFFF', // changed lines to white
                 transformOrigin: toBottom ? 'top' : 'bottom',
               }}
               initial={{ scaleY: 0 }}
@@ -291,117 +291,59 @@ function MapMarker({ loc, isActive, onActivate, onDeactivate }: MarkerProps) {
               transition={{ duration: 0.3, ease: EASE_OUT, delay: 0.05 }}
             />
 
-            {/* Step 3 — Horizontal connector line (Accent Line 1), extends from line-top/bottom */}
-            <motion.span
+            {/* Step 3 & 4 — Outer box outline with thin white borders, glass background, and white text */}
+            <motion.div
+              initial={{ scale: 0, opacity: 0 }}
+              animate={{ scale: 1, opacity: 1 }}
+              transition={{ duration: 0.35, ease: EASE_OUT, delay: 0.35 }}
               style={{
                 position: 'absolute',
-                top: toBottom ? lineH : 'auto',
-                bottom: toBottom ? 'auto' : lineH,
                 left: toRight ? 0 : -PANEL_W,
                 width: PANEL_W,
-                height: 2.0,          // 2px thickness
-                background: GOLD,
-                transformOrigin: toRight ? 'left' : 'right',
-              }}
-              initial={{ scaleX: 0 }}
-              animate={{ scaleX: 1 }}
-              transition={{ duration: 0.25, ease: EASE_OUT, delay: 0.35 }}
-            />
-
-            {/* Step 4 — Information overlay (architectural blueprint style, no container box) */}
-            <div
-              style={{
-                position: 'absolute',
                 top: toBottom ? lineH : 'auto',
                 bottom: toBottom ? 'auto' : lineH,
-                left: toRight ? 0 : -PANEL_W,
-                width: PANEL_W,
+                // Set transform origin based on the connection point corner so it expands outward
+                transformOrigin: `${toBottom ? 'top' : 'bottom'} ${toRight ? 'left' : 'right'}`,
+                backgroundColor: 'rgba(255, 255, 255, 0.15)',
+                backdropFilter: 'blur(8px)',
+                WebkitBackdropFilter: 'blur(8px)',
+                border: '2px solid #FFFFFF', // full white border outline around the box
+                padding: '12px 16px',
+                textAlign: toRight ? 'left' : 'right',
                 pointerEvents: 'none',
-                height: 0,
               }}
             >
-              {/* City name (positioned above top line) */}
-              <motion.div
-                initial={{ opacity: 0 }}
-                animate={{ opacity: 1 }}
-                transition={{ duration: 0.25, ease: EASE_OUT, delay: 0.55 }}
+              {/* City name (in white) */}
+              <h4
                 style={{
-                  position: 'absolute',
-                  bottom: 0,
-                  left: toRight ? 0 : 'auto',
-                  right: toRight ? 'auto' : 0,
-                  paddingBottom: 8,
-                  paddingLeft: toRight ? 10 : 0,
-                  paddingRight: toRight ? 0 : 10,
-                  whiteSpace: 'nowrap',
+                  margin: '0 0 4px 0',
+                  fontFamily: "'Poppins', sans-serif",
+                  fontSize: 13,
+                  fontWeight: 700,
+                  color: '#FFFFFF',
+                  letterSpacing: '0.08em',
+                  textTransform: 'uppercase',
+                  lineHeight: 1.2,
                 }}
               >
-                <p
-                  style={{
-                    margin: 0,
-                    fontFamily: "'Gotham', Arial, sans-serif",
-                    fontSize: 13,
-                    fontWeight: 700,
-                    color: '#FFFFFF',
-                    letterSpacing: '0.08em',
-                    textTransform: 'uppercase',
-                    lineHeight: 1.1,
-                  }}
-                >
-                  {loc.label}
-                </p>
-              </motion.div>
+                {loc.label}
+              </h4>
 
-              {/* Location Text (District/State) below top line */}
-              <div
+              {/* Region / State (in white) */}
+              <p
                 style={{
-                  position: 'absolute',
-                  top: 0,
-                  left: 0,
-                  width: '100%',
+                  margin: 0,
+                  fontFamily: "'Poppins', sans-serif",
+                  fontSize: 11,
+                  fontWeight: 400,
+                  color: '#FFFFFF',
+                  letterSpacing: '0.05em',
+                  lineHeight: 1.3,
                 }}
               >
-                <motion.div
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  transition={{ duration: 0.25, ease: EASE_OUT, delay: 0.70 }}
-                  style={{
-                    paddingTop: 8,
-                    paddingBottom: 8,
-                    paddingLeft: toRight ? 10 : 0,
-                    paddingRight: toRight ? 0 : 10,
-                    textAlign: toRight ? 'left' : 'right',
-                  }}
-                >
-                  <p
-                    style={{
-                      margin: 0,
-                      fontFamily: "'Gotham', Arial, sans-serif",
-                      fontSize: 11,
-                      fontWeight: 400,
-                      color: '#FFFFFF',
-                      letterSpacing: '0.05em',
-                      lineHeight: 1.3,
-                    }}
-                  >
-                    {loc.region}
-                  </p>
-                </motion.div>
-
-                {/* Accent Line 2 (Bottom line) */}
-                <motion.div
-                  initial={{ scaleX: 0, opacity: 0 }}
-                  animate={{ scaleX: 1, opacity: 1 }}
-                  transition={{ duration: 0.25, ease: EASE_OUT, delay: 0.85 }}
-                  style={{
-                    width: '100%',
-                    height: 2.0,       // 2px thickness
-                    backgroundColor: GOLD,
-                    transformOrigin: toRight ? 'left' : 'right',
-                  }}
-                />
-              </div>
-            </div>
+                {loc.region}
+              </p>
+            </motion.div>
           </motion.div>
         )}
       </AnimatePresence>
@@ -412,6 +354,14 @@ function MapMarker({ loc, isActive, onActivate, onDeactivate }: MarkerProps) {
 // ─────────────────────────────────────────────────────────────────────────────
 // Main section
 // ─────────────────────────────────────────────────────────────────────────────
+const PLACES = [
+  { id: 'bhiwandi', text: 'Bhiwandi (Mumbai)' },
+  { id: 'chakan',   text: 'Chakan (Pune)' },
+  { id: 'talegaon', text: 'Talegaon (Pune)' },
+  { id: 'hoskote',  text: 'Hoskote (Bangalore)' },
+  { id: 'hosur',    text: 'Hosur (Krishnagiri)' },
+] as const;
+
 export function OperationalPresenceSection() {
   const [activeId, setActiveId] = useState<LocationId | null>(null);
   const sectionRef  = useRef<HTMLElement>(null);
@@ -437,18 +387,18 @@ export function OperationalPresenceSection() {
     <section
       ref={sectionRef}
       aria-label="Operational Presence"
-      className="relative w-full overflow-hidden bg-[#020c18] flex flex-col lg:block lg:h-[800px] xl:h-[900px]"
+      className="relative w-full overflow-hidden bg-[#081d33] flex flex-col lg:block lg:h-[800px] xl:h-[900px]"
     >
       {/* ── Desktop absolute gradient for text legibility ── */}
       <div
-        className="hidden lg:block absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-[#020c18] via-[#020c18]/95 to-transparent pointer-events-none z-15"
+        className="hidden lg:block absolute inset-y-0 left-0 w-1/2 bg-gradient-to-r from-[#081d33] via-[#081d33]/95 to-transparent pointer-events-none z-15"
       />
       {/* Top and bottom vignettes to blend map edges on desktop */}
       <div
-        className="hidden lg:block absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#020c18] to-transparent pointer-events-none z-15"
+        className="hidden lg:block absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-[#081d33] to-transparent pointer-events-none z-15"
       />
       <div
-        className="hidden lg:block absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#020c18] to-transparent pointer-events-none z-15"
+        className="hidden lg:block absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-[#081d33] to-transparent pointer-events-none z-15"
       />
 
       {/* ── Map Container Wrapper ── */}
@@ -485,49 +435,40 @@ export function OperationalPresenceSection() {
 
       {/* ── Left-panel text content ── */}
       {/* Mobile: regular flow. Desktop: absolute overlay on the left */}
-      <div className="w-full px-8 md:px-14 py-16 relative z-20 pointer-events-none lg:absolute lg:inset-y-0 lg:left-0 lg:w-1/2 lg:flex lg:items-center lg:py-0">
-        <div className="w-full max-w-[1600px] mx-auto lg:px-12 xl:px-20 pointer-events-auto">
-          <div className="max-w-[430px] xl:max-w-[460px]">
-            {/* Section label */}
-            <motion.div
-              {...(isInView ? fadeUp(0) : { initial: { opacity: 0, y: 14 } })}
-              className="flex items-center gap-3 mb-5"
-            >
-              <span
-                className="block w-8 h-[1.5px]"
-                style={{ backgroundColor: GOLD }}
-              />
-              <span
-                className="text-[10px] font-bold uppercase tracking-[0.22em]"
-                style={{ fontFamily: "'Gotham', Arial, sans-serif", color: GOLD }}
-              >
-                Operational Presence
-              </span>
-            </motion.div>
-
+      <div className="w-full py-16 relative z-20 pointer-events-none lg:absolute lg:inset-y-0 lg:left-0 lg:right-0 lg:flex lg:items-start lg:pt-16 lg:pb-0">
+        <div className="w-full max-w-[90rem] mx-auto px-6 md:px-12 lg:px-16 pointer-events-auto flex flex-col lg:flex-row">
+          <div className="w-full lg:w-1/2 max-w-[550px] xl:max-w-[620px]">
             {/* Heading */}
             <motion.h2
-              {...(isInView ? fadeUp(0.1) : { initial: { opacity: 0, y: 14 } })}
+              {...(isInView ? fadeUp(0) : { initial: { opacity: 0, y: 14 } })}
+              className="text-4xl sm:text-5xl lg:text-6xl font-tibere font-black uppercase mb-6 lg:whitespace-nowrap"
               style={{
-                fontFamily: "'Tibere OT W03 Medium', 'FF Tibere Medium', 'FF Tibere Std Medium', 'FF Tibere Std-Bold', 'FFTibereStd-Bold', 'FF Tibere Std', 'FF Tibere', 'Tibere OTW03-Bold', 'TibereOTW03-Bold', 'Tibere', 'Cormorant Garamond', 'EB Garamond', 'Gelasio', 'Cinzel', Georgia, serif",
                 color: '#FFFFFF',
-                fontSize: 'clamp(26px, 3.2vw, 46px)',
                 lineHeight: 1.15,
-                fontWeight: 700,
-                margin: '0 0 1.3rem',
+              }}
+            >
+              Operational <span style={{ color: GOLD }}>Presence</span>
+            </motion.h2>
+
+            {/* Subheading */}
+            <motion.div
+              {...(isInView ? fadeUp(0.1) : { initial: { opacity: 0, y: 14 } })}
+              className="text-xl font-gotham font-medium leading-relaxed mb-14"
+              style={{
+                color: '#FFFFFF',
               }}
             >
               Wherever your vision{' '}
               <span style={{ color: GOLD }}>takes you,</span>
               <br />
-              we&apos;re already there
-            </motion.h2>
+              we&apos;re <span style={{ color: GOLD }}>already</span> there
+            </motion.div>
 
             {/* Body — paragraph 1 */}
             <motion.p
               {...(isInView ? fadeUp(0.2) : { initial: { opacity: 0, y: 14 } })}
               style={{
-                fontFamily: "'Gotham', Arial, sans-serif",
+                fontFamily: "'Poppins', sans-serif",
                 color: 'rgba(255,255,255,0.70)',
                 fontSize: 'clamp(12.5px, 1.05vw, 14.5px)',
                 lineHeight: 1.78,
@@ -544,7 +485,7 @@ export function OperationalPresenceSection() {
             <motion.p
               {...(isInView ? fadeUp(0.28) : { initial: { opacity: 0, y: 14 } })}
               style={{
-                fontFamily: "'Gotham', Arial, sans-serif",
+                fontFamily: "'Poppins', sans-serif",
                 color: 'rgba(255,255,255,0.70)',
                 fontSize: 'clamp(12.5px, 1.05vw, 14.5px)',
                 lineHeight: 1.78,
@@ -555,6 +496,41 @@ export function OperationalPresenceSection() {
               Whether you&apos;re exploring or ready to move, we collaborate with you on-ground
               to unlock the right possibilities in:
             </motion.p>
+
+            {/* Locations list */}
+            <motion.div
+              {...(isInView ? fadeUp(0.35) : { initial: { opacity: 0, y: 14 } })}
+              className="mt-8 border-t-[3px] border-[#BFA052] w-full max-w-[400px] overflow-hidden"
+            >
+              {PLACES.map((place) => {
+                const isActive = activeId === place.id;
+                return (
+                  <div
+                    key={place.id}
+                    onMouseEnter={() => activate(place.id as LocationId)}
+                    onMouseLeave={deactivate}
+                    onClick={() => activeId === place.id ? setActiveId(null) : activate(place.id as LocationId)}
+                    className="border-b border-white/10 py-3.5 flex items-center justify-between cursor-pointer group transition-colors duration-300"
+                  >
+                    <span
+                      className="text-xs sm:text-sm font-bold tracking-[0.15em] uppercase transition-colors duration-300 font-poppins"
+                      style={{ color: isActive ? GOLD : 'rgba(255, 255, 255, 0.8)' }}
+                    >
+                      {place.text}
+                    </span>
+                    <span
+                      className="text-xs transition-all duration-300 font-poppins"
+                      style={{ 
+                        color: isActive ? GOLD : 'rgba(255, 255, 255, 0.3)',
+                        transform: isActive ? 'rotate(45deg)' : 'none'
+                      }}
+                    >
+                      +
+                    </span>
+                  </div>
+                );
+              })}
+            </motion.div>
           </div>
         </div>
       </div>

@@ -124,7 +124,7 @@ export function IntegratedSolutionsSection() {
 
   return (
     <section className="bg-transparent pt-2 pb-16 overflow-hidden relative">
-      <div className="max-w-[110rem] mx-auto px-4 md:px-8 lg:px-16">
+      <div className="max-w-[90rem] mx-auto px-6 md:px-12 lg:px-16">
         <div className="relative w-full flex items-center justify-center min-h-[220px] mb-16">
           {/* Left Arrow Accents */}
           <motion.div

@@ -33,11 +33,11 @@ export function ExecutionPillars() {
     >
       {/* Header Area Wrapper */}
       <div className="pt-16 pb-10">
-        <div className="max-w-[95rem] mx-auto px-16">
+        <div className="max-w-[90rem] mx-auto px-6 md:px-12 lg:px-16">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-center md:gap-16 gap-8">
             {/* Heading Column */}
-            <div className="max-w-2xl">
-              <h2 className="text-6xl md:text-7xl font-serif text-brand-navy leading-[0.85] tracking-tighter uppercase">
+            <div className="max-w-3xl shrink-0">
+              <h2 className="text-6xl md:text-7xl font-tibere text-brand-navy leading-[0.95] tracking-tight uppercase">
                 The Five Pillars <br />
                 Of <span className="text-brand-gold italic">Execution.</span>
               </h2>
@@ -50,7 +50,7 @@ export function ExecutionPillars() {
                 whileInView={{ scaleY: 1 }}
                 transition={{ duration: 0.8, ease: 'easeOut' }}
                 viewport={{ once: true }}
-                className="absolute left-0 top-0 bottom-0 w-[3px] bg-brand-navy/30 origin-top"
+                className="absolute left-0 top-0 bottom-0 w-[3px] bg-brand-navy origin-top"
               />
               {/* The text container */}
               <div className="overflow-hidden pl-12 py-2 max-w-[680px]">
@@ -59,19 +59,19 @@ export function ExecutionPillars() {
                   whileInView={{ x: 0, opacity: 1 }}
                   transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
                   viewport={{ once: true }}
-                  className="text-brand-navy font-gotham italic uppercase text-sm md:text-base tracking-wider leading-relaxed"
+                  className="text-xl text-brand-navy font-gotham font-medium leading-relaxed"
                 >
-                  AN UNCOMPROMISING FRAMEWORK DESIGNED TO TURN <br className="hidden md:inline" /> FRAGMENTED PROCESSES INTO A CONFIDENT PATH FORWARD.
+                  An uncompromising framework designed to turn <br className="hidden md:inline" /> fragmented processes into a confident path forward.
                 </motion.p>
               </div>
             </div>
           </div>
         </div>
       </div>
-
+ 
       {/* Cards Area Wrapper */}
       <div className="pt-6 pb-16">
-        <div className="grid grid-cols-1 md:grid-cols-5 gap-[1px] bg-brand-gray-medium max-w-[95rem] mx-auto border-x border-brand-gray-medium group/grid">
+        <div className="grid grid-cols-1 md:grid-cols-5 gap-[1px] bg-brand-gray-medium max-w-[90rem] mx-auto border-x border-brand-gray-medium group/grid">
           {pillars.map((pillar, idx) => (
             <div key={idx} className="bg-transparent hover:bg-brand-gold transition-colors duration-300 relative">
               <motion.div
