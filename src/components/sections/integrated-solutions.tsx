@@ -192,6 +192,11 @@ export function IntegratedSolutionsSection() {
                       <p key={pIdx}>{paragraph}</p>
                     ))}
                   </div>
+                  <div className="xl:pl-6 pt-4">
+                    <button className="btn-draw-border">
+                      Read More
+                    </button>
+                  </div>
                 </div>
               </motion.div>
 
@@ -204,13 +209,13 @@ export function IntegratedSolutionsSection() {
               >
                 {/* Architectural Offset Block */}
                 <div className={cn(
-                  "absolute top-8 bottom-8 w-[80%] bg-brand-navy transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.02]",
+                  "absolute top-8 bottom-8 w-[80%] bg-brand-navy rounded-2xl transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.02]",
                   idx % 2 === 1 ? "right-0 lg:-right-12" : "left-0 lg:-left-12"
                 )} />
 
                 {/* Main Image Container */}
                 <div className={cn(
-                  "absolute inset-0 lg:inset-y-0 z-10 shadow-2xl overflow-hidden bg-brand-gray-medium",
+                  "absolute inset-0 lg:inset-y-0 z-10 shadow-2xl overflow-hidden bg-brand-gray-medium rounded-2xl",
                   idx % 2 === 1 ? "mr-6 lg:mr-16" : "ml-6 lg:ml-16"
                 )}>
                   <div className="absolute inset-0 bg-brand-navy/5 group-hover:bg-transparent transition-colors duration-700 z-20" />
@@ -229,19 +234,26 @@ export function IntegratedSolutionsSection() {
                 <div className={cn(
                   "absolute w-32 h-32 lg:w-48 lg:h-48 border-brand-gold z-20 transition-all duration-700 pointer-events-none",
                   idx % 2 === 1
-                    ? "-top-4 -left-4 lg:-top-8 lg:-left-8 border-t-[3px] border-l-[3px] group-hover:top-0 group-hover:left-0"
-                    : "-bottom-4 -right-4 lg:-bottom-8 lg:-right-8 border-b-[3px] border-r-[3px] group-hover:bottom-0 group-hover:right-0"
+                    ? "-top-4 -left-4 lg:-top-8 lg:-left-8 border-t-[3px] border-l-[3px] rounded-tl-3xl group-hover:top-0 group-hover:left-0"
+                    : "-bottom-4 -right-4 lg:-bottom-8 lg:-right-8 border-b-[3px] border-r-[3px] rounded-br-3xl group-hover:bottom-0 group-hover:right-0"
                 )}>
-                  {/* Technical Nodes */}
-                  <div className="absolute w-2 h-2 bg-brand-gold top-0 left-0 -translate-x-[1.5px] -translate-y-[1.5px]" />
-                  <div className={cn(
-                    "absolute w-2 h-2 bg-brand-gold",
-                    idx % 2 === 1 ? "bottom-0 left-0 -translate-x-[1.5px] translate-y-1/2" : "top-0 right-0 translate-x-1/2 -translate-y-[1.5px]"
-                  )} />
-                  <div className={cn(
-                    "absolute w-2 h-2 bg-brand-gold",
-                    idx % 2 === 1 ? "top-0 right-0 translate-x-1/2 -translate-y-[1.5px]" : "bottom-0 left-0 -translate-x-[1.5px] translate-y-1/2"
-                  )} />
+                  {/* Technical Nodes - endpoints changed to 10px circular dots, corner dot removed */}
+                  <div 
+                    className="absolute bg-brand-gold rounded-full" 
+                    style={
+                      idx % 2 === 1
+                        ? { bottom: '-5px', left: '-3.5px', width: '10px', height: '10px' }
+                        : { bottom: '-3.5px', left: '-5px', width: '10px', height: '10px' }
+                    }
+                  />
+                  <div 
+                    className="absolute bg-brand-gold rounded-full" 
+                    style={
+                      idx % 2 === 1
+                        ? { top: '-3.5px', right: '-5px', width: '10px', height: '10px' }
+                        : { top: '-5px', right: '-3.5px', width: '10px', height: '10px' }
+                    }
+                  />
                 </div>
               </motion.div>
             </div>

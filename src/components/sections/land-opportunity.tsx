@@ -137,11 +137,11 @@ export function LandOpportunitySection() {
               </motion.p>
             </div>
 
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }} 
-              whileInView={{ opacity: 1, y: 0 }} 
-              transition={{ duration: 0.6, delay: 0.7 }} 
-              viewport={{ once: true }} 
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.7 }}
+              viewport={{ once: true }}
               className="mt-10 pt-8 border-t-2 border-brand-navy"
             >
               <h4 className="text-xl md:text-2xl font-tibere font-bold text-brand-navy leading-snug tracking-tight">

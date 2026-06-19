@@ -36,22 +36,22 @@ export function Header() {
         <div className="flex items-center gap-[12px] cursor-pointer group">
           {/* Logo Container */}
           <div className={cn(
-            "relative flex items-center justify-center shrink-0 overflow-hidden transition-all duration-300",
-            isScrolled ? "w-[46px] h-[46px]" : "w-[52px] h-[52px]"
+            "relative flex items-center justify-center shrink-0 transition-all duration-300 transform",
+            isScrolled ? "w-[46px] h-[46px] -translate-y-[1px]" : "w-[52px] h-[52px] -translate-y-[4px]"
           )}>
             {/* White Logo (Unscrolled) */}
             <motion.div
               initial={false}
               animate={{
                 opacity: isScrolled ? 0 : 1,
-                y: isScrolled ? -15 : 1,
+                y: isScrolled ? -15 : 0,
               }}
               style={{ scale: 1.34 }}
               transition={{ duration: 0.35, ease: 'easeInOut' }}
               className="absolute inset-0 w-full h-full"
             >
               <Image
-                src="/logo-white-transparent.png"
+                src="/logo-transparent-dark.png"
                 alt="Conservve Logo Light"
                 fill
                 className="object-contain"
@@ -78,17 +78,17 @@ export function Header() {
               />
             </motion.div>
           </div>
-          
+
           {/* Company Name Container */}
           <div className="flex flex-col items-center justify-center text-center">
             <span className={cn(
               "block font-tibere font-bold transition-colors duration-300",
               isScrolled ? "text-brand-navy" : "text-white"
-            )} style={{ 
-              fontFamily: "'Tibere OT W03 Medium', 'FF Tibere Medium', 'FF Tibere Std Medium', 'FF Tibere Std-Bold', 'FFTibereStd-Bold', 'FF Tibere Std', 'FF Tibere', 'Tibere OTW03-Bold', 'TibereOTW03-Bold', 'Tibere', 'Cormorant Garamond', 'EB Garamond', 'Gelasio', 'Cinzel', Georgia, serif", 
-              fontSize: isScrolled ? '24px' : '30px', 
-              letterSpacing: '0.06em', 
-              lineHeight: '0.9', 
+            )} style={{
+              fontFamily: "'Tibere OT W03 Medium', 'FF Tibere Medium', 'FF Tibere Std Medium', 'FF Tibere Std-Bold', 'FFTibereStd-Bold', 'FF Tibere Std', 'FF Tibere', 'Tibere OTW03-Bold', 'TibereOTW03-Bold', 'Tibere', 'Cormorant Garamond', 'EB Garamond', 'Gelasio', 'Cinzel', Georgia, serif",
+              fontSize: isScrolled ? '24px' : '30px',
+              letterSpacing: '0.06em',
+              lineHeight: '0.9',
               fontWeight: 700,
               color: isScrolled ? '#0C2C4D' : '#ffffff',
               textAlign: 'center',
@@ -99,11 +99,11 @@ export function Header() {
             <span className={cn(
               "block font-tibere font-bold mt-0.5 transition-colors duration-300",
               isScrolled ? "text-brand-navy" : "text-white"
-            )} style={{ 
-              fontFamily: "'Tibere OT W03 Medium', 'FF Tibere Medium', 'FF Tibere Std Medium', 'FF Tibere Std-Bold', 'FFTibereStd-Bold', 'FF Tibere Std', 'FF Tibere', 'Tibere OTW03-Bold', 'TibereOTW03-Bold', 'Tibere', 'Cormorant Garamond', 'EB Garamond', 'Gelasio', 'Cinzel', Georgia, serif", 
-              fontSize: isScrolled ? '14px' : '17px', 
-              letterSpacing: '0.08em', 
-              lineHeight: '0.9', 
+            )} style={{
+              fontFamily: "'Tibere OT W03 Medium', 'FF Tibere Medium', 'FF Tibere Std Medium', 'FF Tibere Std-Bold', 'FFTibereStd-Bold', 'FF Tibere Std', 'FF Tibere', 'Tibere OTW03-Bold', 'TibereOTW03-Bold', 'Tibere', 'Cormorant Garamond', 'EB Garamond', 'Gelasio', 'Cinzel', Georgia, serif",
+              fontSize: isScrolled ? '14px' : '18px',
+              letterSpacing: '0.08em',
+              lineHeight: '0.9',
               fontWeight: 700,
               color: isScrolled ? '#0C2C4D' : '#ffffff',
               textAlign: 'center',
@@ -119,9 +119,9 @@ export function Header() {
           {/* Desktop Nav */}
           <div className="hidden lg:flex items-center gap-6">
             {navLinks.map((link) => (
-              <Link 
-                key={link.name} 
-                href={link.href} 
+              <Link
+                key={link.name}
+                href={link.href}
                 className={cn(
                   "font-gotham text-[14px] font-normal antialiased uppercase tracking-wider transition-colors duration-300 relative group py-1.5",
                   isScrolled ? "text-brand-navy" : "text-white"
@@ -136,7 +136,7 @@ export function Header() {
           </div>
 
           {/* Mobile Toggle */}
-          <button 
+          <button
             className={cn(
               "lg:hidden transition-colors duration-300",
               isScrolled ? "text-brand-navy" : "text-white"
@@ -158,9 +158,9 @@ export function Header() {
             className="absolute top-full left-0 right-0 bg-white border-t border-gray-100 p-8 flex flex-col gap-6 lg:hidden shadow-2xl"
           >
             {navLinks.map((link) => (
-              <Link 
-                key={link.name} 
-                href={link.href} 
+              <Link
+                key={link.name}
+                href={link.href}
                 className="font-gotham text-[16px] font-normal antialiased uppercase tracking-[0.1em] text-brand-navy hover:text-brand-gold relative py-1 self-start group transition-colors duration-300"
                 onClick={() => setMobileMenuOpen(false)}
               >
