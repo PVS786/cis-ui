@@ -51,6 +51,9 @@ export function LandOpportunitySection() {
     <section
       className="pt-16 lg:pt-24 pb-4 lg:pb-6 relative overflow-hidden"
     >
+      {/* Symmetrical Top Gold Border & Navy Transition Divider from Hero */}
+      <div className="absolute top-0 left-0 right-0 h-[3px] bg-[#BFA052] z-20" />
+      <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-[#020c18]/25 to-transparent pointer-events-none z-10" />
 
       <div className="max-w-[90rem] mx-auto px-6 md:px-12 lg:px-16 relative z-10">
         <motion.div

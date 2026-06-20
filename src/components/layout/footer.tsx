@@ -24,9 +24,9 @@ export function Footer() {
   };
 
   return (
-    <footer className="w-full flex flex-col text-white z-10">
+    <footer className="w-full flex flex-col text-white z-10 relative">
       {/* Brand Gold Ribbon */}
-      <div className="w-full h-2 bg-[#BFA052]" />
+      <div className="absolute top-0 left-0 right-0 h-[3px] bg-[#BFA052] z-20" />
 
       {/* ─── TOP SECTION: CONTENT & ARTWORK BACKGROUND ─── */}
       <div

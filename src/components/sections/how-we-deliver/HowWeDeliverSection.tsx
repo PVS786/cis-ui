@@ -456,7 +456,7 @@ export function HowWeDeliverSection() {
 
                   {/* Main skewed navy container with fixed height */}
                   <div 
-                    className="relative z-10 w-full h-[115px] bg-[#0C2C4D] text-white border-y border-[#BFA052]/40 pt-3.5 pb-3.5 pl-8 pr-5 md:pt-4 md:pb-4 md:pl-10 md:pr-6 -skew-x-[15deg] shadow-2xl rounded-[3px] flex items-center"
+                    className="relative z-10 w-full h-[128px] bg-[#0C2C4D] text-white border-y border-[#BFA052]/40 pt-3 pb-3 pl-8 pr-5 md:pt-3.5 md:pb-3.5 md:pl-10 md:pr-6 -skew-x-[15deg] shadow-2xl rounded-[3px] flex items-center"
                     style={{
                       boxShadow: '0 25px 50px -12px rgba(12,44,77,0.5), 0 4px 20px rgba(191,160,82,0.15)',
                     }}
@@ -471,7 +471,7 @@ export function HowWeDeliverSection() {
                       </div>
 
                       {/* Vertical line divider */}
-                      <div className="w-[1.5px] h-14 bg-gradient-to-b from-transparent via-[#BFA052]/50 to-transparent shrink-0" />
+                      <div className="w-[1.5px] h-[72px] bg-gradient-to-b from-transparent via-[#BFA052]/50 to-transparent shrink-0" />
 
                       {/* Right Column: Content */}
                       <div className="flex-1 min-w-0">
@@ -553,6 +553,10 @@ export function HowWeDeliverSection() {
           })}
         </div>
       </div>
+
+      {/* Symmetrical Bottom Gold Border & Navy Transition Divider to Operational Presence */}
+      <div className="absolute bottom-0 left-0 right-0 h-[3px] bg-[#BFA052] z-20" />
+      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#0C2C4D]/10 to-transparent pointer-events-none z-10" />
     </section>
   );
 }
