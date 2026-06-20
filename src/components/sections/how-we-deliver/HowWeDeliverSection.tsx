@@ -5,9 +5,9 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
-// Base image 1672×941. Container aspect = 1672/941 ≈ 1.7769
-const CAR = 1672 / 941;
-const STEP_DURATION = 1500; // ms per section in auto-play
+// Base image 1671x941. Container aspect = 1671 / 941 = 1.7758
+const CAR = 1671 / 941;
+const STEP_DURATION = 3500; // ms per section in auto-play
 
 /** Compute top-left corner of block image given its center point and display width */
 function tlCorner(cx: number, cy: number, dw: number, imgW: number, imgH: number) {
@@ -39,8 +39,8 @@ const steps: Step[] = [
     desc: 'We identify and consolidate high-potential land opportunities aligned with your project vision, location strategy, and long-term value.',
     imagePath: '/how_we_deliver/HWD_Section_1.png',
     imgW: 1672, imgH: 941,
-    cx: 10, cy: 28, dw: 34,
-    hx: 0, hy: 0, hw: 22, hh: 57,
+    cx: 11, cy: 28, dw: 34,
+    hx: 0, hy: 0, hw: 25, hh: 45,
     panelSide: 'right',
   },
   {
@@ -49,8 +49,8 @@ const steps: Step[] = [
     desc: 'Every parcel undergoes rigorous legal scrutiny to ensure clear titles, compliance, and zero-risk acquisition.',
     imagePath: '/how_we_deliver/HWD_Section_2.png',
     imgW: 1457, imgH: 1079,
-    cx: 29, cy: 27, dw: 34,
-    hx: 20, hy: 0, hw: 20, hh: 57,
+    cx: 44, cy: 27, dw: 26,
+    hx: 25, hy: 0, hw: 35, hh: 45,
     panelSide: 'right',
   },
   {
@@ -59,9 +59,9 @@ const steps: Step[] = [
     desc: 'We manage negotiations with a focus on transparency, optimal value, and secure deal finalization.',
     imagePath: '/how_we_deliver/HWD_Section_3.png',
     imgW: 1448, imgH: 1086,
-    cx: 48, cy: 26, dw: 34,
-    hx: 38, hy: 0, hw: 22, hh: 54,
-    panelSide: 'right',
+    cx: 77, cy: 26, dw: 25.5,
+    hx: 60, hy: 0, hw: 25, hh: 45,
+    panelSide: 'left',
   },
   {
     id: 4,
@@ -69,8 +69,8 @@ const steps: Step[] = [
     desc: 'Accurate and timely execution of all legal documentation and registration processes.',
     imagePath: '/how_we_deliver/HWD_Section_4.png',
     imgW: 1448, imgH: 1086,
-    cx: 78, cy: 25, dw: 34,
-    hx: 60, hy: 0, hw: 40, hh: 54,
+    cx: 90, cy: 50, dw: 25.5,
+    hx: 80, hy: 25, hw: 20, hh: 40,
     panelSide: 'left',
   },
   {
@@ -79,8 +79,8 @@ const steps: Step[] = [
     desc: 'Seamless coordination with authorities to secure all statutory approvals efficiently and compliantly.',
     imagePath: '/how_we_deliver/HWD_Section_5.png',
     imgW: 1433, imgH: 941,
-    cx: 81, cy: 73, dw: 34,
-    hx: 62, hy: 46, hw: 38, hh: 54,
+    cx: 81, cy: 73, dw: 29,
+    hx: 65, hy: 55, hw: 35, hh: 45,
     panelSide: 'left',
   },
   {
@@ -89,8 +89,8 @@ const steps: Step[] = [
     desc: 'Ongoing assistance to ensure a smooth transition from land acquisition to project readiness.',
     imagePath: '/how_we_deliver/HWD_Section_6.png',
     imgW: 1479, imgH: 941,
-    cx: 49, cy: 74, dw: 34,
-    hx: 34, hy: 46, hw: 30, hh: 54,
+    cx: 49, cy: 74, dw: 30,
+    hx: 32, hy: 55, hw: 33, hh: 45,
     panelSide: 'right',
   },
   {
@@ -98,9 +98,9 @@ const steps: Step[] = [
     title: 'Complete Project Execution',
     desc: 'Through our associate company Conservve Buildcon, we deliver fully integrated commercial project execution.',
     imagePath: '/how_we_deliver/HWD_Section_7.png',
-    imgW: 1448, imgH: 1086,
-    cx: 17, cy: 73, dw: 34,
-    hx: 0, hy: 46, hw: 35, hh: 54,
+    imgW: 2390, imgH: 1792,
+    cx: 17, cy: 73, dw: 25.5,
+    hx: 0, hy: 55, hw: 32, hh: 45,
     panelSide: 'right',
   },
 ];
@@ -220,24 +220,21 @@ function CornerPattern({ isRight = false }: { isRight?: boolean }) {
 
 export function HowWeDeliverSection() {
   const [activeId, setActiveId] = useState<number>(1);
-  // cycleKey increments each time auto-play advances → forces progress bar to restart
-  const [_cycleKey, setCycleKey] = useState(0);
-  // True while the user has their mouse over a block — auto-play pauses
+  const [cycleKey, setCycleKey] = useState(0);
   const isUserHovering = useRef(false);
-  const autoIndexRef = useRef(0); // 0-based index into steps[]
+  const autoIndexRef = useRef(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
 
   const startAutoPlay = useCallback(() => {
     if (intervalRef.current) clearInterval(intervalRef.current);
     intervalRef.current = setInterval(() => {
-      if (isUserHovering.current) return; // paused — user is hovering
+      if (isUserHovering.current) return;
       autoIndexRef.current = (autoIndexRef.current + 1) % steps.length;
       setActiveId(steps[autoIndexRef.current].id);
       setCycleKey((k) => k + 1);
     }, STEP_DURATION);
   }, []);
 
-  // Mount: begin auto-play from step 1
   useEffect(() => {
     setActiveId(steps[0].id);
     startAutoPlay();
@@ -248,7 +245,6 @@ export function HowWeDeliverSection() {
 
   const handleHoverStart = (id: number) => {
     isUserHovering.current = true;
-    // Sync auto-index so resume continues from this section
     const idx = steps.findIndex((s) => s.id === id);
     if (idx >= 0) autoIndexRef.current = idx;
     setActiveId(id);
@@ -256,14 +252,13 @@ export function HowWeDeliverSection() {
 
   const handleHoverEnd = () => {
     isUserHovering.current = false;
-    // Resume auto-play immediately from the current section
-    setCycleKey((k) => k + 1); // restart bar at current position
+    setCycleKey((k) => k + 1);
   };
 
   const active = steps.find((s) => s.id === activeId) ?? steps[0];
 
   return (
-    <section className="bg-transparent relative overflow-hidden">
+    <section className="bg-transparent w-full relative overflow-x-clip py-16 md:py-24 animate-cycleKey" key={cycleKey}>
 
       {/* ── HEADER ── */}
       <div className="max-w-[90rem] mx-auto px-6 md:px-12 lg:px-16 pt-8 lg:pt-12 pb-12 relative z-10">
@@ -315,24 +310,20 @@ export function HowWeDeliverSection() {
         </div>
       </div>
 
-      {/* ── INTEGRATED MAP & NAV CONTAINER ── */}
-      <div className="relative w-full px-6 md:px-12 lg:px-16 pb-12">
+      {/* ── INTEGRATED MAP CONTAINER ── */}
+      <div className="relative w-full pb-12 overflow-x-auto overflow-y-visible scrollbar-thin">
         <div
-          className="relative max-w-[90rem] mx-auto rounded-xl shadow-[0_20px_40px_rgba(12,44,77,0.1)] border border-gray-200 overflow-hidden bg-white flex flex-col"
+          className="relative w-[1600px] mx-auto flex flex-col overflow-visible px-8 pt-6"
           onMouseLeave={handleHoverEnd}
         >
           {/* BASE IMAGE AREA */}
-          <div className="relative w-full overflow-hidden bg-brand-navy">
+          <div className="relative w-full overflow-visible bg-transparent">
             <Image
-              src="/how-we-deliver.png"
-              alt="Conservve Infra Solutions — How We Deliver"
-              width={1672}
-              height={941}
-              className={cn(
-                'w-full h-auto block select-none',
-                'transition-[filter] duration-500 ease-out',
-                'brightness-[0.75] saturate-[0.9]'
-              )}
+              src="/how_we_deliver/how-we-deliver-base-object.png"
+              alt="Conservve Infra Solutions — How We Deliver Base"
+              width={1600}
+              height={900}
+              className="w-full h-auto block select-none"
               priority
               sizes="100vw"
               draggable={false}
@@ -353,56 +344,33 @@ export function HowWeDeliverSection() {
               />
             ))}
 
-            {/* SHADOW PIT — navy blue shadow under lifted block */}
-            <AnimatePresence>
-              {active && (
-                <motion.div
-                  key={`pit-${active.id}`}
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  transition={{ duration: 0.35 }}
-                  className="absolute z-[24] pointer-events-none"
-                  style={{
-                    left: `${active.hx + 2}%`,
-                    top: `${active.hy + 4}%`,
-                    width: `${active.hw - 4}%`,
-                    height: `${active.hh - 6}%`,
-                    background:
-                      'radial-gradient(ellipse at 50% 60%, rgba(12,44,77,0.82) 20%, rgba(12,44,77,0.45) 60%, transparent 100%)',
-                    filter: 'blur(12px)',
-                  }}
-                />
-              )}
-            </AnimatePresence>
-
-            {/* RISING BLOCKS — all mounted, z & opacity toggled */}
+            {/* ALL 7 STAGES DISPLAYED SIMULTANEOUSLY */}
             {steps.map((step) => {
               const isActive = activeId === step.id;
               const { lp, tp } = tlCorner(step.cx, step.cy, step.dw, step.imgW, step.imgH);
               return (
                 <div
                   key={`block-${step.id}`}
-                  className="absolute pointer-events-none"
+                  className="absolute pointer-events-none transition-all duration-300"
                   style={{
                     left: `${lp}%`,
                     top: `${tp}%`,
                     width: `${step.dw}%`,
-                    zIndex: isActive ? 30 : -1,
+                    zIndex: isActive ? 40 : (step.cy > 50 ? 20 : 10),
                   }}
                 >
                   <motion.div
                     animate={{
-                      y: isActive ? -32 : 0,
-                      opacity: isActive ? 1 : 0,
+                      y: isActive ? -24 : 0,
+                      scale: isActive ? 1.05 : 1.0,
                       filter: isActive
-                        ? 'drop-shadow(0px 28px 20px rgba(12,44,77,0.55)) drop-shadow(0px 4px 12px rgba(191,160,82,0.25))'
-                        : 'drop-shadow(0px 0px 0px rgba(0,0,0,0))',
+                        ? 'drop-shadow(0px 24px 20px rgba(12,44,77,0.4)) drop-shadow(0px 4px 10px rgba(191,160,82,0.2))'
+                        : 'drop-shadow(0px 2px 4px rgba(0,0,0,0.15))',
                     }}
                     transition={{
-                      y: { type: 'spring', stiffness: 280, damping: 26, restDelta: 0.5 },
-                      opacity: { duration: 0.18 },
-                      filter: { duration: 0.3 },
+                      type: 'spring',
+                      stiffness: 250,
+                      damping: 25,
                     }}
                   >
                     {/* eslint-disable-next-line @next/next/no-img-element */}
@@ -417,121 +385,97 @@ export function HowWeDeliverSection() {
               );
             })}
 
-            {/* INFO CARD — positioned relative to block image edges */}
-            <AnimatePresence>
-              {active && (() => {
-                const { lp, tp } = tlCorner(active.cx, active.cy, active.dw, active.imgW, active.imgH);
-                const cardTop = `${Math.max(tp + 1, 1)}%`;
-                const cardPos = active.panelSide === 'right'
-                  ? { left: `${lp + active.dw + 1.5}%` }
-                  : { left: `${lp - 1.5}%`, transform: 'translateX(-100%)' };
-                return (
-                  <motion.div
-                    key={`card-${active.id}`}
-                    initial={{ opacity: 0, y: 8 }}
-                    animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: 4 }}
-                    transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
-                    className="absolute z-40 pointer-events-auto w-[220px] lg:w-[250px]"
-                    style={{ top: cardTop, ...cardPos }}
-                  >
-                    <div
-                      className="bg-white rounded-xl overflow-hidden"
-                      style={{
-                        borderLeft: '3.5px solid #BFA052',
-                        boxShadow: '0 10px 30px rgba(12,44,77,0.1), 0 2px 8px rgba(12,44,77,0.05)',
-                      }}
-                    >
-                      <div className="p-4 lg:p-4.5">
-                        <div className="flex items-center gap-2 mb-2.5">
-                          <div
-                            className="w-10 h-10 flex items-center justify-center rounded-lg font-gotham text-white text-base font-extrabold shrink-0"
-                            style={{ background: '#0C2C4D' }}
-                          >
-                            {active.id < 10 ? `0${active.id}` : active.id}
-                          </div>
-                          <div className="h-[1px] flex-1" style={{ background: '#BFA052', opacity: 0.4 }} />
-                        </div>
-                        <h3
-                          className="font-tibere mb-1.5 leading-snug"
-                          style={{ color: '#0C2C4D', fontSize: 'clamp(17px,1.3vw,20px)', letterSpacing: '-0.015em' }}
-                        >
-                          {active.title}
-                        </h3>
-                        <div className="mb-2" style={{ width: 32, height: 2, background: '#BFA052', borderRadius: 1 }} />
-                        <p
-                          className="font-poppins leading-relaxed font-medium"
-                          style={{ color: '#2E3A4A', fontSize: 13, lineHeight: 1.55 }}
-                        >
-                          {active.desc}
-                        </p>
-                      </div>
-                    </div>
-                  </motion.div>
-                );
-              })()}
+            {/* SYNCED CENTER CARD */}
+            <AnimatePresence mode="wait">
+              {active && (
+                <motion.div
+                  key={`card-${active.id}`}
+                  initial={{ opacity: 0, scale: 0.95, x: "-50%", y: "-40%" }}
+                  animate={{ opacity: 1, scale: 1, x: "-50%", y: "-50%" }}
+                  exit={{ opacity: 0, scale: 0.95, x: "-50%", y: "-60%" }}
+                  transition={{ duration: 0.25, ease: 'easeOut' }}
+                  className="absolute z-35 bg-white rounded-xl p-5 md:p-6 w-[22%] min-w-[200px] max-w-[280px] border-t-4 border-[#BFA052]"
+                  style={{
+                    left: '45.5%',
+                    top: '52%',
+                    boxShadow: '0 20px 40px rgba(12,44,77,0.12), 0 4px 12px rgba(191,160,82,0.06)',
+                  }}
+                >
+                  <div className="flex items-center gap-2 mb-3">
+                    <span className="bg-[#0C2C4D] text-white font-gotham font-black rounded px-2.5 py-1 text-xs tracking-wider">
+                      0{active.id}
+                    </span>
+                    <div className="h-[1px] bg-[#BFA052]/30 flex-1" />
+                  </div>
+                  <h3 className="font-tibere text-brand-navy font-bold leading-tight mb-2 text-base md:text-lg">
+                    {active.title}
+                  </h3>
+                  <p className="font-poppins text-slate-700 text-[11.5px] md:text-[12.5px] leading-relaxed">
+                    {active.desc}
+                  </p>
+                </motion.div>
+              )}
             </AnimatePresence>
           </div>
+        </div>
 
-          {/* ══ INTEGRATED ABSTRACT NAV BAR ══ */}
-          <div className="relative w-full flex bg-white border-t border-gray-200 min-h-[90px]">
-            
-            {/* Abstract Progress Background that spans the entire nav bar */}
-            <div className="absolute inset-0 pointer-events-none z-0">
-               {/* Continuous Abstract Progress Background */}
-               <motion.div 
-                 className="absolute top-0 left-0 h-full z-0" 
-                 style={{ background: 'rgba(191, 160, 82, 0.08)' }}
-                 animate={{ width: `${(activeId / steps.length) * 100}%` }}
-                 transition={{ duration: STEP_DURATION / 1000, ease: 'linear' }}
-               />
-               
-               {/* Continuous Thick Gold tracking lines (Top & Bottom) to match logo */}
-               <motion.div 
-                 className="absolute top-0 left-0 h-[5px] z-30" 
-                 style={{ background: '#BFA052' }}
-                 animate={{ width: `${(activeId / steps.length) * 100}%` }}
-                 transition={{ duration: STEP_DURATION / 1000, ease: 'linear' }}
-               />
-               <motion.div 
-                 className="absolute bottom-0 left-0 h-[5px] z-30" 
-                 style={{ background: '#BFA052' }}
-                 animate={{ width: `${(activeId / steps.length) * 100}%` }}
-                 transition={{ duration: STEP_DURATION / 1000, ease: 'linear' }}
-               />
-            </div>
-
-            {/* Step Tabs (Text & Content) */}
-            {steps.map(step => {
-              const isActive = activeId === step.id;
-              const isPast = step.id < activeId;
-              
-              return (
-                <button 
-                  key={step.id}
-                  onMouseEnter={() => handleHoverStart(step.id)}
-                  className={cn(
-                    "flex-1 relative px-2 py-4 md:py-5 flex flex-col items-center justify-start gap-1.5 md:gap-2 border-r border-gray-100 last:border-r-0 cursor-pointer",
-                    isActive ? "z-20" : "z-10",
-                    !isActive && !isPast && "hover:bg-gray-50/50 transition-colors"
-                  )}
-                >
-                  <span className={cn(
-                    "font-gotham font-normal text-3xl md:text-4xl lg:text-[44px] transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]", 
-                    isActive ? "text-brand-gold scale-[1.2] -translate-y-1 drop-shadow-md" : (isPast ? "text-brand-gold/80" : "text-gray-300")
-                  )}>
-                    0{step.id}
-                  </span>
-                  <span className={cn(
-                    "font-gotham font-medium text-sm md:text-base lg:text-[17px] text-center leading-tight transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hidden sm:block w-full px-2 origin-top", 
-                    isActive ? "text-brand-navy scale-105" : (isPast ? "text-brand-navy/80" : "text-gray-400")
-                  )}>
-                    {step.title}
-                  </span>
-                </button>
-              );
-            })}
+        {/* ══ INTEGRATED FLOW BAR ══ */}
+        <div className="relative w-[1500px] mx-auto flex bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden mt-8 min-h-[90px] z-20">
+          {/* Abstract Progress Background that spans the entire nav bar */}
+          <div className="absolute inset-0 pointer-events-none z-0">
+             {/* Continuous Abstract Progress Background */}
+             <motion.div 
+               className="absolute top-0 left-0 h-full z-0" 
+               style={{ background: 'rgba(191, 160, 82, 0.08)' }}
+               animate={{ width: `${(activeId / steps.length) * 100}%` }}
+               transition={{ duration: STEP_DURATION / 1000, ease: 'linear' }}
+             />
+             
+             {/* Continuous Thick Gold tracking lines (Top & Bottom) to match logo */}
+             <motion.div 
+               className="absolute top-0 left-0 h-[5px] z-30" 
+               style={{ background: '#BFA052' }}
+               animate={{ width: `${(activeId / steps.length) * 100}%` }}
+               transition={{ duration: STEP_DURATION / 1000, ease: 'linear' }}
+             />
+             <motion.div 
+               className="absolute bottom-0 left-0 h-[5px] z-30" 
+               style={{ background: '#BFA052' }}
+               animate={{ width: `${(activeId / steps.length) * 100}%` }}
+               transition={{ duration: STEP_DURATION / 1000, ease: 'linear' }}
+             />
           </div>
+
+          {/* Step Tabs (Text & Content) */}
+          {steps.map((step) => {
+            const isActive = activeId === step.id;
+            const isPast = step.id < activeId;
+            
+            return (
+              <button 
+                key={step.id}
+                onMouseEnter={() => handleHoverStart(step.id)}
+                className={cn(
+                  "flex-1 relative px-2 py-4 md:py-5 flex flex-col items-center justify-start gap-1.5 md:gap-2 border-r border-gray-100 last:border-r-0 cursor-pointer",
+                  isActive ? "z-20" : "z-10",
+                  !isActive && !isPast && "hover:bg-gray-50/50 transition-colors"
+                )}
+              >
+                <span className={cn(
+                  "font-gotham font-normal text-3xl md:text-4xl lg:text-[44px] transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]", 
+                  isActive ? "text-brand-gold scale-[1.2] -translate-y-1 drop-shadow-md" : (isPast ? "text-brand-gold/80" : "text-gray-300")
+                )}>
+                  0{step.id}
+                </span>
+                <span className={cn(
+                  "font-gotham font-medium text-sm md:text-base lg:text-[17px] text-center leading-tight transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hidden sm:block w-full px-2 origin-top", 
+                  isActive ? "text-brand-navy scale-105" : (isPast ? "text-brand-navy/80" : "text-gray-400")
+                )}>
+                  {step.title}
+                </span>
+              </button>
+            );
+          })}
         </div>
       </div>
     </section>
