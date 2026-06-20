@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useRef, useCallback } from 'react';
+import { useState, useRef, useCallback, useEffect } from 'react';
 import { motion, AnimatePresence, useInView } from 'framer-motion';
 import Image from 'next/image';
 
@@ -12,13 +12,12 @@ const EASE_OUT = [0, 0, 0.2, 1] as const;
 const EASE_EXP = [0.16, 1, 0.3, 1] as const;
 
 // Leader-line geometry
-const PANEL_W = 220;  // info panel width px
 
 // ─────────────────────────────────────────────────────────────────────────────
 const LOCATIONS = [
-  { id: 'bhiwandi', label: 'Bhiwandi', region: 'Mumbai, Maharashtra',    x: 59.9, y: 49.1, toRight: true,  lineH: 72, toBottom: false },
-  { id: 'chakan',   label: 'Chakan',   region: 'Pune, Maharashtra',       x: 61.5, y: 52.1, toRight: true,  lineH: 72, toBottom: false },
-  { id: 'talegaon', label: 'Talegaon', region: 'Pune, Maharashtra',       x: 62.1, y: 54.4, toRight: true,  lineH: 72, toBottom: true },
+  { id: 'bhiwandi', label: 'Bhiwandi', region: 'Mumbai, Maharashtra',    x: 60.5, y: 53.3, toRight: true,  lineH: 72, toBottom: false },
+  { id: 'chakan',   label: 'Chakan',   region: 'Pune, Maharashtra',       x: 62.5, y: 57.1, toRight: true,  lineH: 72, toBottom: false },
+  { id: 'talegaon', label: 'Talegaon', region: 'Pune, Maharashtra',       x: 63.6, y: 59.8, toRight: true,  lineH: 72, toBottom: true },
   { id: 'hoskote',  label: 'Hoskote',  region: 'Bangalore, Karnataka',    x: 67.0, y: 73.0, toRight: true,  lineH: 52, toBottom: false },
   { id: 'hosur',    label: 'Hosur',    region: 'Krishnagiri, Tamil Nadu', x: 67.5, y: 76.4, toRight: true,  lineH: 52, toBottom: true },
 ] as const;
@@ -59,15 +58,15 @@ function fadeUp(delay = 0) {
 // ─────────────────────────────────────────────────────────────────────────────
 const NETWORK_PATHS = [
   // Core operational connections
-  { from: [59.9, 49.1], to: [61.5, 52.1], type: 'core' },
-  { from: [61.5, 52.1], to: [62.1, 54.4], type: 'core' },
-  { from: [62.1, 54.4], to: [67.0, 73.0], type: 'core' },
+  { from: [60.5, 53.3], to: [62.5, 57.1], type: 'core' },
+  { from: [62.5, 57.1], to: [63.6, 59.8], type: 'core' },
+  { from: [63.6, 59.8], to: [67.0, 73.0], type: 'core' },
   { from: [67.0, 73.0], to: [67.5, 76.4], type: 'core' },
   // Outward strategic reach connections
-  { from: [59.9, 49.1], to: [61.0, 22.0], type: 'strategic' }, // To Delhi
-  { from: [59.9, 49.1], to: [75.0, 44.0], type: 'strategic' }, // To Kolkata
+  { from: [60.5, 53.3], to: [61.0, 22.0], type: 'strategic' }, // To Delhi
+  { from: [60.5, 53.3], to: [75.0, 44.0], type: 'strategic' }, // To Kolkata
   { from: [67.0, 73.0], to: [68.7, 74.0], type: 'strategic' }, // To Chennai
-  { from: [59.9, 49.1], to: [45.0, 45.0], type: 'strategic' }, // Off-screen West (Global)
+  { from: [60.5, 53.3], to: [45.0, 45.0], type: 'strategic' }, // Off-screen West (Global)
 ] as const;
 
 function SVGLines() {
@@ -173,8 +172,8 @@ function MapMarker({ loc, isActive, onActivate, onDeactivate }: MarkerProps) {
         top: `${loc.y}%`,
         // Centres the dot exactly on the specified coordinate.
         transform: 'translate(-50%, -50%)',
-        width: 20,
-        height: 20,
+        width: 28,
+        height: 28,
         zIndex: isActive ? 40 : 25,
         cursor: 'pointer',
         outline: 'none',
@@ -190,74 +189,33 @@ function MapMarker({ loc, isActive, onActivate, onDeactivate }: MarkerProps) {
         }}
       />
 
-      {/* ── Three Concentric breathing rings (Slow 3.6s cycle) ── */}
-      {[0, 1.2, 2.4].map((delay, index) => (
-        <motion.span
-          key={index}
-          aria-hidden
-          animate={{
-            scale: [1.0, 3.2],
-            opacity: [0.6, 0],
-          }}
-          transition={{
-            duration: 3.6,
-            ease: 'easeOut',
-            repeat: Infinity,
-            delay: delay,
-          }}
-          style={{
-            position: 'absolute',
-            inset: -4,
-            borderRadius: '50%',
-            border: `1.5px solid rgba(191, 160, 82, 0.4)`,
-            pointerEvents: 'none',
-            zIndex: 1,
-          }}
-        />
-      ))}
-
-      {/* ── Ambient soft glow disc (intensifies on hover) ── */}
-      <motion.span
-        aria-hidden
-        animate={{
-          scale: isActive ? 1.5 : 1,
-          opacity: isActive ? 1.0 : 0.75,
-        }}
-        transition={{ duration: 0.3, ease: 'easeOut' }}
-        style={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%,-50%)',
-          width: 54,
-          height: 54,
-          borderRadius: '50%',
-          background: 'radial-gradient(circle, rgba(191,160,82,0.6) 0%, transparent 70%)',
-          pointerEvents: 'none',
-          zIndex: 1,
-        }}
-      />
-
-      {/* ── Core dot: solid gold center dot + white outline ── */}
-      <motion.span
-        aria-hidden
-        animate={{ scale: isActive ? 1.2 : 1 }}
+      {/* ── Core marker: CIS Logo Image itself with glowing filter ── */}
+      <motion.div
+        animate={{ scale: isActive ? 1.4 : 1 }}
         transition={{ duration: 0.2, ease: 'easeOut' }}
         style={{
-          display: 'block',
-          width: 20,
-          height: 20,
-          borderRadius: '50%',
-          background: GOLD,
-          border: `2px solid #FFFFFF`,
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          width: 28,
+          height: 28,
           position: 'relative',
           zIndex: 2,
-          boxShadow: isActive
-            ? `0 0 25px ${GOLD}, 0 0 0 6px rgba(191,160,82,0.35)`
-            : `0 0 12px rgba(191,160,82,0.65), 0 0 4px rgba(255,255,255,0.7)`,
-          transition: 'box-shadow 0.2s ease',
+          filter: isActive
+            ? `drop-shadow(0 0 10px ${GOLD}) drop-shadow(0 0 4px ${GOLD})`
+            : `drop-shadow(0 0 4px rgba(191, 160, 82, 0.6))`,
+          transition: 'filter 0.2s ease',
         }}
-      />
+      >
+        <Image
+          src="/logo-white-transparent.png"
+          alt="CIS Logo"
+          width={28}
+          height={28}
+          className="object-contain select-none"
+          draggable={false}
+        />
+      </motion.div>
 
 
       {/* ── Leader-line assembly ───────────────────────────────────────────── */}
@@ -278,17 +236,35 @@ function MapMarker({ loc, isActive, onActivate, onDeactivate }: MarkerProps) {
             <motion.span
               style={{
                 position: 'absolute',
-                top: toBottom ? 0 : 'auto',
-                bottom: toBottom ? 'auto' : 0,
-                left: -1.0,           // centres the 2 px line on the dot's x
+                top: toBottom ? -4 : 'auto',
+                bottom: toBottom ? 'auto' : -4,
+                left: toRight ? 0 : -2.0, // aligns perfectly with box border edge
                 width: 2.0,           // 2px thickness
-                height: lineH,
+                height: lineH + 6,
                 background: '#FFFFFF', // changed lines to white
                 transformOrigin: toBottom ? 'top' : 'bottom',
               }}
               initial={{ scaleY: 0 }}
               animate={{ scaleY: 1 }}
               transition={{ duration: 0.3, ease: EASE_OUT, delay: 0.05 }}
+            />
+
+            {/* Junction Corner Node Dot */}
+            <motion.span
+              initial={{ scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={{ duration: 0.25, ease: EASE_OUT, delay: 0.35 }}
+              style={{
+                position: 'absolute',
+                left: toRight ? -2 : -4,
+                top: toBottom ? lineH - 3 : 'auto',
+                bottom: toBottom ? 'auto' : lineH - 3,
+                width: 6,
+                height: 6,
+                backgroundColor: '#FFFFFF',
+                borderRadius: '50%',
+                zIndex: 10,
+              }}
             />
 
             {/* Step 3 & 4 — Outer box outline with thin white borders, glass background, and white text */}
@@ -298,8 +274,9 @@ function MapMarker({ loc, isActive, onActivate, onDeactivate }: MarkerProps) {
               transition={{ duration: 0.35, ease: EASE_OUT, delay: 0.35 }}
               style={{
                 position: 'absolute',
-                left: toRight ? 0 : -PANEL_W,
-                width: PANEL_W,
+                left: toRight ? 0 : 'auto',
+                right: toRight ? 'auto' : 0,
+                width: 'max-content',
                 top: toBottom ? lineH : 'auto',
                 bottom: toBottom ? 'auto' : lineH,
                 // Set transform origin based on the connection point corner so it expands outward
@@ -324,6 +301,7 @@ function MapMarker({ loc, isActive, onActivate, onDeactivate }: MarkerProps) {
                   letterSpacing: '0.08em',
                   textTransform: 'uppercase',
                   lineHeight: 1.2,
+                  whiteSpace: 'nowrap',
                 }}
               >
                 {loc.label}
@@ -339,6 +317,7 @@ function MapMarker({ loc, isActive, onActivate, onDeactivate }: MarkerProps) {
                   color: '#FFFFFF',
                   letterSpacing: '0.05em',
                   lineHeight: 1.3,
+                  whiteSpace: 'nowrap',
                 }}
               >
                 {loc.region}
@@ -363,25 +342,47 @@ const PLACES = [
 ] as const;
 
 export function OperationalPresenceSection() {
-  const [activeId, setActiveId] = useState<LocationId | null>(null);
+  const [activeId, setActiveId] = useState<LocationId>('bhiwandi');
+  const [hoveredId, setHoveredId] = useState<LocationId | null>(null);
   const sectionRef  = useRef<HTMLElement>(null);
   const isInView    = useInView(sectionRef, { once: true, margin: '-8% 0px' });
 
-  // Debounced deactivation prevents the brief null flash when the pointer
-  // moves directly from one marker to another.
-  const deactivateTimer = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isUserHovering = useRef(false);
+  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
+
+  const startAutoPlay = useCallback(() => {
+    if (intervalRef.current) clearInterval(intervalRef.current);
+    intervalRef.current = setInterval(() => {
+      if (isUserHovering.current) return;
+      setActiveId((current) => {
+        const currentIndex = LOCATIONS.findIndex((loc) => loc.id === current);
+        const nextIndex = (currentIndex + 1) % LOCATIONS.length;
+        return LOCATIONS[nextIndex].id;
+      });
+    }, 4500); // 4.5s cycle for a nice slow counter/rotation
+  }, []);
+
+  useEffect(() => {
+    if (isInView) {
+      startAutoPlay();
+    }
+    return () => {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    };
+  }, [isInView, startAutoPlay]);
 
   const activate = useCallback((id: LocationId) => {
-    if (deactivateTimer.current) {
-      clearTimeout(deactivateTimer.current);
-      deactivateTimer.current = null;
-    }
-    setActiveId(id);
+    isUserHovering.current = true;
+    setHoveredId(id);
+    setActiveId(id); // Align the cycle state with the hovered state
   }, []);
 
   const deactivate = useCallback(() => {
-    deactivateTimer.current = setTimeout(() => setActiveId(null), 120);
+    isUserHovering.current = false;
+    setHoveredId(null);
   }, []);
+
+  const currentActiveId = hoveredId !== null ? hoveredId : activeId;
 
   return (
     <section
@@ -425,7 +426,7 @@ export function OperationalPresenceSection() {
             <MapMarker
               key={loc.id}
               loc={loc}
-              isActive={activeId === loc.id}
+              isActive={currentActiveId === loc.id}
               onActivate={() => activate(loc.id)}
               onDeactivate={deactivate}
             />
@@ -435,34 +436,55 @@ export function OperationalPresenceSection() {
 
       {/* ── Left-panel text content ── */}
       {/* Mobile: regular flow. Desktop: absolute overlay on the left */}
-      <div className="w-full py-16 relative z-20 pointer-events-none lg:absolute lg:inset-y-0 lg:left-0 lg:right-0 lg:flex lg:items-start lg:pt-16 lg:pb-0">
-        <div className="w-full max-w-[90rem] mx-auto px-6 md:px-12 lg:px-16 pointer-events-auto flex flex-col lg:flex-row">
-          <div className="w-full lg:w-1/2 max-w-[550px] xl:max-w-[620px]">
+      <div className="w-full py-16 relative z-20 pointer-events-none lg:absolute lg:inset-y-0 lg:left-0 lg:right-0 lg:flex lg:items-center">
+        <div className="w-full max-w-[90rem] mx-auto px-6 md:px-12 lg:px-16 pointer-events-none flex flex-col lg:flex-row">
+          <div className="w-full lg:w-1/2 max-w-[550px] xl:max-w-[620px] pointer-events-auto">
             {/* Heading */}
             <motion.h2
               {...(isInView ? fadeUp(0) : { initial: { opacity: 0, y: 14 } })}
-              className="text-4xl sm:text-5xl lg:text-6xl font-tibere font-black uppercase mb-6 lg:whitespace-nowrap"
+              className="text-4xl sm:text-5xl lg:text-6xl font-tibere font-black uppercase mb-6"
               style={{
                 color: '#FFFFFF',
                 lineHeight: 1.15,
               }}
             >
-              Operational <span style={{ color: GOLD }}>Presence</span>
+              Our Operational<br />
+              <span style={{ color: GOLD }}>Presence</span>
             </motion.h2>
 
-            {/* Subheading */}
-            <motion.div
-              {...(isInView ? fadeUp(0.1) : { initial: { opacity: 0, y: 14 } })}
-              className="text-xl font-gotham font-medium leading-relaxed mb-14"
-              style={{
-                color: '#FFFFFF',
-              }}
-            >
-              Wherever your vision{' '}
-              <span style={{ color: GOLD }}>takes you,</span>
-              <br />
-              we&apos;re <span style={{ color: GOLD }}>already</span> there
-            </motion.div>
+            {/* Subheading with left gold line accent and slide animation */}
+            <div className="relative flex items-center self-stretch mb-14">
+              <motion.div
+                initial={{ scaleY: 0 }}
+                animate={isInView ? { scaleY: 1 } : { scaleY: 0 }}
+                transition={{ duration: 0.8, ease: 'easeOut', delay: 0.1 }}
+                style={{
+                  position: 'absolute',
+                  left: 0,
+                  top: 0,
+                  bottom: 0,
+                  width: '3px',
+                  backgroundColor: GOLD,
+                  transformOrigin: 'top',
+                }}
+              />
+              <div className="overflow-hidden pl-6 py-1">
+                <motion.div
+                  initial={{ x: '-100%', opacity: 0 }}
+                  animate={isInView ? { x: 0, opacity: 1 } : { x: '-100%', opacity: 0 }}
+                  transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+                  className="text-xl font-gotham font-medium leading-relaxed"
+                  style={{
+                    color: '#FFFFFF',
+                  }}
+                >
+                  Wherever your vision{' '}
+                  <span style={{ color: GOLD }}>takes you,</span>
+                  <br />
+                  we&apos;re <span style={{ color: GOLD }}>already</span> there
+                </motion.div>
+              </div>
+            </div>
 
             {/* Body — paragraph 1 */}
             <motion.p
@@ -473,7 +495,7 @@ export function OperationalPresenceSection() {
                 fontSize: 'clamp(12.5px, 1.05vw, 14.5px)',
                 lineHeight: 1.78,
                 margin: '0 0 0.95rem',
-                maxWidth: 400,
+                maxWidth: 520,
               }}
             >
               We&apos;re actively working on mandates across some of India&apos;s most strategic
@@ -490,7 +512,7 @@ export function OperationalPresenceSection() {
                 fontSize: 'clamp(12.5px, 1.05vw, 14.5px)',
                 lineHeight: 1.78,
                 margin: 0,
-                maxWidth: 400,
+                maxWidth: 520,
               }}
             >
               Whether you&apos;re exploring or ready to move, we collaborate with you on-ground
@@ -500,16 +522,16 @@ export function OperationalPresenceSection() {
             {/* Locations list */}
             <motion.div
               {...(isInView ? fadeUp(0.35) : { initial: { opacity: 0, y: 14 } })}
-              className="mt-8 border-t-[3px] border-[#BFA052] w-full max-w-[400px] overflow-hidden"
+              className="mt-8 border-t-[3px] border-[#BFA052] w-full max-w-[520px] overflow-hidden"
             >
               {PLACES.map((place) => {
-                const isActive = activeId === place.id;
+                const isActive = currentActiveId === place.id;
                 return (
                   <div
                     key={place.id}
                     onMouseEnter={() => activate(place.id as LocationId)}
                     onMouseLeave={deactivate}
-                    onClick={() => activeId === place.id ? setActiveId(null) : activate(place.id as LocationId)}
+                    onClick={() => activate(place.id as LocationId)}
                     className="border-b border-white/10 py-3.5 flex items-center justify-between cursor-pointer group transition-colors duration-300"
                   >
                     <span

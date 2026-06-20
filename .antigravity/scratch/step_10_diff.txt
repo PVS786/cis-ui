@@ -1,0 +1,107 @@
+Created At: 2026-06-17T11:27:00Z
+Completed At: 2026-06-17T11:27:01Z
+
+				The command completed successfully.
+				Output:
+				<truncated 162 lines>
+                   idx % 2 === 1
+-                    ? "-top-4 -left-4 lg:-top-8 lg:-left-8 border-t-[3px] border-l-[3px] group-hover:top-0 group-hover:left-0"
+-                    : "-bottom-4 -right-4 lg:-bottom-8 lg:-right-8 border-b-[3px] border-r-[3px] group-hover:bottom-0 group-hover:right-0"
++                    ? "-top-4 -left-4 lg:-top-8 lg:-left-8 border-t-[3px] border-l-[3px] rounded-tl-3xl group-hover:top-0 group-hover:left-0"
++                    : "-bottom-4 -right-4 lg:-bottom-8 lg:-right-8 border-b-[3px] border-r-[3px] rounded-br-3xl group-hover:bottom-0 group-hover:right-0"
+                 )}>
+                   {/* Technical Nodes */}
+-                  <div className="absolute w-2 h-2 bg-brand-gold top-0 left-0 -translate-x-[1.5px] -translate-y-[1.5px]" />
+                   <div className={cn(
+                     "absolute w-2 h-2 bg-brand-gold",
+                     idx % 2 === 1 ? "bottom-0 left-0 -translate-x-[1.5px] translate-y-1/2" : "top-0 right-0 translate-x-1/2 -translate-y-[1.5px]"
+diff --git a/src/components/sections/operational-presence.tsx b/src/components/sections/operational-presence.tsx
+index 0fcaa3a..b6b13cc 100644
+--- a/src/components/sections/operational-presence.tsx
++++ b/src/components/sections/operational-presence.tsx
+@@ -173,8 +173,8 @@ function MapMarker({ loc, isActive, onActivate, onDeactivate }: MarkerProps) {
+         top: `${loc.y}%`,
+         // Centres the dot exactly on the specified coordinate.
+         transform: 'translate(-50%, -50%)',
+-        width: 20,
+-        height: 20,
++        width: 28,
++        height: 28,
+         zIndex: isActive ? 40 : 25,
+         cursor: 'pointer',
+         outline: 'none',
+@@ -190,74 +190,73 @@ function MapMarker({ loc, isActive, onActivate, onDeactivate }: MarkerProps) {
+         }}
+       />
+ 
+-      {/* ── Three Concentric breathing rings (Slow 3.6s cycle) ── */}
+-    
+<truncated 4210 bytes>
+──────────────────────── */}
+diff --git a/src/styles/globals.css b/src/styles/globals.css
+index 3772678..37733b7 100644
+--- a/src/styles/globals.css
++++ b/src/styles/globals.css
+@@ -186,4 +186,61 @@
+   .section-container {
+     @apply max-w-7xl mx-auto px-16 py-32;
+   }
++
++  /* Animated Box Draw Border Button */
++  .btn-draw-border {
++    @apply relative inline-block overflow-hidden py-3 text-center bg-transparent uppercase font-gotham text-sm font-bold tracking-[0.2em] text-brand-navy cursor-pointer outline-none border-none no-underline select-none;
++    width: 160px;
++    height: auto;
++    border-left: 3px solid var(--color-brand-navy);
++    transition: color 0.5s ease, box-shadow 0.5s ease, background-color 0.5s ease, border-left-color 0.5s ease;
++  }
++
++  .btn-draw-border:before {
++    position: absolute;
++    content: '';
++    left: 0;
++    bottom: 0;
++    height: 3px;
++    width: 100%;
++    border-bottom: 3px solid transparent;
++    border-left: 3px solid transparent;
++    box-sizing: border-box;
++    transform: translateX(100%);
++  }
++
++  .btn-draw-border:after {
++    position: absolute;
++    content: '';
++    top: 0;
++    left: 0;
++    width: 100%;
++    height: 3px;
++    border-top: 3px solid transparent;
++    border-right: 3px solid transparent;
++    box-sizing: border-box;
++    transform: translateX(-100%);
++  }
++
++  .btn-draw-border:hover {
++    box-shadow: 0 5px 15px rgba(191, 160, 82, 0.2);
++    background-color: var(--color-brand-gold);
++    border-left-color: var(--color-brand-gold);
++    @apply text-white;
++    transition-delay: 0s, 0s, 0.3s, 0s;
++  }
++
++  .btn-draw-border:hover:before {
++    border-color: var(--color-brand-gold);
++    height: 100%;
++    transform: translateX(0);
++    transition: 0.3s transform linear, 0.3s height linear 0.3s;
++  }
++
++  .btn-draw-border:hover:after {
++    border-color: var(--color-brand-gold);
++    height: 100%;
++    transform: translateX(0);
++    transition: 0.3s transform linear, 0.3s height linear 0.5s;
++  }
+ }
+

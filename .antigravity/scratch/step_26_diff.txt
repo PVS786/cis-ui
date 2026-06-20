@@ -1,0 +1,118 @@
+Created At: 2026-06-17T11:27:49Z
+Completed At: 2026-06-17T11:27:50Z
+
+				The command completed successfully.
+				Output:
+				diff --git a/src/components/sections/operational-presence.tsx b/src/components/sections/operational-presence.tsx
+index 0fcaa3a..282409c 100644
+--- a/src/components/sections/operational-presence.tsx
++++ b/src/components/sections/operational-presence.tsx
+@@ -107,7 +107,7 @@ function SVGLines() {
+         return (
+           <g key={idx}>
+             {/* Base connection line with gold-to-white gradient */}
+-            <motion.path
++            <path
+               d={d}
+               stroke={`url(#route-grad-${idx})`}
+               strokeWidth={isCore ? 1.5 : 0.8}
+@@ -115,23 +115,6 @@ function SVGLines() {
+               opacity={isCore ? 0.45 : 0.25}
+               fill="none"
+             />
+-            {/* Slow moving light particle traveling along the route */}
+-            <motion.path
+-              d={d}
+-              stroke="#FFFFFF"
+-              strokeWidth={isCore ? 2.5 : 1.5}
+-              strokeLinecap="round"
+-              fill="none"
+-              filter="url(#network-glow)"
+-              initial={{ strokeDasharray: isCore ? "8 250" : "5 150", strokeDashoffset: 0 }}
+-              animate={{ strokeDashoffset: -258 }}
+-              transition={{
+-                duration: isCore ? 6 : 8,
+-                repeat: Infinity,
+-                ease: "linear",
+-                delay: idx * 0.5,
+-              }}
+-            />
+           </g>
+         );
+       })}
+@@ -173,8 +156,8 @@ function MapMarker({ loc, isActive, onActivate, onDeactivate }: MarkerProps) {
+         top: `${loc.y}%`,
+         // Centres the dot exactly on the specified coordinate.
+         transform: 'translate(-50%, -50%)',
+-        width: 20,
+-        height: 20,
++        width: 28,
++        height: 28,
+         zIndex: isActive ? 40 : 25,
+         cursor: 'pointer',
+         outline: 'none',
+@@ -190,74 +173,73 @@ function MapMarker({ loc, isActive, onActivate, onDeactivate }: MarkerProps) {
+       
+<truncated 2342 bytes>
+(255,255,255,0.7)`,
+-          transition: 'box-shadow 0.2s ease',
++          filter: isActive
++            ? `drop-shadow(0 0 10px ${GOLD}) drop-shadow(0 0 4px ${GOLD})`
++            : `drop-shadow(0 0 4px rgba(191, 160, 82, 0.6))`,
++          transition: 'filter 0.2s ease',
+         }}
+-      />
++      >
++        <Image
++          src="/logo-white-transparent.png"
++          alt="CIS Logo"
++          width={28}
++          height={28}
++          className="object-contain select-none"
++          draggable={false}
++        />
++      </motion.div>
++
++      {/* Place name label showing immediately on hover/active next to the marker */}
++      <AnimatePresence>
++        {isActive && (
++          <motion.div
++            initial={{ opacity: 0, x: -6 }}
++            animate={{ opacity: 1, x: 0 }}
++            exit={{ opacity: 0, x: -4 }}
++            transition={{ duration: 0.15 }}
++            style={{
++              position: 'absolute',
++              left: '100%',
++              top: '50%',
++              transform: 'translateY(-50%)',
++              marginLeft: 12,
++              backgroundColor: 'rgba(8, 29, 51, 0.95)',
++              border: `1px solid ${GOLD}`,
++              borderRadius: 4,
++              padding: '4px 8px',
++              whiteSpace: 'nowrap',
++              pointerEvents: 'none',
++              zIndex: 30,
++              boxShadow: '0 4px 12px rgba(0,0,0,0.5)',
++            }}
++          >
++            <span
++              style={{
++                fontFamily: "'Poppins', sans-serif",
++                fontSize: 11,
++                fontWeight: 700,
++                color: '#FFFFFF',
++                letterSpacing: '0.08em',
++                textTransform: 'uppercase',
++              }}
++            >
++              {loc.label}
++            </span>
++          </motion.div>
++        )}
++      </AnimatePresence>
+ 
+ 
+       {/* ── Leader-line assembly ───────────────────────────────────────────── */}
+

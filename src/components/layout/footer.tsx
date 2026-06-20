@@ -27,9 +27,9 @@ export function Footer() {
     <footer className="w-full flex flex-col text-white z-10">
       {/* Brand Gold Ribbon */}
       <div className="w-full h-2 bg-[#BFA052]" />
-      
+
       {/* ─── TOP SECTION: CONTENT & ARTWORK BACKGROUND ─── */}
-      <div 
+      <div
         className="w-full pt-20 pb-24 relative"
         style={{
           backgroundImage: "url('/footer_base.png')",
@@ -41,7 +41,7 @@ export function Footer() {
         <div className="max-w-[90rem] mx-auto px-6 md:px-12 lg:px-16 relative z-10 w-full">
           {/* Responsive Redesigned 3-Column CSS Grid Layout (3.5fr / 3fr / 3.5fr ratio) */}
           <div className="grid grid-cols-1 lg:grid-cols-[3.5fr_3fr_3.5fr] gap-12 lg:gap-16 justify-between items-start w-full">
-            
+
             {/* COLUMN 1: Company Branding (Left-Justified) */}
             <div className="flex flex-col items-start pt-[19px] w-full justify-self-start text-left">
               <div className="flex items-center gap-[14px] xl:gap-[18px]">
@@ -57,27 +57,27 @@ export function Footer() {
                     />
                   </div>
                 </div>
-                
+
                 {/* Company Name Container matching Header scale but larger */}
                 <div className="flex flex-col items-start justify-center text-left whitespace-nowrap">
-                  <span 
+                  <span
                     className="font-tibere font-bold text-[36px] xl:text-[42px] whitespace-nowrap"
-                    style={{ 
-                      fontFamily: "'Tibere OT W03 Medium', 'FF Tibere Medium', 'FF Tibere Std Medium', 'FF Tibere Std-Bold', 'FFTibereStd-Bold', 'FF Tibere Std', 'FF Tibere', 'Tibere OTW03-Bold', 'TibereOTW03-Bold', 'Tibere', 'Cormorant Garamond', 'EB Garamond', 'Gelasio', 'Cinzel', Georgia, serif", 
-                      letterSpacing: '0.06em', 
-                      lineHeight: '0.9', 
+                    style={{
+                      fontFamily: "'Tibere OT W03 Medium', 'FF Tibere Medium', 'FF Tibere Std Medium', 'FF Tibere Std-Bold', 'FFTibereStd-Bold', 'FF Tibere Std', 'FF Tibere', 'Tibere OTW03-Bold', 'TibereOTW03-Bold', 'Tibere', 'Cormorant Garamond', 'EB Garamond', 'Gelasio', 'Cinzel', Georgia, serif",
+                      letterSpacing: '0.06em',
+                      lineHeight: '0.9',
                       fontWeight: 700,
                       color: '#FFFFFF'
                     }}
                   >
                     CONSERVVE
                   </span>
-                  <span 
+                  <span
                     className="font-tibere font-bold text-[22px] xl:text-[26px] whitespace-nowrap"
-                    style={{ 
-                      fontFamily: "'Tibere OT W03 Medium', 'FF Tibere Medium', 'FF Tibere Std Medium', 'FF Tibere Std-Bold', 'FFTibereStd-Bold', 'FF Tibere Std', 'FF Tibere', 'Tibere OTW03-Bold', 'TibereOTW03-Bold', 'Tibere', 'Cormorant Garamond', 'EB Garamond', 'Gelasio', 'Cinzel', Georgia, serif", 
-                      letterSpacing: '0.08em', 
-                      lineHeight: '0.9', 
+                    style={{
+                      fontFamily: "'Tibere OT W03 Medium', 'FF Tibere Medium', 'FF Tibere Std Medium', 'FF Tibere Std-Bold', 'FFTibereStd-Bold', 'FF Tibere Std', 'FF Tibere', 'Tibere OTW03-Bold', 'TibereOTW03-Bold', 'Tibere', 'Cormorant Garamond', 'EB Garamond', 'Gelasio', 'Cinzel', Georgia, serif",
+                      letterSpacing: '0.08em',
+                      lineHeight: '0.9',
                       fontWeight: 700,
                       color: 'rgba(255, 255, 255, 0.9)',
                       marginTop: '5px'
@@ -93,9 +93,9 @@ export function Footer() {
             <div className="flex flex-col items-center lg:pt-[30px] pt-6 w-full justify-self-center text-center">
               <div className="grid grid-cols-3 gap-x-12 gap-y-6 md:gap-x-16 w-full max-w-[480px] xl:max-w-[560px]">
                 {/* HOME */}
-                <Link 
-                  href="/" 
-                  className="font-gotham antialiased uppercase tracking-widest text-[11px] font-semibold whitespace-nowrap relative group pb-1 w-fit" 
+                <Link
+                  href="/"
+                  className="font-gotham antialiased uppercase tracking-widest text-[11px] font-semibold whitespace-nowrap relative group pb-1 w-fit"
                   style={{ fontFamily: "'Gotham', Arial, sans-serif" }}
                 >
                   <span className="text-white group-hover:text-[#BFA052] transition-colors duration-300">
@@ -105,9 +105,9 @@ export function Footer() {
                 </Link>
 
                 {/* ABOUT US */}
-                <Link 
-                  href="/about" 
-                  className="font-gotham antialiased uppercase tracking-widest text-[11px] font-semibold whitespace-nowrap relative group pb-1 w-fit" 
+                <Link
+                  href="/about"
+                  className="font-gotham antialiased uppercase tracking-widest text-[11px] font-semibold whitespace-nowrap relative group pb-1 w-fit"
                   style={{ fontFamily: "'Gotham', Arial, sans-serif" }}
                 >
                   <span className="text-white group-hover:text-[#BFA052] transition-colors duration-300">
@@ -117,9 +117,9 @@ export function Footer() {
                 </Link>
 
                 {/* LEADERSHIP */}
-                <Link 
-                  href="/leadership" 
-                  className="font-gotham antialiased uppercase tracking-widest text-[11px] font-semibold whitespace-nowrap relative group pb-1 w-fit" 
+                <Link
+                  href="/leadership"
+                  className="font-gotham antialiased uppercase tracking-widest text-[11px] font-semibold whitespace-nowrap relative group pb-1 w-fit"
                   style={{ fontFamily: "'Gotham', Arial, sans-serif" }}
                 >
                   <span className="text-white group-hover:text-[#BFA052] transition-colors duration-300">
@@ -129,14 +129,14 @@ export function Footer() {
                 </Link>
 
                 {/* SERVICES */}
-                <div 
+                <div
                   className="relative"
                   onMouseEnter={() => setIsServicesHovered(true)}
                   onMouseLeave={() => setIsServicesHovered(false)}
                 >
-                  <button 
+                  <button
                     onClick={() => setIsServicesOpenMobile(!isServicesOpenMobile)}
-                    className="font-gotham antialiased uppercase tracking-widest text-[11px] font-semibold flex items-center gap-1 focus:outline-none whitespace-nowrap relative group pb-1 w-fit" 
+                    className="font-gotham antialiased uppercase tracking-widest text-[11px] font-semibold flex items-center gap-1 focus:outline-none whitespace-nowrap relative group pb-1 w-fit"
                     style={{ fontFamily: "'Gotham', Arial, sans-serif" }}
                   >
                     <span className="text-white group-hover:text-[#BFA052] transition-colors duration-300">Services</span>
@@ -155,15 +155,15 @@ export function Footer() {
                         className="hidden lg:block absolute left-0 top-full mt-2 py-1.5 w-36 rounded shadow-lg z-50"
                         style={{ backgroundColor: '#BFA052' }}
                       >
-                        <Link 
-                          href="/services/land-approval" 
+                        <Link
+                          href="/services/land-approval"
                           className="block px-3 py-1.5 text-[9.5px] font-bold text-[#0C2C4D] hover:bg-white/20 transition-all tracking-wider font-gotham whitespace-nowrap"
                           style={{ fontFamily: "'Gotham', Arial, sans-serif" }}
                         >
                           LAND APPROVAL
                         </Link>
-                        <Link 
-                          href="/services/land-acquisition" 
+                        <Link
+                          href="/services/land-acquisition"
                           className="block px-3 py-1.5 text-[9.5px] font-bold text-[#0C2C4D] hover:bg-white/20 transition-all tracking-wider font-gotham whitespace-nowrap"
                           style={{ fontFamily: "'Gotham', Arial, sans-serif" }}
                         >
@@ -184,15 +184,15 @@ export function Footer() {
                         className="lg:hidden overflow-hidden mt-2 rounded"
                         style={{ backgroundColor: '#BFA052' }}
                       >
-                        <Link 
-                          href="/services/land-approval" 
+                        <Link
+                          href="/services/land-approval"
                           className="block px-3 py-1.5 text-[9.5px] font-bold text-[#0C2C4D] hover:bg-white/20 transition-all tracking-wider font-gotham whitespace-nowrap"
                           style={{ fontFamily: "'Gotham', Arial, sans-serif" }}
                         >
                           LAND APPROVAL
                         </Link>
-                        <Link 
-                          href="/services/land-acquisition" 
+                        <Link
+                          href="/services/land-acquisition"
                           className="block px-3 py-1.5 text-[9.5px] font-bold text-[#0C2C4D] hover:bg-white/20 transition-all tracking-wider font-gotham whitespace-nowrap"
                           style={{ fontFamily: "'Gotham', Arial, sans-serif" }}
                         >
@@ -204,9 +204,9 @@ export function Footer() {
                 </div>
 
                 {/* CAREERS */}
-                <Link 
-                  href="/careers" 
-                  className="font-gotham antialiased uppercase tracking-widest text-[11px] font-semibold whitespace-nowrap relative group pb-1 w-fit" 
+                <Link
+                  href="/careers"
+                  className="font-gotham antialiased uppercase tracking-widest text-[11px] font-semibold whitespace-nowrap relative group pb-1 w-fit"
                   style={{ fontFamily: "'Gotham', Arial, sans-serif" }}
                 >
                   <span className="text-white group-hover:text-[#BFA052] transition-colors duration-300">
@@ -216,9 +216,9 @@ export function Footer() {
                 </Link>
 
                 {/* CONTACT US */}
-                <Link 
-                  href="/contact" 
-                  className="font-gotham antialiased uppercase tracking-widest text-[11px] font-semibold whitespace-nowrap relative group pb-1 w-fit" 
+                <Link
+                  href="/contact"
+                  className="font-gotham antialiased uppercase tracking-widest text-[11px] font-semibold whitespace-nowrap relative group pb-1 w-fit"
                   style={{ fontFamily: "'Gotham', Arial, sans-serif" }}
                 >
                   <span className="text-white group-hover:text-[#BFA052] transition-colors duration-300">
@@ -231,20 +231,20 @@ export function Footer() {
 
             {/* COLUMN 3: Mini Contact Form (4fr, Right-Justified) */}
             <div className="flex flex-col space-y-6 w-full lg:max-w-[380px] lg:ml-auto pt-[19px] justify-self-end text-left">
-              <h4 
+              <h4
                 className="font-gotham text-center"
-                style={{ 
-                  fontFamily: "'Gotham', Arial, sans-serif", 
-                  fontSize: '14.5px', 
+                style={{
+                  fontFamily: "'Gotham', Arial, sans-serif",
+                  fontSize: '14.5px',
                   fontWeight: 600,
                   color: '#FFFFFF',
                 }}
               >
                 Get in Touch with Us
               </h4>
- 
+
               {isSubmitted ? (
-                <motion.div 
+                <motion.div
                   initial={{ opacity: 0, y: 10 }}
                   animate={{ opacity: 1, y: 0 }}
                   className="border border-[#BFA052] rounded-lg p-3 text-xs font-gotham text-[#BFA052] bg-[#0c2c4d]/40 backdrop-blur-sm"
@@ -274,7 +274,7 @@ export function Footer() {
                     }}
                     className="placeholder-white/70 focus:ring-1 focus:ring-[#BFA052] transition-all font-gotham"
                   />
- 
+
                   <input
                     type="text"
                     required
@@ -295,7 +295,7 @@ export function Footer() {
                     }}
                     className="placeholder-white/70 focus:ring-1 focus:ring-[#BFA052] transition-all font-gotham"
                   />
- 
+
                   <input
                     type="email"
                     required
@@ -316,7 +316,7 @@ export function Footer() {
                     }}
                     className="placeholder-white/70 focus:ring-1 focus:ring-[#BFA052] transition-all font-gotham"
                   />
- 
+
                   <textarea
                     required
                     rows={3}
@@ -338,7 +338,7 @@ export function Footer() {
                     }}
                     className="placeholder-white/70 focus:ring-1 focus:ring-[#BFA052] transition-all font-gotham"
                   />
- 
+
                   <button
                     type="submit"
                     style={{
@@ -365,8 +365,8 @@ export function Footer() {
         </div>
 
         {/* Centered Copyright text absolute positioned inside the bottom navy stripe of the background image */}
-        <div 
-          style={{ 
+        <div
+          style={{
             position: 'absolute',
             bottom: '6px',
             left: '50%',
@@ -376,11 +376,11 @@ export function Footer() {
             zIndex: 20
           }}
         >
-          <p 
-            style={{ 
-              fontFamily: "'Gotham', Arial, sans-serif", 
-              fontSize: '10px', 
-              letterSpacing: '0.15em', 
+          <p
+            style={{
+              fontFamily: "'Gotham', Arial, sans-serif",
+              fontSize: '10px',
+              letterSpacing: '0.15em',
               color: 'rgba(255,255,255,0.75)',
               textTransform: 'uppercase',
               margin: 0
