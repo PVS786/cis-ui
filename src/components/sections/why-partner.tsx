@@ -143,7 +143,7 @@ export function WhyPartnerSection() {
   const currentActiveId = hoveredId !== null ? hoveredId : activeId;
 
   return (
-    <section 
+    <section
       className="why-partner-section text-brand-navy relative transition-colors duration-700 py-16 md:py-24 lg:py-28 px-6 md:px-12 lg:px-16 overflow-hidden"
       style={{
         backgroundColor: '#FFFFFF',
@@ -225,7 +225,7 @@ export function WhyPartnerSection() {
 
       {/* Main Structural Block / True Two-Column Layout */}
       <div className="max-w-[90rem] mx-auto w-full grid grid-cols-1 md:grid-cols-[52%_48%] lg:grid-cols-[48%_52%] xl:grid-cols-[45%_55%] gap-12 lg:gap-16 items-center relative z-10">
-        
+
         {/* Left Column: Heading, Introduction text, and Interactive Accordion */}
         <div className="flex flex-col justify-center space-y-6 lg:space-y-8 h-full">
           <div className="space-y-4 animate-fade-in">
@@ -236,12 +236,12 @@ export function WhyPartnerSection() {
                 The Distinction
               </span>
             </div>
-            
+
             {/* Main Heading */}
             <h2 className="text-4xl sm:text-5xl lg:text-6xl font-tibere font-black text-brand-navy tracking-normal uppercase leading-none mb-0 whitespace-nowrap" style={{ wordSpacing: '0.18em' }}>
               Why Partner <span className="text-brand-gold">With Us</span>
             </h2>
-            
+
             {/* Introductory Paragraph */}
             <div className="text-sm md:text-base text-slate-700 font-poppins font-medium leading-relaxed border-l-4 border-brand-gold pl-6 max-w-2xl mt-6">
               We understand that every decision you make carries risk, timelines, and long-term impact. That's why we approach every engagement with a sharp focus on due diligence, clarity, and foresight, helping you navigate uncertainty, anticipate challenges early, and make well-informed choices that stand strong not just today, but well into the future.
@@ -294,7 +294,7 @@ export function WhyPartnerSection() {
                       )}>
                         0{pillar.id}
                       </span>
-                      
+
                       {/* Accordion Title */}
                       <h3 className={cn(
                         'font-gotham text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors duration-300',
@@ -336,7 +336,7 @@ export function WhyPartnerSection() {
         {/* Right Column: Structured, symmetric architectural Hexagon Grid */}
         <div className="flex items-center justify-center relative w-full overflow-visible select-none lg:pl-3 xl:pl-6">
           <div className="relative w-full min-w-[320px] max-w-[380px] xs:max-w-[420px] sm:max-w-[480px] md:max-w-[540px] lg:max-w-[660px] xl:max-w-[720px] aspect-square mx-auto">
-            
+
             {/* Subtle architectural background alignment cross-axis layout */}
             <div className="absolute inset-x-[-3%] inset-y-[-3%] border border-dashed border-brand-navy/5 opacity-10 pointer-events-none z-0">
               <div className="absolute top-1/2 left-0 right-0 h-[1px] border-t border-dashed border-brand-gold/5 translate-y-[-50%]" />
@@ -353,7 +353,7 @@ export function WhyPartnerSection() {
                 // Center Node is balanced at (50%, 50%)
                 const startX = '50%';
                 const startY = '50%';
-                
+
                 let endX = '50%';
                 let endY = '50%';
 
@@ -377,7 +377,7 @@ export function WhyPartnerSection() {
                       strokeOpacity={isLineActive ? 0.85 : 0.4}
                       className="transition-all duration-300"
                     />
-                    
+
                     {/* Active floating beam data transmission pulses */}
                     <motion.line
                       x1={startX}
@@ -405,7 +405,7 @@ export function WhyPartnerSection() {
             {/* Dynamic responsive hexagonal grid overlay */}
             <AnimatePresence mode="popLayout">
               <div key="hex-grid-container" className="absolute inset-0">
-                
+
                 {/* CENTRAL CONSERVVE INFRA SOLUTIONS CORE SHIELD ENGINE (ID: 99) */}
                 {(() => {
                   const isCenterActive = currentActiveId === 99;
@@ -451,7 +451,7 @@ export function WhyPartnerSection() {
                       onMouseLeave={handleHoverEnd}
                     >
                       <div className="relative w-full h-full animate-fade-in" style={{ transformStyle: 'preserve-3d' }}>
-                                                {/* Pointy-topped hexagon SVG center node with slightly rounded corners */}
+                        {/* Pointy-topped hexagon SVG center node with slightly rounded corners */}
                         <svg
                           className="absolute inset-0 w-full h-full transition-all duration-500 ease-out z-0"
                           viewBox="0 0 208 240"
@@ -493,12 +493,12 @@ export function WhyPartnerSection() {
                         </svg>
 
                         {/* Inner detailed company logo branding layout */}
-                        <div 
+                        <div
                           className="absolute inset-[6%] flex flex-col justify-center items-center text-center text-white select-none z-10"
                           style={{ transform: 'translateZ(15px)' }}
                         >
                           {/* Logo Image */}
-                           <div className="relative w-8 h-8 xs:w-10 xs:h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 xl:w-18 xl:h-18 mb-0.5 drop-shadow-[0_0_12px_rgba(191,160,82,0.45)]">
+                          <div className="relative w-8 h-8 xs:w-10 xs:h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 xl:w-18 xl:h-18 mb-0.5 drop-shadow-[0_0_12px_rgba(191,160,82,0.45)]">
                             <Image
                               src="/logo-transparent-dark.png"
                               alt="Conservve Logo"
@@ -510,27 +510,27 @@ export function WhyPartnerSection() {
 
                           {/* Company Name Typography matching Navbar */}
                           <div className="flex flex-col items-center justify-center text-center w-full mt-0">
-                            <span 
+                            <span
                               className="font-bold text-white tracking-wide whitespace-nowrap text-[8px] xs:text-[9.5px] sm:text-[10px] md:text-[12px] lg:text-[13px] xl:text-[14px]"
-                              style={{ 
-                                fontFamily: "'Tibere OT W03 Medium', 'FF Tibere Medium', 'FF Tibere Std Medium', 'FF Tibere Std-Bold', 'FFTibereStd-Bold', 'FF Tibere Std', 'FF Tibere', 'Tibere OTW03-Bold', 'TibereOTW03-Bold', 'Tibere', 'Cormorant Garamond', 'EB Garamond', 'Gelasio', 'Cinzel', Georgia, serif", 
-                                letterSpacing: '0.06em', 
-                                lineHeight: '0.9', 
-                                fontWeight: 700 
+                              style={{
+                                fontFamily: "'Tibere OT W03 Medium', 'FF Tibere Medium', 'FF Tibere Std Medium', 'FF Tibere Std-Bold', 'FFTibereStd-Bold', 'FF Tibere Std', 'FF Tibere', 'Tibere OTW03-Bold', 'TibereOTW03-Bold', 'Tibere', 'Cormorant Garamond', 'EB Garamond', 'Gelasio', 'Cinzel', Georgia, serif",
+                                letterSpacing: '0.06em',
+                                lineHeight: '0.9',
+                                fontWeight: 700
                               }}
                             >
                               CONSERVVE
                             </span>
-                            <span 
+                            <span
                               className="font-bold text-white/90 mt-0.5 sm:mt-1 whitespace-nowrap text-[5px] xs:text-[6px] sm:text-[6.5px] md:text-[7.5px] lg:text-[8px] xl:text-[8.5px]"
-                              style={{ 
-                                fontFamily: "'Tibere OT W03 Medium', 'FF Tibere Medium', 'FF Tibere Std Medium', 'FF Tibere Std-Bold', 'FFTibereStd-Bold', 'FF Tibere Std', 'FF Tibere', 'Tibere OTW03-Bold', 'TibereOTW03-Bold', 'Tibere', 'Cormorant Garamond', 'EB Garamond', 'Gelasio', 'Cinzel', Georgia, serif", 
-                                letterSpacing: '0.08em', 
-                                lineHeight: '0.9', 
-                                fontWeight: 700 
+                              style={{
+                                fontFamily: "'Tibere OT W03 Medium', 'FF Tibere Medium', 'FF Tibere Std Medium', 'FF Tibere Std-Bold', 'FFTibereStd-Bold', 'FF Tibere Std', 'FF Tibere', 'Tibere OTW03-Bold', 'TibereOTW03-Bold', 'Tibere', 'Cormorant Garamond', 'EB Garamond', 'Gelasio', 'Cinzel', Georgia, serif",
+                                letterSpacing: '0.08em',
+                                lineHeight: '0.9',
+                                fontWeight: 700
                               }}
                             >
-                              INFRA SOLUTIONS
+                              INFRA SOLUTIONSS
                             </span>
                           </div>
                         </div>
@@ -581,29 +581,29 @@ export function WhyPartnerSection() {
                         transition: { duration: 0.3 }
                       }}
                       transition={{
-                        x: { 
-                          type: 'spring', 
-                          stiffness: 90, 
-                          damping: 14, 
-                          mass: 1.1, 
-                          delay: idx * 0.06 
+                        x: {
+                          type: 'spring',
+                          stiffness: 90,
+                          damping: 14,
+                          mass: 1.1,
+                          delay: idx * 0.06
                         },
-                        y: { 
-                          type: 'spring', 
-                          stiffness: 90, 
-                          damping: 14, 
-                          mass: 1.1, 
-                          delay: idx * 0.06 
+                        y: {
+                          type: 'spring',
+                          stiffness: 90,
+                          damping: 14,
+                          mass: 1.1,
+                          delay: idx * 0.06
                         },
-                        scale: { 
-                          type: 'spring', 
-                          stiffness: 125, 
-                          damping: 15 
+                        scale: {
+                          type: 'spring',
+                          stiffness: 125,
+                          damping: 15
                         },
                         rotateX: { type: 'spring', stiffness: 100, damping: 15 },
                         rotateY: { type: 'spring', stiffness: 100, damping: 15 },
-                        opacity: { 
-                          duration: 0.25 
+                        opacity: {
+                          duration: 0.25
                         },
                       }}
                       onMouseEnter={() => handleHoverStart(pillar.id)}
@@ -614,7 +614,7 @@ export function WhyPartnerSection() {
                       }}
                     >
                       <div className="relative w-full h-full" style={{ transformStyle: 'preserve-3d' }}>
-                                                {/* Pointy-topped crisp responsive outline cell with slightly rounded corners */}
+                        {/* Pointy-topped crisp responsive outline cell with slightly rounded corners */}
                         <svg
                           className="absolute inset-0 w-full h-full transition-all duration-500 ease-out z-0"
                           viewBox="0 0 208 240"
@@ -624,7 +624,7 @@ export function WhyPartnerSection() {
                               : 'drop-shadow(0 4px 12px rgba(0, 0, 0, 0.45))',
                           }}
                         >
-                          
+
                           {/* Base drop-layer shadow extrusion */}
                           <path
                             d="M 112.6,9.5 L 194.9,57.0 Q 203.5,62 203.5,72.0 L 203.5,168.0 Q 203.5,178 194.9,183.0 L 112.6,230.5 Q 104,235.5 95.4,230.5 L 13.1,183.0 Q 4.5,178 4.5,168.0 L 4.5,72.0 Q 4.5,62 13.1,57.0 L 95.4,9.5 Q 104,4.5 112.6,9.5 Z"
@@ -644,7 +644,7 @@ export function WhyPartnerSection() {
                             strokeWidth={isPillarActive ? 2.8 : 2.0}
                             className="transition-all duration-500 ease-out"
                           />
-                          
+
                           {/* Inner fine nested visual blueprint trace overlay */}
                           <path
                             d="M 110.9,18.5 L 187.6,63.0 Q 194.5,67 194.5,75.0 L 194.5,165.0 Q 194.5,173 187.6,177.0 L 110.9,221.5 Q 104,225.5 97.1,221.5 L 20.4,177.0 Q 13.5,173 13.5,165.0 L 13.5,75.0 Q 13.5,67 20.4,63.0 L 97.1,18.5 Q 104,14.5 110.9,18.5 Z"
@@ -665,7 +665,7 @@ export function WhyPartnerSection() {
                         </svg>
 
                         {/* Outer cell descriptive interactive block details */}
-                        <div 
+                        <div
                           className="absolute inset-0 flex flex-col justify-center items-center text-center px-1.5 py-3 sm:px-2.5 sm:py-4 select-none z-10"
                           style={{ transform: 'translateZ(10px)' }}
                         >
@@ -677,7 +677,7 @@ export function WhyPartnerSection() {
                           )}>
                             0{pillar.id}
                           </div>
-                          
+
                           {/* Glowing vector icon wrapping Halo structural blueprint detail */}
                           <div className="relative mb-2.5 sm:mb-4">
                             {/* Rotating geometric drafting ticks to align with architectural-tech theme */}
@@ -689,9 +689,8 @@ export function WhyPartnerSection() {
                               />
                             )}
                             {/* Glowing backdrop cloud */}
-                            <div className={`absolute -inset-5 bg-gradient-to-r from-brand-gold to-brand-gold/20 rounded-full blur-[12px] transition-opacity duration-500 ${
-                              isPillarActive ? 'opacity-45' : 'opacity-0 group-hover:opacity-20'
-                            }`} />
+                            <div className={`absolute -inset-5 bg-gradient-to-r from-brand-gold to-brand-gold/20 rounded-full blur-[12px] transition-opacity duration-500 ${isPillarActive ? 'opacity-45' : 'opacity-0 group-hover:opacity-20'
+                              }`} />
                             <div className={cn(
                               "w-8 h-8 sm:w-10 sm:h-10 rounded-full border flex items-center justify-center transition-all duration-500 relative z-10",
                               isPillarActive
@@ -712,8 +711,8 @@ export function WhyPartnerSection() {
                           <h3 className={cn(
                             'font-gotham font-extrabold uppercase tracking-wide text-center leading-tight transition-colors duration-300 w-full px-1',
                             isPillarActive ? 'text-[#0C2C4D]' : 'text-white/95',
-                            isLongTitle 
-                              ? 'text-[8px] xs:text-[9px] sm:text-[10px] md:text-[11px] lg:text-[11.5px]' 
+                            isLongTitle
+                              ? 'text-[8px] xs:text-[9px] sm:text-[10px] md:text-[11px] lg:text-[11.5px]'
                               : 'text-[9px] xs:text-[10px] sm:text-[11px] md:text-[12px] lg:text-[12.5px]'
                           )}>
                             {pillar.titleLines.map((line, lineIdx) => (

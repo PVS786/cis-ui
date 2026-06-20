@@ -4,104 +4,6 @@ import { motion } from 'framer-motion';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
-const triangleVariants = {
-  hidden: { opacity: 0, scale: 0.8, x: -25 },
-  visible: (i: number) => ({
-    opacity: 1,
-    scale: 1,
-    x: 0,
-    transition: {
-      type: "spring" as const,
-      stiffness: 120,
-      damping: 16,
-      delay: i * 0.15,
-    }
-  })
-};
-
-const containerVariantsLeft = {
-  hidden: { opacity: 0, x: -60 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.8, ease: "easeOut" as const }
-  }
-};
-
-const containerVariantsRight = {
-  hidden: { opacity: 0, x: 60 },
-  visible: {
-    opacity: 1,
-    x: 0,
-    transition: { duration: 0.8, ease: "easeOut" as const }
-  }
-};
-
-const bgGroupVariants = {
-  hidden: {
-    opacity: 0,
-    x: -400,
-    skewX: -8,
-  },
-  visible: {
-    opacity: 1,
-    x: 0,
-    skewX: 0,
-    transition: {
-      type: "spring" as const,
-      stiffness: 45,
-      damping: 16,
-      mass: 1.0,
-      delay: 0.05,
-    }
-  }
-};
-
-function ArrowPattern({ isRight = false }: { isRight?: boolean }) {
-  return (
-    <div style={{ transform: isRight ? 'scaleX(-1)' : 'none' }} className="overflow-visible">
-      <svg
-        width="160"
-        height="120"
-        viewBox="0 0 160 120"
-        fill="none"
-        xmlns="http://www.w3.org/2000/svg"
-        className="w-full h-auto overflow-visible"
-      >
-        {/* Faded Background Shape Silhouette (underneath like a 3d shadow) */}
-        <motion.path
-          d="M -300,0 L 20,0 L 80,36 L 80,10 L 160,60 L 80,110 L 80,84 L 20,120 L -300,120 Z"
-          fill="#EAD8B1"
-          fillOpacity={0.25}
-          variants={bgGroupVariants}
-        />
-
-        {/* Navy Chevron with V-notch (points right, cutout points left) */}
-        <motion.path
-          d="M 20,10 L 77,45 L 50,60 L 77,75 L 20,110 Z"
-          fill="#0C2C4D"
-          variants={triangleVariants}
-          custom={0}
-        />
-        {/* Gold Triangle (points left, nesting into navy notch) */}
-        <motion.path
-          d="M 77,45 L 50,60 L 77,75 Z"
-          fill="#BFA052"
-          variants={triangleVariants}
-          custom={1}
-        />
-        {/* Cream Triangle (points right, sitting on the right of the notch) */}
-        <motion.path
-          d="M 75,25 L 75,95 L 130,60 Z"
-          fill="#EAD8B1"
-          variants={triangleVariants}
-          custom={2}
-        />
-      </svg>
-    </div>
-  );
-}
-
 export function IntegratedSolutionsSection() {
   const solutions = [
     {
@@ -125,45 +27,39 @@ export function IntegratedSolutionsSection() {
   return (
     <section className="bg-transparent pt-2 pb-16 overflow-hidden relative">
       <div className="max-w-[90rem] mx-auto px-6 md:px-12 lg:px-16">
-        <div className="relative w-full flex items-center justify-center min-h-[220px] mb-16">
-          {/* Left Arrow Accents */}
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={containerVariantsLeft}
-            className="hidden lg:block absolute left-0 top-1/2 -translate-y-1/2 w-[220px] xl:w-[260px] overflow-visible"
-          >
-            <ArrowPattern isRight={false} />
-          </motion.div>
-
-          {/* Centered Heading */}
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
-            className="max-w-4xl xl:max-w-5xl text-center z-10 mx-auto"
-          >
-            <h2 className="text-5xl md:text-6xl font-tibere font-black text-brand-navy tracking-tight uppercase mb-6">
-              INTEGRATED LAND SOLUTIONS
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-center md:gap-16 gap-8 mb-16 pt-16 pb-10">
+          {/* Heading Column */}
+          <div className="max-w-3xl shrink-0">
+            <h2 className="text-6xl md:text-7xl font-tibere text-brand-navy leading-[0.95] tracking-tight uppercase">
+              Integrated Land <br />
+              <span className="text-brand-gold italic">Solutions.</span>
             </h2>
-            <div className="text-xl text-brand-navy font-gotham font-medium leading-relaxed">
-              Two things define every successful development, the right land, and a clear path to build on it.
-              <br /><span className="text-[#BFA052] font-medium">This is how we make that real.</span>
+          </div>
+          {/* Divider and Paragraph Column */}
+          <div className="relative flex items-center self-stretch">
+            {/* The vertical line - styled as the logo's vertical navy bar */}
+            <motion.div
+              initial={{ scaleY: 0 }}
+              whileInView={{ scaleY: 1 }}
+              transition={{ duration: 0.8, ease: 'easeOut' }}
+              viewport={{ once: true }}
+              className="absolute left-0 top-0 bottom-0 w-[3px] bg-brand-navy origin-top"
+            />
+            {/* The text container */}
+            <div className="overflow-hidden pl-12 py-2 max-w-[680px]">
+              <motion.p
+                initial={{ x: '-100%', opacity: 0 }}
+                whileInView={{ x: 0, opacity: 1 }}
+                transition={{ duration: 1.0, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
+                viewport={{ once: true }}
+                className="text-xl text-brand-navy font-gotham font-medium leading-relaxed"
+              >
+                Two things define every successful development, the right land, and a clear path to build on it.
+                <br />
+                <span className="text-[#BFA052] font-medium">This is how we make that real.</span>
+              </motion.p>
             </div>
-          </motion.div>
-
-          {/* Right Arrow Accents */}
-          <motion.div
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            variants={containerVariantsRight}
-            className="hidden lg:block absolute right-0 top-1/2 -translate-y-1/2 w-[220px] xl:w-[260px] overflow-visible"
-          >
-            <ArrowPattern isRight={true} />
-          </motion.div>
+          </div>
         </div>
 
         <div className="max-w-7xl mx-auto space-y-40">
@@ -192,6 +88,11 @@ export function IntegratedSolutionsSection() {
                       <p key={pIdx}>{paragraph}</p>
                     ))}
                   </div>
+                  <div className="xl:pl-6 pt-4">
+                    <button className="btn-draw-border">
+                      Read More
+                    </button>
+                  </div>
                 </div>
               </motion.div>
 
@@ -204,13 +105,13 @@ export function IntegratedSolutionsSection() {
               >
                 {/* Architectural Offset Block */}
                 <div className={cn(
-                  "absolute top-8 bottom-8 w-[80%] bg-brand-navy transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.02]",
+                  "absolute top-8 bottom-8 w-[80%] bg-brand-navy rounded-2xl transition-all duration-1000 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-[1.02]",
                   idx % 2 === 1 ? "right-0 lg:-right-12" : "left-0 lg:-left-12"
                 )} />
 
                 {/* Main Image Container */}
                 <div className={cn(
-                  "absolute inset-0 lg:inset-y-0 z-10 shadow-2xl overflow-hidden bg-brand-gray-medium",
+                  "absolute inset-0 lg:inset-y-0 z-10 shadow-2xl overflow-hidden bg-brand-gray-medium rounded-2xl",
                   idx % 2 === 1 ? "mr-6 lg:mr-16" : "ml-6 lg:ml-16"
                 )}>
                   <div className="absolute inset-0 bg-brand-navy/5 group-hover:bg-transparent transition-colors duration-700 z-20" />
@@ -229,19 +130,26 @@ export function IntegratedSolutionsSection() {
                 <div className={cn(
                   "absolute w-32 h-32 lg:w-48 lg:h-48 border-brand-gold z-20 transition-all duration-700 pointer-events-none",
                   idx % 2 === 1
-                    ? "-top-4 -left-4 lg:-top-8 lg:-left-8 border-t-[3px] border-l-[3px] group-hover:top-0 group-hover:left-0"
-                    : "-bottom-4 -right-4 lg:-bottom-8 lg:-right-8 border-b-[3px] border-r-[3px] group-hover:bottom-0 group-hover:right-0"
+                    ? "-top-4 -left-4 lg:-top-8 lg:-left-8 border-t-[3px] border-l-[3px] rounded-tl-3xl group-hover:top-0 group-hover:left-0 group-hover:rounded-tl-2xl"
+                    : "-bottom-4 -right-4 lg:-bottom-8 lg:-right-8 border-b-[3px] border-r-[3px] rounded-br-3xl group-hover:bottom-0 group-hover:right-0 group-hover:rounded-br-2xl"
                 )}>
-                  {/* Technical Nodes */}
-                  <div className="absolute w-2 h-2 bg-brand-gold top-0 left-0 -translate-x-[1.5px] -translate-y-[1.5px]" />
-                  <div className={cn(
-                    "absolute w-2 h-2 bg-brand-gold",
-                    idx % 2 === 1 ? "bottom-0 left-0 -translate-x-[1.5px] translate-y-1/2" : "top-0 right-0 translate-x-1/2 -translate-y-[1.5px]"
-                  )} />
-                  <div className={cn(
-                    "absolute w-2 h-2 bg-brand-gold",
-                    idx % 2 === 1 ? "top-0 right-0 translate-x-1/2 -translate-y-[1.5px]" : "bottom-0 left-0 -translate-x-[1.5px] translate-y-1/2"
-                  )} />
+                  {/* Technical Nodes - endpoints changed to 10px circular dots, corner dot removed */}
+                  <div 
+                    className="absolute bg-brand-gold rounded-full" 
+                    style={
+                      idx % 2 === 1
+                        ? { bottom: '-5px', left: '-3.5px', width: '10px', height: '10px' }
+                        : { bottom: '-3.5px', left: '-5px', width: '10px', height: '10px' }
+                    }
+                  />
+                  <div 
+                    className="absolute bg-brand-gold rounded-full" 
+                    style={
+                      idx % 2 === 1
+                        ? { top: '-3.5px', right: '-5px', width: '10px', height: '10px' }
+                        : { top: '-5px', right: '-3.5px', width: '10px', height: '10px' }
+                    }
+                  />
                 </div>
               </motion.div>
             </div>

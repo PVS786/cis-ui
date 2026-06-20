@@ -445,7 +445,7 @@ export function HowWeDeliverSection() {
                       <div className="p-4 lg:p-4.5">
                         <div className="flex items-center gap-2 mb-2.5">
                           <div
-                            className="w-7 h-7 flex items-center justify-center rounded-md font-gotham text-white text-xs font-bold shrink-0"
+                            className="w-10 h-10 flex items-center justify-center rounded-lg font-gotham text-white text-base font-extrabold shrink-0"
                             style={{ background: '#0C2C4D' }}
                           >
                             {active.id < 10 ? `0${active.id}` : active.id}
@@ -517,14 +517,14 @@ export function HowWeDeliverSection() {
                   )}
                 >
                   <span className={cn(
-                    "font-tibere text-2xl md:text-3xl transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]", 
-                    isActive ? "text-brand-gold scale-[1.35] -translate-y-1 drop-shadow-md" : (isPast ? "text-brand-gold/80" : "text-gray-300")
+                    "font-gotham font-normal text-3xl md:text-4xl lg:text-[44px] transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]", 
+                    isActive ? "text-brand-gold scale-[1.2] -translate-y-1 drop-shadow-md" : (isPast ? "text-brand-gold/80" : "text-gray-300")
                   )}>
                     0{step.id}
                   </span>
                   <span className={cn(
-                    "font-tibere font-bold text-xs md:text-sm lg:text-[15px] text-center leading-tight transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hidden sm:block w-full px-2 origin-top", 
-                    isActive ? "text-brand-navy scale-110" : (isPast ? "text-brand-navy/80" : "text-gray-400")
+                    "font-gotham font-medium text-sm md:text-base lg:text-[17px] text-center leading-tight transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hidden sm:block w-full px-2 origin-top", 
+                    isActive ? "text-brand-navy scale-105" : (isPast ? "text-brand-navy/80" : "text-gray-400")
                   )}>
                     {step.title}
                   </span>
