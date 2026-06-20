@@ -5,14 +5,28 @@ import { useState, useEffect, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
 
-// Base image 1671x941. Container aspect = 1671 / 941 = 1.7758
-const CAR = 1671 / 941;
+// Base image 1672×941. Container aspect ratio
+const CAR = 1672 / 941;
 const STEP_DURATION = 3500; // ms per section in auto-play
 
-/** Compute top-left corner of block image given its center point and display width */
-function tlCorner(cx: number, cy: number, dw: number, imgW: number, imgH: number) {
-  const dh = (dw / (imgW / imgH)) * CAR;
-  return { lp: cx - dw / 2, tp: cy - dh / 2 };
+/** Compute top-left corner of block image given its content center and target visual width */
+function tlCorner(step: Step) {
+  const { cx, cy, dw, imgW, imgH, cropX1, cropX2, cropY1, cropY2 } = step;
+  const c_w = cropX2 - cropX1 + 1;
+
+  const c_w_frac = c_w / imgW;
+
+  const c_x_center_frac = ((cropX1 + cropX2) / 2) / imgW;
+  const c_y_center_frac = ((cropY1 + cropY2) / 2) / imgH;
+
+  // Scale the image display width (img_dw) so visual content width is step.dw
+  const img_dw = dw / c_w_frac;
+  const img_dh = (img_dw / (imgW / imgH)) * CAR;
+
+  const lp = cx - c_x_center_frac * img_dw;
+  const tp = cy - c_y_center_frac * img_dh;
+
+  return { lp, tp, img_dw };
 }
 
 interface Step {
@@ -22,16 +36,28 @@ interface Step {
   imagePath: string;
   imgW: number;
   imgH: number;
+  cropX1: number;
+  cropX2: number;
+  cropY1: number;
+  cropY2: number;
   cx: number;
   cy: number;
   dw: number;
-  hx: number;
-  hy: number;
-  hw: number;
-  hh: number;
   panelSide: 'left' | 'right';
 }
 
+/*
+ * ─── PLACEMENT GEOMETRY ────────────────────────────────────────
+ *
+ * Uniform visual width dw = 22.0% so 3 blocks (66.0%) fit on the
+ * 75%-wide horizontal rail with ~5.5% even gaps.
+ *
+ * Each block is centered vertically on the conveyor rails:
+ *   top rail center  y = 18.6%
+ *   bottom rail center y = 77.6%
+ *   curve center (rightmost point) = (89.0%, 48.8%)
+ * ────────────────────────────────────────────────────────────────
+ */
 const steps: Step[] = [
   {
     id: 1,
@@ -39,8 +65,8 @@ const steps: Step[] = [
     desc: 'We identify and consolidate high-potential land opportunities aligned with your project vision, location strategy, and long-term value.',
     imagePath: '/how_we_deliver/HWD_Section_1.png',
     imgW: 1672, imgH: 941,
-    cx: 13.5, cy: 16, dw: 34,
-    hx: 0, hy: 0, hw: 25, hh: 45,
+    cropX1: 176, cropX2: 1334, cropY1: 78, cropY2: 882,
+    cx: 13.0, cy: 18.6, dw: 27.12,
     panelSide: 'right',
   },
   {
@@ -49,8 +75,8 @@ const steps: Step[] = [
     desc: 'Every parcel undergoes rigorous legal scrutiny to ensure clear titles, compliance, and zero-risk acquisition.',
     imagePath: '/how_we_deliver/HWD_Section_2.png',
     imgW: 1457, imgH: 1079,
-    cx: 44, cy: 16, dw: 30,
-    hx: 25, hy: 0, hw: 35, hh: 45,
+    cropX1: 137, cropX2: 1203, cropY1: 66, cropY2: 999,
+    cx: 42.0, cy: 18.6, dw: 23.22,
     panelSide: 'right',
   },
   {
@@ -59,8 +85,8 @@ const steps: Step[] = [
     desc: 'We manage negotiations with a focus on transparency, optimal value, and secure deal finalization.',
     imagePath: '/how_we_deliver/HWD_Section_3.png',
     imgW: 1448, imgH: 1086,
-    cx: 77, cy: 16, dw: 25.5,
-    hx: 60, hy: 0, hw: 25, hh: 45,
+    cropX1: 97, cropX2: 1248, cropY1: 80, cropY2: 982,
+    cx: 71.0, cy: 18.6, dw: 25.21,
     panelSide: 'left',
   },
   {
@@ -69,8 +95,8 @@ const steps: Step[] = [
     desc: 'Accurate and timely execution of all legal documentation and registration processes.',
     imagePath: '/how_we_deliver/HWD_Section_4.png',
     imgW: 1448, imgH: 1086,
-    cx: 92, cy: 52, dw: 25.5,
-    hx: 80, hy: 25, hw: 20, hh: 40,
+    cropX1: 156, cropX2: 1241, cropY1: 37, cropY2: 934,
+    cx: 90.0, cy: 48.8, dw: 21.79,
     panelSide: 'left',
   },
   {
@@ -79,8 +105,8 @@ const steps: Step[] = [
     desc: 'Seamless coordination with authorities to secure all statutory approvals efficiently and compliantly.',
     imagePath: '/how_we_deliver/HWD_Section_5.png',
     imgW: 1433, imgH: 941,
-    cx: 77, cy: 80, dw: 29,
-    hx: 65, hy: 55, hw: 35, hh: 45,
+    cropX1: 185, cropX2: 1333, cropY1: 26, cropY2: 910,
+    cx: 71.0, cy: 75.5, dw: 25.66,
     panelSide: 'left',
   },
   {
@@ -89,8 +115,8 @@ const steps: Step[] = [
     desc: 'Ongoing assistance to ensure a smooth transition from land acquisition to project readiness.',
     imagePath: '/how_we_deliver/HWD_Section_6.png',
     imgW: 1479, imgH: 941,
-    cx: 44, cy: 80, dw: 30,
-    hx: 32, hy: 55, hw: 33, hh: 45,
+    cropX1: 282, cropX2: 1436, cropY1: 91, cropY2: 861,
+    cx: 42.0, cy: 75.5, dw: 28.22,
     panelSide: 'right',
   },
   {
@@ -99,8 +125,8 @@ const steps: Step[] = [
     desc: 'Through our associate company Conservve Buildcon, we deliver fully integrated commercial project execution.',
     imagePath: '/how_we_deliver/HWD_Section_7.png',
     imgW: 2390, imgH: 1792,
-    cx: 11.0, cy: 81.0, dw: 27.0,
-    hx: 0, hy: 55, hw: 32, hh: 45,
+    cropX1: 74, cropX2: 2360, cropY1: 88, cropY2: 1706,
+    cx: 13.0, cy: 75.5, dw: 26.61,
     panelSide: 'right',
   },
 ];
@@ -122,13 +148,13 @@ const pathVariants = {
 };
 
 const bgGroupVariants = {
-  hidden: { 
-    opacity: 0, 
+  hidden: {
+    opacity: 0,
     x: -400,
     skewX: -8,
   },
   visible: {
-    opacity: 1, 
+    opacity: 1,
     x: 0,
     skewX: 0,
     transition: {
@@ -258,11 +284,11 @@ export function HowWeDeliverSection() {
   const active = steps.find((s) => s.id === activeId) ?? steps[0];
 
   return (
-    <section className="bg-transparent w-full relative overflow-x-clip py-16 md:py-24 animate-cycleKey" key={cycleKey}>
+    <section className="bg-transparent w-full relative overflow-x-clip pt-8 md:pt-12 pb-16 md:pb-24 animate-cycleKey" key={cycleKey}>
 
       {/* ── HEADER ── */}
-      <div className="max-w-[90rem] mx-auto px-6 md:px-12 lg:px-16 pt-8 lg:pt-12 pb-12 relative z-10">
-        <div className="relative w-full flex items-center justify-center min-h-[220px]">
+      <div className="max-w-[90rem] mx-auto px-6 md:px-12 lg:px-16 pt-4 lg:pt-6 pb-6 relative z-10">
+        <div className="relative w-full flex items-center justify-center min-h-[150px]">
           {/* Left Corner Pattern (slides in from left, draws lines) */}
           <motion.div
             initial="hidden"
@@ -311,9 +337,9 @@ export function HowWeDeliverSection() {
       </div>
 
       {/* ── INTEGRATED MAP CONTAINER ── */}
-      <div className="relative w-full pb-12 overflow-x-auto overflow-y-visible scrollbar-thin">
+      <div className="relative w-full pb-12 overflow-visible">
         <div
-          className="relative w-[1600px] mx-auto flex flex-col overflow-visible px-8 pt-6"
+          className="relative max-w-[1400px] w-[92%] mx-auto flex flex-col overflow-visible pt-10 md:pt-14"
           onMouseLeave={handleHoverEnd}
         >
           {/* BASE IMAGE AREA */}
@@ -321,33 +347,45 @@ export function HowWeDeliverSection() {
             <Image
               src="/how_we_deliver/how-we-deliver-base-object.png"
               alt="Conservve Infra Solutions — How We Deliver Base"
-              width={1600}
-              height={900}
+              width={1672}
+              height={941}
               className="w-full h-auto block select-none"
               priority
-              sizes="100vw"
+              sizes="(max-width: 1400px) 92vw, 1400px"
               draggable={false}
             />
 
             {/* HOTSPOT ZONES */}
-            {steps.map((step) => (
-              <div
-                key={step.id}
-                className="absolute z-20 cursor-pointer"
-                style={{
-                  left: `${step.hx}%`,
-                  top: `${step.hy}%`,
-                  width: `${step.hw}%`,
-                  height: `${step.hh}%`,
-                }}
-                onMouseEnter={() => handleHoverStart(step.id)}
-              />
-            ))}
+            {steps.map((step) => {
+              const c_w = step.cropX2 - step.cropX1 + 1;
+              const c_h = step.cropY2 - step.cropY1 + 1;
+              const content_ar = c_w / c_h;
+              const target_h = (step.dw / content_ar) * CAR;
+
+              const hx = step.cx - step.dw / 2;
+              const hy = step.cy - target_h / 2;
+              const hw = step.dw;
+              const hh = target_h;
+
+              return (
+                <div
+                  key={step.id}
+                  className="absolute z-20 cursor-pointer"
+                  style={{
+                    left: `${hx}%`,
+                    top: `${hy}%`,
+                    width: `${hw}%`,
+                    height: `${hh}%`,
+                  }}
+                  onMouseEnter={() => handleHoverStart(step.id)}
+                />
+              );
+            })}
 
             {/* ALL 7 STAGES DISPLAYED SIMULTANEOUSLY */}
             {steps.map((step) => {
               const isActive = activeId === step.id;
-              const { lp, tp } = tlCorner(step.cx, step.cy, step.dw, step.imgW, step.imgH);
+              const { lp, tp, img_dw } = tlCorner(step);
               return (
                 <div
                   key={`block-${step.id}`}
@@ -355,7 +393,7 @@ export function HowWeDeliverSection() {
                   style={{
                     left: `${lp}%`,
                     top: `${tp}%`,
-                    width: `${step.dw}%`,
+                    width: `${img_dw}%`,
                     zIndex: isActive ? 40 : (step.cy > 50 ? 20 : 10),
                   }}
                 >
@@ -394,25 +432,62 @@ export function HowWeDeliverSection() {
                   animate={{ opacity: 1, scale: 1, x: "-50%", y: "-50%" }}
                   exit={{ opacity: 0, scale: 0.95, x: "-50%", y: "-60%" }}
                   transition={{ duration: 0.25, ease: 'easeOut' }}
-                  className="absolute z-35 bg-white rounded-xl p-5 md:p-6 w-[22%] min-w-[200px] max-w-[280px] border-t-4 border-[#BFA052]"
+                  className="absolute z-35 w-[36%] min-w-[420px] max-w-[500px]"
                   style={{
-                    left: '47.5%',
-                    top: '48%',
-                    boxShadow: '0 20px 40px rgba(12,44,77,0.12), 0 4px 12px rgba(191,160,82,0.06)',
+                    left: '44%',
+                    top: '46.0%',
                   }}
                 >
-                  <div className="flex items-center gap-2 mb-3">
-                    <span className="bg-[#0C2C4D] text-white font-gotham font-black rounded px-2.5 py-1 text-xs tracking-wider">
-                      0{active.id}
-                    </span>
-                    <div className="h-[1px] bg-[#BFA052]/30 flex-1" />
+                  {/* Left decorative wings peeking from behind */}
+                  <div className="absolute left-[-10px] top-0 bottom-0 w-4 z-0 pointer-events-none">
+                    {/* Gold wing */}
+                    <div className="absolute left-[3px] top-0 h-full w-[8px] bg-[#BFA052] -skew-x-[15deg] rounded-l-[2px]" />
+                    {/* Blue wing */}
+                    <div className="absolute left-[-2px] bottom-0 h-[45%] w-[8px] bg-[#1e3a5f] -skew-x-[15deg] rounded-l-[2px]" />
                   </div>
-                  <h3 className="font-tibere text-brand-navy font-bold leading-tight mb-2 text-base md:text-lg">
-                    {active.title}
-                  </h3>
-                  <p className="font-poppins text-slate-700 text-[11.5px] md:text-[12.5px] leading-relaxed">
-                    {active.desc}
-                  </p>
+
+                  {/* Right decorative wings peeking from behind */}
+                  <div className="absolute right-[-14px] top-0 bottom-0 w-6 z-0 pointer-events-none">
+                    {/* Gold wing */}
+                    <div className="absolute right-0 top-0 h-full w-[14px] bg-[#BFA052] -skew-x-[15deg] rounded-r-[2px]" />
+                    {/* Cream wing */}
+                    <div className="absolute right-[8px] bottom-0 h-[30%] w-[10px] bg-[#FFF1D0] -skew-x-[15deg]" />
+                  </div>
+
+                  {/* Main skewed navy container with fixed height */}
+                  <div 
+                    className="relative z-10 w-full h-[115px] bg-[#0C2C4D] text-white border-y border-[#BFA052]/40 pt-3.5 pb-3.5 pl-8 pr-5 md:pt-4 md:pb-4 md:pl-10 md:pr-6 -skew-x-[15deg] shadow-2xl rounded-[3px] flex items-center"
+                    style={{
+                      boxShadow: '0 25px 50px -12px rgba(12,44,77,0.5), 0 4px 20px rgba(191,160,82,0.15)',
+                    }}
+                  >
+                    {/* Un-skewed text content wrapper */}
+                    <div className="skew-x-[15deg] w-full flex gap-5 items-center">
+                      {/* Left Column: Phase indicator */}
+                      <div className="flex items-center justify-center shrink-0 pr-1 select-none">
+                        <span className="text-3xl md:text-4xl font-gotham font-black text-[#BFA052] leading-none">
+                          0{active.id}
+                        </span>
+                      </div>
+
+                      {/* Vertical line divider */}
+                      <div className="w-[1.5px] h-14 bg-gradient-to-b from-transparent via-[#BFA052]/50 to-transparent shrink-0" />
+
+                      {/* Right Column: Content */}
+                      <div className="flex-1 min-w-0">
+                        <h3 className="font-tibere text-[#BFA052] font-black leading-snug text-sm md:text-[15px] uppercase tracking-wider">
+                          {active.title}
+                        </h3>
+
+                        {/* Gold horizontal line divider */}
+                        <div className="h-[1px] bg-gradient-to-r from-transparent via-[#BFA052]/40 to-transparent my-1.5 opacity-60" />
+
+                        <p className="font-poppins text-slate-100 text-[11px] md:text-[12px] leading-relaxed font-normal antialiased">
+                          {active.desc}
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -420,39 +495,39 @@ export function HowWeDeliverSection() {
         </div>
 
         {/* ══ INTEGRATED FLOW BAR ══ */}
-        <div className="relative w-[1500px] mx-auto flex bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden mt-8 min-h-[90px] z-20">
+        <div className="relative max-w-[1400px] w-[92%] mx-auto flex bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden mt-8 min-h-[90px] z-20">
           {/* Abstract Progress Background that spans the entire nav bar */}
           <div className="absolute inset-0 pointer-events-none z-0">
-             {/* Continuous Abstract Progress Background */}
-             <motion.div 
-               className="absolute top-0 left-0 h-full z-0" 
-               style={{ background: 'rgba(191, 160, 82, 0.08)' }}
-               animate={{ width: `${(activeId / steps.length) * 100}%` }}
-               transition={{ duration: STEP_DURATION / 1000, ease: 'linear' }}
-             />
-             
-             {/* Continuous Thick Gold tracking lines (Top & Bottom) to match logo */}
-             <motion.div 
-               className="absolute top-0 left-0 h-[5px] z-30" 
-               style={{ background: '#BFA052' }}
-               animate={{ width: `${(activeId / steps.length) * 100}%` }}
-               transition={{ duration: STEP_DURATION / 1000, ease: 'linear' }}
-             />
-             <motion.div 
-               className="absolute bottom-0 left-0 h-[5px] z-30" 
-               style={{ background: '#BFA052' }}
-               animate={{ width: `${(activeId / steps.length) * 100}%` }}
-               transition={{ duration: STEP_DURATION / 1000, ease: 'linear' }}
-             />
+            {/* Continuous Abstract Progress Background */}
+            <motion.div
+              className="absolute top-0 left-0 h-full z-0"
+              style={{ background: 'rgba(191, 160, 82, 0.08)' }}
+              animate={{ width: `${(activeId / steps.length) * 100}%` }}
+              transition={{ duration: STEP_DURATION / 1000, ease: 'linear' }}
+            />
+
+            {/* Continuous Thick Gold tracking lines (Top & Bottom) to match logo */}
+            <motion.div
+              className="absolute top-0 left-0 h-[5px] z-30"
+              style={{ background: '#BFA052' }}
+              animate={{ width: `${(activeId / steps.length) * 100}%` }}
+              transition={{ duration: STEP_DURATION / 1000, ease: 'linear' }}
+            />
+            <motion.div
+              className="absolute bottom-0 left-0 h-[5px] z-30"
+              style={{ background: '#BFA052' }}
+              animate={{ width: `${(activeId / steps.length) * 100}%` }}
+              transition={{ duration: STEP_DURATION / 1000, ease: 'linear' }}
+            />
           </div>
 
           {/* Step Tabs (Text & Content) */}
           {steps.map((step) => {
             const isActive = activeId === step.id;
             const isPast = step.id < activeId;
-            
+
             return (
-              <button 
+              <button
                 key={step.id}
                 onMouseEnter={() => handleHoverStart(step.id)}
                 className={cn(
@@ -462,13 +537,13 @@ export function HowWeDeliverSection() {
                 )}
               >
                 <span className={cn(
-                  "font-gotham font-normal text-3xl md:text-4xl lg:text-[44px] transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]", 
+                  "font-gotham font-normal text-3xl md:text-4xl lg:text-[44px] transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)]",
                   isActive ? "text-brand-gold scale-[1.2] -translate-y-1 drop-shadow-md" : (isPast ? "text-brand-gold/80" : "text-gray-300")
                 )}>
                   0{step.id}
                 </span>
                 <span className={cn(
-                  "font-gotham font-medium text-sm md:text-base lg:text-[17px] text-center leading-tight transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hidden sm:block w-full px-2 origin-top", 
+                  "font-gotham font-medium text-sm md:text-base lg:text-[17px] text-center leading-tight transition-all duration-500 ease-[cubic-bezier(0.34,1.56,0.64,1)] hidden sm:block w-full px-2 origin-top",
                   isActive ? "text-brand-navy scale-105" : (isPast ? "text-brand-navy/80" : "text-gray-400")
                 )}>
                   {step.title}
