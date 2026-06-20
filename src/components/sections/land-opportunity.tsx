@@ -152,14 +152,42 @@ export function LandOpportunitySection() {
           </div>
 
           {/* Right Image Area */}
-          <div className="lg:w-[40%] relative min-h-[400px] lg:min-h-[500px] flex items-stretch p-2 md:p-3 lg:p-4">
+          <div className="lg:w-[40%] relative min-h-[400px] lg:min-h-[500px] flex items-stretch p-2 md:p-3 lg:p-4 overflow-hidden rounded-r-2xl">
+            {/* Background design elements to match the exact design in the image */}
+            <div className="absolute inset-0 z-0 pointer-events-none">
+              {/* Subtle dot-grid texture on light background */}
+              <div
+                className="absolute inset-0 bg-[#FCFCFA]"
+                style={{
+                  backgroundImage: 'radial-gradient(#E5E7EB 1.5px, transparent 1.5px)',
+                  backgroundSize: '12px 12px',
+                }}
+              />
+              {/* Navy blue diagonal area and subtle golden line border */}
+              <svg className="absolute inset-0 w-full h-full" preserveAspectRatio="none" viewBox="0 0 100 100">
+                {/* Main Navy Diagonal Block */}
+                <polygon points="58,0 100,0 100,100 38,100" fill="#0C2C4D" />
+                {/* Thin gold dividing line */}
+                <line x1="58" y1="0" x2="38" y2="100" stroke="#BFA052" strokeWidth="0.5" opacity="0.3" />
+                {/* Bottom Left Cream Corner Wedge */}
+                <polygon points="0,75 0,100 25,100" fill="#F4F4F0" opacity="0.9" />
+              </svg>
+            </div>
+
+            {/* Glowing gold ambient light behind the card */}
+            <div className="absolute inset-4 z-5 rounded-2xl bg-[#BFA052]/10 blur-2xl pointer-events-none" />
+
+            {/* Main Image Container */}
             <motion.div
               ref={containerRef}
               initial={{ scale: 1.05, opacity: 0 }}
               whileInView={{ scale: 1, opacity: 1 }}
               transition={{ duration: 1.2, ease: "easeOut", delay: 0.2 }}
               viewport={{ once: true }}
-              className="relative w-full h-full rounded-2xl overflow-hidden shadow-lg border border-[#BFA052]/15"
+              whileHover={{
+                boxShadow: "0 25px 60px -15px rgba(12,44,77,0.15), 0 0 30px rgba(191,160,82,0.3)"
+              }}
+              className="relative w-full h-full rounded-2xl overflow-hidden shadow-lg border border-[#BFA052]/30 bg-white z-10 transition-shadow duration-500"
             >
               <Image
                 src="/turn-into-land-opp.png"
@@ -173,7 +201,7 @@ export function LandOpportunitySection() {
               <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/40 via-transparent to-transparent opacity-80 mix-blend-multiply pointer-events-none z-10" />
             </motion.div>
 
-            {/* Animated Snake Border Overlay - Rendered outside overflow-hidden */}
+            {/* Animated Snake Border Overlay & Decorative Gold Outline */}
             {w > 0 && h > 0 && (
               <svg
                 className="absolute top-2 left-2 right-2 bottom-2 md:top-3 md:left-3 md:right-3 md:bottom-3 lg:top-4 lg:left-4 lg:right-4 lg:bottom-4 pointer-events-none z-20"
@@ -282,6 +310,47 @@ export function LandOpportunitySection() {
                     animation: snake-counter 5s linear infinite;
                   }
                 `}</style>
+
+                {/* Decorative thin gold line that hugs the card with a dot at the top edge */}
+                {(() => {
+                  const decoOffset = -8;
+                  const decoLeft = decoOffset;
+                  const decoTop = decoOffset;
+                  const decoBottom = h - decoOffset;
+                  const decoR = 24; // concentric with card corner radius
+                  const startX = w * 0.45;
+                  const endX = w * 0.6;
+
+                  const decoPath = `
+                    M ${startX} ${decoTop}
+                    L ${decoLeft + decoR} ${decoTop}
+                    A ${decoR} ${decoR} 0 0 0 ${decoLeft} ${decoTop + decoR}
+                    L ${decoLeft} ${decoBottom - decoR}
+                    A ${decoR} ${decoR} 0 0 0 ${decoLeft + decoR} ${decoBottom}
+                    L ${endX} ${decoBottom}
+                  `;
+
+                  return (
+                    <g>
+                      <path
+                        d={decoPath}
+                        fill="none"
+                        stroke="#BFA052"
+                        strokeWidth="1.2"
+                        strokeLinecap="round"
+                        opacity="0.85"
+                      />
+                      <circle
+                        cx={startX}
+                        cy={decoTop}
+                        r="3.5"
+                        fill="#BFA052"
+                      />
+                    </g>
+                  );
+                })()}
+
+                {/* Snake Border paths */}
                 <path
                   d={pathD}
                   fill="none"
@@ -302,6 +371,70 @@ export function LandOpportunitySection() {
                 />
               </svg>
             )}
+
+            {/* Premium 3D Folded Origami Shape at Bottom Right Corner with Split-Entry motion */}
+            <div className="absolute bottom-2 right-2 md:bottom-3 md:right-3 lg:bottom-4 lg:right-4 z-30 w-[110px] h-[110px] md:w-[130px] md:h-[130px] lg:w-[150px] lg:h-[150px] pointer-events-auto origin-bottom-right">
+              {/* Outer wrapper to clip parts for the split/slide-in entry effect */}
+              <div className="relative w-full h-full">
+                {/* Facet Group 1: The Navy & Left Dark Fold (enters from bottom-left) */}
+                <motion.div
+                  initial={{ x: -40, y: 40, opacity: 0 }}
+                  whileInView={{ x: 0, y: 0, opacity: 1 }}
+                  transition={{ type: 'spring', stiffness: 100, damping: 18, delay: 0.5 }}
+                  viewport={{ once: true }}
+                  className="absolute inset-0 z-10"
+                >
+                  <svg className="w-full h-full drop-shadow-[0_8px_16px_rgba(0,0,0,0.3)]" viewBox="0 0 100 100">
+                    <defs>
+                      <linearGradient id="origami-navy-grad" x1="0%" y1="100%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#081E33" />
+                        <stop offset="100%" stopColor="#1C4B75" />
+                      </linearGradient>
+                      <linearGradient id="origami-dark-gold" x1="0%" y1="100%" x2="100%" y2="0%">
+                        <stop offset="0%" stopColor="#8C6A23" />
+                        <stop offset="100%" stopColor="#D5B05E" />
+                      </linearGradient>
+                    </defs>
+                    {/* Dark Fold Wedge pointing down/left */}
+                    <polygon points="0,100 65,65 40,40" fill="url(#origami-dark-gold)" />
+                    {/* Main Navy Diagonal backing facet */}
+                    <polygon points="0,100 40,40 100,0" fill="url(#origami-navy-grad)" />
+                  </svg>
+                </motion.div>
+
+                {/* Facet Group 2: The Shiny Golden Folds (enters from top-right) */}
+                <motion.div
+                  initial={{ x: 40, y: -40, opacity: 0 }}
+                  whileInView={{ x: 0, y: 0, opacity: 1 }}
+                  transition={{ type: 'spring', stiffness: 100, damping: 18, delay: 0.6 }}
+                  viewport={{ once: true }}
+                  className="absolute inset-0 z-20"
+                >
+                  <svg className="w-full h-full drop-shadow-[0_4px_10px_rgba(0,0,0,0.2)]" viewBox="0 0 100 100">
+                    <defs>
+                      <linearGradient id="origami-gold-1" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#DFBA6B" />
+                        <stop offset="100%" stopColor="#A28038" />
+                      </linearGradient>
+                      <linearGradient id="origami-gold-2" x1="100%" y1="0%" x2="0%" y2="100%">
+                        <stop offset="0%" stopColor="#F9DF9D" />
+                        <stop offset="100%" stopColor="#B69247" />
+                      </linearGradient>
+                      <linearGradient id="origami-gold-3" x1="50%" y1="0%" x2="50%" y2="100%">
+                        <stop offset="0%" stopColor="#FFE8B5" />
+                        <stop offset="100%" stopColor="#C8A555" />
+                      </linearGradient>
+                    </defs>
+                    {/* Bottom gold facet */}
+                    <polygon points="0,100 100,100 65,65" fill="url(#origami-gold-1)" />
+                    {/* Right side gold facet */}
+                    <polygon points="100,100 100,0 65,65" fill="url(#origami-gold-2)" />
+                    {/* Middle gold facet */}
+                    <polygon points="40,40 65,65 100,0" fill="url(#origami-gold-3)" />
+                  </svg>
+                </motion.div>
+              </div>
+            </div>
           </div>
         </motion.div>
       </div>
