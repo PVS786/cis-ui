@@ -46,10 +46,10 @@ export function Footer() {
             <div className="flex flex-col items-start pt-[19px] w-full justify-self-start text-left">
               <div className="flex items-center gap-[14px] xl:gap-[18px]">
                 {/* Logo Container matching Header scale but larger */}
-                <div className="w-[72px] h-[72px] xl:w-[82px] xl:h-[82px] relative flex items-center justify-center shrink-0 overflow-hidden" style={{ transform: 'translateY(3px)' }}>
+                <div className="w-[72px] h-[72px] xl:w-[82px] xl:h-[82px] relative flex items-center justify-center shrink-0" style={{ transform: 'translateY(-6px)' }}>
                   <div className="absolute inset-0 w-full h-full" style={{ transform: 'scale(1.34)' }}>
                     <Image
-                      src="/logo-white-transparent.png"
+                      src="/logo-transparent-dark.png"
                       alt="Conservve Logo Light"
                       fill
                       className="object-contain"
@@ -153,18 +153,18 @@ export function Footer() {
                         exit={{ opacity: 0, y: 5 }}
                         transition={{ duration: 0.15 }}
                         className="hidden lg:block absolute left-0 top-full mt-2 py-1.5 w-36 rounded shadow-lg z-50"
-                        style={{ backgroundColor: '#BFA052' }}
+                        style={{ backgroundColor: '#FFFFFF', border: '1.5px solid #BFA052' }}
                       >
                         <Link
                           href="/services/land-approval"
-                          className="block px-3 py-1.5 text-[9.5px] font-bold text-[#0C2C4D] hover:bg-white/20 transition-all tracking-wider font-gotham whitespace-nowrap"
+                          className="block px-3 py-1.5 text-[9.5px] font-bold text-[#0C2C4D] hover:bg-[#BFA052]/10 hover:text-[#BFA052] transition-all tracking-wider font-gotham whitespace-nowrap"
                           style={{ fontFamily: "'Gotham', Arial, sans-serif" }}
                         >
                           LAND APPROVAL
                         </Link>
                         <Link
                           href="/services/land-acquisition"
-                          className="block px-3 py-1.5 text-[9.5px] font-bold text-[#0C2C4D] hover:bg-white/20 transition-all tracking-wider font-gotham whitespace-nowrap"
+                          className="block px-3 py-1.5 text-[9.5px] font-bold text-[#0C2C4D] hover:bg-[#BFA052]/10 hover:text-[#BFA052] transition-all tracking-wider font-gotham whitespace-nowrap"
                           style={{ fontFamily: "'Gotham', Arial, sans-serif" }}
                         >
                           LAND ACQUISITION
@@ -182,18 +182,18 @@ export function Footer() {
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.15 }}
                         className="lg:hidden overflow-hidden mt-2 rounded"
-                        style={{ backgroundColor: '#BFA052' }}
+                        style={{ backgroundColor: '#FFFFFF', border: '1.5px solid #BFA052' }}
                       >
                         <Link
                           href="/services/land-approval"
-                          className="block px-3 py-1.5 text-[9.5px] font-bold text-[#0C2C4D] hover:bg-white/20 transition-all tracking-wider font-gotham whitespace-nowrap"
+                          className="block px-3 py-1.5 text-[9.5px] font-bold text-[#0C2C4D] hover:bg-[#BFA052]/10 hover:text-[#BFA052] transition-all tracking-wider font-gotham whitespace-nowrap"
                           style={{ fontFamily: "'Gotham', Arial, sans-serif" }}
                         >
                           LAND APPROVAL
                         </Link>
                         <Link
                           href="/services/land-acquisition"
-                          className="block px-3 py-1.5 text-[9.5px] font-bold text-[#0C2C4D] hover:bg-white/20 transition-all tracking-wider font-gotham whitespace-nowrap"
+                          className="block px-3 py-1.5 text-[9.5px] font-bold text-[#0C2C4D] hover:bg-[#BFA052]/10 hover:text-[#BFA052] transition-all tracking-wider font-gotham whitespace-nowrap"
                           style={{ fontFamily: "'Gotham', Arial, sans-serif" }}
                         >
                           LAND ACQUISITION
@@ -387,7 +387,7 @@ export function Footer() {
             }}
             className="font-gotham font-semibold tracking-wider"
           >
-            © 2026 CONSERVVE INFRA SOLUTIONS. ALL RIGHTS RESERVED.
+            © 2026 CONSERVVE INFRA SOLUTIONSS. ALL RIGHTS RESERVED.
           </p>
         </div>
       </div>
