@@ -28,6 +28,7 @@ interface Pillar {
   id: number;
   roman: string;
   title: string;
+  titleLines: string[];
   description: string;
   iconName: string;
   left: string;
@@ -40,6 +41,7 @@ const pillars: Pillar[] = [
     id: 1,
     roman: '01',
     title: 'Experienced Leadership',
+    titleLines: ['Experienced', 'Leadership'],
     description: 'Led by industry professionals with deep expertise in land acquisition and regulatory processes, we bring strategic direction, informed decision-making, and execution confidence to every project.',
     iconName: 'Shield',
     left: '35%',
@@ -49,6 +51,7 @@ const pillars: Pillar[] = [
     id: 2,
     roman: '02',
     title: 'Deal Structuring & Negotiation Support',
+    titleLines: ['Deal Structuring &', 'Negotiation Support'],
     description: 'We help structure financially sound deals that align with your strategic goals.',
     iconName: 'Handshake',
     left: '62.7%',
@@ -58,6 +61,7 @@ const pillars: Pillar[] = [
     id: 3,
     roman: '03',
     title: 'On-Ground Execution Support',
+    titleLines: ['On-Ground Execution', 'Support'],
     description: 'From site visits to coordination, we ensure strong physical presence where it matters most.',
     iconName: 'Users',
     left: '62.7%',
@@ -67,6 +71,7 @@ const pillars: Pillar[] = [
     id: 4,
     roman: '04',
     title: 'Tailored, Client-Centric Solutions',
+    titleLines: ['Tailored, Client-Centric', 'Solutions'],
     description: 'Every requirement is unique. We deliver customized land and approval strategies aligned with your business goals, risk appetite, and long-term vision.',
     iconName: 'Cpu',
     left: '35%',
@@ -76,6 +81,7 @@ const pillars: Pillar[] = [
     id: 5,
     roman: '05',
     title: 'End-to-End Development Capability',
+    titleLines: ['End-to-End Development', 'Capability'],
     description: 'From land acquisition to final construction, we deliver fully integrated project execution through our associate company, Conservve',
     iconName: 'Layers',
     left: '7.3%',
@@ -85,6 +91,7 @@ const pillars: Pillar[] = [
     id: 6,
     roman: '06',
     title: 'Long-Term Partnership Approach',
+    titleLines: ['Long-Term Partnership', 'Approach'],
     description: 'We focus on building lasting relationships, supporting you not just for one transaction but across multiple growth phases.',
     iconName: 'Network',
     left: '7.3%',
@@ -137,19 +144,20 @@ export function WhyPartnerSection() {
 
   return (
     <section 
-      className="why-partner-section text-[#f8f9fa] relative transition-colors duration-700 py-10 md:py-16 lg:py-20 px-6 md:px-12 lg:px-16 overflow-hidden"
+      className="why-partner-section text-brand-navy relative transition-colors duration-700 py-16 md:py-24 lg:py-28 px-6 md:px-12 lg:px-16 overflow-hidden"
       style={{
-        backgroundColor: '#051628',
-        backgroundImage: 'radial-gradient(circle at 50% 50%, #0c2c4d 0%, #041424 100%)',
-        backgroundSize: 'cover',
-        backgroundAttachment: 'fixed'
+        backgroundColor: '#FFFFFF',
+        backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.90), rgba(255, 255, 255, 0.90)), url('/Logo_Distort_BG.png')",
+        backgroundRepeat: 'repeat',
+        backgroundSize: '300px'
       }}
     >
-      {/* Top seamless blend gradient overlay from Operational Presence section (#081d33) */}
-      <div className="absolute top-0 left-0 right-0 h-24 bg-gradient-to-b from-[#081d33] to-transparent pointer-events-none z-10" />
+      {/* ── Symmetrical Top Gold Border & Navy Transition Divider ── */}
+      <div className="absolute top-0 left-0 right-0 h-[3px] bg-[#BFA052] z-20" />
+      <div className="absolute top-0 left-0 right-0 h-16 bg-gradient-to-b from-[#0C2C4D]/10 to-transparent pointer-events-none z-10" />
 
-      {/* Bottom seamless blend gradient overlay to Footer section (#020c18) */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-[#020c18] to-transparent pointer-events-none z-10" />
+      {/* Bottom seamless blend gradient overlay to Footer section (subtle brand navy) */}
+      <div className="absolute bottom-0 left-0 right-0 h-16 bg-gradient-to-t from-[#0C2C4D]/12 to-transparent pointer-events-none z-10" />
 
       {/* Master definitions of premium visual gradients */}
       <svg className="absolute w-0 h-0 pointer-events-none" aria-hidden="true">
@@ -159,23 +167,29 @@ export function WhyPartnerSection() {
             <rect width="120" height="120" fill="#FFFFFF" />
             <image href="/Logo_Distort_BG.png" x="0" y="0" width="120" height="120" opacity="0.08" />
           </pattern>
-          {/* Central Hex glow gradient */}
+          {/* Active Gold radial shading for 3D depth using brand colors */}
+          <radialGradient id="activeGoldShade" cx="50%" cy="45%" r="65%">
+            <stop offset="0%" stopColor="#D4B76A" stopOpacity="1" />
+            <stop offset="70%" stopColor="#BFA052" stopOpacity="1" />
+            <stop offset="100%" stopColor="#A8893D" stopOpacity="1" />
+          </radialGradient>
+          {/* Central Hex glow gradient using Brand Navy */}
           <linearGradient id="centerGlow" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#1e5c94" stopOpacity="0.95" />
-            <stop offset="100%" stopColor="#0b243b" stopOpacity="0.95" />
+            <stop offset="0%" stopColor="#1C4B75" stopOpacity="1" />
+            <stop offset="100%" stopColor="#0C2C4D" stopOpacity="1" />
           </linearGradient>
 
           {/* Cell glow style for active/hovered hexagon cells */}
           <linearGradient id="cellGlowGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="#123e6b" stopOpacity="0.98" />
-            <stop offset="100%" stopColor="#061626" stopOpacity="0.98" />
+            <stop offset="0%" stopColor="#123e6b" stopOpacity="1" />
+            <stop offset="100%" stopColor="#061626" stopOpacity="1" />
           </linearGradient>
 
-          {/* Hexagon Inner depth with a nice radial center shine */}
+          {/* Hexagon Inner depth with a nice radial center shine using Brand Navy */}
           <radialGradient id="hexInnerDepth" cx="50%" cy="45%" r="65%">
-            <stop offset="0%" stopColor="#0e2f50" stopOpacity="0.87" />
-            <stop offset="60%" stopColor="#06182c" stopOpacity="0.98" />
-            <stop offset="100%" stopColor="#04101e" stopOpacity="1" />
+            <stop offset="0%" stopColor="#163f66" stopOpacity="1" />
+            <stop offset="60%" stopColor="#0C2C4D" stopOpacity="1" />
+            <stop offset="100%" stopColor="#081e35" stopOpacity="1" />
           </radialGradient>
 
           {/* Glowing outer gold borders for active states */}
@@ -186,18 +200,18 @@ export function WhyPartnerSection() {
             <stop offset="100%" stopColor="#7c6328" />
           </linearGradient>
 
-          {/* Subtle/inactive borders for rest states */}
+          {/* Golden borders for inactive states */}
           <linearGradient id="inactiveBorderGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-            <stop offset="0%" stopColor="rgba(255,255,255,0.22)" />
-            <stop offset="50%" stopColor="rgba(255,255,255,0.06)" />
-            <stop offset="100%" stopColor="rgba(191,160,82,0.12)" />
+            <stop offset="0%" stopColor="#BFA052" stopOpacity="0.75" />
+            <stop offset="50%" stopColor="#DFB24F" stopOpacity="0.45" />
+            <stop offset="100%" stopColor="#7c6328" stopOpacity="0.75" />
           </linearGradient>
         </defs>
       </svg>
 
       {/* Blueprint fine aesthetic network vector grid lines */}
-      <div className="absolute inset-0 opacity-[0.04] pointer-events-none z-0">
-        <svg viewBox="0 0 100 100" className="h-full w-full stroke-[#BFA052]/20 fill-none stroke-[0.06]">
+      <div className="absolute inset-0 opacity-[0.09] pointer-events-none z-0">
+        <svg viewBox="0 0 100 100" className="h-full w-full stroke-[#BFA052]/35 fill-none stroke-[0.06]">
           <pattern id="hexes" x="0" y="0" width="10" height="17.3" patternUnits="userSpaceOnUse">
             <path d="M5 0 L10 2.8 L10 8.5 L5 11.3 L0 8.5 L0 2.8 Z" />
           </pattern>
@@ -206,8 +220,8 @@ export function WhyPartnerSection() {
       </div>
 
       {/* Futuristic soft gradient background glows */}
-      <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#BFA052]/3 rounded-full blur-[140px] pointer-events-none z-0" />
-      <div className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] bg-[#1e5c94]/4 rounded-full blur-[120px] pointer-events-none z-0" />
+      <div className="absolute top-1/4 left-1/4 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-[#BFA052]/8 rounded-full blur-[140px] pointer-events-none z-0" />
+      <div className="absolute bottom-1/3 right-1/4 w-[500px] h-[500px] bg-[#1e5c94]/6 rounded-full blur-[120px] pointer-events-none z-0" />
 
       {/* Main Structural Block / True Two-Column Layout */}
       <div className="max-w-[90rem] mx-auto w-full grid grid-cols-1 md:grid-cols-[52%_48%] lg:grid-cols-[48%_52%] xl:grid-cols-[45%_55%] gap-12 lg:gap-16 items-center relative z-10">
@@ -224,18 +238,18 @@ export function WhyPartnerSection() {
             </div>
             
             {/* Main Heading */}
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-tibere font-black text-white tracking-normal uppercase leading-none mb-0 whitespace-nowrap" style={{ wordSpacing: '0.18em' }}>
+            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-tibere font-black text-brand-navy tracking-normal uppercase leading-none mb-0 whitespace-nowrap" style={{ wordSpacing: '0.18em' }}>
               Why Partner <span className="text-brand-gold">With Us</span>
             </h2>
             
             {/* Introductory Paragraph */}
-            <div className="text-sm md:text-base text-slate-300 font-poppins font-medium leading-relaxed border-l-4 border-brand-gold pl-6 max-w-2xl mt-6">
+            <div className="text-sm md:text-base text-slate-700 font-poppins font-medium leading-relaxed border-l-4 border-brand-gold pl-6 max-w-2xl mt-6">
               We understand that every decision you make carries risk, timelines, and long-term impact. That's why we approach every engagement with a sharp focus on due diligence, clarity, and foresight, helping you navigate uncertainty, anticipate challenges early, and make well-informed choices that stand strong not just today, but well into the future.
             </div>
           </div>
 
           {/* Interactive Benefit List (Accordion) */}
-          <div className="relative pt-6 border-t border-white/10 space-y-2.5">
+          <div className="relative pt-6 border-t border-brand-navy/10 space-y-2.5">
             {pillars.map((pillar) => {
               const isPillarActive = currentActiveId === pillar.id;
 
@@ -246,14 +260,14 @@ export function WhyPartnerSection() {
                   className={cn(
                     'w-full border rounded-xl p-3 sm:p-4 transition-all duration-300 cursor-pointer select-none relative z-10 flex flex-col gap-2',
                     isPillarActive
-                      ? 'border-[#BFA052] shadow-[0_4px_20px_rgba(191,160,82,0.15)]'
-                      : 'border-white/5 bg-white/[0.005] hover:bg-white/[0.02]'
+                      ? 'border-[#BFA052] shadow-[0_12px_32px_rgba(12,44,77,0.15),0_4px_16px_rgba(191,160,82,0.2)]'
+                      : 'border-brand-navy/10 bg-white/40 hover:bg-white/85 hover:shadow-[0_8px_20px_rgba(12,44,77,0.04)]'
                   )}
                   style={isPillarActive ? {
-                    backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92)), url('/Logo_Distort_BG.png')",
+                    backgroundImage: "linear-gradient(rgba(12, 44, 77, 0.95), rgba(12, 44, 77, 0.95)), url('/Logo_Distort_BG.png')",
                     backgroundRepeat: 'repeat',
                     backgroundSize: '120px',
-                    backgroundColor: '#FFFFFF'
+                    backgroundColor: '#0C2C4D'
                   } : undefined}
                   onClick={() => setActiveId(pillar.id)}
                   onMouseEnter={() => handleHoverStart(pillar.id)}
@@ -262,11 +276,11 @@ export function WhyPartnerSection() {
                   {/* Glowing background accent on active */}
                   {isPillarActive && (
                     <motion.div
-                      className="absolute inset-0 rounded-xl bg-gradient-to-r from-brand-gold/5 via-transparent to-transparent pointer-events-none -z-10"
+                      className="absolute inset-0 rounded-xl bg-gradient-to-r from-brand-gold/10 via-transparent to-transparent pointer-events-none -z-10"
                       animate={{
-                        opacity: [0.6, 1.0, 0.6]
+                        opacity: [0.4, 0.8, 0.4]
                       }}
-                      transition={{ duration: 2, repeat: Infinity, ease: 'easeInOut' }}
+                      transition={{ duration: 3, repeat: Infinity, ease: 'easeInOut' }}
                     />
                   )}
 
@@ -276,7 +290,7 @@ export function WhyPartnerSection() {
                       {/* Number Indicator */}
                       <span className={cn(
                         'font-gotham text-xs font-bold transition-colors duration-300',
-                        isPillarActive ? 'text-[#BFA052]' : 'text-slate-400'
+                        isPillarActive ? 'text-[#BFA052]' : 'text-slate-500'
                       )}>
                         0{pillar.id}
                       </span>
@@ -284,7 +298,7 @@ export function WhyPartnerSection() {
                       {/* Accordion Title */}
                       <h3 className={cn(
                         'font-gotham text-xs sm:text-sm font-bold uppercase tracking-wider transition-colors duration-300',
-                        isPillarActive ? 'text-[#0C2C4D]' : 'text-slate-200'
+                        isPillarActive ? 'text-white' : 'text-slate-700'
                       )}>
                         {pillar.title}
                       </h3>
@@ -293,7 +307,7 @@ export function WhyPartnerSection() {
                     {/* Chevron Indicator */}
                     <ChevronDown className={cn(
                       'w-4 h-4 transition-all duration-300',
-                      isPillarActive ? 'rotate-180 text-[#BFA052]' : 'text-brand-gold/50'
+                      isPillarActive ? 'rotate-180 text-[#BFA052]' : 'text-brand-navy/35'
                     )} />
                   </div>
 
@@ -305,10 +319,10 @@ export function WhyPartnerSection() {
                     className="overflow-hidden"
                   >
                     <p className={cn(
-                      "mt-1 text-[13px] sm:text-[14px] leading-relaxed font-gotham font-normal border-l pl-4 py-0.5 select-text tracking-wide transition-all duration-300",
+                      "mt-1 text-[13px] sm:text-[14px] leading-relaxed font-gotham font-normal border-l-2 pl-4 py-0.5 select-text tracking-wide transition-all duration-300",
                       isPillarActive
-                        ? "text-[#0C2C4D]/90 border-[#BFA052]"
-                        : "text-white/80 border-brand-gold/40"
+                        ? "text-white/90 border-[#BFA052]"
+                        : "text-slate-600 border-brand-gold/40"
                     )}>
                       {pillar.description}
                     </p>
@@ -324,7 +338,7 @@ export function WhyPartnerSection() {
           <div className="relative w-full min-w-[320px] max-w-[380px] xs:max-w-[420px] sm:max-w-[480px] md:max-w-[540px] lg:max-w-[660px] xl:max-w-[720px] aspect-square mx-auto">
             
             {/* Subtle architectural background alignment cross-axis layout */}
-            <div className="absolute inset-x-[-3%] inset-y-[-3%] border border-dashed border-white/5 opacity-20 pointer-events-none z-0">
+            <div className="absolute inset-x-[-3%] inset-y-[-3%] border border-dashed border-brand-navy/5 opacity-10 pointer-events-none z-0">
               <div className="absolute top-1/2 left-0 right-0 h-[1px] border-t border-dashed border-brand-gold/5 translate-y-[-50%]" />
               <div className="absolute left-1/2 top-0 bottom-0 w-[1px] border-l border-dashed border-brand-gold/5 translate-x-[-50%]" />
             </div>
@@ -358,9 +372,9 @@ export function WhyPartnerSection() {
                       y1={startY}
                       x2={endX}
                       y2={endY}
-                      stroke={isLineActive ? '#BFA052' : 'rgba(255, 255, 255, 0.08)'}
+                      stroke={isLineActive ? '#BFA052' : 'rgba(12, 44, 77, 0.12)'}
                       strokeWidth={isLineActive ? 2 : 0.75}
-                      strokeOpacity={isLineActive ? 0.8 : 0.3}
+                      strokeOpacity={isLineActive ? 0.85 : 0.4}
                       className="transition-all duration-300"
                     />
                     
@@ -370,7 +384,7 @@ export function WhyPartnerSection() {
                       y1={startY}
                       x2={endX}
                       y2={endY}
-                      stroke={isLineActive ? '#BFA052' : 'rgba(191,160,82,0.15)'}
+                      stroke={isLineActive ? '#BFA052' : 'rgba(191, 160, 82, 0.25)'}
                       strokeWidth={isLineActive ? 2.5 : 1}
                       strokeDasharray="16, 48"
                       animate={{
@@ -395,8 +409,6 @@ export function WhyPartnerSection() {
                 {/* CENTRAL CONSERVVE INFRA SOLUTIONS CORE SHIELD ENGINE (ID: 99) */}
                 {(() => {
                   const isCenterActive = currentActiveId === 99;
-                  const isAnyActive = currentActiveId !== null;
-                  const isOtherActive = isAnyActive && !isCenterActive;
 
                   return (
                     <motion.div
@@ -416,7 +428,7 @@ export function WhyPartnerSection() {
                       }}
                       animate={{
                         scale: isCenterActive ? 1.05 : [1.0, 1.02, 1.0],
-                        opacity: isOtherActive ? 0.6 : 1,
+                        opacity: 1,
                       }}
                       whileHover={{
                         scale: 1.08,
@@ -486,7 +498,7 @@ export function WhyPartnerSection() {
                           style={{ transform: 'translateZ(15px)' }}
                         >
                           {/* Logo Image */}
-                          <div className="relative w-8 h-8 xs:w-10 xs:h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 xl:w-18 xl:h-18 -mb-1 xs:-mb-1.5 sm:-mb-2 drop-shadow-[0_0_12px_rgba(191,160,82,0.45)]">
+                           <div className="relative w-8 h-8 xs:w-10 xs:h-10 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 xl:w-18 xl:h-18 mb-0.5 drop-shadow-[0_0_12px_rgba(191,160,82,0.45)]">
                             <Image
                               src="/logo-transparent-dark.png"
                               alt="Conservve Logo"
@@ -531,8 +543,6 @@ export function WhyPartnerSection() {
                 {pillars.map((pillar, idx) => {
                   const IconComponent = IconMap[pillar.iconName];
                   const isPillarActive = currentActiveId === pillar.id;
-                  const isAnyActive = currentActiveId !== null;
-                  const isOtherActive = isAnyActive && !isPillarActive;
 
                   // Flyout assembly variables based on current 30% hex grid bounds
                   const initX = ((35 - parseFloat(pillar.left)) / 30) * 100 + '%';
@@ -563,7 +573,7 @@ export function WhyPartnerSection() {
                         scale: isPillarActive ? 1.15 : 1.02,
                         rotateX: isPillarActive ? 10 : 0,
                         rotateY: isPillarActive ? -10 : 0,
-                        opacity: isOtherActive ? 0.45 : 1,
+                        opacity: 1,
                       }}
                       exit={{
                         scale: 0,
@@ -628,10 +638,10 @@ export function WhyPartnerSection() {
                           {/* Inner central vector container reflecting deep volumetric polish */}
                           <path
                             d="M 112.6,9.5 L 194.9,57.0 Q 203.5,62 203.5,72.0 L 203.5,168.0 Q 203.5,178 194.9,183.0 L 112.6,230.5 Q 104,235.5 95.4,230.5 L 13.1,183.0 Q 4.5,178 4.5,168.0 L 4.5,72.0 Q 4.5,62 13.1,57.0 L 95.4,9.5 Q 104,4.5 112.6,9.5 Z"
-                            fill={isPillarActive ? 'url(#activeHexPattern)' : 'url(#hexInnerDepth)'}
+                            fill={isPillarActive ? 'url(#activeGoldShade)' : 'url(#hexInnerDepth)'}
                             fillOpacity={1.0}
                             stroke={isPillarActive ? 'url(#goldBorderGrad)' : 'url(#inactiveBorderGrad)'}
-                            strokeWidth={isPillarActive ? 2.5 : 1.3}
+                            strokeWidth={isPillarActive ? 2.8 : 2.0}
                             className="transition-all duration-500 ease-out"
                           />
                           
@@ -654,29 +664,26 @@ export function WhyPartnerSection() {
                           )}
                         </svg>
 
-                        {/* Top vertex micro outline badge indicating the sequence number exactly matching the design */}
-                        <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-2 z-20">
-                          <div className={`px-2 py-0.5 border text-[9px] font-gotham rounded-md font-bold tracking-tight transition-all duration-500 ${
-                            isPillarActive 
-                              ? 'border-brand-gold text-white bg-brand-gold shadow-[0_0_10px_rgba(191,160,82,0.5)]' 
-                              : 'border-white/10 text-brand-gold bg-[#07182b]'
-                          }`}>
-                            0{pillar.id}
-                          </div>
-                        </div>
-
                         {/* Outer cell descriptive interactive block details */}
                         <div 
                           className="absolute inset-0 flex flex-col justify-center items-center text-center px-1.5 py-3 sm:px-2.5 sm:py-4 select-none z-10"
                           style={{ transform: 'translateZ(10px)' }}
                         >
+                          {/* Large sequence number inside the comb */}
+                          <div className={cn(
+                            "font-gotham font-black tracking-wider transition-colors duration-500",
+                            isPillarActive ? "text-[#0C2C4D]" : "text-[#BFA052]",
+                            "text-[16px] xs:text-[18px] sm:text-[20px] md:text-[22px] leading-none mb-2.5 sm:mb-4"
+                          )}>
+                            0{pillar.id}
+                          </div>
                           
                           {/* Glowing vector icon wrapping Halo structural blueprint detail */}
-                          <div className="relative mb-2">
+                          <div className="relative mb-2.5 sm:mb-4">
                             {/* Rotating geometric drafting ticks to align with architectural-tech theme */}
                             {isPillarActive && (
                               <motion.div
-                                className="absolute -inset-2.5 rounded-full border border-dashed border-brand-gold/50 pointer-events-none"
+                                className="absolute -inset-2.5 rounded-full border border-dashed border-brand-navy/55 pointer-events-none"
                                 animate={{ rotate: 360 }}
                                 transition={{ ease: 'linear', duration: 8, repeat: Infinity }}
                               />
@@ -688,7 +695,7 @@ export function WhyPartnerSection() {
                             <div className={cn(
                               "w-8 h-8 sm:w-10 sm:h-10 rounded-full border flex items-center justify-center transition-all duration-500 relative z-10",
                               isPillarActive
-                                ? "border-[#BFA052] bg-[#0C2C4D] shadow-[0_0_15px_rgba(191,160,82,0.55)]"
+                                ? "border-[#0C2C4D] bg-[#0C2C4D] shadow-[0_4px_12px_rgba(12,44,77,0.3)]"
                                 : "border-white/10 bg-[#07182b]/70 backdrop-blur-sm group-hover:border-brand-gold/30"
                             )}>
                               <IconComponent className={cn(
@@ -703,13 +710,18 @@ export function WhyPartnerSection() {
                           {/* Highly polished upper Title heading */}
                           {/* Long titles dynamically scale down their font sizes to avoid wrapping too tightly or clipping */}
                           <h3 className={cn(
-                            'font-gotham font-semibold uppercase tracking-wide text-center leading-tight transition-colors duration-300 w-full px-1',
+                            'font-gotham font-extrabold uppercase tracking-wide text-center leading-tight transition-colors duration-300 w-full px-1',
                             isPillarActive ? 'text-[#0C2C4D]' : 'text-white/95',
                             isLongTitle 
                               ? 'text-[8px] xs:text-[9px] sm:text-[10px] md:text-[11px] lg:text-[11.5px]' 
                               : 'text-[9px] xs:text-[10px] sm:text-[11px] md:text-[12px] lg:text-[12.5px]'
                           )}>
-                            {pillar.title}
+                            {pillar.titleLines.map((line, lineIdx) => (
+                              <React.Fragment key={lineIdx}>
+                                {lineIdx > 0 && <br />}
+                                {line}
+                              </React.Fragment>
+                            ))}
                           </h3>
                         </div>
 
