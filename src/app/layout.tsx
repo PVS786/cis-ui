@@ -4,10 +4,15 @@ import './globals.css';
 
 export const metadata: Metadata = {
   title: {
-    default: 'CONSERVVE INFRA SOLUTIONS',
-    template: '%s | CONSERVVE INFRA SOLUTIONS',
+    default: 'Conservve Infra Solutionss',
+    template: '%s | Conservve Infra Solutionss',
   },
   description: 'Premium construction and land acquisition management across India.',
+  icons: {
+    icon: '/icon.png',
+    shortcut: '/favicon.ico',
+    apple: '/icon.png',
+  },
 };
 
 export default function RootLayout({
