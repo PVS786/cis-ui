@@ -7,10 +7,46 @@
 
 ## 1. Brand Identity
 
-**Company Name:** CONSERVVE INFRA SOLUTIONS  
-**Name Treatment:** Always in ALL CAPS — `CONSERVVE INFRA SOLUTIONS`  
-**Short Form (where space-constrained):** CONSERVVE  
-**Never abbreviate as:** CIS, Conservve Infra, conservve (lowercase)
+**Official Company Name:**
+CONSERVVE INFRA SOLUTIONS
+
+### Name Treatment
+
+The company name must always appear exactly as:
+
+CONSERVVE INFRA SOLUTIONS
+
+This is the only approved textual representation of the company name.
+
+### Rules
+
+- Always use the full company name.
+- Do not create abbreviations.
+- Do not create shortened versions.
+- Do not use initials.
+- Do not use alternate spellings.
+- Do not use marketing short forms.
+- Do not split the company name into separate brand names.
+
+### Forbidden Examples
+
+❌ CONSERVVE
+
+❌ CIS
+
+❌ Conservve Infra
+
+❌ Conservve
+
+❌ conservve
+
+❌ CONSERVVE INFRA
+
+❌ CONSERVVE SOLUTIONS
+
+### Approved Example
+
+✅ CONSERVVE INFRA SOLUTIONS
 
 ---
 
@@ -203,20 +239,61 @@ CONSERVVE INFRA SOLUTIONS speaks like a senior partner — authoritative yet war
 
 ## 8. Logo Usage
 
-### Clear Space
-- Minimum clear space around logo: equivalent to the height of the letter "C" in the wordmark
-- Never place logo on a background with insufficient contrast
+### Official Logo Assets
 
-### Acceptable Logo Backgrounds
-| Background | Logo Variant         |
-|------------|----------------------|
-| White      | Full colour (Navy + Gold) |
-| Navy       | Reversed (White + Gold)   |
-| Light Grey | Full colour               |
-| Photography| Reversed with drop shadow |
+Two official logo assets are supplied by the design team.
+
+#### Logo Variant A (Light Background Version)
+
+Use on:
+
+- White backgrounds
+- Light Grey backgrounds
+- Light cards
+- Forms
+- Light sections
+
+#### Logo Variant B (Dark Background Version)
+
+Use on:
+
+- Navy backgrounds
+- Hero sections
+- Footer
+- Dark overlays
+- Dark feature sections
+
+### Logo Rules
+
+- Use only the supplied logo files.
+- Do not recreate the logo using fonts.
+- Do not redraw the logo.
+- Do not modify colours.
+- Do not stretch or distort.
+- Do not add effects.
+- Do not crop.
+- Do not change proportions.
 
 ### Forbidden
 - ❌ Stretching or distorting the logo
 - ❌ Placing on Golden Beige background
 - ❌ Recreating the logo in different fonts
 - ❌ Using the logo below 120px width
+
+## Brand Consistency Requirements
+
+The logo, company name, colours, typography, and visual identity must remain consistent across:
+
+- Navbar
+- Footer
+- Hero Sections
+- Service Pages
+- Contact Sections
+- Mobile Navigation
+- Responsive Layouts
+- SEO Metadata
+- Social Sharing Assets
+
+No page or component may implement independent branding rules.
+
+All branding must originate from a centralized design system.

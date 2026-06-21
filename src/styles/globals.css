@@ -1,5 +1,133 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=Cinzel:wght@500;700&family=EB+Garamond:wght@500;700&family=Gelasio:wght@500;700&display=swap');
 @import "tailwindcss";
+
+@font-face {
+  font-family: 'Tibere OT W03 Medium';
+  src: url('/Tibere_OT_W03_Medium/Tibere%20OT%20W03%20Medium.woff2') format('woff2'),
+       url('/Tibere_OT_W03_Medium/Tibere%20OT%20W03%20Medium.woff') format('woff'),
+       url('/Tibere_OT_W03_Medium/Tibere%20OT%20W03%20Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FF Tibere Std Bold';
+  src: local('FF Tibere Std Bold'),
+       local('FFTibereStd-Bold'),
+       local('FF Tibere Std-Bold'),
+       local('FF Tibere Bold'),
+       local('FFTibere-Bold'),
+       local('FF Tibere Std'),
+       local('FF Tibere'),
+       local('Tibere OTW03-Bold'),
+       local('TibereOTW03-Bold'),
+       local('Tibere OTW03 Bold'),
+       local('Tibere Bold'),
+       local('Tibere'),
+       url('/fonts/TibereOTW03-Bold.woff2') format('woff2'),
+       url('/fonts/TibereOTW03-Bold.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FF Tibere Medium';
+  src: local('Tibere OT W03 Medium'),
+       local('FF Tibere Std Medium'),
+       local('FFTibereStd-Medium'),
+       local('FF Tibere Medium'),
+       local('FFTibere-Medium'),
+       local('FF Tibere Std'),
+       local('FF Tibere'),
+       local('Tibere OTW03-Medium'),
+       local('TibereOTW03-Medium'),
+       local('Tibere OTW03 Medium'),
+       local('Tibere Medium'),
+       local('Tibere'),
+       url('/Tibere_OT_W03_Medium/Tibere%20OT%20W03%20Medium.woff2') format('woff2'),
+       url('/Tibere_OT_W03_Medium/Tibere%20OT%20W03%20Medium.woff') format('woff'),
+       url('/fonts/FFTibere-Medium.woff2') format('woff2'),
+       url('/fonts/FFTibere-Medium.woff') format('woff');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gotham';
+  src: url('/Gotham/Gotham.woff2') format('woff2'),
+       url('/Gotham/Gotham.woff') format('woff'),
+       url('/Gotham/Gotham.ttf') format('truetype'),
+       url('/Gotham/Gotham.otf') format('opentype'),
+       local('Gotham Book'), local('Gotham-Book'), local('GothamBook');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gotham';
+  src: url('/Gotham/Gotham.woff2') format('woff2'),
+       url('/Gotham/Gotham.woff') format('woff'),
+       url('/Gotham/Gotham.ttf') format('truetype'),
+       url('/Gotham/Gotham.otf') format('opentype'),
+       local('Gotham Medium'), local('Gotham-Medium'), local('GothamMedium');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Gotham';
+  src: url('/Gotham/Gotham.woff2') format('woff2'),
+       url('/Gotham/Gotham.woff') format('woff'),
+       url('/Gotham/Gotham.ttf') format('truetype'),
+       url('/Gotham/Gotham.otf') format('opentype'),
+       local('Gotham Bold'), local('Gotham-Bold'), local('GothamBold');
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/Poppins/Poppins-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/Poppins/Poppins-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/Poppins/Poppins-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/Poppins/Poppins-SemiBold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Poppins';
+  src: url('/fonts/Poppins/Poppins-Bold.ttf') format('truetype');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
 
 @layer utilities {
   @keyframes slow-zoom {
@@ -7,14 +135,45 @@
     to { transform: scale(1.1); }
   }
 
+  @keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+
+  @keyframes neon-glow-active {
+    0%, 100% {
+      opacity: 0.75;
+    }
+    50% {
+      opacity: 1;
+    }
+  }
+
+  .animate-neon-glow {
+    animation: neon-glow-active 5.5s ease-in-out infinite;
+    filter: drop-shadow(0px 3px 1.5px #ffffff) 
+            drop-shadow(0px 3px 2px rgba(255, 255, 255, 0.8))
+            drop-shadow(0px 6px 4px rgba(251, 191, 36, 0.9)) 
+            drop-shadow(0px 12px 14px rgba(191, 160, 82, 0.7))
+            drop-shadow(0px 18px 24px rgba(251, 146, 60, 0.45));
+  }
+
   .animate-slow-zoom {
     animation: slow-zoom 20s linear infinite alternate;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.8s ease-out forwards;
   }
 }
 
 @theme {
   --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
   --font-serif: "Cormorant Garamond", ui-serif, serif;
+  --font-tibere: "Tibere OT W03 Medium", "FF Tibere Std Bold", "FF Tibere Std-Bold", "FFTibereStd-Bold", "FF Tibere Bold", "FFTibere-Bold", "FF Tibere Std", "FF Tibere", "Tibere OTW03-Bold", "TibereOTW03-Bold", "Tibere OTW03 Bold", "Tibere Bold", "Tibere", "Cormorant Garamond", "EB Garamond", "Gelasio", "Cinzel", Georgia, serif;
+  --font-tibere-medium: "Tibere OT W03 Medium", "FF Tibere Std Medium", "FFTibereStd-Medium", "FF Tibere Medium", "FFTibere-Medium", "FF Tibere Std", "FF Tibere", "Tibere OTW03-Medium", "TibereOTW03-Medium", "Tibere OTW03 Medium", "Tibere Medium", "Tibere", "Cormorant Garamond", "EB Garamond", "Gelasio", "Cinzel", Georgia, serif;
+  --font-gotham: "Gotham", "Montserrat", Arial, sans-serif;
+  --font-poppins: "Poppins", "Montserrat", sans-serif;
 
   --color-brand-navy: #0C2C4D;
   --color-brand-gold: #BFA052;
@@ -44,5 +203,62 @@
 
   .section-container {
     @apply max-w-7xl mx-auto px-16 py-32;
+  }
+
+  /* Animated Box Draw Border Button */
+  .btn-draw-border {
+    @apply relative inline-block overflow-hidden py-3 text-center bg-transparent uppercase font-gotham text-sm font-bold tracking-[0.2em] text-brand-navy cursor-pointer outline-none border-none no-underline select-none;
+    width: 160px;
+    height: auto;
+    border-left: 3px solid var(--color-brand-navy);
+    transition: color 0.5s ease, box-shadow 0.5s ease, background-color 0.5s ease, border-left-color 0.5s ease;
+  }
+
+  .btn-draw-border:before {
+    position: absolute;
+    content: '';
+    left: 0;
+    bottom: 0;
+    height: 3px;
+    width: 100%;
+    border-bottom: 3px solid transparent;
+    border-left: 3px solid transparent;
+    box-sizing: border-box;
+    transform: translateX(100%);
+  }
+
+  .btn-draw-border:after {
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    border-top: 3px solid transparent;
+    border-right: 3px solid transparent;
+    box-sizing: border-box;
+    transform: translateX(-100%);
+  }
+
+  .btn-draw-border:hover {
+    box-shadow: 0 5px 15px rgba(191, 160, 82, 0.2);
+    background-color: var(--color-brand-gold);
+    border-left-color: var(--color-brand-gold);
+    @apply text-white;
+    transition-delay: 0s, 0s, 0.3s, 0s;
+  }
+
+  .btn-draw-border:hover:before {
+    border-color: var(--color-brand-gold);
+    height: 100%;
+    transform: translateX(0);
+    transition: 0.3s transform linear, 0.3s height linear 0.3s;
+  }
+
+  .btn-draw-border:hover:after {
+    border-color: var(--color-brand-gold);
+    height: 100%;
+    transform: translateX(0);
+    transition: 0.3s transform linear, 0.3s height linear 0.5s;
   }
 }
