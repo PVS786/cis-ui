@@ -126,6 +126,75 @@ export function IntegratedSolutionsSection() {
                   <div className="absolute inset-0 bg-gradient-to-t from-brand-navy/60 via-brand-navy/10 to-transparent opacity-80 mix-blend-multiply pointer-events-none z-10" />
                 </div>
 
+                {/* Premium 3D Folded Origami Shape with Split-Entry motion (positioned outside overflow-hidden to prevent shadow and edge clipping) */}
+                <div className={cn(
+                  "absolute z-30 w-[110px] h-[110px] md:w-[130px] md:h-[130px] lg:w-[150px] lg:h-[150px] pointer-events-auto origin-bottom-right",
+                  idx % 2 === 1
+                    ? "bottom-0 right-6 lg:right-16"
+                    : "bottom-0 right-0"
+                )}>
+                  {/* Outer wrapper to clip parts for the split/slide-in entry effect */}
+                  <div className="relative w-full h-full">
+                    {/* Facet Group 1: The Navy & Left Dark Fold (enters from bottom-left) */}
+                    <motion.div
+                      initial={{ x: -40, y: 40, opacity: 0 }}
+                      whileInView={{ x: 0, y: 0, opacity: 1 }}
+                      transition={{ type: 'spring', stiffness: 100, damping: 18, delay: 0.5 }}
+                      viewport={{ once: true }}
+                      className="absolute inset-0 z-10"
+                    >
+                      <svg className="w-full h-full drop-shadow-[0_8px_16px_rgba(0,0,0,0.3)]" viewBox="0 0 100 100">
+                        <defs>
+                          <linearGradient id={`origami-navy-grad-is-${idx}`} x1="0%" y1="100%" x2="100%" y2="0%">
+                            <stop offset="0%" stopColor="#081E33" />
+                            <stop offset="100%" stopColor="#1C4B75" />
+                          </linearGradient>
+                          <linearGradient id={`origami-dark-gold-is-${idx}`} x1="0%" y1="100%" x2="100%" y2="0%">
+                            <stop offset="0%" stopColor="#8C6A23" />
+                            <stop offset="100%" stopColor="#D5B05E" />
+                          </linearGradient>
+                        </defs>
+                        {/* Dark Fold Wedge pointing down/left */}
+                        <polygon points="0,100 65,65 40,40" fill={`url(#origami-dark-gold-is-${idx})`} />
+                        {/* Main Navy Diagonal backing facet */}
+                        <polygon points="0,100 40,40 100,0" fill={`url(#origami-navy-grad-is-${idx})`} />
+                      </svg>
+                    </motion.div>
+
+                    {/* Facet Group 2: The Shiny Golden Folds (enters from top-right) */}
+                    <motion.div
+                      initial={{ x: 40, y: -40, opacity: 0 }}
+                      whileInView={{ x: 0, y: 0, opacity: 1 }}
+                      transition={{ type: 'spring', stiffness: 100, damping: 18, delay: 0.6 }}
+                      viewport={{ once: true }}
+                      className="absolute inset-0 z-20"
+                    >
+                      <svg className="w-full h-full drop-shadow-[0_4px_10px_rgba(0,0,0,0.2)]" viewBox="0 0 100 100">
+                        <defs>
+                          <linearGradient id={`origami-gold-1-is-${idx}`} x1="0%" y1="0%" x2="100%" y2="100%">
+                            <stop offset="0%" stopColor="#DFBA6B" />
+                            <stop offset="100%" stopColor="#A28038" />
+                          </linearGradient>
+                          <linearGradient id={`origami-gold-2-is-${idx}`} x1="100%" y1="0%" x2="0%" y2="100%">
+                            <stop offset="0%" stopColor="#F9DF9D" />
+                            <stop offset="100%" stopColor="#B69247" />
+                          </linearGradient>
+                          <linearGradient id={`origami-gold-3-is-${idx}`} x1="50%" y1="0%" x2="50%" y2="100%">
+                            <stop offset="0%" stopColor="#FFE8B5" />
+                            <stop offset="100%" stopColor="#C8A555" />
+                          </linearGradient>
+                        </defs>
+                        {/* Bottom gold facet */}
+                        <polygon points="0,100 100,100 65,65" fill={`url(#origami-gold-1-is-${idx})`} />
+                        {/* Right side gold facet */}
+                        <polygon points="100,100 100,0 65,65" fill={`url(#origami-gold-2-is-${idx})`} />
+                        {/* Middle gold facet */}
+                        <polygon points="40,40 65,65 100,0" fill={`url(#origami-gold-3-is-${idx})`} />
+                      </svg>
+                    </motion.div>
+                  </div>
+                </div>
+
                 {/* Technical / Drafting Blueprint Frame Corner Accent */}
                 <div className={cn(
                   "absolute w-32 h-32 lg:w-48 lg:h-48 border-brand-gold z-20 transition-all duration-700 pointer-events-none",
@@ -151,6 +220,8 @@ export function IntegratedSolutionsSection() {
                     }
                   />
                 </div>
+
+
               </motion.div>
             </div>
           ))}

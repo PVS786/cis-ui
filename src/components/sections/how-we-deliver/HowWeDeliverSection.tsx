@@ -432,57 +432,113 @@ export function HowWeDeliverSection() {
                   animate={{ opacity: 1, scale: 1, x: "-50%", y: "-50%" }}
                   exit={{ opacity: 0, scale: 0.95, x: "-50%", y: "-60%" }}
                   transition={{ duration: 0.25, ease: 'easeOut' }}
-                  className="absolute z-35 w-[36%] min-w-[420px] max-w-[500px]"
+                  className="absolute z-35 w-[62%] min-w-[700px] max-w-[860px]"
                   style={{
                     left: '44%',
                     top: '46.0%',
                   }}
                 >
-                  {/* Left decorative wings peeking from behind */}
-                  <div className="absolute left-[-10px] top-0 bottom-0 w-4 z-0 pointer-events-none">
-                    {/* Gold wing */}
-                    <div className="absolute left-[3px] top-0 h-full w-[8px] bg-[#BFA052] -skew-x-[15deg] rounded-l-[2px]" />
-                    {/* Blue wing */}
-                    <div className="absolute left-[-2px] bottom-0 h-[45%] w-[8px] bg-[#1e3a5f] -skew-x-[15deg] rounded-l-[2px]" />
-                  </div>
-
-                  {/* Right decorative wings peeking from behind */}
-                  <div className="absolute right-[-14px] top-0 bottom-0 w-6 z-0 pointer-events-none">
-                    {/* Gold wing */}
-                    <div className="absolute right-0 top-0 h-full w-[14px] bg-[#BFA052] -skew-x-[15deg] rounded-r-[2px]" />
-                    {/* Cream wing */}
-                    <div className="absolute right-[8px] bottom-0 h-[30%] w-[10px] bg-[#FFF1D0] -skew-x-[15deg]" />
-                  </div>
-
-                  {/* Main skewed navy container with fixed height */}
+                  {/* Main curvy rectangular container with two-toned design */}
                   <div 
-                    className="relative z-10 w-full h-[128px] bg-[#0C2C4D] text-white border-y border-[#BFA052]/40 pt-3 pb-3 pl-8 pr-5 md:pt-3.5 md:pb-3.5 md:pl-10 md:pr-6 -skew-x-[15deg] shadow-2xl rounded-[3px] flex items-center"
+                    className="relative z-10 w-full h-[115px] bg-[#FAF9F6] border border-[#BFA052]/30 rounded-2xl shadow-2xl overflow-hidden flex"
                     style={{
                       boxShadow: '0 25px 50px -12px rgba(12,44,77,0.5), 0 4px 20px rgba(191,160,82,0.15)',
                     }}
                   >
-                    {/* Un-skewed text content wrapper */}
-                    <div className="skew-x-[15deg] w-full flex gap-5 items-center">
-                      {/* Left Column: Phase indicator */}
-                      <div className="flex items-center justify-center shrink-0 pr-1 select-none">
-                        <span className="text-3xl md:text-4xl font-gotham font-black text-[#BFA052] leading-none">
-                          0{active.id}
-                        </span>
+                    {/* Left Navy section via absolute SVG with sharp slanted cut */}
+                    <div className="absolute inset-y-0 left-0 w-[18%] z-0">
+                      <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                        {/* Navy fill */}
+                        <path 
+                          d="M 0,0 L 80,0 L 68,100 L 0,100 Z" 
+                          fill="#0C2C4D" 
+                        />
+                        {/* Gold dividing line */}
+                        <motion.path 
+                          d="M 80,0 L 68,100" 
+                          fill="none" 
+                          stroke="#BFA052" 
+                          strokeWidth={2}
+                          vectorEffect="non-scaling-stroke"
+                          initial={{ pathLength: 0 }}
+                          animate={{ pathLength: 1 }}
+                          transition={{ duration: 0.9, ease: "easeInOut" }}
+                        />
+                      </svg>
+                    </div>
+
+                    {/* Left Column Content (positioned absolutely on top of the Navy section) */}
+                    <div className="absolute inset-y-0 left-0 w-[10%] flex flex-col items-center justify-center z-10">
+                      <span className="text-3xl md:text-4xl font-gotham font-black text-[#BFA052] leading-none mb-1 select-none">
+                        0{active.id}
+                      </span>
+                      <motion.div 
+                        initial={{ scaleX: 0 }}
+                        animate={{ scaleX: 1 }}
+                        transition={{ delay: 0.4, duration: 0.7, ease: "easeOut" }}
+                        className="w-6 h-[2px] bg-[#BFA052] origin-center" 
+                      />
+                    </div>
+
+                    {/* Square Logo Badge (positioned absolutely on the slanted border bulge, no circle) */}
+                    <motion.div 
+                      initial={{ scale: 0, rotate: -5 }}
+                      animate={{ scale: 1, rotate: 0 }}
+                      transition={{ delay: 0.2, duration: 0.8, ease: "easeOut" }}
+                      className="absolute top-1/2 -translate-y-1/2 -translate-x-1/2 z-20 w-[56px] h-[56px] rounded-lg bg-white border border-[#BFA052]/50 shadow-md flex items-center justify-center"
+                      style={{
+                        left: '13.5%', // centered precisely on the slant slope at w-[18%]
+                      }}
+                    >
+                      <Image
+                        src="/logo-dark-transparent.png"
+                        alt="Conservve CI Logo"
+                        width={36}
+                        height={36}
+                        className="object-contain"
+                      />
+                    </motion.div>
+
+                    {/* Right Column Content (starts after the badge) */}
+                    <div className="flex-1 h-full flex flex-col justify-center pl-[20%] pr-6 md:pr-8 z-10 relative">
+                      {/* Subtle Watermark on the right */}
+                      <div className="absolute right-0 top-0 bottom-0 w-[40px] opacity-[0.03] pointer-events-none select-none z-0">
+                        <Image
+                          src="/Logo_Distort_BG.png"
+                          alt="Watermark"
+                          fill
+                          className="object-contain object-right"
+                        />
                       </div>
-
-                      {/* Vertical line divider */}
-                      <div className="w-[1.5px] h-[72px] bg-gradient-to-b from-transparent via-[#BFA052]/50 to-transparent shrink-0" />
-
-                      {/* Right Column: Content */}
-                      <div className="flex-1 min-w-0">
-                        <h3 className="font-tibere text-[#BFA052] font-black leading-snug text-sm md:text-[15px] uppercase tracking-wider">
+                      
+                      <div className="relative z-10">
+                        <h3 className="font-tibere text-[#0C2C4D] font-black leading-tight text-[17px] md:text-[20px] lg:text-[22px] uppercase tracking-wider">
                           {active.title}
                         </h3>
 
-                        {/* Gold horizontal line divider */}
-                        <div className="h-[1px] bg-gradient-to-r from-transparent via-[#BFA052]/40 to-transparent my-1.5 opacity-60" />
+                        {/* Premium Animated Divider: Line + Diamond + Line */}
+                        <div className="flex items-center gap-2 my-1 w-full overflow-hidden">
+                          <motion.div 
+                            initial={{ scaleX: 0 }}
+                            animate={{ scaleX: 1 }}
+                            transition={{ delay: 0.3, duration: 0.8, ease: "easeOut" }}
+                            className="h-[1px] bg-[#BFA052]/40 flex-1 origin-left" 
+                          />
+                          <motion.div 
+                            initial={{ scale: 0, rotate: 0 }}
+                            animate={{ scale: 1, rotate: 45 }}
+                            transition={{ delay: 0.2, duration: 0.6, ease: "easeOut" }}
+                            className="w-1.5 h-1.5 bg-[#BFA052] flex-shrink-0" 
+                          />
+                          <motion.div 
+                            initial={{ scaleX: 0 }}
+                            animate={{ scaleX: 1 }}
+                            transition={{ delay: 0.3, duration: 0.8, ease: "easeOut" }}
+                            className="h-[1px] bg-[#BFA052]/40 flex-1 origin-right" 
+                          />
+                        </div>
 
-                        <p className="font-poppins text-slate-100 text-[11px] md:text-[12px] leading-relaxed font-normal antialiased">
+                        <p className="font-poppins font-normal text-slate-700 text-[13px] md:text-[14.5px] leading-relaxed antialiased">
                           {active.desc}
                         </p>
                       </div>
