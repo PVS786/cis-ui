@@ -96,7 +96,7 @@ const steps: Step[] = [
     imagePath: '/how_we_deliver/HWD_Section_4.png',
     imgW: 1448, imgH: 1086,
     cropX1: 156, cropX2: 1241, cropY1: 37, cropY2: 934,
-    cx: 90.0, cy: 48.8, dw: 21.79,
+    cx: 91.5, cy: 48.8, dw: 21.79,
     panelSide: 'left',
   },
   {
@@ -106,7 +106,7 @@ const steps: Step[] = [
     imagePath: '/how_we_deliver/HWD_Section_5.png',
     imgW: 1433, imgH: 941,
     cropX1: 185, cropX2: 1333, cropY1: 26, cropY2: 910,
-    cx: 71.0, cy: 75.5, dw: 25.66,
+    cx: 72.2, cy: 75.5, dw: 25.66,
     panelSide: 'left',
   },
   {
@@ -401,28 +401,80 @@ export function HowWeDeliverSection() {
                     animate={{
                       y: isActive ? -24 : 0,
                       scale: isActive ? 1.05 : 1.0,
-                      filter: isActive
-                        ? 'drop-shadow(0px 24px 20px rgba(12,44,77,0.4)) drop-shadow(0px 4px 10px rgba(191,160,82,0.2))'
-                        : 'drop-shadow(0px 2px 4px rgba(0,0,0,0.15))',
                     }}
                     transition={{
                       type: 'spring',
                       stiffness: 250,
                       damping: 25,
                     }}
+                    className={cn(
+                      "transition-all duration-500 ease-in-out"
+                    )}
                   >
-                    {/* eslint-disable-next-line @next/next/no-img-element */}
+                    {/* Shadow Layer 1: Top half shadow (Soft light yellow shade) */}
+                    <div 
+                      className={cn(
+                        "absolute inset-0 pointer-events-none transition-all duration-500 ease-in-out",
+                        isActive
+                          ? "[filter:drop-shadow(0px_4px_6px_rgba(251,191,36,0.45))_drop-shadow(0px_0px_3px_rgba(255,255,255,0.3))]"
+                          : "[filter:drop-shadow(0px_2px_3px_rgba(251,191,36,0.2))]"
+                      )}
+                    >
+                      <div
+                        style={{
+                          WebkitMaskImage: 'linear-gradient(to bottom, black 38%, transparent 48%)',
+                          maskImage: 'linear-gradient(to bottom, black 38%, transparent 48%)'
+                        }}
+                        className="w-full h-auto"
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={step.imagePath}
+                          alt=""
+                          className="w-full h-auto block select-none"
+                          draggable={false}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Shadow Layer 2: Bottom half shadow (Premium white-core neon light under-glow) */}
+                    <div 
+                      className={cn(
+                        "absolute inset-0 pointer-events-none transition-all duration-500 ease-in-out",
+                        isActive
+                          ? "animate-neon-glow"
+                          : "[filter:drop-shadow(0px_1.5px_0.5px_#ffffff)_drop-shadow(0px_2px_2px_rgba(251,191,36,0.5))_drop-shadow(0px_4px_6px_rgba(191,160,82,0.3))]"
+                      )}
+                    >
+                      <div
+                        style={{
+                          WebkitMaskImage: 'linear-gradient(to bottom, transparent 38%, black 48%)',
+                          maskImage: 'linear-gradient(to bottom, transparent 38%, black 48%)'
+                        }}
+                        className="w-full h-auto"
+                      >
+                        {/* eslint-disable-next-line @next/next/no-img-element */}
+                        <img
+                          src={step.imagePath}
+                          alt=""
+                          className="w-full h-auto block select-none"
+                          draggable={false}
+                        />
+                      </div>
+                    </div>
+
+                    {/* Main Opaque Block Image */}
                     <img
                       src={step.imagePath}
                       alt={step.title}
-                      className="w-full h-auto block select-none"
+                      className="relative w-full h-auto block select-none z-10"
                       draggable={false}
                     />
                   </motion.div>
                 </div>
               );
             })}
-
+ 
             {/* SYNCED CENTER CARD */}
             <AnimatePresence mode="wait">
               {active && (
@@ -432,7 +484,7 @@ export function HowWeDeliverSection() {
                   animate={{ opacity: 1, scale: 1, x: "-50%", y: "-50%" }}
                   exit={{ opacity: 0, scale: 0.95, x: "-50%", y: "-60%" }}
                   transition={{ duration: 0.25, ease: 'easeOut' }}
-                  className="absolute z-35 w-[62%] min-w-[700px] max-w-[860px]"
+                  className="absolute z-50 w-[62%] min-w-[700px] max-w-[860px]"
                   style={{
                     left: '44%',
                     top: '46.0%',
