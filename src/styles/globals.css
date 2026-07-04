@@ -262,3 +262,16 @@
     transition: 0.3s transform linear, 0.3s height linear 0.5s;
   }
 }
+
+@keyframes liquid-flow {
+  0% {
+    transform: translateY(-100%);
+  }
+  100% {
+    transform: translateY(300%);
+  }
+}
+
+.animate-liquid-flow {
+  animation: liquid-flow 1.8s infinite linear;
+}
