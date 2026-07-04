@@ -29,6 +29,7 @@ export function Header() {
     { name: 'Home', href: isHome ? '#' : '/' },
     { name: 'About Us', href: isHome ? '#enterprise' : '/#enterprise' },
     { name: 'Services', href: isHome ? '#solutions' : '/#solutions' },
+    { name: 'Our Leadership', href: '/leadership' },
     { name: 'Get in Touch', href: '/contact' },
   ];
 
