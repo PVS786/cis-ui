@@ -4,10 +4,12 @@ import { AnimatePresence, motion } from 'framer-motion';
 import { Menu, X } from 'lucide-react';
 import Link from 'next/link';
 import Image from 'next/image';
+import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { cn } from '@/lib/utils';
 
 export function Header() {
+  const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -21,11 +23,14 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  const isHome = pathname === '/';
+
   const navLinks = [
-    { name: 'Home', href: '#' },
-    { name: 'About Us', href: '#enterprise' },
-    { name: 'Services', href: '#solutions' },
-    { name: 'Get in Touch', href: '#contact' },
+    { name: 'Home', href: isHome ? '#' : '/' },
+    { name: 'About Us', href: '/about' },
+    { name: 'Services', href: isHome ? '#solutions' : '/#solutions' },
+    { name: 'Our Leadership', href: '/leadership' },
+    { name: 'Get in Touch', href: '/contact' },
   ];
 
   return (
