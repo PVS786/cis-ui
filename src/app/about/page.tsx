@@ -44,9 +44,9 @@ export default function AboutUsPage() {
   };
 
   const itemVariants = {
-    hidden: { 
-      opacity: 0, 
-      x: -30, 
+    hidden: {
+      opacity: 0,
+      x: -30,
       filter: 'blur(8px)',
       scale: 0.98,
     },
@@ -132,14 +132,14 @@ export default function AboutUsPage() {
       >
         <section className="relative w-full py-16 md:py-24 bg-transparent overflow-hidden">
           <div className="max-w-[95rem] mx-auto px-6 md:px-12 lg:px-16 w-full relative z-10">
-            
+
             {/* Introductory Text Structure matching design sheet */}
             <div className="text-center max-w-5xl mx-auto mb-16 space-y-8 relative z-10 px-4">
               <p className="text-brand-navy/70 text-lg md:text-xl font-normal leading-relaxed">
-                We know what you're dealing with. The right land is hard to find. Approvals take longer than they should. 
+                We know what you're dealing with. The right land is hard to find. Approvals take longer than they should.
                 And somewhere in the middle of all of it, you're left managing a process that was never designed to be easy.
               </p>
-              
+
               <div className="flex flex-col items-center gap-4">
                 <h3 className="text-2xl md:text-3xl font-poppins font-bold text-brand-navy max-w-4xl leading-tight">
                   We built Conservve Infra Solutions to change that experience for you.
@@ -148,9 +148,9 @@ export default function AboutUsPage() {
               </div>
 
               <p className="text-brand-navy/70 text-base md:text-lg font-normal leading-relaxed max-w-4xl mx-auto">
-                Based in Mumbai, we specialise in land acquisition and statutory approvals for businesses and developers 
-                who are done with delays and ready to move. We come in, take ownership of the complexity, and walk 
-                every stage alongside you with complete transparency, full compliance, and a commitment to 
+                Based in Mumbai, we specialise in land acquisition and statutory approvals for businesses and developers
+                who are done with delays and ready to move. We come in, take ownership of the complexity, and walk
+                every stage alongside you with complete transparency, full compliance, and a commitment to
                 getting you where you need to be, faster.
               </p>
 
@@ -158,7 +158,7 @@ export default function AboutUsPage() {
                 <h4 className="text-xl md:text-2xl font-poppins font-bold text-brand-navy">
                   Your project deserves that. And so do you.
                 </h4>
-                
+
                 {/* Gold blueprint symbol divider line */}
                 <div className="flex items-center gap-4 w-full justify-center opacity-70">
                   <div className="w-24 h-[1px] bg-brand-gold/60" />
@@ -174,18 +174,17 @@ export default function AboutUsPage() {
               </div>
             </div>
 
-            {/* ─── DESKTOP COMPOSITE INFOGRAPHIC: single mv_bg.png with text overlaid ─── */}
             {/*
-              mv_bg.png natural proportions ≈ 1540 × 740px → ratio 2.08:1
-              We render it at w-full within max-w-[1400px], height set by aspect ratio.
-              Text zones (as % of image width):
-                VISION  : left 2%  → left 38%  (left polygon body)
-                MISSION : left 62% → right 2%  (right polygon body)
-                Centre  : left 38% → left 62%  (graphical only, no text)
+              ─── DESKTOP INFOGRAPHIC: mv_bg.png (1540×740) full-unit image ───
+              Text zone analysis (% of image width):
+                Left polygon body:  x = 4%  → 30%   (28% wide)
+                Connector throat:   x = 30% → 63%   (graphical only)
+                Right polygon body: x = 63% → 90%   (27% wide)
+                Mission nodes:      x = 88% → 100%  (icons, no text)
             */}
             <motion.div
-              className="w-full max-w-[1400px] mx-auto hidden lg:block relative select-none z-20"
-              style={{ aspectRatio: '1540 / 740' }}
+              className="w-full max-w-[1660px] mx-auto hidden lg:block relative select-none z-20"
+              style={{ aspectRatio: '1540 / 840' }}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, ease: "easeOut" }}
@@ -195,46 +194,73 @@ export default function AboutUsPage() {
                 <Image
                   src="/about_us/mv_bg.png"
                   fill
-                  sizes="(min-width: 1024px) 1400px, 100vw"
+                  sizes="(min-width: 1024px) 1660px, 100vw"
                   priority
                   className="object-fill"
                   alt="Vision Mission Infographic"
                 />
               </div>
 
-              {/* ── VISION: Eye icon — upper-centre of left polygon (yellow circle position) ── */}
-              <div className="absolute z-10" style={{ left: '22%', top: '24%', transform: 'translate(-50%, -50%)' }}>
-                <div className="w-14 h-14 rounded-full border border-brand-gold/70 flex items-center justify-center bg-brand-navy/50 backdrop-blur-sm shadow-inner relative">
-                  <div className="absolute inset-0.5 rounded-full border border-dashed border-brand-gold/35" />
-                  <Eye className="w-7 h-7 text-brand-gold" />
+              {/* ── VISION: icon + heading + text — left polygon body ── */}
+              <div
+                className="absolute z-10 flex flex-col items-start text-left"
+                style={{ left: '9%', top: '30%', width: '23%' }}
+              >
+                {/* Vision Icon — decorative eye centered above left-aligned title */}
+                <div className="relative mb-5 shrink-0 self-start">
+                  {/* Outer pulse ring */}
+                  <span className="absolute inset-0 rounded-full border-2 border-brand-gold/25 scale-[1.4] animate-pulse" />
+                  {/* Middle ring */}
+                  <span className="absolute inset-0 rounded-full border border-brand-gold/40 scale-[1.18]" />
+                  {/* Main icon circle */}
+                  <div className="relative w-14 h-14 rounded-full border-2 border-brand-gold bg-brand-navy/70 backdrop-blur-sm flex items-center justify-center shadow-[0_0_18px_rgba(191,160,82,0.35)]">
+                    {/* Inner decorative ring */}
+                    <span className="absolute inset-[3px] rounded-full border border-brand-gold/40" />
+                    <Eye className="w-7 h-7 text-brand-gold" strokeWidth={1.5} />
+                  </div>
                 </div>
-              </div>
 
-              {/* ── VISION: Heading + text — centre-right of left polygon body (yellow rectangle position) ── */}
-              <div className="absolute z-10 text-left" style={{ left: '5%', top: '42%', right: '60%' }}>
-                <h3 className="text-4xl xl:text-5xl font-poppins font-black tracking-widest text-white leading-none drop-shadow-lg">
+                {/* VISION heading — brand gold */}
+                <h3 className="text-3xl xl:text-4xl font-poppins font-black tracking-widest text-brand-gold leading-none drop-shadow-lg">
                   VISION
                 </h3>
-                <div className="w-14 h-[3px] bg-brand-gold mt-3 mb-4 rounded-full" />
-                <p className="text-white/85 text-[15px] font-normal leading-relaxed drop-shadow">
+                {/* Gold underline accent */}
+                <div className="w-10 h-[3px] bg-brand-gold mt-2 mb-4 rounded-full opacity-90" />
+                {/* Description paragraph */}
+                <p className="text-white/90 text-[15px] xl:text-[16px] font-normal leading-[1.65] drop-shadow">
                   To be a trusted leader in land acquisition and regulatory solutions, known for delivering certainty,
                   transparency, and long-term value across every project.
                 </p>
               </div>
 
-              {/* ── MISSION text overlay: right polygon zone (right 2% → 62%) ── */}
-              <div className="absolute inset-y-0 flex flex-col justify-center text-left z-10"
-                style={{ left: '63%', right: '3%' }}>
-                {/* Target icon */}
-                <div className="w-14 h-14 rounded-full border border-white/60 flex items-center justify-center mb-4 bg-white/10 backdrop-blur-sm shadow-inner relative shrink-0">
-                  <div className="absolute inset-0.5 rounded-full border border-dashed border-white/25" />
-                  <Target className="w-7 h-7 text-white" />
+              {/* ── MISSION: icon + heading + text — right polygon body ── */}
+              {/* Changed to items-end and text-right to prevent overlap with the center throat/arrow */}
+              <div
+                className="absolute z-10 flex flex-col items-end text-right"
+                style={{ right: '12%', top: '30%', width: '25%' }}
+              >
+                {/* Mission Icon — decorative target centered above right-aligned title */}
+                <div className="relative mb-5 shrink-0 self-end">
+                  {/* Outer pulse ring */}
+                  <span className="absolute inset-0 rounded-full border-2 border-brand-navy/30 scale-[1.4] animate-pulse" />
+                  {/* Middle ring */}
+                  <span className="absolute inset-0 rounded-full border border-brand-navy/50 scale-[1.18]" />
+                  {/* Main icon circle */}
+                  <div className="relative w-14 h-14 rounded-full border-2 border-brand-navy bg-white/25 backdrop-blur-sm flex items-center justify-center shadow-[0_0_18px_rgba(4,22,42,0.4)]">
+                    {/* Inner decorative ring */}
+                    <span className="absolute inset-[3px] rounded-full border border-brand-navy/50" />
+                    <Target className="w-7 h-7 text-brand-navy" strokeWidth={1.5} />
+                  </div>
                 </div>
-                <h3 className="text-4xl xl:text-5xl font-poppins font-black tracking-widest text-white leading-none drop-shadow-lg">
+
+                {/* MISSION heading — brand navy */}
+                <h3 className="text-3xl xl:text-4xl font-poppins font-black tracking-widest text-brand-navy leading-none drop-shadow-lg">
                   MISSION
                 </h3>
-                <div className="w-14 h-[3px] bg-white mt-3 mb-4 rounded-full" />
-                <p className="text-white/90 text-[15px] font-normal leading-relaxed max-w-[300px] drop-shadow">
+                {/* Navy underline accent */}
+                <div className="w-10 h-[3px] bg-brand-navy mt-2 mb-4 rounded-full opacity-90" />
+                {/* Description paragraph */}
+                <p className="text-white/90 text-[15px] xl:text-[16px] font-normal leading-[1.65] drop-shadow">
                   To simplify land acquisition and approval processes through deep expertise, strong institutional
                   networks, and efficient execution, empowering clients to move forward with confidence.
                 </p>
@@ -244,7 +270,7 @@ export default function AboutUsPage() {
 
             {/* ─── MOBILE & TABLET LAYOUT: RESPONSIVE STACKED BLOCKS ─── */}
             <div className="w-full flex flex-col items-center justify-center gap-8 mt-8 relative z-20 select-none lg:hidden">
-              
+
               {/* MOBILE: VISION PANEL */}
               <div className="relative w-full max-w-[500px] aspect-[520/400] flex-shrink-0 group">
                 {/* SVG Background Layer */}
@@ -312,14 +338,14 @@ export default function AboutUsPage() {
                     <div className="absolute inset-0.5 rounded-full border border-dashed border-brand-gold/30" />
                     <Eye className="w-7 h-7 text-brand-gold" />
                   </div>
-                  
+
                   {/* Vision Header */}
                   <h3 className="text-3xl font-poppins font-black tracking-widest text-white leading-none">VISION</h3>
                   <div className="w-12 h-[3px] bg-brand-gold mt-3 mb-4" />
-                  
+
                   {/* Description */}
                   <p className="text-white/80 text-sm sm:text-[14.5px] font-normal leading-relaxed max-w-[285px]">
-                    To be a trusted leader in land acquisition and regulatory solutions, known for delivering certainty, 
+                    To be a trusted leader in land acquisition and regulatory solutions, known for delivering certainty,
                     transparency, and long-term value across every project.
                   </p>
                 </div>
@@ -327,7 +353,7 @@ export default function AboutUsPage() {
 
               {/* MOBILE: TRANSMITTER NEXUS HUB */}
               <div className="relative w-28 h-28 rounded-full bg-white flex items-center justify-center shadow-xl border-2 border-brand-gold z-10 shrink-0">
-                <motion.div 
+                <motion.div
                   className="absolute inset-1 rounded-full border border-dashed border-brand-gold/60"
                   animate={{ rotate: 360 }}
                   transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
@@ -422,14 +448,14 @@ export default function AboutUsPage() {
                     <div className="absolute inset-0.5 rounded-full border border-dashed border-white/20" />
                     <Target className="w-7 h-7 text-white" />
                   </div>
-                  
+
                   {/* Mission Header */}
                   <h3 className="text-3xl font-poppins font-black tracking-widest text-white leading-none">MISSION</h3>
                   <div className="w-12 h-[3px] bg-white mt-3 mb-4" />
-                  
+
                   {/* Description */}
                   <p className="text-white/90 text-sm sm:text-[14.5px] font-normal leading-relaxed max-w-[285px]">
-                    To simplify land acquisition and approval processes through deep expertise, strong institutional networks, 
+                    To simplify land acquisition and approval processes through deep expertise, strong institutional networks,
                     and efficient execution, empowering clients to move forward with confidence.
                   </p>
                 </div>
