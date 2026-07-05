@@ -19,9 +19,10 @@ const LEADERS = [
   {
     id: "kiran-shetty",
     name: "Kiran Shetty",
-    role: "Co-founder",
+    role: "Founder and MD",
     isImageLeft: true,
     image: "/leadership/kiran.png",
+    imagePosition: "object-top",
     bio: [
       "Mr. Kiran Shetty is a seasoned infrastructure development leader with over three decades of experience, including significant contributions to real estate. He holds a Bachelor's degree in Civil Engineering from Veermata Jijabai Technological Institute (VJTI), Mumbai, and an Executive MBA from Narsee Monjee Institute of Management Studies (NMIMS). He has independently led an EPC firm with pan-India presence, specializing in industrial and warehousing infrastructure and land acquisition and statutory approvals. His balanced leadership style, strategic thinking, and governance-led mindset bring immense value to Conservve's journey.",
       "Mr. Shetty also serves as a key member of the Infrastructure Advisory Committee at IIM Mumbai, actively shaping the future of campus development. His deep ties to community initiatives, ranging from educational infrastructure to environment and housing, reinforce his commitment to CSR and nation-building.",
@@ -34,6 +35,7 @@ const LEADERS = [
     role: "Co-founder",
     isImageLeft: false,
     image: "/leadership/aditya.png",
+    imagePosition: "object-[center_35%]",
     bio: [
       "Aditya Shetty brings the rare ability to understand both people and problems, systems and stories, making him a true all-rounder in the business world. Driven by curiosity, an engineering graduate from an esteemed university with a strong foundation in quantitative abilities and an equally strong passion for people management, Aditya's professional journey is defined by rapid, merit-driven growth, from intern to senior business analyst in a leading-edge tech unicorn, and now a key leadership figure at Conservve.",
       "Aditya has successfully led GTM initiatives across geographies, including the US, Canada, and APAC regions, demonstrating his unique capability to build, lead, and scale critical business functions. Whether crafting high-value commercial strategies and proposals, driving sales & GTM initiatives, or leading demand generation & negotiations, his efforts have translated into tangible business outcomes, including a 40% spike in pipeline growth and over $5 million for strategic accounts in a condensed timeframe.",
@@ -46,9 +48,10 @@ interface CFrameProps {
   imageSrc: string;
   altText: string;
   isImageLeft: boolean;
+  imagePosition?: string;
 }
 
-function CFrame({ imageSrc, altText }: CFrameProps) {
+function CFrame({ imageSrc, altText, imagePosition = "object-top" }: CFrameProps) {
 
   const BarBorderGlow = ({ barIndex }: { barIndex: number }) => {
     return (
@@ -182,7 +185,7 @@ function CFrame({ imageSrc, altText }: CFrameProps) {
                   src={imageSrc}
                   alt={altText}
                   fill
-                  className="object-cover object-top"
+                  className={`object-cover ${imagePosition}`}
                   sizes="(max-width: 640px) 240px, (max-width: 768px) 310px, (max-width: 1024px) 340px, 370px"
                   priority
                 />
@@ -672,7 +675,7 @@ export default function LeadershipPage() {
                   {/* Subtle Founder-Specific Technical Graphics at Placeholders (Top-Left & Bottom-Right) */}
                   {leader.id === "kiran-shetty" && (
                     <>
-                      {/* Top-Left: Fibonacci Golden Ratio Spiral (Strategic Design Proportion / Real Estate Reference) */}
+                      {/* Top-Left: Business Growth Analytics Trend (Commercial Growth Reference) */}
                       <motion.div
                         initial={{ opacity: 0, scale: 0.8 }}
                         whileInView={{ opacity: 0.60, scale: 1 }}
@@ -681,23 +684,20 @@ export default function LeadershipPage() {
                         className="absolute left-6 top-8 w-[130px] h-[130px] pointer-events-none select-none z-0 hidden sm:block"
                       >
                         <svg viewBox="0 0 100 100" className="w-full h-full stroke-brand-navy fill-none stroke-[1.2]">
-                          {/* Nested structural concentric arcs centered at top-left origin (20,20) */}
-                          <path d="M 20,60 A 40,40 0 0,0 60,20" strokeWidth="1.4" />
-                          <path d="M 20,70 A 50,50 0 0,0 70,20" strokeDasharray="2,2" opacity="0.6" />
-                          <path d="M 20,80 A 60,60 0 0,0 80,20" strokeWidth="1.0" />
+                          {/* Rising smooth spline representing business growth velocity */}
+                          <path d="M10,80 C30,75 40,40 60,35 C75,30 80,15 90,10" strokeWidth="1.6" />
 
-                          {/* Radiating truss support struts from origin (20,20) */}
-                          <line x1="20" y1="20" x2="20" y2="80" strokeWidth="1.5" />
-                          <line x1="20" y1="20" x2="80" y2="20" strokeWidth="1.5" />
-                          <line x1="20" y1="20" x2="62" y2="62" strokeWidth="1.0" />
-                          <line x1="20" y1="20" x2="75" y2="42" strokeWidth="0.8" />
-                          <line x1="20" y1="20" x2="42" y2="75" strokeWidth="0.8" />
+                          {/* Standard boundary line helpers */}
+                          <line x1="10" y1="90" x2="90" y2="90" strokeWidth="0.8" />
+                          <line x1="10" y1="80" x2="10" y2="90" strokeWidth="0.8" />
 
-                          {/* Node connector pins on the arcs */}
-                          <circle cx="62" cy="62" r="2.5" fill="#0C2C4D" stroke="none" />
-                          <circle cx="75" cy="42" r="2" fill="#0C2C4D" stroke="none" />
-                          <circle cx="42" cy="75" r="2" fill="#0C2C4D" stroke="none" />
-                          <circle cx="20" cy="20" r="3.5" fill="#0C2C4D" stroke="none" />
+                          {/* Trend coordinate nodes */}
+                          <circle cx="53" cy="36" r="2.5" fill="#0C2C4D" stroke="none" />
+                          <circle cx="90" cy="10" r="3" fill="#0C2C4D" stroke="none" />
+
+                          {/* Dotted indicator projections */}
+                          <line x1="53" y1="36" x2="53" y2="90" strokeWidth="0.8" strokeDasharray="2,2" />
+                          <line x1="90" y1="10" x2="90" y2="90" strokeWidth="0.8" strokeDasharray="2,2" />
                         </svg>
                       </motion.div>
 
@@ -733,13 +733,42 @@ export default function LeadershipPage() {
 
                   {leader.id === "aditya-shetty" && (
                     <>
-                      {/* Top-Left: Global Market Arcs & Trajectories (APAC/US GTM Scaling Reference) */}
+                      {/* Top-Left: Fibonacci Golden Ratio Spiral (Strategic Design Proportion / Real Estate Reference) */}
                       <motion.div
                         initial={{ opacity: 0, scale: 0.8 }}
                         whileInView={{ opacity: 0.60, scale: 1 }}
                         viewport={{ once: true }}
                         transition={{ duration: 1.2 }}
                         className="absolute left-6 top-8 w-[130px] h-[130px] pointer-events-none select-none z-0 hidden sm:block"
+                      >
+                        <svg viewBox="0 0 100 100" className="w-full h-full stroke-brand-navy fill-none stroke-[1.2]">
+                          {/* Nested structural concentric arcs centered at top-left origin (20,20) */}
+                          <path d="M 20,60 A 40,40 0 0,0 60,20" strokeWidth="1.4" />
+                          <path d="M 20,70 A 50,50 0 0,0 70,20" strokeDasharray="2,2" opacity="0.6" />
+                          <path d="M 20,80 A 60,60 0 0,0 80,20" strokeWidth="1.0" />
+
+                          {/* Radiating truss support struts from origin (20,20) */}
+                          <line x1="20" y1="20" x2="20" y2="80" strokeWidth="1.5" />
+                          <line x1="20" y1="20" x2="80" y2="20" strokeWidth="1.5" />
+                          <line x1="20" y1="20" x2="62" y2="62" strokeWidth="1.0" />
+                          <line x1="20" y1="20" x2="75" y2="42" strokeWidth="0.8" />
+                          <line x1="20" y1="20" x2="42" y2="75" strokeWidth="0.8" />
+
+                          {/* Node connector pins on the arcs */}
+                          <circle cx="62" cy="62" r="2.5" fill="#0C2C4D" stroke="none" />
+                          <circle cx="75" cy="42" r="2" fill="#0C2C4D" stroke="none" />
+                          <circle cx="42" cy="75" r="2" fill="#0C2C4D" stroke="none" />
+                          <circle cx="20" cy="20" r="3.5" fill="#0C2C4D" stroke="none" />
+                        </svg>
+                      </motion.div>
+
+                      {/* Bottom-Right: Global Market Arcs & Trajectories (APAC/US GTM Scaling Reference) */}
+                      <motion.div
+                        initial={{ opacity: 0, scale: 0.8 }}
+                        whileInView={{ opacity: 0.60, scale: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 1.2, delay: 0.2 }}
+                        className="absolute right-6 bottom-8 w-[130px] h-[130px] pointer-events-none select-none z-0 hidden sm:block"
                       >
                         <svg viewBox="0 0 100 100" className="w-full h-full stroke-brand-navy fill-none stroke-[1.2]">
                           {/* Global trajectory paths linking node hubs */}
@@ -755,32 +784,6 @@ export default function LeadershipPage() {
                           <circle cx="50" cy="65" r="2" fill="#0C2C4D" stroke="none" />
                           <circle cx="15" cy="85" r="3.5" fill="#0C2C4D" stroke="none" />
                           <circle cx="85" cy="85" r="3.5" fill="#0C2C4D" stroke="none" />
-                        </svg>
-                      </motion.div>
-
-                      {/* Bottom-Right: Business Growth Analytics Trend (Commercial Growth Reference) */}
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        whileInView={{ opacity: 0.60, scale: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 1.2, delay: 0.2 }}
-                        className="absolute right-6 bottom-8 w-[130px] h-[130px] pointer-events-none select-none z-0 hidden sm:block"
-                      >
-                        <svg viewBox="0 0 100 100" className="w-full h-full stroke-brand-navy fill-none stroke-[1.2]">
-                          {/* Rising smooth spline representing business growth velocity */}
-                          <path d="M10,80 C30,75 40,40 60,35 C75,30 80,15 90,10" strokeWidth="1.6" />
-
-                          {/* Standard boundary line helpers */}
-                          <line x1="10" y1="90" x2="90" y2="90" strokeWidth="0.8" />
-                          <line x1="10" y1="10" x2="10" y2="90" strokeWidth="0.8" />
-
-                          {/* Trend coordinate nodes */}
-                          <circle cx="53" cy="36" r="2.5" fill="#0C2C4D" stroke="none" />
-                          <circle cx="90" cy="10" r="3" fill="#0C2C4D" stroke="none" />
-
-                          {/* Dotted indicator projections */}
-                          <line x1="53" y1="36" x2="53" y2="90" strokeWidth="0.8" strokeDasharray="2,2" />
-                          <line x1="90" y1="10" x2="90" y2="90" strokeWidth="0.8" strokeDasharray="2,2" />
                         </svg>
                       </motion.div>
                     </>
@@ -804,6 +807,7 @@ export default function LeadershipPage() {
                             imageSrc={leader.image}
                             altText={`${leader.name} - ${leader.role}`}
                             isImageLeft={leader.isImageLeft}
+                            imagePosition={leader.imagePosition}
                           />
                         </motion.div>
                       </div>
@@ -811,8 +815,8 @@ export default function LeadershipPage() {
                       {/* Column for Content (Name, Role, Biography paragraphs) */}
                       <div
                         className={`lg:col-span-7 flex flex-col justify-center text-left ${leader.isImageLeft
-                            ? "lg:order-2 pr-[10%] pl-0 lg:pl-8"
-                            : "lg:order-1 pl-[10%] pr-[10%] lg:pr-8"
+                          ? "lg:order-2 pr-[10%] pl-0 lg:pl-8"
+                          : "lg:order-1 pl-[10%] pr-[10%] lg:pr-8"
                           }`}
                       >
                         <motion.div
@@ -831,14 +835,14 @@ export default function LeadershipPage() {
                               </h3>
 
                               {/* Navy vertical line, aligned exactly with the end of the gold lines */}
-                              <div className="absolute right-0 bottom-0 h-[60px] flex items-end">
+                              <div className="absolute right-0 bottom-[2px] sm:bottom-[3px]">
                                 <motion.div
                                   initial={{ scaleY: 0 }}
                                   whileInView={{ scaleY: 1 }}
                                   viewport={{ once: true }}
                                   transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
                                   style={{ originY: 1.0 }} // Grows upwards from the baseline
-                                  className="w-[3.5px] sm:w-[4.5px] h-[48px] bg-[#0C2C4D] rounded-sm mb-[0.5px]" // Extended to 48px height, 0.5px gap above baseline (close but not joined)
+                                  className="w-[3.5px] sm:w-[4.5px] h-[38px] sm:h-[50px] bg-[#0C2C4D] rounded-sm"
                                 />
                               </div>
                             </div>
@@ -846,7 +850,7 @@ export default function LeadershipPage() {
                             {/* Row 2: Role and Horizontal Gold Lines (Ending exactly flush under the Navy Vertical Bar) */}
                             <div className="flex items-center space-x-4 w-full relative mt-3">
                               {/* Slightly increased font size from text-xs sm:text-sm to text-sm sm:text-base */}
-                              <span className="text-sm sm:text-base font-gotham font-bold tracking-[0.15em] text-brand-gold uppercase whitespace-nowrap">
+                              <span className="text-lg sm:text-xl font-poppins font-black tracking-[0.15em] text-brand-gold uppercase whitespace-nowrap">
                                 {leader.role}
                               </span>
 
