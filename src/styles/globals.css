@@ -180,6 +180,11 @@
   --color-brand-gray-light: #F5F7FA;
   --color-brand-gray-medium: #E2E8F0;
   --color-brand-white: #FFFFFF;
+
+  --color-navy: #0C2C4D;
+  --color-gold: #BFA052;
+  --font-body: var(--font-poppins);
+  --font-heading: var(--font-tibere);
 }
 
 @layer base {
