@@ -507,6 +507,18 @@ function CoreValuesSection() {
   const currentMouseX = useRef(0);
   const currentMouseY = useRef(0);
 
+  // Cinematic camera LERP refs for Marvel-style closeups
+  const currentZoom = useRef(1.0);
+  const currentPanX = useRef(0);
+  const currentPanY = useRef(0);
+  const currentYaw = useRef(0.35);  // default good viewing angle
+  const currentPitch = useRef(0.06);
+  const currentRoll = useRef(-0.12);
+  const currentAmp = useRef(192);   // 40% of 480px
+  const currentTurns = useRef(2.5);
+  // Continuous idle-rotation accumulator
+  const autoYaw = useRef(0.35);
+
   const handleMouseMove = (e: React.MouseEvent<SVGSVGElement>) => {
     if (!svgRef.current) return;
     const rect = svgRef.current.getBoundingClientRect();
@@ -640,12 +652,86 @@ function CoreValuesSection() {
     };
   }, []);
 
+  const activeIndexRef = useRef<number | null>(null);
+  activeIndexRef.current = activeIndex;
+
+  const svgWRef = useRef(1920);
+  const svgHRef = useRef(340);
+  svgWRef.current = svgW;
+  svgHRef.current = svgH;
+
+  const xNodesRef = useRef<number[]>([192, 576, 960, 1344, 1728]);
+  xNodesRef.current = xNodes;
+
   useEffect(() => {
     let animationFrameId: number;
     const tick = () => {
       // Smoothly interpolate current coordinates towards target values (LERP)
       currentMouseX.current += (targetMouseX.current - currentMouseX.current) * 0.08;
       currentMouseY.current += (targetMouseY.current - currentMouseY.current) * 0.08;
+
+      // Determine target camera values based on activeIndex
+      const idx = activeIndexRef.current;
+      const W = svgWRef.current || 1920;
+      const H = svgHRef.current || 340;
+
+      let tZoom = 1.0;
+      let tPanX = 0;
+      let tPanY = 0;
+      let tYaw = autoYaw.current; // follows idle oscillation
+      let tPitch = 0.06;
+      let tRoll = -0.12;
+      let tAmp = H * 0.40;
+      let tTurns = 2.5;
+
+      const isMobile = typeof window !== 'undefined' && window.innerWidth < 768;
+
+      if (idx !== null && xNodesRef.current[idx] !== undefined) {
+        // ── FPV DRONE HOVER — each card sweeps the camera to a dramatically different angle
+        // Yaw   : how much the helix SPIRALS into view (0.45–0.65 rad = 25–37° side sweep)
+        // Pitch : vertical tilt of the drone camera
+        // Roll  : axis-tilt of the DNA strand itself
+        // Zoom  : held at 1.4 so helix fills the LEFT 60% without overflow
+        const configs = [
+          { yaw: 0.52, pitch: 0.14, roll: -0.08, zoom: 1.40 }, // 01 — right sweep, tilt up
+          { yaw: -0.48, pitch: -0.11, roll: 0.14, zoom: 1.38 }, // 02 — left sweep, tilt down
+          { yaw: 0.62, pitch: 0.18, roll: -0.18, zoom: 1.42 }, // 03 — steep right
+          { yaw: -0.55, pitch: -0.14, roll: 0.10, zoom: 1.36 }, // 04 — steep left
+          { yaw: 0.45, pitch: 0.10, roll: -0.12, zoom: 1.40 }, // 05 — gentle right
+        ];
+        const cfg = configs[idx] ?? configs[0];
+        tZoom = isMobile ? Math.min(cfg.zoom, 1.1) : cfg.zoom;
+        tYaw = cfg.yaw;
+        tPitch = cfg.pitch;
+        tRoll = cfg.roll;
+        tAmp = H * 0.38;  // slightly tighter when zoomed for depth clarity
+        tTurns = 2.5;        // always the same turns — visual consistency across all 5
+
+        const nodeX = xNodesRef.current[idx];
+        // Bring active node to 28% from left so DNA sits in the left 60% zone
+        // The extra -W*0.22 pushes the helix firmly into the left half
+        tPanX = isMobile ? 0 : -(nodeX - W / 2) * tZoom - W * 0.22;
+        tPanY = 0;
+      } else {
+        // ── IDLE: gentle figure-8 oscillation — the DNA slowly breathes and rocks
+        autoYaw.current += 0.0005;  // half a degree per second at 60fps
+        tYaw = 0.35 + Math.sin(autoYaw.current) * 0.07;
+        tPitch = 0.06 + Math.cos(autoYaw.current * 0.7) * 0.03;
+        tRoll = -0.12 + Math.sin(autoYaw.current * 0.5) * 0.04;
+        tZoom = 1.0;
+        tPanX = 0;
+        tPanY = 0;
+      }
+
+      // LERP factors: zoom/pan fast (snappy), angles moderate (smooth drone sweep)
+      currentZoom.current += (tZoom - currentZoom.current) * 0.10;
+      currentPanX.current += (tPanX - currentPanX.current) * 0.09;
+      currentPanY.current += (tPanY - currentPanY.current) * 0.09;
+      currentYaw.current += (tYaw - currentYaw.current) * 0.07;
+      currentPitch.current += (tPitch - currentPitch.current) * 0.07;
+      currentRoll.current += (tRoll - currentRoll.current) * 0.06;
+      currentAmp.current += (tAmp - currentAmp.current) * 0.07;
+      currentTurns.current += (tTurns - currentTurns.current) * 0.07;
 
       setPhase((prev) => (prev + 0.012) % (Math.PI * 2));
       animationFrameId = requestAnimationFrame(tick);
@@ -676,187 +762,167 @@ function CoreValuesSection() {
   };
 
   // ── DNA RENDER ─────────────────────────────────────────────────────────────
-  // Smooth-path double helix:
-  //   • Splits the helix at each cos=0 crossing boundary
-  //   • Each crossing segment is ONE filled polygon from 200 sample points
-  //     → eliminates all trapezoid stepping / pixelation artifacts
-  //   • Beads sit precisely on inner strand edges (rung junction points)
-  //   • Perfect left/right symmetry via sin / -sin geometry
+  //   • Backbone ribbon: smooth polyline along each strand
+  //   • Proper full-span rungs: line from strandA → strandB, colour-coded by depth
+  //   • Depth-clamped bead scaling: always in [0.55, 1.0] so edges never distort
+  //   • Z-sorted draw list for correct occlusion
   const renderDnaStructure = () => {
     const W = svgW;
     const H = svgH;
     if (W < 10 || H < 10) return null;
 
     const cY = H / 2;
-    const amp = H * 0.36;          // amplitude from centre to strand peak
-    const nT = 2.5;               // 2.5 turns = 5 DNA eyes, one per card
-    const rHW = H * 0.060;         // ribbon half-height
-    const bR = H * 0.024;         // base bead radius
-    const PTS = 220;               // sample points for smooth polygon construction
+    const amp = currentAmp.current;
+    const nT = currentTurns.current;
+    const bR = H * 0.026;   // backbone bead radius
+    const TOTAL = 160;         // sample density
 
-    // Build a closed polygon path: forward along top points, reverse along bottom points
-    const makePath = (top: [number, number][], bot: [number, number][]): string => {
-      const fwd = top.map((p, i) => `${i === 0 ? 'M' : 'L'}${p[0].toFixed(1)},${p[1].toFixed(1)}`).join('');
-      const rev = [...bot].reverse().map(p => `L${p[0].toFixed(1)},${p[1].toFixed(1)}`).join('');
-      return `${fwd}${rev}Z`;
+    const project = (x3d: number, y3d: number, z3d: number) => {
+      const dx = x3d - W / 2;
+      const dy = y3d - cY;
+      const dz = z3d;
+
+      // Roll (Z-axis tilt)
+      const roll = currentRoll.current;
+      const rx1 = dx * Math.cos(roll) - dy * Math.sin(roll);
+      const ry1 = dx * Math.sin(roll) + dy * Math.cos(roll);
+      const rz1 = dz;
+
+      // Yaw (Y-axis)
+      const rx2 = rx1 * Math.cos(currentYaw.current) + rz1 * Math.sin(currentYaw.current);
+      const rz2 = -rx1 * Math.sin(currentYaw.current) + rz1 * Math.cos(currentYaw.current);
+
+      // Pitch (X-axis)
+      const ry2 = ry1 * Math.cos(currentPitch.current) - rz2 * Math.sin(currentPitch.current);
+      const rz3 = ry1 * Math.sin(currentPitch.current) + rz2 * Math.cos(currentPitch.current);
+
+      const zoom = currentZoom.current;
+      return {
+        x: rx2 * zoom + W / 2 + currentPanX.current,
+        y: ry2 * zoom + cY + currentPanY.current,
+        z: rz3
+      };
     };
 
-    // ── Find crossing boundaries where cos(angle) = 0 ─────────────────
-    // angle(t) = t * 2π * nT + phase  →  crossing when angle = π/2 + k*π
-    // t_k = (π/2 + k*π - phase) / (2π * nT)
-    const raw: number[] = [0, 1];
-    for (let k = -2; k <= Math.ceil(nT * 2) + 2; k++) {
-      const tk = (Math.PI / 2 + k * Math.PI - phase) / (Math.PI * 2 * nT);
-      if (tk > 0.001 && tk < 0.999) raw.push(tk);
-    }
-    raw.sort((a, b) => a - b);
-    // Deduplicate values that are very close together
-    const bounds: number[] = [raw[0]];
-    for (let i = 1; i < raw.length; i++) {
-      if (raw[i] - bounds[bounds.length - 1] > 0.008) bounds.push(raw[i]);
-    }
+    // Depth scale: map z in [-amp, +amp] → [0.55, 1.0], always positive
+    const depthScale = (z: number) => 0.55 + 0.45 * ((z / amp) * 0.5 + 0.5);
 
     const drawList: { z: number; el: React.ReactNode }[] = [];
+    const zoom = currentZoom.current;
 
-    // ── Per-segment smooth ribbon paths ──────────────────────────────
-    for (let si = 0; si < bounds.length - 1; si++) {
-      const t0 = bounds[si];
-      const t1 = bounds[si + 1];
-      const tMid = (t0 + t1) / 2;
-      const zA = Math.cos(tMid * Math.PI * 2 * nT + phase); // strand-A depth at mid
+    // Pre-compute projected positions for both strands
+    const posA: { x: number; y: number; z: number }[] = [];
+    const posB: { x: number; y: number; z: number }[] = [];
+    const rawZ: number[] = []; // un-projected z for depth clamping
 
-      const cnt = Math.max(4, Math.round((t1 - t0) * PTS));
-      const pAt: [number, number][] = [], pAb: [number, number][] = [];
-      const pBt: [number, number][] = [], pBb: [number, number][] = [];
-
-      for (let j = 0; j <= cnt; j++) {
-        const t = t0 + (j / cnt) * (t1 - t0);
-        const ang = t * Math.PI * 2 * nT + phase;
-        const sx = Math.sin(ang);
-        const cx = Math.cos(ang);
-        const x = t * W;
-        // Symmetric strands: A = +sin, B = -sin
-        const yA = cY + sx * amp;
-        const yB = cY - sx * amp;
-        // Foreshorten ribbon at crossing (edge-on = thin; face-on = full width)
-        const hw = rHW * (0.06 + 0.94 * Math.abs(cx));
-
-        pAt.push([x, yA - hw]); pAb.push([x, yA + hw]);
-        pBt.push([x, yB - hw]); pBb.push([x, yB + hw]);
-      }
-
-      const dA = makePath(pAt, pAb);
-      const dB = makePath(pBt, pBb);
-
-      // Strand A (navy)
-      drawList.push({
-        z: zA,
-        el: (
-          <path
-            key={`sA-${si}`}
-            d={dA}
-            fill={zA >= 0 ? 'url(#navy-ribbon-front)' : 'url(#navy-ribbon-back)'}
-            opacity={zA >= 0 ? 0.94 : 0.68}
-          />
-        ),
-      });
-
-      // Strand B (gold)
-      drawList.push({
-        z: -zA,
-        el: (
-          <path
-            key={`sB-${si}`}
-            d={dB}
-            fill={-zA >= 0 ? 'url(#gold-ribbon-front)' : 'url(#gold-ribbon-back)'}
-            opacity={-zA >= 0 ? 0.94 : 0.68}
-          />
-        ),
-      });
-    }
-
-    // ── Rungs + beads at evenly-spaced t positions ────────────────────
-    // 10 rungs per DNA eye × 5 eyes = 50 total
-    // Key fix: always pick whichever strand is visually ABOVE (smaller y) and
-    // BELOW (larger y) so rungs appear in BOTH loops, not just one half-cycle.
-    const RUNGS = 50;
-    const rungStroke = Math.max(1.5, H * 0.005);
-
-    for (let ri = 0; ri <= RUNGS; ri++) {
-      const t = ri / RUNGS;
+    for (let i = 0; i <= TOTAL; i++) {
+      const t = i / TOTAL;
       const ang = t * Math.PI * 2 * nT + phase;
       const sx = Math.sin(ang);
       const cx = Math.cos(ang);
       const x = t * W;
-      const zA = cx;
 
-      const yA = cY + sx * amp;
-      const yB = cY - sx * amp;
-      const hw = rHW * (0.06 + 0.94 * Math.abs(cx));
+      posA.push(project(x, cY + sx * amp, cx * amp));
+      posB.push(project(x, cY - sx * amp, -cx * amp));
+      rawZ.push(cx * amp); // raw z for strand A
+    }
 
-      // Identify upper and lower strand based on actual screen position
-      const isAAbove = yA <= yB;
-      const yAbove = isAAbove ? yA : yB;   // centre of whichever strand is on top
-      const yBelow = isAAbove ? yB : yA;   // centre of whichever strand is on bottom
+    // ── 1. Backbone ribbon lines (thin strokes connecting consecutive bead centres)
+    const pathA = posA.map((p, i) => (i === 0 ? `M` : `L`) + ` ${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' ');
+    const pathB = posB.map((p, i) => (i === 0 ? `M` : `L`) + ` ${p.x.toFixed(1)} ${p.y.toFixed(1)}`).join(' ');
 
-      // Rung connects inner (bottom) edge of upper strand → inner (top) edge of lower strand
-      const rungTop = yAbove + hw;
-      const rungBot = yBelow - hw;
+    // Draw backbone ribbons behind everything (z = -99999)
+    drawList.push({
+      z: -99999,
+      el: (
+        <g key="backbone-ribbons">
+          <path d={pathA} fill="none" stroke="#0a2540" strokeWidth={bR * zoom * 0.55} strokeLinecap="round" strokeLinejoin="round" opacity={0.45} />
+          <path d={pathB} fill="none" stroke="#4a2d08" strokeWidth={bR * zoom * 0.55} strokeLinecap="round" strokeLinejoin="round" opacity={0.45} />
+        </g>
+      )
+    });
 
-      // Skip only at real crossing points where the gap is negligible
-      if (rungBot <= rungTop + 2) continue;
+    // ── 2. Rungs — drawn every N steps, full span from strandA → strandB
+    const RUNG_STEP = 5; // every 5 samples = ~32 rungs total
+    for (let i = 0; i <= TOTAL; i += RUNG_STEP) {
+      const pA = posA[i];
+      const pB = posB[i];
 
-      // Bead colour tracks the strand, not a fixed navy-top / gold-bottom rule
-      const topGrad = isAAbove ? 'url(#navy-bead-grad)' : 'url(#gold-bead-grad)';
-      const botGrad = isAAbove ? 'url(#gold-bead-grad)' : 'url(#navy-bead-grad)';
-      // Z-depth of each bead follows the strand's own depth
-      const topBeadZ = isAAbove ? zA + 0.015 : -zA + 0.015;
-      const botBeadZ = isAAbove ? -zA + 0.015 : zA + 0.015;
+      // Skip rungs at the crossing zones (where both strands are near canvas centre)
+      // When sin(ang) ≈ 0 the strands are crossing — skip those rungs
+      const t = i / TOTAL;
+      const ang = t * Math.PI * 2 * nT + phase;
+      if (Math.abs(Math.sin(ang)) < 0.18) continue;
 
-      const bRad = bR * (0.42 + 0.58 * Math.abs(cx));
+      const zMid = (pA.z + pB.z) / 2;
+      const scale = depthScale(rawZ[i]);
+      const rungW = Math.max(1.2, H * 0.004) * scale * zoom;
 
-      // Rung stem
+      // Colour by depth: front = bright, back = dim
+      const isFront = rawZ[i] >= 0;
+      const rungCol = isFront
+        ? `rgba(180,150,60,${0.70 + 0.25 * scale})`   // gold-ish for front
+        : `rgba(10,37,64,${0.55 + 0.35 * scale})`;    // navy for back
+
+      // Small gold junction nodes where rung meets strand
+      const nodeR = H * 0.006 * scale * zoom;
+
       drawList.push({
-        z: Math.min(Math.abs(zA) * 0.5, 0.4),
+        z: zMid,
         el: (
-          <line
-            key={`rg-${ri}`}
-            x1={x} y1={rungTop}
-            x2={x} y2={rungBot}
-            stroke="rgba(18,44,74,0.68)"
-            strokeWidth={rungStroke + Math.abs(cx) * rungStroke}
+          <g key={`rung-${i}`}>
+            {/* Full-width rung: strandA to strandB */}
+            <line
+              x1={pA.x} y1={pA.y}
+              x2={pB.x} y2={pB.y}
+              stroke={rungCol}
+              strokeWidth={rungW}
+              strokeLinecap="round"
+            />
+            {/* Junction nodes */}
+            <circle cx={pA.x} cy={pA.y} r={nodeR}
+              fill="#fff" stroke="#205c9e" strokeWidth={0.7 * zoom} opacity={0.85}
+            />
+            <circle cx={pB.x} cy={pB.y} r={nodeR}
+              fill="#fff" stroke="#c9973a" strokeWidth={0.7 * zoom} opacity={0.85}
+            />
+          </g>
+        )
+      });
+    }
+
+    // ── 3. Backbone beads — drawn at each position, depth-sorted
+    for (let i = 0; i <= TOTAL; i++) {
+      const pA = posA[i];
+      const pB = posB[i];
+      const scA = depthScale(rawZ[i]);
+      const scB = depthScale(-rawZ[i]);  // strand B is always opposite z
+
+      const bRadA = bR * scA * zoom;
+      const bRadB = bR * scB * zoom;
+
+      // Navy bead (strand A)
+      drawList.push({
+        z: pA.z,
+        el: (
+          <circle key={`bA-${i}`}
+            cx={pA.x} cy={pA.y} r={Math.max(1, bRadA)}
+            fill="url(#navy-bead-grad)"
+            stroke="rgba(255,255,255,0.4)" strokeWidth={0.4 * zoom}
           />
-        ),
+        )
       });
 
-      // Bead at top of rung (upper strand inner edge)
+      // Gold bead (strand B)
       drawList.push({
-        z: topBeadZ,
+        z: pB.z,
         el: (
-          <circle
-            key={`bTop-${ri}`}
-            cx={x} cy={rungTop}
-            r={bRad}
-            fill={topGrad}
-            stroke="rgba(255,255,255,0.45)"
-            strokeWidth={0.7}
+          <circle key={`bB-${i}`}
+            cx={pB.x} cy={pB.y} r={Math.max(1, bRadB)}
+            fill="url(#gold-bead-grad)"
+            stroke="rgba(255,255,255,0.4)" strokeWidth={0.4 * zoom}
           />
-        ),
-      });
-
-      // Bead at bottom of rung (lower strand inner edge)
-      drawList.push({
-        z: botBeadZ,
-        el: (
-          <circle
-            key={`bBot-${ri}`}
-            cx={x} cy={rungBot}
-            r={bRad}
-            fill={botGrad}
-            stroke="rgba(255,255,255,0.45)"
-            strokeWidth={0.7}
-          />
-        ),
+        )
       });
     }
 
@@ -864,16 +930,12 @@ function CoreValuesSection() {
     return drawList.map(d => d.el);
   };
 
-  // Returns the inner-top edge of the gold strand at a given xNode:
-  // this is the bead position where the rung meets strand B — used as the
-  // anchor for the vertical connector line going from DNA down to the cards.
   const getActiveNodeCoordinates = (index: number) => {
     const W = svgW;
     const H = svgH;
     const cY = H / 2;
-    const amp = H * 0.36;
-    const nT = 2.5;
-    const rHW = H * 0.060;
+    const amp = currentAmp.current;
+    const nT = currentTurns.current;
 
     const x = xNodes[index];
     const t = x / W;
@@ -881,17 +943,48 @@ function CoreValuesSection() {
     const sx = Math.sin(ang);
     const cx = Math.cos(ang);
 
-    // Gold strand (B) inner-top edge = where the gold bead sits
+    // Gold strand (B) coordinates in 3D:
     const yB = cY - sx * amp;
-    const hw = rHW * (0.06 + 0.94 * Math.abs(cx));
-    return { x, y: yB - hw };
+    const zB = -cx * amp;
+
+    const dx = x - W / 2;
+    const dy = yB - cY;
+    const dz = zB;
+
+    // Use current LERP-ed camera parameters
+    const roll = currentRoll.current;
+    const yaw = currentYaw.current;
+    const pitch = currentPitch.current;
+
+    // Roll rotation (Z-axis) - this tilts/slants the DNA
+    const rx1 = dx * Math.cos(roll) - dy * Math.sin(roll);
+    const ry1 = dx * Math.sin(roll) + dy * Math.cos(roll);
+    const rz1 = dz;
+
+    // Yaw rotation (Y-axis)
+    const rx2 = rx1 * Math.cos(yaw) + rz1 * Math.sin(yaw);
+    const rz2 = -rx1 * Math.sin(yaw) + rz1 * Math.cos(yaw);
+
+    // Pitch rotation (X-axis)
+    const ry2 = ry1 * Math.cos(pitch) - rz2 * Math.sin(pitch);
+
+    // Apply zoom & pan
+    const zoom = currentZoom.current;
+    const panX = currentPanX.current;
+    const panY = currentPanY.current;
+
+    return {
+      x: rx2 * zoom + W / 2 + panX,
+      y: ry2 * zoom + cY + panY
+    };
   };
 
   return (
-    <section className="relative w-full py-20 md:py-28 bg-transparent border-t border-brand-gold/10 overflow-hidden select-none">
-      {/* Heading Block */}
-      <div className="w-full max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16">
-        <div className="w-full max-w-[90rem] mx-auto text-left mb-14 md:mb-16">
+    <section className="relative w-full pt-10 pb-0 md:pt-14 md:pb-0 bg-transparent border-t border-brand-gold/10 select-none">
+
+      {/* ── Heading ── */}
+      <div className="w-full max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16 mb-6 md:mb-8">
+        <div className="w-full max-w-[90rem] mx-auto text-left">
           <h2 className="font-poppins text-3xl md:text-4xl lg:text-5xl font-black tracking-widest text-brand-navy uppercase">
             Our Core Values
           </h2>
@@ -899,17 +992,19 @@ function CoreValuesSection() {
         </div>
       </div>
 
-      {/* DESKTOP & TABLET LAYOUT */}
-      <div className="hidden md:flex flex-col items-center w-full">
-        {/* Continuous Wide Horizontal DNA Timeline Canvas - Full screen width */}
+      {/* ════════════════════════ DESKTOP / TABLET ════════════════════════ */}
+      <div className="hidden md:block w-full">
+
+        {/* DNA Interactive Canvas — 480px, overflow-hidden so nothing bleeds */}
         <motion.div
-          initial={{ opacity: 0, y: -20, scale: 0.98 }}
-          whileInView={{ opacity: 1, y: 0, scale: 1 }}
+          initial={{ opacity: 0, y: -16 }}
+          whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
-          className="w-full h-[360px] relative mb-8"
+          transition={{ duration: 1.2, ease: 'easeOut' }}
+          className="w-full h-[480px] relative overflow-hidden"
           ref={svgContainerRef}
         >
+          {/* SVG Canvas */}
           <svg
             ref={svgRef}
             onMouseMove={handleMouseMove}
@@ -917,7 +1012,7 @@ function CoreValuesSection() {
             width="100%"
             height="100%"
             viewBox={`0 0 ${svgW} ${svgH}`}
-            className="overflow-visible cursor-crosshair"
+            className="overflow-hidden cursor-crosshair"
             style={{ filter: 'url(#dna-glow)' }}
           >
             <defs>
@@ -933,31 +1028,27 @@ function CoreValuesSection() {
                 <stop offset="100%" stopColor="#6b4910" />
               </radialGradient>
 
-              {/* ── Ribbon face gradients — top-lit shading ── */}
-              {/* Navy ribbon facing camera (brighter top edge) */}
+              {/* ── Ribbon face gradients ── */}
               <linearGradient id="navy-ribbon-front" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#2e6faa" />
                 <stop offset="40%" stopColor="#0e3560" />
                 <stop offset="100%" stopColor="#07233e" />
               </linearGradient>
-              {/* Navy ribbon facing away (darker) */}
               <linearGradient id="navy-ribbon-back" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#0a2540" />
                 <stop offset="100%" stopColor="#041222" />
               </linearGradient>
-              {/* Gold ribbon facing camera */}
               <linearGradient id="gold-ribbon-front" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#e8c56a" />
                 <stop offset="40%" stopColor="#a87828" />
                 <stop offset="100%" stopColor="#6b4910" />
               </linearGradient>
-              {/* Gold ribbon facing away */}
               <linearGradient id="gold-ribbon-back" x1="0" y1="0" x2="0" y2="1">
                 <stop offset="0%" stopColor="#7a540f" />
                 <stop offset="100%" stopColor="#3e2908" />
               </linearGradient>
 
-              {/* ── Ambient glow filter for the whole helix ── */}
+              {/* ── Ambient glow filter ── */}
               <filter id="dna-glow" x="-4%" y="-20%" width="108%" height="140%">
                 <feGaussianBlur stdDeviation="4" result="glow" />
                 <feMerge>
@@ -967,115 +1058,82 @@ function CoreValuesSection() {
               </filter>
             </defs>
 
-            {/* Render Depth-Sorted Physical Double Helix */}
+            {/* 3-D Double Helix */}
             {renderDnaStructure()}
 
-            {/* Precision hairline — no numbers, just a clean tracking line */}
+            {/* Precision crosshair line */}
             {isMouseOver && (
               <line
-                x1={currentMouseX.current}
-                y1={0}
-                x2={currentMouseX.current}
-                y2={svgH}
-                stroke="#BFA052"
-                strokeWidth="0.8"
-                strokeDasharray="5,5"
-                opacity="0.35"
+                x1={currentMouseX.current} y1={0}
+                x2={currentMouseX.current} y2={svgH}
+                stroke="#BFA052" strokeWidth="0.8" strokeDasharray="5,5" opacity="0.35"
                 pointerEvents="none"
               />
             )}
 
-            {/* Interactive Connector Lines & Highlighted Key Nodes */}
+            {/* Interactive connector lines, reticles, hitboxes */}
             {coreValues.map((val, idx) => {
               const nodePos = getActiveNodeCoordinates(idx);
-              const isHoveredOrActive = activeIndex === idx;
+              const isActive = activeIndex === idx;
 
               return (
                 <g key={`interactive-${val.id}`}>
-                  {/* Clean HUD reticle — no text, professional lock indicator */}
-                  {isHoveredOrActive && (
+
+                  {/* HUD reticle — only when active */}
+                  {isActive && (
                     <g>
-                      {/* Outermost rotating dashed ring */}
-                      <circle
-                        cx={nodePos.x}
-                        cy={nodePos.y}
-                        r={svgH * 0.09}
-                        fill="none"
-                        stroke="#BFA052"
-                        strokeWidth="0.7"
-                        strokeDasharray="4,5"
-                        strokeOpacity="0.45"
+                      <circle cx={nodePos.x} cy={nodePos.y} r={svgH * 0.08}
+                        fill="none" stroke="#BFA052" strokeWidth="0.7" strokeDasharray="4,5" strokeOpacity="0.45"
                         transform={`rotate(${(phase * 180 / Math.PI) * 0.5}, ${nodePos.x}, ${nodePos.y})`}
                       />
-                      {/* Middle pulsing ring */}
-                      <circle
-                        cx={nodePos.x}
-                        cy={nodePos.y}
-                        r={svgH * 0.062}
-                        fill="none"
-                        stroke="#BFA052"
-                        strokeWidth="1"
-                        strokeOpacity="0.6"
+                      <circle cx={nodePos.x} cy={nodePos.y} r={svgH * 0.055}
+                        fill="none" stroke="#BFA052" strokeWidth="1" strokeOpacity="0.6"
                         className="animate-pulse"
                       />
-                      {/* Inner lock ring */}
-                      <circle
-                        cx={nodePos.x}
-                        cy={nodePos.y}
-                        r={svgH * 0.038}
-                        fill="none"
-                        stroke="#BFA052"
-                        strokeWidth="1.5"
-                        strokeOpacity="0.85"
+                      <circle cx={nodePos.x} cy={nodePos.y} r={svgH * 0.034}
+                        fill="none" stroke="#BFA052" strokeWidth="1.5" strokeOpacity="0.85"
                       />
-                      {/* Crosshair ticks (no label) */}
                       {[[-1, 0], [1, 0], [0, -1], [0, 1]].map(([dx, dy], ti) => (
                         <line key={`tick-${idx}-${ti}`}
-                          x1={nodePos.x + dx * svgH * 0.105}
-                          y1={nodePos.y + dy * svgH * 0.105}
-                          x2={nodePos.x + dx * svgH * 0.075}
-                          y2={nodePos.y + dy * svgH * 0.075}
+                          x1={nodePos.x + dx * svgH * 0.095} y1={nodePos.y + dy * svgH * 0.095}
+                          x2={nodePos.x + dx * svgH * 0.068} y2={nodePos.y + dy * svgH * 0.068}
                           stroke="#BFA052" strokeWidth="0.9" strokeOpacity="0.7"
                         />
                       ))}
                     </g>
                   )}
 
-                  {/* Vertical connector: DNA bead → top of card */}
+                  {/* Connector line DNA → bottom of canvas */}
                   <motion.path
-                    d={`M ${nodePos.x} ${nodePos.y} L ${nodePos.x} ${svgH}`}
+                    d={isActive
+                      ? `M ${nodePos.x} ${nodePos.y} L ${xNodes[idx]} ${svgH}`
+                      : `M ${nodePos.x} ${nodePos.y} L ${nodePos.x} ${svgH}`}
                     fill="none"
-                    stroke={isHoveredOrActive ? '#BFA052' : 'rgba(12, 44, 77, 0.07)'}
-                    strokeWidth={isHoveredOrActive ? 1.5 : 0.6}
-                    strokeDasharray={isHoveredOrActive ? 'none' : '3,4'}
+                    stroke={isActive ? '#BFA052' : 'rgba(12, 44, 77, 0.07)'}
+                    strokeWidth={isActive ? 1.5 : 0.6}
+                    strokeDasharray={isActive ? 'none' : '3,4'}
                     initial={{ pathLength: 0 }}
                     animate={{ pathLength: 1 }}
                     transition={{ duration: 1.2, ease: 'easeOut' }}
                     className="transition-all duration-300"
                   />
 
-                  {/* On-hover anchor bead — only rendered when active, sits on the DNA */}
-                  {isHoveredOrActive && (
+                  {/* Anchor bead on active DNA node */}
+                  {isActive && (
                     <circle
-                      cx={nodePos.x}
-                      cy={nodePos.y}
-                      r={svgH * 0.040}
-                      fill="#ffffff"
-                      stroke="#BFA052"
-                      strokeWidth={3}
+                      cx={nodePos.x} cy={nodePos.y} r={svgH * 0.036}
+                      fill="#ffffff" stroke="#BFA052" strokeWidth={3}
                       className="cursor-pointer"
                       onMouseEnter={() => setActiveIndex(idx)}
                       onMouseLeave={() => setActiveIndex(null)}
                     />
                   )}
 
-                  {/* Invisible hit-area on DNA so the whole segment is hoverable */}
-                  {!isHoveredOrActive && (
+                  {/* Invisible hit-area for hover */}
+                  {!isActive && (
                     <rect
-                      x={nodePos.x - svgW * 0.085}
-                      y={0}
-                      width={svgW * 0.17}
-                      height={svgH}
+                      x={xNodes[idx] - svgW * 0.085} y={0}
+                      width={svgW * 0.17} height={svgH}
                       fill="transparent"
                       className="cursor-pointer"
                       onMouseEnter={() => setActiveIndex(idx)}
@@ -1083,108 +1141,168 @@ function CoreValuesSection() {
                     />
                   )}
 
-                  {/* Fixed bottom-edge dot — always at the card entry point, properly aligned */}
+                  {/* Bottom edge dot */}
                   <circle
-                    cx={nodePos.x}
-                    cy={svgH - 2}
-                    r={isHoveredOrActive ? 5 : 3}
-                    fill={isHoveredOrActive ? '#BFA052' : 'rgba(12,44,77,0.18)'}
+                    cx={xNodes[idx]} cy={svgH - 2}
+                    r={isActive ? 5 : 3}
+                    fill={isActive ? '#BFA052' : 'rgba(12,44,77,0.18)'}
                     className="transition-all duration-300"
                   />
                 </g>
               );
             })}
           </svg>
+
+          {/* Right-edge soft fade — hides DNA before it reaches the card zone */}
+          <div className="absolute inset-0 pointer-events-none z-10" style={{
+            background: activeIndex !== null
+              ? 'linear-gradient(to right, transparent 52%, rgba(248,247,244,0.7) 66%, rgba(248,247,244,0.97) 74%)'
+              : 'radial-gradient(ellipse 90% 70% at 50% 50%, transparent 45%, rgba(248,247,244,0.55) 80%, rgba(248,247,244,0.92) 100%)'
+          }} />
+
+          {/* ── Content card — lives in the absolute right panel, never overlaps DNA ── */}
+          <AnimatePresence>
+            {activeIndex !== null && (
+              <motion.div
+                key={activeIndex}
+                initial={{ opacity: 0, x: 32, scale: 0.96 }}
+                animate={{ opacity: 1, x: 0, scale: 1 }}
+                exit={{ opacity: 0, x: 16, scale: 0.97 }}
+                transition={{ type: 'spring', stiffness: 260, damping: 26, mass: 0.45 }}
+                className="absolute flex flex-col z-30 pointer-events-none select-none"
+                style={{
+                  // Pinned to the right 34% of the canvas, vertically centred
+                  right: '2.5%',
+                  width: 'min(340px, 33%)',
+                  top: '50%',
+                  transform: 'translateY(-50%)'
+                }}
+              >
+                {/* Card shell */}
+                <div style={{
+                  background: 'rgba(10,28,50,0.97)',
+                  border: '1px solid rgba(191,160,82,0.30)',
+                  borderRadius: '16px',
+                  boxShadow: '0 28px 72px rgba(6,18,34,0.75), 0 0 0 1px rgba(191,160,82,0.12), inset 0 1px 0 rgba(191,160,82,0.18)',
+                  padding: '28px 32px',
+                  position: 'relative',
+                  overflow: 'hidden'
+                }}>
+                  {/* Subtle animated shimmer stripe at top */}
+                  <div style={{
+                    position: 'absolute', top: 0, left: 0, right: 0, height: '3px',
+                    background: 'linear-gradient(90deg, transparent, #BFA052, transparent)',
+                    animation: 'shimmer 2.5s ease-in-out infinite'
+                  }} />
+
+                  {/* Badge row */}
+                  <div className="flex items-center gap-2 mb-4">
+                    <div style={{ width: '24px', height: '2px', background: '#BFA052', borderRadius: '1px' }} />
+                    <span style={{
+                      fontFamily: 'Poppins, sans-serif',
+                      fontSize: '9px',
+                      letterSpacing: '0.35em',
+                      color: '#BFA052',
+                      fontWeight: 700,
+                      textTransform: 'uppercase'
+                    }}>
+                      {String(activeIndex + 1).padStart(2, '0')} &mdash; Core Value
+                    </span>
+                  </div>
+
+                  {/* Title */}
+                  <h3 style={{
+                    fontFamily: 'var(--font-tibere, serif)',
+                    fontSize: 'clamp(15px, 1.4vw, 20px)',
+                    fontWeight: 700,
+                    color: '#ffffff',
+                    textTransform: 'uppercase',
+                    letterSpacing: '0.05em',
+                    lineHeight: 1.25,
+                    marginBottom: '16px'
+                  }}>
+                    {coreValues[activeIndex].title}
+                  </h3>
+
+                  {/* Gold separator */}
+                  <div style={{
+                    width: '100%',
+                    height: '1px',
+                    background: 'linear-gradient(90deg, #BFA052, transparent)',
+                    marginBottom: '16px'
+                  }} />
+
+                  {/* Description */}
+                  <p style={{
+                    fontFamily: 'Poppins, sans-serif',
+                    fontSize: 'clamp(11px, 0.85vw, 13px)',
+                    color: 'rgba(255,255,255,0.78)',
+                    lineHeight: 1.8,
+                    margin: 0
+                  }}>
+                    {coreValues[activeIndex].description}
+                  </p>
+
+                  {/* Corner accents */}
+                  <div style={{
+                    position: 'absolute', top: '10px', right: '10px', width: '12px', height: '12px',
+                    borderTop: '1px solid rgba(191,160,82,0.4)', borderRight: '1px solid rgba(191,160,82,0.4)'
+                  }} />
+                  <div style={{
+                    position: 'absolute', bottom: '10px', left: '10px', width: '12px', height: '12px',
+                    borderBottom: '1px solid rgba(191,160,82,0.4)', borderLeft: '1px solid rgba(191,160,82,0.4)'
+                  }} />
+                </div>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </motion.div>
 
-        {/* Cards Container */}
-        <div className="w-full max-w-[1440px] mx-auto px-6 md:px-12 lg:px-16">
-          {/* Five Pillars-style Grid Cards */}
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-4 bg-transparent max-w-[90rem] mx-auto group/grid w-full">
+        {/* ── Bottom Selector Strip ── */}
+        <div className="w-full" style={{ background: '#f0eeea', borderTop: '2px solid rgba(12,44,77,0.08)' }}>
+          <div className="flex w-full max-w-[1440px] mx-auto">
             {coreValues.map((val, idx) => {
-              const isHoveredOrActive = activeIndex === idx;
-
+              const isActive = activeIndex === idx;
               return (
                 <div
                   key={val.id}
-                  className="core-value-card-desktop bg-transparent hover:bg-brand-gold transition-colors duration-300 relative"
+                  className="flex-1 relative group cursor-pointer transition-all duration-300"
+                  style={{
+                    background: isActive ? '#0C2C4D' : 'transparent',
+                    borderRight: idx < coreValues.length - 1 ? '1px solid rgba(12,44,77,0.1)' : 'none'
+                  }}
                   onMouseEnter={() => setActiveIndex(idx)}
                   onMouseLeave={() => setActiveIndex(null)}
                 >
-                  <motion.div
-                    className={`bg-brand-white relative h-[520px] lg:h-[600px] flex flex-col p-6 lg:p-8 xl:p-10 transition-all duration-500 ease-in-out overflow-hidden cursor-pointer z-10 ${isHoveredOrActive
-                      ? '-translate-y-[6px] shadow-[0_20px_50px_rgba(12,44,77,0.14)] z-20'
-                      : 'hover:-translate-y-[6px] hover:shadow-[0_20px_50px_rgba(12,44,77,0.12)] hover:z-20'
-                      }`}
-                    style={{ transition: "all 0.5s cubic-bezier(0.16, 1, 0.3, 1)" }}
-                  >
-                    {/* Background Image Layer (Grayscale contrast) */}
-                    <div className="absolute inset-0 z-0 transition-all duration-500 ease-out">
-                      <Image
-                        src={val.bgImg}
-                        className={`object-cover transform transition-all duration-500 filter grayscale contrast-[118%] brightness-[88%] ${isHoveredOrActive ? 'scale-108 contrast-[110%] brightness-[95%]' : 'scale-100 group-hover:scale-108 group-hover:contrast-[110%] group-hover:brightness-[95%]'
-                          }`}
-                        alt={val.title}
-                        fill
-                        sizes="(max-width: 768px) 100vw, 20vw"
-                      />
-                    </div>
+                  {/* Gold progress bar at top */}
+                  <div
+                    className="absolute top-0 left-0 h-[3px] bg-brand-gold transition-all duration-500 ease-out"
+                    style={{ width: isActive ? '100%' : '0%' }}
+                  />
 
-                    {/* Translucent overlay veils for readability */}
-                    <div className={`absolute inset-0 bg-brand-white/10 transition-opacity duration-300 z-10 pointer-events-none ${isHoveredOrActive ? 'opacity-0' : 'group-hover:opacity-0'
-                      }`} />
+                  <div className="flex items-center gap-3 px-5 xl:px-6 py-4">
+                    {/* Number pill */}
+                    <span
+                      className="font-tibere font-black text-xl xl:text-2xl flex-shrink-0 leading-none transition-colors duration-300"
+                      style={{ color: isActive ? '#BFA052' : 'rgba(12,44,77,0.25)' }}
+                    >
+                      {String(idx + 1).padStart(2, '0')}
+                    </span>
 
-                    <div className={`absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-brand-white/90 via-brand-white/45 to-transparent transition-opacity duration-300 z-10 pointer-events-none ${isHoveredOrActive ? 'opacity-0' : 'group-hover:opacity-0'
-                      }`} />
+                    {/* Vertical divider */}
+                    <div
+                      className="w-px h-7 flex-shrink-0 transition-colors duration-300"
+                      style={{ background: isActive ? 'rgba(191,160,82,0.45)' : 'rgba(12,44,77,0.12)' }}
+                    />
 
-                    <div className={`absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-brand-white via-brand-white/90 to-transparent transition-opacity duration-300 z-10 pointer-events-none ${isHoveredOrActive ? 'opacity-0' : 'group-hover:opacity-0'
-                      }`} />
-
-                    {/* Hover Premium Navy Overlay */}
-                    <div className={`absolute inset-0 bg-brand-navy/85 transition-opacity duration-500 z-10 pointer-events-none ${isHoveredOrActive ? 'opacity-100' : 'opacity-0'
-                      }`} />
-
-                    {/* Top Number Block */}
-                    <div className="relative z-20 flex flex-col items-center mb-6">
-                      <span className={`font-tibere font-black text-4xl lg:text-5xl transition-colors duration-300 leading-none ${isHoveredOrActive ? 'text-brand-gold' : 'text-brand-navy'
-                        }`}>
-                        0{idx + 1}
-                      </span>
-                      <div className={`h-[1px] w-12 transition-colors duration-300 mt-4 ${isHoveredOrActive ? 'bg-brand-gold' : 'bg-brand-navy/20'
-                        }`} />
-                    </div>
-
-                    {/* Title & Description Stack at Bottom */}
-                    <div className="relative z-20 mt-auto text-center flex flex-col items-center">
-                      <h3 className={`text-base lg:text-[17px] font-tibere font-bold uppercase leading-tight tracking-tight transition-colors duration-500 ${isHoveredOrActive ? 'text-brand-white' : 'text-brand-navy'
-                        }`}>
-                        {val.title}
-                      </h3>
-
-                      {/* Double Gold Line Divider */}
-                      <div className={`flex flex-col gap-[3px] mt-4 transition-all duration-500 transform ${isHoveredOrActive ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
-                        }`}>
-                        <div className="h-[2.5px] w-10 bg-brand-gold" />
-                        <div className="h-[2.5px] w-10 bg-brand-gold" />
-                      </div>
-
-                      {/* Description text sliding in */}
-                      <div className={`transition-all duration-500 ease-in-out transform overflow-hidden ${isHoveredOrActive ? 'opacity-100 max-h-[140px] mt-4 translate-y-0' : 'opacity-0 max-h-0 translate-y-2'
-                        }`}>
-                        <p className="font-poppins text-xs lg:text-[13px] leading-relaxed text-brand-white/80">
-                          {val.description}
-                        </p>
-                      </div>
-                    </div>
-
-                    {/* Inner frame border box */}
-                    <div className={`absolute inset-5 border transition-all duration-500 pointer-events-none z-20 ${isHoveredOrActive ? 'border-brand-gold/30' : 'border-brand-gold/0'
-                      }`} />
-
-                    {/* Top Accent Gold Bar */}
-                    <div className={`absolute top-0 left-0 w-full h-[6px] bg-brand-gold transform transition-transform duration-500 origin-left z-20 ${isHoveredOrActive ? 'scale-x-100' : 'scale-x-0'
-                      }`} />
-                  </motion.div>
+                    {/* Title */}
+                    <span
+                      className="font-poppins text-[9.5px] xl:text-[10.5px] font-bold uppercase tracking-[0.1em] leading-tight transition-colors duration-300"
+                      style={{ color: isActive ? '#ffffff' : 'rgba(12,44,77,0.5)' }}
+                    >
+                      {val.title}
+                    </span>
+                  </div>
                 </div>
               );
             })}
@@ -1192,13 +1310,12 @@ function CoreValuesSection() {
         </div>
       </div>
 
-      {/* MOBILE LAYOUT */}
+      {/* ════════════════════════ MOBILE ════════════════════════ */}
       <div className="flex md:hidden flex-col items-center w-full max-w-[1440px] mx-auto px-6">
-        {/* Continuous Wide Horizontal DNA Canvas */}
+        {/* Mobile DNA Canvas */}
         <div className="w-full h-[200px] relative overflow-visible select-none mb-6">
           <svg
-            width="100%"
-            height="100%"
+            width="100%" height="100%"
             viewBox={`0 0 ${svgW} ${svgH}`}
             className="overflow-visible"
             style={{ filter: 'url(#dna-glow)' }}
@@ -1241,74 +1358,41 @@ function CoreValuesSection() {
               </filter>
             </defs>
 
-            {/* Depth-Sorted Physical Double Helix */}
             {renderDnaStructure()}
 
-            {/* Active Mobile Connector & Node highlights */}
             {coreValues.map((val, idx) => {
               const nodePos = getActiveNodeCoordinates(idx);
               const isCurrentActive = idx === mobileActiveIndex;
               if (!isCurrentActive) return null;
-
               return (
                 <g key={`leader-mobile-${val.id}`}>
-                  <circle
-                    cx={nodePos.x}
-                    cy={nodePos.y}
-                    r={svgH * 0.065}
-                    fill="none"
-                    stroke="#BFA052"
-                    strokeWidth="1.2"
-                    className="animate-pulse"
+                  <circle cx={nodePos.x} cy={nodePos.y} r={svgH * 0.065}
+                    fill="none" stroke="#BFA052" strokeWidth="1.2" className="animate-pulse"
                   />
-                  <line
-                    x1={nodePos.x}
-                    y1={nodePos.y}
-                    x2={nodePos.x}
-                    y2={svgH}
-                    stroke="#BFA052"
-                    strokeWidth="1.5"
+                  <line x1={nodePos.x} y1={nodePos.y} x2={xNodes[idx]} y2={svgH}
+                    stroke="#BFA052" strokeWidth="1.5"
                   />
-                  <circle
-                    cx={nodePos.x}
-                    cy={nodePos.y}
-                    r={svgH * 0.036}
-                    fill="#ffffff"
-                    stroke="#BFA052"
-                    strokeWidth="3"
+                  <circle cx={nodePos.x} cy={nodePos.y} r={svgH * 0.036}
+                    fill="#ffffff" stroke="#BFA052" strokeWidth="3"
                   />
-                  <circle
-                    cx={nodePos.x}
-                    cy={svgH}
-                    r="5"
-                    fill="#BFA052"
-                  />
+                  <circle cx={xNodes[idx]} cy={svgH} r="5" fill="#BFA052" />
                 </g>
               );
             })}
 
-            {/* Dot targets on mobile DNA for simple tap connection */}
             {xNodes.map((xVal, idx) => (
               <g key={`mobile-target-group-${idx}`} className="cursor-pointer" onClick={() => scrollMobileTo(idx)}>
-                <circle
-                  cx={xVal}
-                  cy={svgH}
-                  r="5"
+                <circle cx={xVal} cy={svgH} r="5"
                   fill={idx === mobileActiveIndex ? '#BFA052' : '#0C2C4D'}
                   fillOpacity={idx === mobileActiveIndex ? 1 : 0.3}
                 />
-                <circle
-                  cx={xVal}
-                  cy={svgH}
-                  r="25"
-                  fill="transparent"
-                />
+                <circle cx={xVal} cy={svgH} r="25" fill="transparent" />
               </g>
             ))}
           </svg>
         </div>
 
-        {/* Premium Card Swipe Slider */}
+        {/* Mobile card swipe slider */}
         <div
           ref={mobileScrollRef}
           onScroll={handleMobileScroll}
@@ -1317,7 +1401,6 @@ function CoreValuesSection() {
         >
           {coreValues.map((val, idx) => {
             const isCurrent = idx === mobileActiveIndex;
-
             return (
               <div
                 id={`value-card-mobile-${val.num}`}
@@ -1325,76 +1408,35 @@ function CoreValuesSection() {
                 className="w-full min-w-[88%] shrink-0 snap-center bg-transparent relative"
                 onClick={() => scrollMobileTo(idx)}
               >
-                <div
-                  className={`bg-brand-white relative h-[480px] flex flex-col p-8 transition-all duration-300 overflow-hidden ${isCurrent
-                    ? 'shadow-[0_15px_40px_rgba(12,44,77,0.14)] z-10 border border-brand-gold/80'
-                    : 'shadow-sm border border-brand-gold/10'
-                    }`}
-                >
-                  {/* Background Image Layer (Grayscale contrast) */}
-                  <div className="absolute inset-0 z-0">
-                    <Image
-                      src={val.bgImg}
-                      className={`object-cover transform transition-all duration-300 filter grayscale contrast-[118%] brightness-[88%] ${isCurrent ? 'scale-105' : 'scale-100'
-                        }`}
-                      alt={val.title}
-                      fill
-                      sizes="88vw"
-                    />
-                  </div>
-
-                  {/* Translucent overlay veils for readability */}
-                  <div className={`absolute inset-0 bg-brand-white/10 transition-opacity duration-300 z-10 pointer-events-none ${isCurrent ? 'opacity-0' : 'opacity-100'
-                    }`} />
-
-                  <div className={`absolute inset-x-0 top-0 h-24 bg-gradient-to-b from-brand-white/90 via-brand-white/45 to-transparent transition-opacity duration-300 z-10 pointer-events-none ${isCurrent ? 'opacity-0' : 'opacity-100'
-                    }`} />
-
-                  <div className={`absolute inset-x-0 bottom-0 h-48 bg-gradient-to-t from-brand-white via-brand-white/90 to-transparent transition-opacity duration-300 z-10 pointer-events-none ${isCurrent ? 'opacity-0' : 'opacity-100'
-                    }`} />
-
-                  {/* Hover Premium Navy Overlay */}
-                  <div className={`absolute inset-0 bg-brand-navy/85 transition-opacity duration-300 z-10 pointer-events-none ${isCurrent ? 'opacity-100' : 'opacity-0'
-                    }`} />
-
-                  {/* Top Number Block */}
-                  <div className="relative z-20 flex flex-col items-center mb-4">
+                <div className={`relative h-[360px] flex flex-col justify-between items-center p-8 transition-all duration-300 overflow-hidden ${isCurrent
+                  ? 'bg-brand-navy shadow-[0_15px_40px_rgba(12,44,77,0.14)] z-10 border border-brand-gold/80'
+                  : 'bg-brand-white shadow-sm border border-brand-gold/10'
+                  }`}>
+                  <div className="relative z-20 flex flex-col items-center mt-2">
                     <span className={`font-tibere font-black text-3xl transition-colors duration-300 leading-none ${isCurrent ? 'text-brand-gold' : 'text-brand-navy'
-                      }`}>
-                      0{idx + 1}
-                    </span>
+                      }`}>0{idx + 1}</span>
                     <div className={`h-[1px] w-10 transition-colors duration-300 mt-3 ${isCurrent ? 'bg-brand-gold' : 'bg-brand-navy/20'
                       }`} />
                   </div>
 
-                  {/* Title & Description Stack at Bottom */}
                   <div className="relative z-20 mt-auto text-center flex flex-col items-center">
                     <h3 className={`text-base font-tibere font-bold uppercase leading-tight tracking-tight transition-colors duration-300 ${isCurrent ? 'text-brand-white' : 'text-brand-navy'
-                      }`}>
-                      {val.title}
-                    </h3>
+                      }`}>{val.title}</h3>
 
-                    {/* Double Gold Line Divider */}
                     <div className={`flex flex-col gap-[3px] mt-3 transition-all duration-300 transform ${isCurrent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-2'
                       }`}>
                       <div className="h-[2.5px] w-10 bg-brand-gold" />
                       <div className="h-[2.5px] w-10 bg-brand-gold" />
                     </div>
 
-                    {/* Description text sliding in */}
                     <div className={`transition-all duration-300 ease-in-out transform overflow-hidden ${isCurrent ? 'opacity-100 max-h-[140px] mt-3 translate-y-0' : 'opacity-0 max-h-0 translate-y-2'
                       }`}>
-                      <p className="font-poppins text-xs leading-relaxed text-brand-white/80">
-                        {val.description}
-                      </p>
+                      <p className="font-poppins text-xs leading-relaxed text-brand-white/80">{val.description}</p>
                     </div>
                   </div>
 
-                  {/* Inner frame border box */}
                   <div className={`absolute inset-4 border transition-all duration-300 pointer-events-none z-20 ${isCurrent ? 'border-brand-gold/30' : 'border-brand-gold/0'
                     }`} />
-
-                  {/* Top Accent Gold Bar */}
                   <div className={`absolute top-0 left-0 w-full h-[5px] bg-brand-gold transform transition-transform duration-300 origin-left z-20 ${isCurrent ? 'scale-x-100' : 'scale-x-0'
                     }`} />
                 </div>
@@ -1403,7 +1445,7 @@ function CoreValuesSection() {
           })}
         </div>
 
-        {/* Swipe Controls and Indicator dots */}
+        {/* Swipe controls */}
         <div className="flex items-center gap-4 mt-3">
           <button
             onClick={() => scrollMobileTo(Math.max(0, mobileActiveIndex - 1))}
@@ -1436,3 +1478,5 @@ function CoreValuesSection() {
     </section>
   );
 }
+
+
