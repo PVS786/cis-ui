@@ -1,9 +1,9 @@
-'use client';
+﻿'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import { Eye, Target, FileText, Users, Landmark, Check, MapPin, Compass, ShieldCheck, Lock, ChevronLeft, ChevronRight } from 'lucide-react';
+import { Eye, Target, FileText, Users, Landmark, Check, MapPin, Compass, ShieldCheck, Lock, ChevronLeft, ChevronRight, Leaf, TrendingUp } from 'lucide-react';
 
 const HERO_CONTENT = {
   title: "Delivering the Groundwork\nthat Powers Growth.",
@@ -17,12 +17,12 @@ export default function AboutUsPage() {
 
   // Mobile coordinates
   const visionPinsMobile = [
-    { id: 1, name: "Panvel Logistic Hub", coord: "18.989° N, 73.117° E", left: "12.5%", top: "60%" },
-    { id: 2, name: "Bhiwandi Warehousing Corridor", coord: "19.283° N, 73.048° E", left: "24%", top: "68.75%" },
-    { id: 3, name: "JNPT Logistics Sector", coord: "18.895° N, 72.946° E", left: "22.1%", top: "42.5%" },
-    { id: 4, name: "Thane Industrial Zone", coord: "19.218° N, 72.980° E", left: "35.5%", top: "32.5%" },
-    { id: 5, name: "Navi Mumbai Commercial Hub", coord: "19.030° N, 73.020° E", left: "51%", top: "46.25%" },
-    { id: 6, name: "Pune Infrastructure Corridor", coord: "18.520° N, 73.856° E", left: "56.7%", top: "72.5%" },
+    { id: 1, name: "Panvel Logistic Hub", coord: "18.989ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° N, 73.117ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° E", left: "12.5%", top: "60%" },
+    { id: 2, name: "Bhiwandi Warehousing Corridor", coord: "19.283ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° N, 73.048ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° E", left: "24%", top: "68.75%" },
+    { id: 3, name: "JNPT Logistics Sector", coord: "18.895ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° N, 72.946ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° E", left: "22.1%", top: "42.5%" },
+    { id: 4, name: "Thane Industrial Zone", coord: "19.218ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° N, 72.980ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° E", left: "35.5%", top: "32.5%" },
+    { id: 5, name: "Navi Mumbai Commercial Hub", coord: "19.030ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° N, 73.020ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° E", left: "51%", top: "46.25%" },
+    { id: 6, name: "Pune Infrastructure Corridor", coord: "18.520ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° N, 73.856ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° E", left: "56.7%", top: "72.5%" },
   ];
 
   const missionNodesMobile = [
@@ -175,12 +175,12 @@ export default function AboutUsPage() {
             </div>
 
             {/*
-              ─── DESKTOP INFOGRAPHIC: mv_bg.png (1540×740) full-unit image ───
+              ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ DESKTOP INFOGRAPHIC: mv_bg.png (1540ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â740) full-unit image ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬
               Text zone analysis (% of image width):
-                Left polygon body:  x = 4%  → 30%   (28% wide)
-                Connector throat:   x = 30% → 63%   (graphical only)
-                Right polygon body: x = 63% → 90%   (27% wide)
-                Mission nodes:      x = 88% → 100%  (icons, no text)
+                Left polygon body:  x = 4%  ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ 30%   (28% wide)
+                Connector throat:   x = 30% ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ 63%   (graphical only)
+                Right polygon body: x = 63% ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ 90%   (27% wide)
+                Mission nodes:      x = 88% ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ 100%  (icons, no text)
             */}
             <motion.div
               className="w-full max-w-[1660px] mx-auto hidden lg:block relative select-none z-20"
@@ -189,7 +189,7 @@ export default function AboutUsPage() {
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, ease: "easeOut" }}
             >
-              {/* ── Full-unit background image ── */}
+              {/* ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ Full-unit background image ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ */}
               <div className="absolute inset-0">
                 <Image
                   src="/about_us/mv_bg.png"
@@ -201,7 +201,7 @@ export default function AboutUsPage() {
                 />
               </div>
 
-              {/* ── CENTRAL LOGO BADGE (Desktop) ── */}
+              {/* ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ CENTRAL LOGO BADGE (Desktop) ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ */}
               <div
                 className="absolute z-30 -translate-x-1/2 -translate-y-1/2 rounded-full flex items-center justify-center border-[3px] border-brand-gold"
                 style={{
@@ -231,12 +231,12 @@ export default function AboutUsPage() {
                 </div>
               </div>
 
-              {/* ── VISION: icon + heading + text — left polygon body ── */}
+              {/* ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ VISION: icon + heading + text ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â left polygon body ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ */}
               <div
                 className="absolute z-10 flex flex-col items-start text-left"
                 style={{ left: '9%', top: '25%', width: '21.5%' }}
               >
-                {/* Vision Icon — decorative eye centered above left-aligned title */}
+                {/* Vision Icon ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â decorative eye centered above left-aligned title */}
                 <div className="relative mb-5 shrink-0 self-start">
                   {/* Outer pulse ring */}
                   <span className="absolute inset-0 rounded-full border-2 border-brand-gold/25 scale-[1.4] animate-pulse" />
@@ -250,7 +250,7 @@ export default function AboutUsPage() {
                   </div>
                 </div>
 
-                {/* VISION heading — brand gold */}
+                {/* VISION heading ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â brand gold */}
                 <h3 className="text-3xl xl:text-4xl font-poppins font-black tracking-widest text-brand-gold leading-none drop-shadow-lg">
                   VISION
                 </h3>
@@ -262,13 +262,13 @@ export default function AboutUsPage() {
                 </p>
               </div>
 
-              {/* ── MISSION: icon + heading + text — right polygon body ── */}
+              {/* ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ MISSION: icon + heading + text ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â right polygon body ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ */}
               {/* Changed to items-end and text-right to prevent overlap with the center throat/arrow */}
               <div
                 className="absolute z-10 flex flex-col items-end text-right"
                 style={{ right: '12%', top: '25%', width: '23.5%' }}
               >
-                {/* Mission Icon — decorative target centered above right-aligned title */}
+                {/* Mission Icon ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â decorative target centered above right-aligned title */}
                 <div className="relative mb-5 shrink-0 self-end">
                   {/* Outer pulse ring */}
                   <span className="absolute inset-0 rounded-full border-2 border-brand-navy/30 scale-[1.4] animate-pulse" />
@@ -282,7 +282,7 @@ export default function AboutUsPage() {
                   </div>
                 </div>
 
-                {/* MISSION heading — brand navy */}
+                {/* MISSION heading ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â brand navy */}
                 <h3 className="text-3xl xl:text-4xl font-poppins font-black tracking-widest text-brand-navy leading-none drop-shadow-lg">
                   MISSION
                 </h3>
@@ -296,7 +296,7 @@ export default function AboutUsPage() {
 
             </motion.div>
 
-            {/* ─── MOBILE & TABLET LAYOUT: RESPONSIVE STACKED BLOCKS ─── */}
+            {/* ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ MOBILE & TABLET LAYOUT: RESPONSIVE STACKED BLOCKS ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ */}
             <div className="w-full flex flex-col items-center justify-center gap-8 mt-8 relative z-20 select-none lg:hidden">
 
               {/* MOBILE: VISION PANEL */}
@@ -313,10 +313,10 @@ export default function AboutUsPage() {
 
                   {/* Coordinate GPS text labels */}
                   <text x="-225" y="24" fill="#BFA052" fontSize="9.5" letterSpacing="0.18em" transform="rotate(-90)" opacity="0.8" fontFamily="monospace">
-                    N 19° 04' 28.3"
+                    N 19ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° 04' 28.3"
                   </text>
                   <text x="45" y="372" fill="#BFA052" fontSize="9.5" letterSpacing="0.18em" opacity="0.8" fontFamily="monospace">
-                    E 72° 52' 11.7"
+                    E 72ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° 52' 11.7"
                   </text>
 
                   {/* Topography map contour lines */}
@@ -412,10 +412,10 @@ export default function AboutUsPage() {
 
                   {/* Coordinate GPS text labels */}
                   <text x="-225" y="513" fill="#ffffff" fontSize="9.5" letterSpacing="0.18em" transform="rotate(-90)" opacity="0.8" fontFamily="monospace">
-                    N 19° 04' 23.1"
+                    N 19ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° 04' 23.1"
                   </text>
                   <text x="380" y="372" fill="#ffffff" fontSize="9.5" letterSpacing="0.18em" opacity="0.8" fontFamily="monospace">
-                    E 72° 52' 24.4"
+                    E 72ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° 52' 24.4"
                   </text>
 
                   {/* Topography map contour lines */}
@@ -495,6 +495,7 @@ export default function AboutUsPage() {
         </section>
 
         <CoreValuesSection />
+        <EsgInnovationSection />
       </div>
     </div>
   );
@@ -737,7 +738,7 @@ function CoreValuesSection() {
           )
         });
 
-        // Strand B Node — always a regular gold bead (icon circles are overlaid separately at centerY)
+        // Strand B Node ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â always a regular gold bead (icon circles are overlaid separately at centerY)
         drawList.push({
           type: 'nodeB',
           z: z_B,
@@ -1223,5 +1224,468 @@ function CoreValuesSection() {
 
       </div>
     </div>
+  );
+}
+
+// ==================== ESG AND INNOVATION SECTION ====================
+function EsgInnovationSection() {
+  const [hoveredParcel, setHoveredParcel] = useState<number | null>(1);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const PARCELS = [
+    {
+      id: 1,
+      title: "Eco-Assessed Land Acquisition",
+      shortTitle: "ECO-ASSESSED\nLAND ACQUISITION",
+      subtext: "Environmental lens for responsible acquisition.",
+      description: "Every land parcel we evaluate goes through an environmental lens. We identify ecological sensitivities early, so your acquisition is responsible, sustainable, and never a liability down the road.",
+      Icon: Leaf,
+      image: "/about_us/esg/lp_2.png",
+      left: "50%",
+      top: "19%",
+      width: "45%",
+      cardPosition: "top",
+      tilt: "rotate(0deg)"
+    },
+    {
+      id: 2,
+      title: "Community Before Contract",
+      shortTitle: "COMMUNITY\nBEFORE CONTRACT",
+      subtext: "We build trust and create positive impact.",
+      description: "We earn community trust before we close any deal. Working alongside local stakeholders ensures sustainable, mutually beneficial alignments for every development projects.",
+      Icon: Users,
+      image: "/about_us/esg/lp_1.png",
+      left: "24%",
+      top: "33.5%",
+      width: "45%",
+      cardPosition: "left",
+      tilt: "rotate(0deg)"
+    },
+    {
+      id: 3,
+      title: "Paperless Approvals",
+      shortTitle: "PAPERLESS\nAPPROVALS",
+      subtext: "Digitized approvals for speed and transparency.",
+      description: "We have digitised our approvals process end to end, reducing paperwork, accelerating timelines, and building a cleaner, more transparent workflow that works better for everyone involved.",
+      Icon: FileText,
+      image: "/about_us/esg/lp_3.png",
+      left: "76%",
+      top: "33.5%",
+      width: "45%",
+      cardPosition: "right",
+      tilt: "rotate(-10deg)"
+    },
+    {
+      id: 4,
+      title: "Zero-Tolerance Compliance",
+      shortTitle: "ZERO-TOLERANCE\nCOMPLIANCE",
+      subtext: "Highest legal and regulatory standards.",
+      description: "There are no shortcuts here. Every project we touch is held to the highest legal and regulatory standards because your reputation and ours depend on doing this exactly right.",
+      Icon: ShieldCheck,
+      image: "/about_us/esg/lp_6.png",
+      left: "24%",
+      top: "66.5%",
+      width: "45%",
+      cardPosition: "left",
+      tilt: "rotate(0deg)"
+    },
+    {
+      id: 5,
+      title: "Measurable Commitments",
+      shortTitle: "MEASURABLE\nCOMMITMENTS",
+      subtext: "Real ESG targets, third-party audits and open reporting.",
+      description: "We set real ESG targets, back them with third-party audits, and report progress openly to every stakeholder, establishing true public transparency.",
+      Icon: Target,
+      image: "/about_us/esg/lp_5.png",
+      left: "50%",
+      top: "81%",
+      width: "45%",
+      cardPosition: "bottom",
+      tilt: "rotate(0deg)"
+    },
+    {
+      id: 6,
+      title: "Tech-Driven Land Intelligence",
+      shortTitle: "TECH-DRIVEN\nLAND INTELLIGENCE",
+      subtext: "Data, location analytics and market intelligence.",
+      description: "We use data, location analytics, and market intelligence to identify the right opportunities faster and smarter, giving you an edge that instinct alone can't provide.",
+      Icon: TrendingUp,
+      image: "/about_us/esg/lp_4.png",
+      left: "76%",
+      top: "66.5%",
+      width: "45%",
+      cardPosition: "right",
+      tilt: "rotate(0deg)"
+    }
+  ];
+
+  if (!mounted) {
+    return (
+      <section className="relative w-full py-16 md:py-24 bg-transparent border-t border-brand-gold/10 select-none">
+        <div className="w-full max-w-[1240px] px-6 md:px-12 lg:px-16 mx-auto text-left mb-10 md:mb-12">
+          <h2 className="font-poppins text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-widest text-brand-navy uppercase">
+            ESG and <span className="text-brand-gold">Innovation</span>
+          </h2>
+          <div className="w-24 h-[3px] bg-brand-gold mt-6 rounded-full" />
+        </div>
+        <div className="w-full max-w-[660px] mx-auto aspect-square" />
+      </section>
+    );
+  }
+
+  return (
+    <section className="relative w-full py-16 md:py-24 bg-transparent border-t border-brand-gold/10 select-none overflow-hidden">
+      {/* Subtle background decoration */}
+      <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full opacity-[0.025] pointer-events-none"
+        style={{ background: 'radial-gradient(circle, #BFA052 0%, transparent 70%)', transform: 'translate(30%, -30%)' }} />
+
+      <div className="w-full max-w-[1280px] px-6 md:px-12 lg:px-16 mx-auto text-left mb-14">
+        <h2 className="font-poppins text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-widest text-brand-navy uppercase">
+          ESG and <span className="text-brand-gold">Innovation</span>
+        </h2>
+        <div className="w-24 h-[3px] bg-brand-gold mt-6 mb-8 rounded-full" />
+        <p className="font-poppins text-brand-navy/70 text-[16px] md:text-lg leading-relaxed max-w-3xl text-left">
+          At Conservve Infra Solutions, doing the right thing and doing it smarter aren't separate goals, they're the same commitment. Every project we take on is guided by responsible practices, ethical standards, and a drive to push land development forward in ways that genuinely matter.
+        </p>
+      </div>
+
+      <div className="w-full max-w-[1280px] px-6 md:px-12 lg:px-16 mx-auto">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
+
+          {/* Left Column: Interactive Circular Map ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â wider column */}
+          <div className="col-span-12 lg:col-span-7 flex justify-center">
+            <div
+              className="relative w-full aspect-square select-none"
+            >
+              {/* Golden Dotted Connector Lines */}
+              <svg
+                className="absolute inset-0 w-full h-full pointer-events-none"
+                style={{ zIndex: 8 }}
+              >
+                {PARCELS.map((parcel) => (
+                  <line
+                    key={parcel.id}
+                    x1="50%"
+                    y1="50%"
+                    x2={parcel.left}
+                    y2={parcel.top}
+                    stroke="#BFA052"
+                    strokeWidth="1.5"
+                    strokeDasharray="3,6"
+                    strokeLinecap="round"
+                    opacity={hoveredParcel === parcel.id ? 1 : 0.45}
+                  />
+                ))}
+              </svg>
+
+              {/* Central ESG Hexagon */}
+              <div
+                className="absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 z-30 flex items-center justify-center transition-transform duration-300 hover:scale-[1.03]"
+                style={{ width: '24%', height: '27.6%' }}
+              >
+                <svg viewBox="0 0 100 115" className="w-full h-full drop-shadow-2xl">
+                  <defs>
+                    <linearGradient id="esg-gold-frame" x1="0%" y1="0%" x2="100%" y2="100%">
+                      <stop offset="0%" stopColor="#8c5c1e" />
+                      <stop offset="15%" stopColor="#e8be74" />
+                      <stop offset="35%" stopColor="#fef0d1" />
+                      <stop offset="55%" stopColor="#c29242" />
+                      <stop offset="75%" stopColor="#fae1a5" />
+                      <stop offset="100%" stopColor="#7a4d16" />
+                    </linearGradient>
+                    <linearGradient id="esg-gold-frame-rev" x1="100%" y1="0%" x2="0%" y2="100%">
+                      <stop offset="0%" stopColor="#7a4d16" />
+                      <stop offset="25%" stopColor="#fae1a5" />
+                      <stop offset="50%" stopColor="#c29242" />
+                      <stop offset="75%" stopColor="#fef0d1" />
+                      <stop offset="90%" stopColor="#e8be74" />
+                      <stop offset="100%" stopColor="#8c5c1e" />
+                    </linearGradient>
+                    <radialGradient id="esg-navy-vignette" cx="50%" cy="50%" r="50%">
+                      <stop offset="0%" stopColor="#14345c" />
+                      <stop offset="60%" stopColor="#08182b" />
+                      <stop offset="100%" stopColor="#020a14" />
+                    </radialGradient>
+                    <filter id="esg-leather" x="0%" y="0%" width="100%" height="100%">
+                      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" result="noise" />
+                      <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.05 0" result="colorNoise" />
+                      <feComposite operator="in" in2="SourceGraphic" />
+                      <feBlend mode="multiply" in="SourceGraphic" />
+                    </filter>
+                  </defs>
+                  <polygon points="50,3 97,30 97,85 50,112 3,85 3,30" fill="url(#esg-gold-frame)" />
+                  <polygon points="50,4.5 95.5,30.5 95.5,84.5 50,110.5 4.5,84.5 4.5,30.5" fill="url(#esg-gold-frame-rev)" />
+                  <polygon points="50,6 94,31.5 94,83.5 50,109 6,83.5 6,31.5" fill="#030c17" />
+                  <polygon points="50,7 93,32 93,83 50,108 7,83 7,32" fill="url(#esg-navy-vignette)" filter="url(#esg-leather)" />
+                  <polygon points="50,10 90,33 90,82 50,105 10,82 10,33" fill="none" stroke="url(#esg-gold-frame)" strokeWidth="0.8" opacity="0.65" />
+                  <text x="50.6" y="58.6" textAnchor="middle" dominantBaseline="central" fill="#221301" fontFamily="var(--font-tibere, serif)" fontWeight="bold" fontSize="25" letterSpacing="1.4" opacity="0.9">ESG</text>
+                  <text x="49.4" y="56.6" textAnchor="middle" dominantBaseline="central" fill="#ffffff" fontFamily="var(--font-tibere, serif)" fontWeight="bold" fontSize="25" letterSpacing="1.4" opacity="0.3">ESG</text>
+                  <text x="50" y="57.5" textAnchor="middle" dominantBaseline="central" fill="url(#esg-gold-frame)" fontFamily="var(--font-tibere, serif)" fontWeight="bold" fontSize="25" letterSpacing="1.4">ESG</text>
+                </svg>
+              </div>
+
+              {/* Interactive Land Parcel Overlays */}
+              {PARCELS.map((parcel) => {
+                const IconComponent = parcel.Icon;
+                const isHovered = hoveredParcel === parcel.id;
+
+                return (
+                  <div
+                    key={parcel.id}
+                    className={`absolute z-20 flex flex-col items-center justify-center text-center group cursor-pointer`}
+                    style={{
+                      left: parcel.left,
+                      top: parcel.top,
+                      width: parcel.width,
+                      aspectRatio: "1.15 / 1",
+                      transform: `translate(-50%, -50%) ${isHovered ? 'translateY(-14px) scale(1.07)' : 'translateY(0px) scale(1)'}`,
+                      transition: 'transform 0.38s cubic-bezier(0.34, 1.56, 0.64, 1)',
+                    }}
+                    onMouseEnter={() => setHoveredParcel(parcel.id)}
+                    onMouseLeave={() => setHoveredParcel(null)}
+                  >
+                    {/* Land Parcel Image */}
+                    <img
+                      src={parcel.image}
+                      alt={parcel.title}
+                      style={{
+                        transform: `${parcel.tilt}`,
+                        transformOrigin: 'center center',
+                        filter: isHovered
+                          ? 'drop-shadow(0 20px 28px rgba(12,44,77,0.45)) drop-shadow(0 0 16px rgba(191,160,82,0.5)) brightness(1.06)'
+                          : 'drop-shadow(0 6px 10px rgba(12,44,77,0.22))',
+                        transition: 'filter 0.35s ease',
+                      }}
+                      className="w-full h-full object-contain"
+                    />
+
+                    {/* Overlaid Icon + Label */}
+                    <div className="absolute inset-0 flex flex-col items-center justify-center pb-[18%] sm:pb-[22%] px-3 pointer-events-none">
+                      <div
+                        className="w-[26px] h-[26px] sm:w-[34px] sm:h-[34px] rounded-full bg-white flex items-center justify-center shadow-lg border border-slate-100 mb-1.5"
+                        style={{
+                          boxShadow: isHovered
+                            ? '0 0 20px rgba(191,160,82,0.6), 0 4px 12px rgba(12,44,77,0.15)'
+                            : '0 4px 10px rgba(12,44,77,0.12)',
+                          transition: 'box-shadow 0.3s ease',
+                        }}
+                      >
+                        <IconComponent className="w-[12px] h-[12px] sm:w-[16px] sm:h-[16px] text-[#0C2C4D]" />
+                      </div>
+                      <div className={`font-poppins font-extrabold text-[7.5px] sm:text-[10px] md:text-[11.5px] uppercase tracking-wider leading-[1.1] max-w-[135px] mx-auto text-center select-none transition-colors duration-300 ${isHovered ? 'text-[#0C2C4D]' : 'text-brand-navy'}`}>
+                        {parcel.shortTitle.split('\n').map((line, idx) => (
+                          <div key={idx} className="font-extrabold">{line}</div>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+
+
+          {/* Right Column: Flat Horizontal Sliding Card Carousel */}
+          <div className="col-span-12 lg:col-span-5 flex flex-col items-center justify-center" style={{ minHeight: '440px' }}>
+            {/* Overflow-hidden container clips prev/next cards cleanly */}
+            <div
+              className="relative w-full overflow-hidden"
+              style={{ height: '380px' }}
+            >
+              {(() => {
+                const activeIdx = hoveredParcel != null
+                  ? PARCELS.findIndex(p => p.id === hoveredParcel)
+                  : 0;
+
+                return PARCELS.map((parcel, i) => {
+                  // Shortest-path offset relative to active
+                  let offset = i - activeIdx;
+                  if (offset > PARCELS.length / 2) offset -= PARCELS.length;
+                  if (offset < -PARCELS.length / 2) offset += PARCELS.length;
+
+                  // Only render prev (-1), active (0), next (+1)
+                  if (Math.abs(offset) > 1) return null;
+
+                  const isActive = offset === 0;
+                  const Icon = parcel.Icon;
+
+                  // Card width and center-to-center gap in px
+                  const CARD_W = 240;
+                  const CENTER_GAP = 260;
+
+                  return (
+                    <motion.div
+                      key={parcel.id}
+                      animate={{
+                        x: offset * CENTER_GAP,
+                        scale: isActive ? 1 : 0.84,
+                        opacity: isActive ? 1 : 0.5,
+                      }}
+                      transition={{
+                        duration: 0.5,
+                        ease: [0.25, 0.46, 0.45, 0.94],
+                      }}
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        left: '50%',
+                        width: `${CARD_W}px`,
+                        marginLeft: `-${CARD_W / 2}px`,
+                        zIndex: isActive ? 10 : 5,
+                        cursor: 'pointer',
+                        willChange: 'transform, opacity',
+                      }}
+                      onMouseEnter={() => setHoveredParcel(parcel.id)}
+                    >
+                      {/* Portrait card */}
+                      <div
+                        style={{
+                          width: '100%',
+                          height: '360px',
+                          borderRadius: '20px',
+                          background: isActive
+                            ? 'linear-gradient(160deg, #0C2C4D 0%, #0f3d6e 45%, #061828 100%)'
+                            : 'linear-gradient(160deg, #091f38 0%, #060f1e 100%)',
+                          border: isActive
+                            ? '1.5px solid rgba(191,160,82,0.55)'
+                            : '1px solid rgba(191,160,82,0.14)',
+                          boxShadow: isActive
+                            ? '0 24px 64px rgba(12,44,77,0.6), inset 0 1px 0 rgba(191,160,82,0.18)'
+                            : '0 6px 20px rgba(12,44,77,0.28)',
+                          display: 'flex',
+                          flexDirection: 'column',
+                          alignItems: 'center',
+                          padding: '30px 22px 26px',
+                          gap: '14px',
+                          position: 'relative',
+                          overflow: 'hidden',
+                        }}
+                      >
+                        {/* Gold top shimmer â€” active only */}
+                        {isActive && (
+                          <div style={{
+                            position: 'absolute', top: 0, left: 0, right: 0, height: '2px',
+                            background: 'linear-gradient(90deg, transparent 0%, #BFA052 35%, #fef0d1 50%, #BFA052 65%, transparent 100%)',
+                          }} />
+                        )}
+
+                        {/* Icon circle */}
+                        <div style={{
+                          width: '70px',
+                          height: '70px',
+                          borderRadius: '50%',
+                          flexShrink: 0,
+                          background: isActive
+                            ? 'linear-gradient(135deg, #BFA052 0%, #c9a14a 50%, #8c5c1e 100%)'
+                            : 'rgba(191,160,82,0.1)',
+                          border: isActive
+                            ? '2px solid rgba(255,240,180,0.35)'
+                            : '1.5px solid rgba(191,160,82,0.22)',
+                          display: 'flex',
+                          alignItems: 'center',
+                          justifyContent: 'center',
+                          boxShadow: isActive
+                            ? '0 0 28px rgba(191,160,82,0.3), 0 6px 18px rgba(12,44,77,0.5)'
+                            : 'none',
+                        }}>
+                          <Icon style={{
+                            width: isActive ? '30px' : '26px',
+                            height: isActive ? '30px' : '26px',
+                            color: isActive ? '#fff' : 'rgba(191,160,82,0.55)',
+                          }} />
+                        </div>
+
+                        {/* Title */}
+                        <p style={{
+                          fontFamily: 'var(--font-poppins, sans-serif)',
+                          fontWeight: 800,
+                          fontSize: isActive ? '12px' : '10.5px',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.1em',
+                          color: isActive ? '#BFA052' : 'rgba(191,160,82,0.45)',
+                          textAlign: 'center',
+                          lineHeight: 1.3,
+                          margin: 0,
+                        }}>
+                          {parcel.title}
+                        </p>
+
+                        {/* Gold divider */}
+                        <div style={{
+                          width: isActive ? '44px' : '20px',
+                          height: '1.5px',
+                          background: isActive
+                            ? 'linear-gradient(90deg, transparent, #BFA052, transparent)'
+                            : 'rgba(191,160,82,0.18)',
+                          borderRadius: '2px',
+                          flexShrink: 0,
+                          transition: 'width 0.4s ease',
+                        }} />
+
+                        {/* Subtext tag */}
+                        <p style={{
+                          fontFamily: 'var(--font-poppins, sans-serif)',
+                          fontWeight: 600,
+                          fontSize: '9.5px',
+                          textTransform: 'uppercase',
+                          letterSpacing: '0.14em',
+                          color: isActive ? 'rgba(191,160,82,0.75)' : 'rgba(191,160,82,0.28)',
+                          textAlign: 'center',
+                          lineHeight: 1.4,
+                          margin: 0,
+                        }}>
+                          {parcel.subtext}
+                        </p>
+
+                        {/* Description â€” active card only */}
+                        {isActive && (
+                          <p style={{
+                            fontFamily: 'var(--font-poppins, sans-serif)',
+                            fontWeight: 400,
+                            fontSize: '12px',
+                            color: 'rgba(203,213,225,0.85)',
+                            lineHeight: 1.7,
+                            textAlign: 'center',
+                            margin: 0,
+                          }}>
+                            {parcel.description}
+                          </p>
+                        )}
+                      </div>
+                    </motion.div>
+                  );
+                });
+              })()}
+            </div>
+
+            {/* Pill dot indicators */}
+            <div style={{ display: 'flex', gap: '8px', marginTop: '20px', alignItems: 'center' }}>
+              {PARCELS.map((parcel, i) => {
+                const isActive = hoveredParcel === parcel.id || (hoveredParcel == null && i === 0);
+                return (
+                  <div
+                    key={parcel.id}
+                    onClick={() => setHoveredParcel(parcel.id)}
+                    style={{
+                      width: isActive ? '28px' : '7px',
+                      height: '7px',
+                      borderRadius: '4px',
+                      background: isActive ? '#BFA052' : 'rgba(12,44,77,0.22)',
+                      cursor: 'pointer',
+                      transition: 'all 0.38s cubic-bezier(0.4, 0, 0.2, 1)',
+                    }}
+                  />
+                );
+              })}
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
   );
 }
