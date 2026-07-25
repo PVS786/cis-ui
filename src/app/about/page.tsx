@@ -1,9 +1,9 @@
-﻿'use client';
+'use client';
 
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Image from 'next/image';
-import { Eye, Target, FileText, Users, Landmark, Check, MapPin, Compass, ShieldCheck, Lock, ChevronLeft, ChevronRight, Leaf, TrendingUp } from 'lucide-react';
+import { Eye, Target, Users, FileText, Compass, ShieldCheck, Lock, ChevronLeft, ChevronRight, Leaf, TrendingUp } from 'lucide-react';
 
 const HERO_CONTENT = {
   title: "Delivering the Groundwork\nthat Powers Growth.",
@@ -11,27 +11,6 @@ const HERO_CONTENT = {
 };
 
 export default function AboutUsPage() {
-  // States for interactive tooltips
-  const [activePin, setActivePin] = useState<number | null>(null);
-  const [activeNode, setActiveNode] = useState<number | null>(null);
-
-  // Mobile coordinates
-  const visionPinsMobile = [
-    { id: 1, name: "Panvel Logistic Hub", coord: "18.989ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° N, 73.117ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° E", left: "12.5%", top: "60%" },
-    { id: 2, name: "Bhiwandi Warehousing Corridor", coord: "19.283ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° N, 73.048ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° E", left: "24%", top: "68.75%" },
-    { id: 3, name: "JNPT Logistics Sector", coord: "18.895ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° N, 72.946ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° E", left: "22.1%", top: "42.5%" },
-    { id: 4, name: "Thane Industrial Zone", coord: "19.218ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° N, 72.980ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° E", left: "35.5%", top: "32.5%" },
-    { id: 5, name: "Navi Mumbai Commercial Hub", coord: "19.030ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° N, 73.020ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° E", left: "51%", top: "46.25%" },
-    { id: 6, name: "Pune Infrastructure Corridor", coord: "18.520ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° N, 73.856ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° E", left: "56.7%", top: "72.5%" },
-  ];
-
-  const missionNodesMobile = [
-    { id: 1, title: "Land Identification", desc: "Sourcing strategic locations and conducting exhaustive legal title verifications.", left: "80%", top: "27.5%", color: "#0d411f", icon: FileText },
-    { id: 2, title: "Stakeholder Alignment", desc: "Facilitating transparent joint ventures and structured developer agreements.", left: "84%", top: "42.5%", color: "#0d59b3", icon: Users },
-    { id: 3, title: "Regulatory Approvals", desc: "Navigating local statutory compliances and securing administrative clearances.", left: "84%", top: "61.25%", color: "#5939a3", icon: Landmark },
-    { id: 4, title: "Groundwork Execution", desc: "Commencing basic site civil works and handing over ready-to-build sites.", left: "80%", top: "76.25%", color: "#136c3e", icon: Check },
-  ];
-
   const containerVariants = {
     hidden: { opacity: 0 },
     visible: {
@@ -130,89 +109,126 @@ export default function AboutUsPage() {
           backgroundSize: '300px'
         }}
       >
-        <section className="relative w-full pt-10 md:pt-12 pb-8 md:pb-12 bg-transparent overflow-hidden">
+        <section className="relative w-full pt-14 md:pt-20 pb-4 md:pb-6 bg-transparent overflow-hidden">
           <div className="max-w-[95rem] mx-auto px-6 md:px-12 lg:px-16 w-full relative z-10">
 
-            {/* Introductory Text Structure matching design sheet */}
-            <div className="text-center max-w-5xl mx-auto mb-1 md:mb-2 space-y-8 relative z-10 px-4">
-              <p className="font-poppins text-brand-navy/80 text-[17px] lg:text-lg font-medium leading-relaxed">
+            {/* Introductory Text Structure with Modern Motion Animation */}
+            <motion.div
+              initial="hidden"
+              whileInView="visible"
+              viewport={{ once: true, margin: "-60px" }}
+              variants={{
+                hidden: { opacity: 0 },
+                visible: {
+                  opacity: 1,
+                  transition: { staggerChildren: 0.18, delayChildren: 0.1 }
+                }
+              }}
+              className="text-center max-w-5xl mx-auto mb-4 md:mb-6 space-y-6 relative z-10 px-4"
+            >
+              <motion.p
+                variants={{
+                  hidden: { opacity: 0, y: 24, filter: 'blur(4px)' },
+                  visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } }
+                }}
+                className="font-poppins text-brand-navy/85 text-[17px] lg:text-lg font-medium leading-relaxed"
+              >
                 We know what you're dealing with. The right land is hard to find. Approvals take longer than they should.
                 And somewhere in the middle of all of it, you're left managing a process that was never designed to be easy.
-              </p>
+              </motion.p>
 
-              <div className="flex flex-col items-center gap-4">
+              <motion.div
+                variants={{
+                  hidden: { opacity: 0, y: 24, scale: 0.97 },
+                  visible: { opacity: 1, y: 0, scale: 1, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } }
+                }}
+                className="flex flex-col items-center gap-3"
+              >
                 <h3 className="text-2xl md:text-3xl font-poppins font-bold text-brand-navy max-w-4xl leading-tight">
                   We built Conservve Infra Solutions to change that experience for you.
                 </h3>
-                <div className="w-16 h-[2px] bg-brand-gold" />
-              </div>
+                {/* Bold, radiant gold underline */}
+                <div className="w-24 sm:w-32 h-[3.5px] bg-brand-gold rounded-full shadow-[0_0_12px_rgba(191,160,82,0.45)] mt-1" />
+              </motion.div>
 
-              <p className="font-poppins text-brand-navy/80 text-[17px] lg:text-lg font-medium leading-relaxed max-w-4xl mx-auto">
+              <motion.p
+                variants={{
+                  hidden: { opacity: 0, y: 24, filter: 'blur(4px)' },
+                  visible: { opacity: 1, y: 0, filter: 'blur(0px)', transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } }
+                }}
+                className="font-poppins text-brand-navy/85 text-[17px] lg:text-lg font-medium leading-relaxed max-w-4xl mx-auto"
+              >
                 Based in Mumbai, we specialise in land acquisition and statutory approvals for businesses and developers
                 who are done with delays and ready to move. We come in, take ownership of the complexity, and walk
                 every stage alongside you with complete transparency, full compliance, and a commitment to
                 getting you where you need to be, faster.
-              </p>
+              </motion.p>
 
-              <div className="flex flex-col items-center gap-6">
+              <motion.div
+                variants={{
+                  hidden: { opacity: 0, y: 20 },
+                  visible: { opacity: 1, y: 0, transition: { duration: 0.7, ease: [0.22, 1, 0.36, 1] } }
+                }}
+                className="flex flex-col items-center gap-4"
+              >
                 <h4 className="text-xl md:text-2xl font-poppins font-bold text-brand-navy">
                   Your project deserves that. And so do you.
                 </h4>
 
-                {/* Gold blueprint symbol divider line */}
-                <div className="flex items-center gap-4 w-full justify-center opacity-70">
-                  <div className="w-24 h-[1px] bg-brand-gold/60" />
-                  <div className="flex items-center gap-1.5">
-                    <div className="w-1.5 h-1.5 rounded-full bg-brand-gold" />
-                    <div className="w-3.5 h-3.5 rounded-full border border-brand-gold flex items-center justify-center">
-                      <div className="w-1.5 h-1.5 rounded-full bg-brand-gold" />
+                {/* Bold, High-Contrast Gold Emblem Divider Line */}
+                <div className="flex items-center gap-3 sm:gap-4 w-full justify-center mt-1">
+                  <div className="w-24 sm:w-36 h-[2.5px] bg-gradient-to-r from-transparent via-brand-gold to-brand-gold rounded-full" />
+                  <div className="flex items-center gap-2">
+                    <div className="w-2.5 h-2.5 rounded-full bg-brand-gold shadow-[0_0_8px_rgba(191,160,82,0.6)]" />
+                    <div className="w-5 h-5 rounded-full border-2 border-brand-gold bg-white flex items-center justify-center shadow-[0_0_12px_rgba(191,160,82,0.5)]">
+                      <div className="w-2 h-2 rounded-full bg-brand-gold" />
                     </div>
-                    <div className="w-1.5 h-1.5 rounded-full bg-brand-gold" />
+                    <div className="w-2.5 h-2.5 rounded-full bg-brand-gold shadow-[0_0_8px_rgba(191,160,82,0.6)]" />
                   </div>
-                  <div className="w-24 h-[1px] bg-brand-gold/60" />
+                  <div className="w-24 sm:w-36 h-[2.5px] bg-gradient-to-r from-brand-gold via-brand-gold to-transparent rounded-full" />
                 </div>
-              </div>
-            </div>
+              </motion.div>
+            </motion.div>
 
             {/*
-              ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ DESKTOP INFOGRAPHIC: mv_bg.png (1540ÃƒÆ’Ã†â€™Ãƒâ€ Ã¢â‚¬â„¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â€šÂ¬Ã‚Â740) full-unit image ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬
+              
               Text zone analysis (% of image width):
-                Left polygon body:  x = 4%  ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ 30%   (28% wide)
-                Connector throat:   x = 30% ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ 63%   (graphical only)
-                Right polygon body: x = 63% ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ 90%   (27% wide)
-                Mission nodes:      x = 88% ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬ÃƒÂ¢Ã¢â‚¬Å¾Ã‚Â¢ 100%  (icons, no text)
+                Left polygon body:  x = 4%  
+                Connector throat:   x = 30% 
+                Right polygon body: x = 63% 
+                Mission nodes:      x = 88% 
             */}
             <motion.div
-              className="w-full max-w-[1660px] mx-auto hidden lg:block relative select-none z-20"
+              className="w-full max-w-[1780px] mx-auto hidden lg:block relative select-none z-20"
               style={{ aspectRatio: '1540 / 740' }}
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.2, ease: "easeOut" }}
             >
-              {/* ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ Full-unit background image ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ */}
+              {/* Full-unit background image */}
               <div className="absolute inset-0">
                 <Image
                   src="/about_us/mv_bg.png"
                   fill
-                  sizes="(min-width: 1024px) 1660px, 100vw"
+                  sizes="(min-width: 1024px) 1780px, 100vw"
                   priority
                   className="object-fill"
                   alt="Vision Mission Infographic"
                 />
               </div>
 
-              {/* ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ CENTRAL LOGO BADGE (Desktop) ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ */}
+              {/* CENTRAL LOGO BADGE (Desktop - Precision scaled to fully cover background printed circle) */}
               <div
-                className="absolute z-30 -translate-x-1/2 -translate-y-1/2 rounded-full flex items-center justify-center border-[3px] border-brand-gold"
+                className="absolute z-30 -translate-x-1/2 -translate-y-1/2 rounded-full flex items-center justify-center border-[3.5px] border-brand-gold"
                 style={{
-                  left: '50.45%',
+                  left: '50.4%',
                   top: '47.8%',
-                  width: '9.3%',
+                  width: '12.4%',
                   aspectRatio: '1/1',
-                  maxWidth: '135px',
-                  minWidth: '100px',
+                  maxWidth: '180px',
+                  minWidth: '125px',
                   background: 'radial-gradient(circle at 30% 30%, #ffffff 0%, #fdfdfd 50%, #f4f2eb 100%)',
-                  boxShadow: '0 20px 40px -10px rgba(191,160,82,0.25), 0 0 0 1px rgba(191,160,82,0.15), inset 0 -6px 12px rgba(191,160,82,0.1), inset 0 6px 12px rgba(255,255,255,0.9)'
+                  boxShadow: '0 22px 45px -10px rgba(191,160,82,0.35), 0 0 0 2px rgba(191,160,82,0.2), inset 0 -6px 14px rgba(191,160,82,0.15), inset 0 6px 14px rgba(255,255,255,0.95)'
                 }}
               >
                 {/* Rotating dashed ring */}
@@ -221,7 +237,7 @@ export default function AboutUsPage() {
                   animate={{ rotate: 360 }}
                   transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
                 />
-                <div className="w-[64%] h-[64%] relative flex items-center justify-center">
+                <div className="w-[66%] h-[66%] relative flex items-center justify-center">
                   <Image
                     src="/logo-dark-transparent.png"
                     alt="Conservve Logo"
@@ -231,266 +247,143 @@ export default function AboutUsPage() {
                 </div>
               </div>
 
-              {/* ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ VISION: icon + heading + text ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â left polygon body ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ */}
+              {/* VISION: icon + heading + text (Left aligned, vertically centered at top: 28%) */}
               <div
                 className="absolute z-10 flex flex-col items-start text-left"
-                style={{ left: '9%', top: '25%', width: '21.5%' }}
+                style={{ left: '10.2%', top: '28%', width: '20.5%' }}
               >
-                {/* Vision Icon ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â decorative eye centered above left-aligned title */}
-                <div className="relative mb-5 shrink-0 self-start">
+                {/* Vision Icon - Left aligned above title (Slightly smaller, 100% uniform styling) */}
+                <div className="relative mb-3.5 shrink-0 self-start">
                   {/* Outer pulse ring */}
-                  <span className="absolute inset-0 rounded-full border-2 border-brand-gold/25 scale-[1.4] animate-pulse" />
+                  <span className="absolute inset-0 rounded-full border border-brand-gold/40 scale-[1.3] animate-pulse" />
                   {/* Middle ring */}
-                  <span className="absolute inset-0 rounded-full border border-brand-gold/40 scale-[1.18]" />
-                  {/* Main icon circle */}
-                  <div className="relative w-14 h-14 rounded-full border-2 border-brand-gold bg-brand-navy/70 backdrop-blur-sm flex items-center justify-center shadow-[0_0_18px_rgba(191,160,82,0.35)]">
+                  <span className="absolute inset-0 rounded-full border border-brand-gold/60 scale-[1.14]" />
+                  {/* Main icon circle - Navy background with radiant gold border */}
+                  <div className="relative w-10 h-10 rounded-full border-[2px] border-brand-gold bg-[#0C2C4D] flex items-center justify-center shadow-[0_0_14px_rgba(191,160,82,0.45)]">
                     {/* Inner decorative ring */}
-                    <span className="absolute inset-[3px] rounded-full border border-brand-gold/40" />
-                    <Eye className="w-7 h-7 text-brand-gold" strokeWidth={1.5} />
+                    <span className="absolute inset-[2px] rounded-full border border-brand-gold/40" />
+                    <Eye className="w-5 h-5 text-brand-gold" strokeWidth={2} />
                   </div>
                 </div>
 
-                {/* VISION heading ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â brand gold */}
-                <h3 className="text-3xl xl:text-4xl font-poppins font-black tracking-widest text-brand-gold leading-none drop-shadow-lg">
+                {/* VISION heading */}
+                <h3 className="text-2xl xl:text-3xl font-poppins font-black tracking-widest text-brand-gold leading-none drop-shadow-lg">
                   VISION
                 </h3>
-                {/* Gold underline accent */}
-                <div className="w-16 h-[4.5px] bg-brand-gold mt-3 mb-5 rounded-full" />
-                {/* Description paragraph */}
-                <p className="font-poppins text-white/90 text-[15px] xl:text-[16px] font-normal leading-[1.65] drop-shadow">
-                  To be a trusted leader in<br className="hidden xl:inline" /> land acquisition and regulatory<br className="hidden xl:inline" /> solutions, known for delivering<br className="hidden xl:inline" /> certainty, transparency, and<br className="hidden xl:inline" /> long-term value across every project.
+                {/* Gold underline accent - Left aligned beneath title */}
+                <div className="w-14 h-[3.5px] bg-brand-gold mt-2.5 mb-3.5 rounded-full" />
+
+                {/* Description paragraph - High contrast with text stroke drop shadow */}
+                <p className="font-poppins text-white font-medium text-[13px] xl:text-[14.5px] leading-[1.65] drop-shadow-[0_1.5px_3px_rgba(0,0,0,0.55)]">
+                  To be a trusted leader in land acquisition and regulatory solutions, known for delivering certainty, transparency, and long-term value across every project.
                 </p>
               </div>
 
-              {/* ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ MISSION: icon + heading + text ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â right polygon body ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ */}
-              {/* Changed to items-end and text-right to prevent overlap with the center throat/arrow */}
+              {/* MISSION: icon + heading + text (Right aligned, vertically centered at top: 28%, aligned with Vision) */}
               <div
                 className="absolute z-10 flex flex-col items-end text-right"
-                style={{ right: '12%', top: '25%', width: '23.5%' }}
+                style={{ right: '11.2%', top: '28%', width: '20.5%' }}
               >
-                {/* Mission Icon ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â decorative target centered above right-aligned title */}
-                <div className="relative mb-5 shrink-0 self-end">
+                {/* Mission Icon - High contrast Navy borders & pulse rings against gold background */}
+                <div className="relative mb-3.5 shrink-0 self-end">
                   {/* Outer pulse ring */}
-                  <span className="absolute inset-0 rounded-full border-2 border-brand-navy/30 scale-[1.4] animate-pulse" />
+                  <span className="absolute inset-0 rounded-full border-2 border-brand-navy/40 scale-[1.3] animate-pulse" />
                   {/* Middle ring */}
-                  <span className="absolute inset-0 rounded-full border border-brand-navy/50 scale-[1.18]" />
-                  {/* Main icon circle */}
-                  <div className="relative w-14 h-14 rounded-full border-2 border-brand-navy bg-white/25 backdrop-blur-sm flex items-center justify-center shadow-[0_0_18px_rgba(4,22,42,0.4)]">
+                  <span className="absolute inset-0 rounded-full border border-brand-navy/70 scale-[1.14]" />
+                  {/* Main icon circle - Navy background with 2.5px Navy border */}
+                  <div className="relative w-10 h-10 rounded-full border-[2.5px] border-brand-navy bg-[#0C2C4D] flex items-center justify-center shadow-[0_0_16px_rgba(12,44,77,0.45)]">
                     {/* Inner decorative ring */}
-                    <span className="absolute inset-[3px] rounded-full border border-brand-navy/50" />
-                    <Target className="w-7 h-7 text-brand-navy" strokeWidth={1.5} />
+                    <span className="absolute inset-[2px] rounded-full border border-white/30" />
+                    <Target className="w-5 h-5 text-brand-gold" strokeWidth={2} />
                   </div>
                 </div>
 
-                {/* MISSION heading ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â brand navy */}
-                <h3 className="text-3xl xl:text-4xl font-poppins font-black tracking-widest text-brand-navy leading-none drop-shadow-lg">
+                {/* MISSION heading */}
+                <h3 className="text-2xl xl:text-3xl font-poppins font-black tracking-widest text-brand-navy leading-none drop-shadow-lg">
                   MISSION
                 </h3>
-                {/* Navy underline accent */}
-                <div className="w-16 h-[4.5px] bg-brand-navy mt-3 mb-5 rounded-full" />
-                {/* Description paragraph */}
-                <p className="font-poppins text-white/90 text-[15px] xl:text-[16px] font-normal leading-[1.65] drop-shadow">
-                  To simplify land acquisition and<br className="hidden xl:inline" /> approval processes through deep<br className="hidden xl:inline" /> expertise, strong institutional networks,<br className="hidden xl:inline" /> and efficient execution, empowering<br className="hidden xl:inline" /> clients to move forward with confidence.
+                {/* Navy underline accent - Right aligned beneath title */}
+                <div className="w-14 h-[3.5px] bg-brand-navy mt-2.5 mb-3.5 rounded-full" />
+
+                {/* Description paragraph - High contrast with text stroke drop shadow clearing circuit pattern */}
+                <p className="font-poppins text-white font-medium text-[13px] xl:text-[14.5px] leading-[1.65] drop-shadow-[0_1.5px_3px_rgba(0,0,0,0.55)]">
+                  To simplify land acquisition and approval processes through deep expertise, strong institutional networks, and efficient execution, empowering clients to move forward with confidence.
                 </p>
               </div>
 
             </motion.div>
 
-            {/* ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ MOBILE & TABLET LAYOUT: RESPONSIVE STACKED BLOCKS ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚ÂÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ */}
-            <div className="w-full flex flex-col items-center justify-center gap-8 mt-8 relative z-20 select-none lg:hidden">
+            {/* MOBILE & TABLET LAYOUT: CLEAN LUXURY STACKED PANELS */}
+            <div className="w-full flex flex-col items-center justify-center gap-6 mt-6 relative z-20 select-none lg:hidden px-4">
 
-              {/* MOBILE: VISION PANEL */}
-              <div className="relative w-full max-w-[500px] aspect-[520/400] flex-shrink-0 group">
-                {/* SVG Background Layer */}
-                <svg viewBox="0 0 520 400" className="w-full h-full absolute inset-0 select-none pointer-events-none drop-shadow-2xl">
-                  {/* Symmetrical polygonal envelope */}
-                  <path
-                    d="M 40,50 L 320,50 L 490,160 L 520,160 L 520,240 L 490,240 L 320,350 L 40,350 L 10,320 L 10,80 Z"
-                    fill="url(#vision-gradient)"
-                    stroke="#BFA052"
-                    strokeWidth="1.5"
-                  />
-
-                  {/* Coordinate GPS text labels */}
-                  <text x="-225" y="24" fill="#BFA052" fontSize="9.5" letterSpacing="0.18em" transform="rotate(-90)" opacity="0.8" fontFamily="monospace">
-                    N 19ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° 04' 28.3"
-                  </text>
-                  <text x="45" y="372" fill="#BFA052" fontSize="9.5" letterSpacing="0.18em" opacity="0.8" fontFamily="monospace">
-                    E 72ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° 52' 11.7"
-                  </text>
-
-                  {/* Topography map contour lines */}
-                  <path d="M 20,95 C 130,65 240,165 370,95" stroke="#1e4d7d" strokeWidth="0.8" opacity="0.4" fill="none" />
-                  <path d="M 20,145 C 160,115 270,225 410,145" stroke="#1e4d7d" strokeWidth="0.8" opacity="0.4" fill="none" />
-                  <path d="M 30,195 C 180,165 290,285 440,195" stroke="#1e4d7d" strokeWidth="0.8" opacity="0.3" fill="none" />
-                  <path d="M 40,245 C 200,215 310,335 460,245" stroke="#1e4d7d" strokeWidth="0.8" opacity="0.2" fill="none" />
-
-                  {/* Network paths linking coordinate map points */}
-                  <path d="M 65,240 L 125,275 L 115,170 L 185,130 L 265,185 L 295,290" stroke="#BFA052" strokeWidth="1" strokeDasharray="3,3" fill="none" opacity="0.5" />
-                </svg>
-
-                {/* Animated Pulsing Location pins overlay */}
-                <div className="absolute inset-0 pointer-events-none z-10">
-                  {visionPinsMobile.map((pin) => (
-                    <motion.div
-                      key={pin.id}
-                      className="absolute pointer-events-auto cursor-pointer"
-                      style={{ left: pin.left, top: pin.top, transform: 'translate(-50%, -50%)' }}
-                      animate={{ y: [0, -3, 0] }}
-                      transition={{ repeat: Infinity, duration: 3, delay: 0.1 * pin.id }}
-                      onClick={() => setActivePin(activePin === pin.id ? null : pin.id)}
-                    >
-                      <MapPin className="w-5 h-5 text-sky-400 filter drop-shadow-md" />
-                    </motion.div>
-                  ))}
-                </div>
-
-                {/* Mobile Pin Tooltip (Simple overlay type) */}
-                <AnimatePresence>
-                  {activePin !== null && (
-                    <div className="absolute left-[38%] top-[10%] z-30 bg-[#04162a] text-white border border-brand-gold/40 px-3 py-2 rounded shadow-xl max-w-[200px]">
-                      <h5 className="font-poppins font-bold text-xs text-brand-gold leading-tight">
-                        {visionPinsMobile.find(p => p.id === activePin)?.name}
-                      </h5>
-                      <span className="block font-mono text-[8.5px] text-white/60 mt-1">
-                        {visionPinsMobile.find(p => p.id === activePin)?.coord}
-                      </span>
-                    </div>
-                  )}
-                </AnimatePresence>
-
-                {/* HTML content overlays */}
-                <div className="absolute inset-0 flex flex-col justify-center pl-10 pr-24 sm:pl-14 sm:pr-32 text-left z-20">
-                  {/* Eye Target Icon */}
-                  <div className="w-14 h-14 rounded-full border border-brand-gold/60 flex items-center justify-center mb-4 bg-brand-navy/60 backdrop-blur-sm shadow-inner relative shrink-0">
-                    <div className="absolute inset-0.5 rounded-full border border-dashed border-brand-gold/30" />
-                    <Eye className="w-7 h-7 text-brand-gold" />
+              {/* MOBILE: VISION CARD */}
+              <div className="w-full max-w-[480px] bg-[#0C2C4D] border-2 border-brand-gold/60 rounded-2xl p-6 sm:p-8 shadow-2xl relative overflow-hidden text-left">
+                {/* Subtle background glow */}
+                <div className="absolute -top-12 -right-12 w-36 h-36 rounded-full bg-brand-gold/10 blur-xl pointer-events-none" />
+                
+                {/* Vision Icon */}
+                <div className="relative mb-3 shrink-0 self-start">
+                  <div className="w-12 h-12 rounded-full border-2 border-brand-gold bg-brand-navy flex items-center justify-center shadow-[0_0_16px_rgba(191,160,82,0.4)]">
+                    <Eye className="w-6 h-6 text-brand-gold" strokeWidth={1.75} />
                   </div>
-
-                  {/* Vision Header */}
-                  <h3 className="text-3xl font-poppins font-black tracking-widest text-white leading-none">VISION</h3>
-                  <div className="w-12 h-[3px] bg-brand-gold mt-3 mb-4" />
-
-                  {/* Description */}
-                  <p className="font-poppins text-white/80 text-sm sm:text-[14.5px] font-normal leading-relaxed max-w-[285px]">
-                    To be a trusted leader in land acquisition and regulatory solutions, known for delivering certainty,
-                    transparency, and long-term value across every project.
-                  </p>
                 </div>
+
+                {/* VISION Heading */}
+                <h3 className="text-2xl sm:text-3xl font-poppins font-black tracking-widest text-brand-gold leading-none">
+                  VISION
+                </h3>
+                {/* Gold Underline */}
+                <div className="w-12 h-[3px] bg-brand-gold mt-2.5 mb-4 rounded-full" />
+
+                {/* Description */}
+                <p className="font-poppins text-white/95 text-sm sm:text-base font-normal leading-relaxed">
+                  To be a trusted leader in land acquisition and regulatory solutions, known for delivering certainty, transparency, and long-term value across every project.
+                </p>
               </div>
 
-              {/* MOBILE: TRANSMITTER NEXUS HUB */}
-              <div className="relative w-28 h-28 rounded-full bg-white flex items-center justify-center shadow-xl border-2 border-brand-gold z-10 shrink-0">
+              {/* MOBILE: CENTRAL CIS BRAND BADGE */}
+              <div className="relative w-20 h-20 sm:w-24 sm:h-24 rounded-full bg-white flex items-center justify-center shadow-xl border-[3px] border-brand-gold z-10 shrink-0 my-1">
                 <motion.div
                   className="absolute inset-1 rounded-full border border-dashed border-brand-gold/60"
                   animate={{ rotate: 360 }}
-                  transition={{ repeat: Infinity, duration: 20, ease: "linear" }}
+                  transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
                 />
-                <div className="w-16 h-16 relative flex items-center justify-center shrink-0">
-                  <div className="absolute inset-0 w-full h-full scale-110">
-                    <Image
-                      src="/logo-dark-transparent.png"
-                      alt="Conservve Logo"
-                      fill
-                      className="object-contain"
-                    />
-                  </div>
+                <div className="w-[62%] h-[62%] relative flex items-center justify-center">
+                  <Image
+                    src="/logo-dark-transparent.png"
+                    alt="Conservve Logo"
+                    fill
+                    className="object-contain"
+                  />
                 </div>
               </div>
 
-              {/* MOBILE: MISSION PANEL */}
-              <div className="relative w-full max-w-[500px] aspect-[520/400] flex-shrink-0 group">
-                {/* SVG Background Layer */}
-                <svg viewBox="0 0 520 400" className="w-full h-full absolute inset-0 select-none pointer-events-none drop-shadow-2xl">
-                  {/* Symmetrical polygonal envelope (mirrored) */}
-                  <path
-                    d="M 200,50 L 480,50 L 510,80 L 510,320 L 480,350 L 200,350 L 30,240 L 0,240 L 0,160 L 30,160 Z"
-                    fill="url(#mission-gradient)"
-                    stroke="#ffffff"
-                    strokeWidth="1.5"
-                  />
+              {/* MOBILE: MISSION CARD */}
+              <div className="w-full max-w-[480px] bg-gradient-to-br from-[#CBB06A] to-[#BFA052] text-brand-navy rounded-2xl p-6 sm:p-8 shadow-2xl relative overflow-hidden text-right flex flex-col items-end">
+                {/* Subtle background glow */}
+                <div className="absolute -bottom-12 -left-12 w-36 h-36 rounded-full bg-brand-navy/10 blur-xl pointer-events-none" />
 
-                  {/* Coordinate GPS text labels */}
-                  <text x="-225" y="513" fill="#ffffff" fontSize="9.5" letterSpacing="0.18em" transform="rotate(-90)" opacity="0.8" fontFamily="monospace">
-                    N 19ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° 04' 23.1"
-                  </text>
-                  <text x="380" y="372" fill="#ffffff" fontSize="9.5" letterSpacing="0.18em" opacity="0.8" fontFamily="monospace">
-                    E 72ÃƒÆ’Ã†â€™ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡ÃƒÆ’Ã¢â‚¬Å¡Ãƒâ€šÃ‚Â° 52' 24.4"
-                  </text>
-
-                  {/* Topography map contour lines */}
-                  <path d="M 150,95 C 280,65 390,165 500,95" stroke="#ffffff" strokeWidth="0.8" opacity="0.25" fill="none" />
-                  <path d="M 110,145 C 250,115 360,225 500,145" stroke="#ffffff" strokeWidth="0.8" opacity="0.25" fill="none" />
-                  <path d="M 80,195 C 230,165 340,285 500,195" stroke="#ffffff" strokeWidth="0.8" opacity="0.2" fill="none" />
-
-                  {/* Dashed node route track */}
-                  <path d="M 425,120 L 448,180 L 448,255 L 425,315" stroke="#ffffff" strokeWidth="1.6" strokeDasharray="4,4" fill="none" opacity="0.65" />
-
-                  {/* Pine Forest silhouette cluster in bottom-right corner */}
-                  <g transform="translate(425, 260) scale(0.65)">
-                    <path d="M 50,20 L 70,70 L 63,70 L 73,95 L 60,95 L 77,130 L 23,130 L 40,95 L 27,95 L 37,70 L 30,70 Z" fill="#0b381a" />
-                    <path d="M 80,45 L 96,85 L 90,85 L 101,110 L 89,110 L 103,135 L 57,135 L 71,110 L 59,110 L 70,85 L 64,85 Z" fill="#093016" />
-                  </g>
-                </svg>
-
-                {/* SVG path node symbols */}
-                <div className="absolute pointer-events-none z-10">
-                  {missionNodesMobile.map((node) => {
-                    const NodeIcon = node.icon;
-                    return (
-                      <div
-                        key={node.id}
-                        className="absolute pointer-events-auto cursor-pointer"
-                        style={{ left: node.left, top: node.top, transform: 'translate(-50%, -50%)' }}
-                        onClick={() => setActiveNode(node.id)}
-                      >
-                        <div
-                          className="w-8 h-8 rounded-full border border-white flex items-center justify-center shadow"
-                          style={{ backgroundColor: node.color }}
-                        >
-                          <NodeIcon className="w-4 h-4 text-white" />
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-
-                {/* Mobile Mission Node Tooltip */}
-                <AnimatePresence>
-                  {activeNode !== null && (
-                    <div className="absolute left-[38%] top-[10%] z-30 bg-white text-brand-navy border-2 border-brand-gold px-3 py-2 rounded shadow-xl max-w-[220px]">
-                      <h5 className="font-poppins font-bold text-xs text-brand-navy leading-tight">
-                        {missionNodesMobile.find(n => n.id === activeNode)?.title}
-                      </h5>
-                      <p className="text-[10px] text-brand-navy/80 mt-1 leading-normal">
-                        {missionNodesMobile.find(n => n.id === activeNode)?.desc}
-                      </p>
-                    </div>
-                  )}
-                </AnimatePresence>
-
-                {/* HTML content overlays */}
-                <div className="absolute inset-0 flex flex-col justify-center pl-10 pr-24 sm:pl-14 sm:pr-32 text-left z-20">
-                  {/* Target bullseye Icon */}
-                  <div className="w-14 h-14 rounded-full border border-white flex items-center justify-center mb-4 bg-white/10 backdrop-blur-sm shadow-inner relative shrink-0">
-                    <div className="absolute inset-0.5 rounded-full border border-dashed border-white/20" />
-                    <Target className="w-7 h-7 text-white" />
+                {/* Mission Icon */}
+                <div className="relative mb-3 shrink-0 self-end">
+                  <div className="w-12 h-12 rounded-full border-2 border-brand-gold bg-[#0C2C4D] flex items-center justify-center shadow-[0_0_16px_rgba(12,44,77,0.4)]">
+                    <Target className="w-6 h-6 text-brand-gold" strokeWidth={1.75} />
                   </div>
-
-                  {/* Mission Header */}
-                  <h3 className="text-3xl font-poppins font-black tracking-widest text-white leading-none">MISSION</h3>
-                  <div className="w-12 h-[3px] bg-white mt-3 mb-4" />
-
-                  {/* Description */}
-                  <p className="font-poppins text-white/90 text-sm sm:text-[14.5px] font-normal leading-relaxed max-w-[285px]">
-                    To simplify land acquisition and approval processes through deep expertise, strong institutional networks,
-                    and efficient execution, empowering clients to move forward with confidence.
-                  </p>
                 </div>
+
+                {/* MISSION Heading */}
+                <h3 className="text-2xl sm:text-3xl font-poppins font-black tracking-widest text-brand-navy leading-none">
+                  MISSION
+                </h3>
+                {/* Navy Underline */}
+                <div className="w-12 h-[3px] bg-brand-navy mt-2.5 mb-4 rounded-full" />
+
+                {/* Description */}
+                <p className="font-poppins text-white/95 text-sm sm:text-base font-normal leading-relaxed">
+                  To simplify land acquisition and approval processes through deep expertise, strong institutional networks, and efficient execution, empowering clients to move forward with confidence.
+                </p>
               </div>
 
             </div>
-
           </div>
         </section>
 
@@ -628,21 +521,22 @@ function CoreValuesSection() {
 
   // Depth-Sorted 3D Painter's Algorithm for physical intertwined look matching the reference image
   const renderDnaStructure = () => {
+    const r = (val: number) => Math.round(val * 100) / 100;
     const pointsCount = 120;
     const drawList: any[] = [];
 
     for (let i = 0; i < pointsCount; i++) {
-      const x1 = (i / pointsCount) * width;
-      const x2 = ((i + 1) / pointsCount) * width;
+      const x1 = r((i / pointsCount) * width);
+      const x2 = r(((i + 1) / pointsCount) * width);
 
-      const angle1 = x1 * frequency + phase;
-      const angle2 = x2 * frequency + phase;
+      const angle1 = (i / pointsCount) * width * frequency + phase;
+      const angle2 = ((i + 1) / pointsCount) * width * frequency + phase;
 
-      const y1_A = centerY + Math.sin(angle1) * amplitude;
-      const y2_A = centerY + Math.sin(angle2) * amplitude;
+      const y1_A = r(centerY + Math.sin(angle1) * amplitude);
+      const y2_A = r(centerY + Math.sin(angle2) * amplitude);
 
-      const y1_B = centerY - Math.sin(angle1) * amplitude;
-      const y2_B = centerY - Math.sin(angle2) * amplitude;
+      const y1_B = r(centerY - Math.sin(angle1) * amplitude);
+      const y2_B = r(centerY - Math.sin(angle2) * amplitude);
 
       const z_A = Math.cos((angle1 + angle2) / 2);
       const z_B = -z_A;
@@ -656,9 +550,9 @@ function CoreValuesSection() {
             key={`sa-${i}`}
             d={`M ${x1} ${y1_A} L ${x2} ${y2_A}`}
             stroke="url(#navy-strand-grad)"
-            strokeWidth={6.5 + z_A * 2.2} // Thicker strand for high visual weight
+            strokeWidth={r(6.5 + z_A * 2.2)} // Thicker strand for high visual weight
             strokeLinecap="round"
-            opacity={0.88 + (z_A + 1) * 0.06}
+            opacity={r(0.88 + (z_A + 1) * 0.06)}
           />
         )
       });
@@ -672,9 +566,9 @@ function CoreValuesSection() {
             key={`sb-${i}`}
             d={`M ${x1} ${y1_B} L ${x2} ${y2_B}`}
             stroke="url(#gold-strand-grad)"
-            strokeWidth={6.5 + z_B * 2.2} // Thicker strand for high visual weight
+            strokeWidth={r(6.5 + z_B * 2.2)} // Thicker strand for high visual weight
             strokeLinecap="round"
-            opacity={0.88 + (z_B + 1) * 0.06}
+            opacity={r(0.88 + (z_B + 1) * 0.06)}
           />
         )
       });
@@ -686,7 +580,7 @@ function CoreValuesSection() {
           type: 'rung',
           z: z_rung - 0.1, // Render slightly behind the strands for realistic overlap
           render: (
-            <g key={`rung-group-${i}`} opacity={0.7 + z_rung * 0.15}>
+            <g key={`rung-group-${i}`} opacity={r(0.7 + z_rung * 0.15)}>
               {/* Dual-color physical rungs meeting seamlessly in the center */}
               <line
                 x1={x1}
@@ -694,7 +588,7 @@ function CoreValuesSection() {
                 x2={x1}
                 y2={centerY}
                 stroke="#0C2C4D"
-                strokeWidth={3 + z_rung * 0.8}
+                strokeWidth={r(3 + z_rung * 0.8)}
               />
               <line
                 x1={x1}
@@ -702,7 +596,7 @@ function CoreValuesSection() {
                 x2={x1}
                 y2={centerY}
                 stroke="#BFA052"
-                strokeWidth={3 + z_rung * 0.8}
+                strokeWidth={r(3 + z_rung * 0.8)}
               />
               {/* Central small joint bead */}
               <circle
@@ -729,16 +623,16 @@ function CoreValuesSection() {
               key={`na-${i}`}
               cx={x1}
               cy={y1_A}
-              r={7.5 + z_A * 2.4} // Larger, more prominent beads
+              r={r(7.5 + z_A * 2.4)} // Larger, more prominent beads
               fill="url(#navy-bead-grad)"
               stroke="#ffffff"
               strokeWidth={1.25}
-              opacity={0.92 + z_A * 0.08}
+              opacity={r(0.92 + z_A * 0.08)}
             />
           )
         });
 
-        // Strand B Node ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â always a regular gold bead (icon circles are overlaid separately at centerY)
+        // Strand B Node 
         drawList.push({
           type: 'nodeB',
           z: z_B,
@@ -747,11 +641,11 @@ function CoreValuesSection() {
               key={`nb-${i}`}
               cx={x1}
               cy={y1_B}
-              r={7.5 + z_B * 2.4}
+              r={r(7.5 + z_B * 2.4)}
               fill="url(#gold-bead-grad)"
               stroke="#ffffff"
               strokeWidth={1.25}
-              opacity={0.92 + z_B * 0.08}
+              opacity={r(0.92 + z_B * 0.08)}
             />
           )
         });
@@ -764,14 +658,14 @@ function CoreValuesSection() {
   };
 
   return (
-    <div className="bg-transparent text-navy font-body flex flex-col justify-start items-center pt-0 pb-16 md:pb-24 overflow-x-hidden relative select-none">
+    <section className="bg-transparent text-navy font-body flex flex-col justify-start items-center pt-10 md:pt-14 pb-12 md:pb-16 border-t border-brand-gold/10 overflow-x-hidden relative select-none">
 
       {/* ==================== MAIN HEADING SECTION ==================== */}
-      <div className="w-full max-w-[1240px] px-4 mx-auto text-left mb-10 md:mb-12">
+      <div className="w-full max-w-[1280px] px-6 md:px-12 lg:px-16 mx-auto text-left mb-6 md:mb-8">
         <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-widest text-navy uppercase">
           Our <span className="text-brand-gold">Core</span> Values
         </h2>
-        <div className="w-24 h-[3px] bg-gold mt-6 rounded-full" />
+        <div className="w-24 h-[3px] bg-gold mt-4 rounded-full" />
       </div>
 
       {/* ==================== DESKTOP & TABLET LAYOUT ==================== */}
@@ -784,10 +678,11 @@ function CoreValuesSection() {
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 1.2, ease: "easeOut" }}
           className="w-full relative"
-          style={{ height: '580px' }}
+          style={{ height: '520px' }}
         >
           {/* SVG DNA Layer */}
           <svg
+            suppressHydrationWarning
             width="100%"
             height="280"
             viewBox={`0 0 ${width} 280`}
@@ -940,13 +835,13 @@ function CoreValuesSection() {
                     </div>
                   </div>
 
-                  {/* 2. Card / Label (positioned at top = 284px) */}
+                  {/* 2. Card / Label (positioned at top = 200px) */}
                   <div
                     className="absolute flex flex-col items-center"
                     style={{
                       left: '50%',
                       transform: 'translateX(-50%)',
-                      top: '284px',
+                      top: '200px',
                     }}
                   >
                     {isHovered && !val.isPlaceholder ? (
@@ -956,15 +851,15 @@ function CoreValuesSection() {
                         animate={{ opacity: 1, y: 0, scale: 1 }}
                         style={{
                           width: '220px',
-                          minHeight: '270px',
+                          minHeight: '260px',
                           background: 'linear-gradient(145deg, #0d2847 0%, #0C2C4D 40%, #081e36 100%)',
                           borderTop: '4.5px solid #BFA052',
                           borderBottom: '4.5px solid #BFA052',
                           borderLeft: '1.5px solid #BFA052',
                           borderRight: '1.5px solid #BFA052',
                           borderRadius: '14px',
-                          padding: '28px 20px 24px',
-                          boxShadow: '0 20px 50px rgba(12,44,77,0.35), 0 0 24px rgba(191,160,82,0.12)',
+                          padding: '24px 18px 20px',
+                          boxShadow: '0 12px 32px rgba(0,0,0,0.22), 0 0 20px rgba(191,160,82,0.2)',
                           textAlign: 'left',
                           color: '#ffffff',
                           cursor: 'default',
@@ -1223,7 +1118,7 @@ function CoreValuesSection() {
         </div>
 
       </div>
-    </div>
+    </section>
   );
 }
 
@@ -1249,24 +1144,11 @@ function EsgInnovationSection() {
       top: "19%",
       width: "45%",
       cardPosition: "top",
-      tilt: "rotate(0deg)"
+      tilt: "rotate(0deg)",
+      overlayOffset: { paddingBottom: "10%", transform: "translateY(2px)" }
     },
     {
       id: 2,
-      title: "Community Before Contract",
-      shortTitle: "COMMUNITY\nBEFORE CONTRACT",
-      subtext: "We build trust and create positive impact.",
-      description: "We earn community trust before we close any deal. Working alongside local stakeholders ensures sustainable, mutually beneficial alignments for every development projects.",
-      Icon: Users,
-      image: "/about_us/esg/lp_1.png",
-      left: "24%",
-      top: "33.5%",
-      width: "45%",
-      cardPosition: "left",
-      tilt: "rotate(0deg)"
-    },
-    {
-      id: 3,
       title: "Paperless Approvals",
       shortTitle: "PAPERLESS\nAPPROVALS",
       subtext: "Digitized approvals for speed and transparency.",
@@ -1277,38 +1159,11 @@ function EsgInnovationSection() {
       top: "33.5%",
       width: "45%",
       cardPosition: "right",
-      tilt: "rotate(-10deg)"
+      tilt: "rotate(-10deg)",
+      overlayOffset: { paddingBottom: "10%", transform: "translateX(-2px)" }
     },
     {
-      id: 4,
-      title: "Zero-Tolerance Compliance",
-      shortTitle: "ZERO-TOLERANCE\nCOMPLIANCE",
-      subtext: "Highest legal and regulatory standards.",
-      description: "There are no shortcuts here. Every project we touch is held to the highest legal and regulatory standards because your reputation and ours depend on doing this exactly right.",
-      Icon: ShieldCheck,
-      image: "/about_us/esg/lp_6.png",
-      left: "24%",
-      top: "66.5%",
-      width: "45%",
-      cardPosition: "left",
-      tilt: "rotate(0deg)"
-    },
-    {
-      id: 5,
-      title: "Measurable Commitments",
-      shortTitle: "MEASURABLE\nCOMMITMENTS",
-      subtext: "Real ESG targets, third-party audits and open reporting.",
-      description: "We set real ESG targets, back them with third-party audits, and report progress openly to every stakeholder, establishing true public transparency.",
-      Icon: Target,
-      image: "/about_us/esg/lp_5.png",
-      left: "50%",
-      top: "81%",
-      width: "45%",
-      cardPosition: "bottom",
-      tilt: "rotate(0deg)"
-    },
-    {
-      id: 6,
+      id: 3,
       title: "Tech-Driven Land Intelligence",
       shortTitle: "TECH-DRIVEN\nLAND INTELLIGENCE",
       subtext: "Data, location analytics and market intelligence.",
@@ -1319,7 +1174,53 @@ function EsgInnovationSection() {
       top: "66.5%",
       width: "45%",
       cardPosition: "right",
-      tilt: "rotate(0deg)"
+      tilt: "rotate(0deg)",
+      overlayOffset: { paddingBottom: "10%", transform: "translateX(18px) translateY(-2px)" }
+    },
+    {
+      id: 4,
+      title: "Measurable Commitments",
+      shortTitle: "MEASURABLE\nCOMMITMENTS",
+      subtext: "Real ESG targets, third-party audits and open reporting.",
+      description: "We set real ESG targets, back them with third-party audits, and report progress openly to every stakeholder, establishing true public transparency.",
+      Icon: Target,
+      image: "/about_us/esg/lp_5.png",
+      left: "50%",
+      top: "81%",
+      width: "45%",
+      cardPosition: "bottom",
+      tilt: "rotate(0deg)",
+      overlayOffset: { paddingBottom: "5%", transform: "translateY(16px)" }
+    },
+    {
+      id: 5,
+      title: "Zero-Tolerance Compliance",
+      shortTitle: "ZERO-TOLERANCE\nCOMPLIANCE",
+      subtext: "Highest legal and regulatory standards.",
+      description: "There are no shortcuts here. Every project we touch is held to the highest legal and regulatory standards because your reputation and ours depend on doing this exactly right.",
+      Icon: ShieldCheck,
+      image: "/about_us/esg/lp_6.png",
+      left: "24%",
+      top: "66.5%",
+      width: "45%",
+      cardPosition: "left",
+      tilt: "rotate(0deg)",
+      overlayOffset: { paddingBottom: "10%", transform: "translateX(-2px)" }
+    },
+    {
+      id: 6,
+      title: "Community Before Contract",
+      shortTitle: "COMMUNITY\nBEFORE CONTRACT",
+      subtext: "We build trust and create positive impact.",
+      description: "We earn community trust before we close any deal. Working alongside local stakeholders ensures sustainable, mutually beneficial alignments for every development projects.",
+      Icon: Users,
+      image: "/about_us/esg/lp_1.png",
+      left: "24%",
+      top: "33.5%",
+      width: "45%",
+      cardPosition: "left",
+      tilt: "rotate(0deg)",
+      overlayOffset: { paddingBottom: "9%", transform: "translateX(-2px) translateY(6px)" }
     }
   ];
 
@@ -1338,17 +1239,17 @@ function EsgInnovationSection() {
   }
 
   return (
-    <section className="relative w-full py-16 md:py-24 bg-transparent border-t border-brand-gold/10 select-none overflow-hidden">
+    <section className="relative w-full pt-10 md:pt-14 pb-12 md:pb-16 bg-transparent border-t border-brand-gold/10 select-none overflow-hidden">
       {/* Subtle background decoration */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full opacity-[0.025] pointer-events-none"
         style={{ background: 'radial-gradient(circle, #BFA052 0%, transparent 70%)', transform: 'translate(30%, -30%)' }} />
 
-      <div className="w-full max-w-[1280px] px-6 md:px-12 lg:px-16 mx-auto text-left mb-14">
+      <div className="w-full max-w-[1280px] px-6 md:px-12 lg:px-16 mx-auto text-left mb-6 md:mb-8">
         <h2 className="font-poppins text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-widest text-brand-navy uppercase">
           ESG and <span className="text-brand-gold">Innovation</span>
         </h2>
         <div className="w-24 h-[3px] bg-brand-gold mt-6 mb-8 rounded-full" />
-        <p className="font-poppins text-brand-navy/70 text-[16px] md:text-lg leading-relaxed max-w-3xl text-left">
+        <p className="font-poppins text-brand-navy/85 text-[17px] lg:text-lg font-medium leading-relaxed max-w-3xl text-left">
           At Conservve Infra Solutions, doing the right thing and doing it smarter aren't separate goals, they're the same commitment. Every project we take on is guided by responsible practices, ethical standards, and a drive to push land development forward in ways that genuinely matter.
         </p>
       </div>
@@ -1356,76 +1257,136 @@ function EsgInnovationSection() {
       <div className="w-full max-w-[1280px] px-6 md:px-12 lg:px-16 mx-auto">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-center">
 
-          {/* Left Column: Interactive Circular Map ÃƒÆ’Ã†â€™Ãƒâ€šÃ‚Â¢ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â€šÂ¬Ã…Â¡Ãƒâ€šÃ‚Â¬ÃƒÆ’Ã‚Â¢ÃƒÂ¢Ã¢â‚¬Å¡Ã‚Â¬Ãƒâ€šÃ‚Â wider column */}
+          {/* Left Column: Interactive Circular Map */}
           <div className="col-span-12 lg:col-span-7 flex justify-center">
             <div
               className="relative w-full aspect-square select-none"
             >
-              {/* Golden Dotted Connector Lines */}
+              {/* Ultra-Luxury 3D Tech Rays & Constellation Nodes */}
               <svg
-                className="absolute inset-0 w-full h-full pointer-events-none"
+                className="absolute inset-0 w-full h-full pointer-events-none overflow-visible"
                 style={{ zIndex: 8 }}
               >
-                {PARCELS.map((parcel) => (
-                  <line
-                    key={parcel.id}
-                    x1="50%"
-                    y1="50%"
-                    x2={parcel.left}
-                    y2={parcel.top}
-                    stroke="#BFA052"
-                    strokeWidth="1.5"
-                    strokeDasharray="3,6"
-                    strokeLinecap="round"
-                    opacity={hoveredParcel === parcel.id ? 1 : 0.45}
-                  />
-                ))}
+                <defs>
+                  <linearGradient id="gold-ray-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stopColor="#0C2C4D" stopOpacity="0.4" />
+                    <stop offset="40%" stopColor="#BFA052" stopOpacity="1" />
+                    <stop offset="70%" stopColor="#F5E5C0" stopOpacity="1" />
+                    <stop offset="100%" stopColor="#0C2C4D" stopOpacity="0.4" />
+                  </linearGradient>
+                  <filter id="node-glow" x="-50%" y="-50%" width="200%" height="200%">
+                    <feGaussianBlur stdDeviation="2.5" result="blur" />
+                    <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                  </filter>
+                </defs>
+
+                {PARCELS.map((parcel) => {
+                  const isHovered = hoveredParcel === parcel.id;
+                  return (
+                    <g key={`tech-ray-${parcel.id}`}>
+                      {/* Base Dark Bevel Beam (Provides High Contrast on White BG) */}
+                      <line
+                        x1="50%"
+                        y1="48%"
+                        x2={parcel.left}
+                        y2={parcel.top}
+                        stroke="#0C2C4D"
+                        strokeWidth={isHovered ? "3.5" : "2.5"}
+                        strokeLinecap="round"
+                        opacity={isHovered ? 0.55 : 0.22}
+                      />
+
+                      {/* Precision Gold Laser Core Line */}
+                      <line
+                        x1="50%"
+                        y1="48%"
+                        x2={parcel.left}
+                        y2={parcel.top}
+                        stroke="url(#gold-ray-gradient)"
+                        strokeWidth={isHovered ? "2.4" : "1.6"}
+                        strokeLinecap="round"
+                        opacity={isHovered ? 1 : 0.85}
+                      />
+
+                      {/* Subtle Traveling Energy Pulse */}
+                      <line
+                        x1="50%"
+                        y1="48%"
+                        x2={parcel.left}
+                        y2={parcel.top}
+                        stroke="#FFF4D4"
+                        strokeWidth={isHovered ? "2.6" : "1.8"}
+                        strokeDasharray="5,22"
+                        strokeLinecap="round"
+                        opacity={isHovered ? 1 : 0.75}
+                        className="animate-dash-flow"
+                      />
+
+                      {/* Glowing Constellation Anchor Node at Parcel Target */}
+                      <circle
+                        cx={parcel.left}
+                        cy={parcel.top}
+                        r={isHovered ? "5" : "3.5"}
+                        fill={isHovered ? "#E5C158" : "#BFA052"}
+                        stroke="#ffffff"
+                        strokeWidth="1.5"
+                        filter="url(#node-glow)"
+                        style={{ transition: 'all 0.3s ease' }}
+                      />
+                    </g>
+                  );
+                })}
               </svg>
 
-              {/* Central ESG Hexagon */}
+              {/* Central 3D CIS Brand Medallion (Sleek Proportioned 19% Size) */}
               <div
-                className="absolute top-[50%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 z-30 flex items-center justify-center transition-transform duration-300 hover:scale-[1.03]"
-                style={{ width: '24%', height: '27.6%' }}
+                className="medallion-float absolute top-[48%] left-[50%] z-30 flex items-center justify-center cursor-default transition-transform duration-300 hover:scale-105"
+                style={{ width: '19%', aspectRatio: '1 / 1', transform: 'translate(-50%, -50%)' }}
               >
-                <svg viewBox="0 0 100 115" className="w-full h-full drop-shadow-2xl">
-                  <defs>
-                    <linearGradient id="esg-gold-frame" x1="0%" y1="0%" x2="100%" y2="100%">
-                      <stop offset="0%" stopColor="#8c5c1e" />
-                      <stop offset="15%" stopColor="#e8be74" />
-                      <stop offset="35%" stopColor="#fef0d1" />
-                      <stop offset="55%" stopColor="#c29242" />
-                      <stop offset="75%" stopColor="#fae1a5" />
-                      <stop offset="100%" stopColor="#7a4d16" />
-                    </linearGradient>
-                    <linearGradient id="esg-gold-frame-rev" x1="100%" y1="0%" x2="0%" y2="100%">
-                      <stop offset="0%" stopColor="#7a4d16" />
-                      <stop offset="25%" stopColor="#fae1a5" />
-                      <stop offset="50%" stopColor="#c29242" />
-                      <stop offset="75%" stopColor="#fef0d1" />
-                      <stop offset="90%" stopColor="#e8be74" />
-                      <stop offset="100%" stopColor="#8c5c1e" />
-                    </linearGradient>
-                    <radialGradient id="esg-navy-vignette" cx="50%" cy="50%" r="50%">
-                      <stop offset="0%" stopColor="#14345c" />
-                      <stop offset="60%" stopColor="#08182b" />
-                      <stop offset="100%" stopColor="#020a14" />
-                    </radialGradient>
-                    <filter id="esg-leather" x="0%" y="0%" width="100%" height="100%">
-                      <feTurbulence type="fractalNoise" baseFrequency="0.8" numOctaves="3" result="noise" />
-                      <feColorMatrix type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.05 0" result="colorNoise" />
-                      <feComposite operator="in" in2="SourceGraphic" />
-                      <feBlend mode="multiply" in="SourceGraphic" />
-                    </filter>
-                  </defs>
-                  <polygon points="50,3 97,30 97,85 50,112 3,85 3,30" fill="url(#esg-gold-frame)" />
-                  <polygon points="50,4.5 95.5,30.5 95.5,84.5 50,110.5 4.5,84.5 4.5,30.5" fill="url(#esg-gold-frame-rev)" />
-                  <polygon points="50,6 94,31.5 94,83.5 50,109 6,83.5 6,31.5" fill="#030c17" />
-                  <polygon points="50,7 93,32 93,83 50,108 7,83 7,32" fill="url(#esg-navy-vignette)" filter="url(#esg-leather)" />
-                  <polygon points="50,10 90,33 90,82 50,105 10,82 10,33" fill="none" stroke="url(#esg-gold-frame)" strokeWidth="0.8" opacity="0.65" />
-                  <text x="50.6" y="58.6" textAnchor="middle" dominantBaseline="central" fill="#221301" fontFamily="var(--font-tibere, serif)" fontWeight="bold" fontSize="25" letterSpacing="1.4" opacity="0.9">ESG</text>
-                  <text x="49.4" y="56.6" textAnchor="middle" dominantBaseline="central" fill="#ffffff" fontFamily="var(--font-tibere, serif)" fontWeight="bold" fontSize="25" letterSpacing="1.4" opacity="0.3">ESG</text>
-                  <text x="50" y="57.5" textAnchor="middle" dominantBaseline="central" fill="url(#esg-gold-frame)" fontFamily="var(--font-tibere, serif)" fontWeight="bold" fontSize="25" letterSpacing="1.4">ESG</text>
-                </svg>
+                {/* Layer 1: Ambient Floor Shadow */}
+                <div className="absolute inset-0 rounded-full" style={{ background: 'radial-gradient(circle at 50% 110%, rgba(12,44,77,0.55) 0%, transparent 65%)', transform: 'translateY(6px) scaleX(0.88)', filter: 'blur(8px)' }} />
+
+                {/* Layer 2: Gold Outer Glow */}
+                <div className="absolute rounded-full pointer-events-none" style={{ inset: '-25%', background: 'radial-gradient(circle, rgba(191,160,82,0.25) 0%, rgba(191,160,82,0.07) 50%, transparent 72%)', filter: 'blur(10px)' }} />
+
+                {/* Layer 3: Metallic Gold Outer Rim */}
+                <div className="spin-ring absolute inset-0 rounded-full" style={{
+                  background: 'conic-gradient(from 0deg, #7a4d16, #e8be74, #fef0d1, #BFA052, #c29242, #fae1a5, #fef0d1, #e8be74, #8c5c1e, #7a4d16)',
+                  padding: '3px',
+                  boxShadow: '0 0 0 1px rgba(191,160,82,0.35), 0 8px 24px rgba(12,44,77,0.25), 0 0 16px rgba(191,160,82,0.35)',
+                }}>
+                  <div className="w-full h-full rounded-full" style={{ background: 'rgba(250,225,165,0.18)' }} />
+                </div>
+
+                {/* Layer 4: Inner Metallic Bezel */}
+                <div className="absolute rounded-full" style={{
+                  inset: '4px',
+                  background: 'transparent',
+                  border: '1.5px solid rgba(191,160,82,0.4)',
+                  boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.18)',
+                }} />
+
+                {/* Layer 5: Porcelain Coin Surface */}
+                <div className="absolute rounded-full" style={{
+                  inset: '6px',
+                  background: 'radial-gradient(circle at 35% 30%, #ffffff 0%, #f6f3eb 45%, #e8e1d3 100%)',
+                  boxShadow: 'inset 0 3.5px 8px rgba(255,255,255,0.95), inset 0 -3.5px 7px rgba(12,44,77,0.14)',
+                }} />
+
+                {/* Layer 6: Glass Specular Highlight */}
+                <div className="absolute rounded-full pointer-events-none" style={{
+                  inset: '6px',
+                  background: 'linear-gradient(155deg, rgba(255,255,255,0.75) 0%, transparent 46%)',
+                }} />
+
+                {/* Layer 7: CIS Brand Logo */}
+                <img
+                  src="/logo-dark-transparent.png"
+                  alt="Conservve Infra Solutions"
+                  className="relative z-10 select-none"
+                  style={{ width: '68%', height: '68%', objectFit: 'contain' }}
+                  draggable={false}
+                />
               </div>
 
               {/* Interactive Land Parcel Overlays */}
@@ -1464,7 +1425,13 @@ function EsgInnovationSection() {
                     />
 
                     {/* Overlaid Icon + Label */}
-                    <div className="absolute inset-0 flex flex-col items-center justify-center pb-[18%] sm:pb-[22%] px-3 pointer-events-none">
+                    <div
+                      className="absolute inset-0 flex flex-col items-center justify-center px-3 pointer-events-none"
+                      style={{
+                        paddingBottom: parcel.overlayOffset?.paddingBottom || '10%',
+                        transform: parcel.overlayOffset?.transform || 'none',
+                      }}
+                    >
                       <div
                         className="w-[26px] h-[26px] sm:w-[34px] sm:h-[34px] rounded-full bg-white flex items-center justify-center shadow-lg border border-slate-100 mb-1.5"
                         style={{
@@ -1489,196 +1456,137 @@ function EsgInnovationSection() {
           </div>
 
 
-          {/* Right Column: Flat Horizontal Sliding Card Carousel */}
-          <div className="col-span-12 lg:col-span-5 flex flex-col items-center justify-center" style={{ minHeight: '440px' }}>
-            {/* Overflow-hidden container clips prev/next cards cleanly */}
-            <div
-              className="relative w-full overflow-hidden"
-              style={{ height: '380px' }}
-            >
-              {(() => {
-                const activeIdx = hoveredParcel != null
-                  ? PARCELS.findIndex(p => p.id === hoveredParcel)
-                  : 0;
-
-                return PARCELS.map((parcel, i) => {
-                  // Shortest-path offset relative to active
-                  let offset = i - activeIdx;
-                  if (offset > PARCELS.length / 2) offset -= PARCELS.length;
-                  if (offset < -PARCELS.length / 2) offset += PARCELS.length;
-
-                  // Only render prev (-1), active (0), next (+1)
-                  if (Math.abs(offset) > 1) return null;
-
-                  const isActive = offset === 0;
+          {/* Right Column: Sleek Portrait ESG Card & Genie Dock Navigator */}
+          <div className="col-span-12 lg:col-span-5 flex flex-col items-center justify-center gap-6" style={{ minHeight: '460px' }}>
+            {/* Card Display Container */}
+            <div className="relative w-full max-w-[365px] flex items-center justify-center" style={{ height: '400px' }}>
+              <AnimatePresence mode="wait">
+                {(() => {
+                  const activeIdx = hoveredParcel != null
+                    ? PARCELS.findIndex(p => p.id === hoveredParcel)
+                    : 0;
+                  const currentIdx = activeIdx < 0 ? 0 : activeIdx;
+                  const parcel = PARCELS[currentIdx];
                   const Icon = parcel.Icon;
-
-                  // Card width and center-to-center gap in px
-                  const CARD_W = 240;
-                  const CENTER_GAP = 260;
+                  // Exact pixel-aligned X percentage of dock item relative to 365px card width (18.5% -> 81.5%)
+                  const dockXPercent = 18.5 + (currentIdx / (PARCELS.length - 1)) * 63;
 
                   return (
                     <motion.div
                       key={parcel.id}
-                      animate={{
-                        x: offset * CENTER_GAP,
-                        scale: isActive ? 1 : 0.84,
-                        opacity: isActive ? 1 : 0.5,
-                      }}
+                      initial={{ opacity: 0, scaleX: 0.12, scaleY: 0.04, y: 55, filter: 'blur(12px)' }}
+                      animate={{ opacity: 1, scaleX: 1, scaleY: 1, y: 0, filter: 'blur(0px)' }}
+                      exit={{ opacity: 0, scaleX: 0.12, scaleY: 0.04, y: 55, filter: 'blur(12px)' }}
                       transition={{
-                        duration: 0.5,
-                        ease: [0.25, 0.46, 0.45, 0.94],
+                        duration: 0.48,
+                        ease: [0.175, 0.885, 0.32, 1.2],
                       }}
                       style={{
-                        position: 'absolute',
-                        top: 0,
-                        left: '50%',
-                        width: `${CARD_W}px`,
-                        marginLeft: `-${CARD_W / 2}px`,
-                        zIndex: isActive ? 10 : 5,
-                        cursor: 'pointer',
-                        willChange: 'transform, opacity',
+                        transformOrigin: `${dockXPercent}% calc(100% + 36px)`,
                       }}
-                      onMouseEnter={() => setHoveredParcel(parcel.id)}
+                      className="absolute inset-0 rounded-2xl bg-[#0C2C4D] border border-[#BFA052]/35 select-none overflow-hidden"
                     >
-                      {/* Portrait card */}
-                      <div
-                        style={{
-                          width: '100%',
-                          height: '360px',
-                          borderRadius: '20px',
-                          background: isActive
-                            ? 'linear-gradient(160deg, #0C2C4D 0%, #0f3d6e 45%, #061828 100%)'
-                            : 'linear-gradient(160deg, #091f38 0%, #060f1e 100%)',
-                          border: isActive
-                            ? '1.5px solid rgba(191,160,82,0.55)'
-                            : '1px solid rgba(191,160,82,0.14)',
-                          boxShadow: isActive
-                            ? '0 24px 64px rgba(12,44,77,0.6), inset 0 1px 0 rgba(191,160,82,0.18)'
-                            : '0 6px 20px rgba(12,44,77,0.28)',
-                          display: 'flex',
-                          flexDirection: 'column',
-                          alignItems: 'center',
-                          padding: '30px 22px 26px',
-                          gap: '14px',
-                          position: 'relative',
-                          overflow: 'hidden',
-                        }}
-                      >
-                        {/* Gold top shimmer â€” active only */}
-                        {isActive && (
-                          <div style={{
-                            position: 'absolute', top: 0, left: 0, right: 0, height: '2px',
-                            background: 'linear-gradient(90deg, transparent 0%, #BFA052 35%, #fef0d1 50%, #BFA052 65%, transparent 100%)',
-                          }} />
-                        )}
+                      {/* Top Gold Bar: Thicker, Left → Right */}
+                      <motion.div
+                        key={`top-bar-${parcel.id}`}
+                        initial={{ scaleX: 0, opacity: 1 }}
+                        animate={{ scaleX: 1, opacity: 1 }}
+                        exit={{ scaleX: 0, opacity: 0 }}
+                        transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+                        style={{ transformOrigin: 'left center' }}
+                        className="absolute top-0 left-0 right-0 h-[6px] bg-[#BFA052] z-20 shadow-[0_3px_12px_rgba(191,160,82,0.55)]"
+                      />
 
-                        {/* Icon circle */}
-                        <div style={{
-                          width: '70px',
-                          height: '70px',
-                          borderRadius: '50%',
-                          flexShrink: 0,
-                          background: isActive
-                            ? 'linear-gradient(135deg, #BFA052 0%, #c9a14a 50%, #8c5c1e 100%)'
-                            : 'rgba(191,160,82,0.1)',
-                          border: isActive
-                            ? '2px solid rgba(255,240,180,0.35)'
-                            : '1.5px solid rgba(191,160,82,0.22)',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          boxShadow: isActive
-                            ? '0 0 28px rgba(191,160,82,0.3), 0 6px 18px rgba(12,44,77,0.5)'
-                            : 'none',
-                        }}>
-                          <Icon style={{
-                            width: isActive ? '30px' : '26px',
-                            height: isActive ? '30px' : '26px',
-                            color: isActive ? '#fff' : 'rgba(191,160,82,0.55)',
-                          }} />
+                      {/* Bottom Gold Bar: Thicker, Right → Left */}
+                      <motion.div
+                        key={`bot-bar-${parcel.id}`}
+                        initial={{ scaleX: 0, opacity: 1 }}
+                        animate={{ scaleX: 1, opacity: 1 }}
+                        exit={{ scaleX: 0, opacity: 0 }}
+                        transition={{ duration: 0.55, ease: [0.16, 1, 0.3, 1], delay: 0.1 }}
+                        style={{ transformOrigin: 'right center' }}
+                        className="absolute bottom-0 left-0 right-0 h-[6px] bg-[#BFA052] z-20 shadow-[0_-3px_12px_rgba(191,160,82,0.55)]"
+                      />
+
+                      {/* Card Body Content: Perfectly centered vertically & horizontally for uniform balance */}
+                      <div className="w-full h-full flex flex-col items-center justify-center text-center px-7 py-6 gap-4 relative z-10">
+                        {/* Icon Badge */}
+                        <motion.div
+                          key={`icon-${parcel.id}`}
+                          initial={{ scale: 0.4, opacity: 0 }}
+                          animate={{ scale: 1, opacity: 1 }}
+                          transition={{ type: 'spring', stiffness: 360, damping: 22, delay: 0.12 }}
+                          className="w-16 h-16 rounded-full bg-[#0C2C4D] border-2 border-[#BFA052] flex items-center justify-center shadow-[0_0_22px_rgba(191,160,82,0.32)] shrink-0 mb-1"
+                        >
+                          <Icon className="w-8 h-8 text-[#BFA052]" />
+                        </motion.div>
+
+                        {/* Title + 2 Equal Dimension Parallel Lines */}
+                        <div className="flex flex-col items-center gap-2 w-full">
+                          <motion.h3
+                            key={`title-${parcel.id}`}
+                            initial={{ opacity: 0, y: 8 }}
+                            animate={{ opacity: 1, y: 0 }}
+                            transition={{ duration: 0.28, ease: 'easeOut', delay: 0.15 }}
+                            className="font-gotham font-extrabold text-lg sm:text-xl uppercase tracking-wider text-white leading-snug"
+                          >
+                            {parcel.title}
+                          </motion.h3>
+
+                          {/* 2 Equal Parallel Golden Lines */}
+                          <motion.div
+                            key={`emblem-${parcel.id}`}
+                            initial={{ scaleX: 0, opacity: 0 }}
+                            animate={{ scaleX: 1, opacity: 1 }}
+                            transition={{ duration: 0.32, ease: [0.16, 1, 0.3, 1], delay: 0.18 }}
+                            className="flex flex-col items-center gap-[4px] my-0.5"
+                          >
+                            <div className="w-11 h-[2px] bg-[#BFA052] rounded-full" />
+                            <div className="w-11 h-[2px] bg-[#BFA052] rounded-full" />
+                          </motion.div>
                         </div>
 
-                        {/* Title */}
-                        <p style={{
-                          fontFamily: 'var(--font-poppins, sans-serif)',
-                          fontWeight: 800,
-                          fontSize: isActive ? '12px' : '10.5px',
-                          textTransform: 'uppercase',
-                          letterSpacing: '0.1em',
-                          color: isActive ? '#BFA052' : 'rgba(191,160,82,0.45)',
-                          textAlign: 'center',
-                          lineHeight: 1.3,
-                          margin: 0,
-                        }}>
-                          {parcel.title}
-                        </p>
-
-                        {/* Gold divider */}
-                        <div style={{
-                          width: isActive ? '44px' : '20px',
-                          height: '1.5px',
-                          background: isActive
-                            ? 'linear-gradient(90deg, transparent, #BFA052, transparent)'
-                            : 'rgba(191,160,82,0.18)',
-                          borderRadius: '2px',
-                          flexShrink: 0,
-                          transition: 'width 0.4s ease',
-                        }} />
-
-                        {/* Subtext tag */}
-                        <p style={{
-                          fontFamily: 'var(--font-poppins, sans-serif)',
-                          fontWeight: 600,
-                          fontSize: '9.5px',
-                          textTransform: 'uppercase',
-                          letterSpacing: '0.14em',
-                          color: isActive ? 'rgba(191,160,82,0.75)' : 'rgba(191,160,82,0.28)',
-                          textAlign: 'center',
-                          lineHeight: 1.4,
-                          margin: 0,
-                        }}>
-                          {parcel.subtext}
-                        </p>
-
-                        {/* Description â€” active card only */}
-                        {isActive && (
-                          <p style={{
-                            fontFamily: 'var(--font-poppins, sans-serif)',
-                            fontWeight: 400,
-                            fontSize: '12px',
-                            color: 'rgba(203,213,225,0.85)',
-                            lineHeight: 1.7,
-                            textAlign: 'center',
-                            margin: 0,
-                          }}>
-                            {parcel.description}
-                          </p>
-                        )}
+                        {/* Description */}
+                        <motion.p
+                          key={`para-${parcel.id}`}
+                          initial={{ opacity: 0, y: 6 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ duration: 0.32, ease: 'easeOut', delay: 0.22 }}
+                          className="font-poppins font-normal text-sm sm:text-[15px] text-slate-100 leading-relaxed text-center max-w-[315px]"
+                        >
+                          {parcel.description}
+                        </motion.p>
                       </div>
                     </motion.div>
                   );
-                });
-              })()}
+                })()}
+              </AnimatePresence>
             </div>
 
-            {/* Pill dot indicators */}
-            <div style={{ display: 'flex', gap: '8px', marginTop: '20px', alignItems: 'center' }}>
+            {/* Luxury Dock Selector below the card */}
+            <div className="flex items-center justify-center gap-2 sm:gap-2.5 px-4 py-2.5 rounded-full bg-[#0C2C4D] border border-[#BFA052]/40 shadow-xl backdrop-blur-md">
               {PARCELS.map((parcel, i) => {
-                const isActive = hoveredParcel === parcel.id || (hoveredParcel == null && i === 0);
+                const isActive = (hoveredParcel === parcel.id) || (hoveredParcel == null && i === 0);
+                const IconComp = parcel.Icon;
                 return (
-                  <div
+                  <button
                     key={parcel.id}
                     onClick={() => setHoveredParcel(parcel.id)}
-                    style={{
-                      width: isActive ? '28px' : '7px',
-                      height: '7px',
-                      borderRadius: '4px',
-                      background: isActive ? '#BFA052' : 'rgba(12,44,77,0.22)',
-                      cursor: 'pointer',
-                      transition: 'all 0.38s cubic-bezier(0.4, 0, 0.2, 1)',
-                    }}
-                  />
+                    onMouseEnter={() => setHoveredParcel(parcel.id)}
+                    aria-label={`Select ${parcel.title}`}
+                    className={`relative flex items-center justify-center w-9 h-9 rounded-full transition-all duration-200 ${isActive ? 'text-[#0C2C4D]' : 'text-[#BFA052] hover:bg-[#BFA052]/12 hover:scale-110'}`}
+                  >
+                    {isActive && (
+                      <motion.div
+                        layoutId="activeDockPill"
+                        className="absolute inset-0 rounded-full bg-[#BFA052] shadow-[0_0_18px_rgba(191,160,82,0.65)]"
+                        transition={{ type: 'spring', stiffness: 420, damping: 30 }}
+                      />
+                    )}
+                    <span className="relative z-10 flex items-center justify-center">
+                      <IconComp className={`w-4 h-4 ${isActive ? 'text-[#0C2C4D]' : 'text-[#BFA052]'}`} />
+                    </span>
+                  </button>
                 );
               })}
             </div>
