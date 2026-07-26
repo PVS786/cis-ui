@@ -30,6 +30,7 @@ export function Header() {
     { name: 'About Us', href: '/about' },
     { name: 'Services', href: isHome ? '#solutions' : '/#solutions' },
     { name: 'Our Leadership', href: '/leadership' },
+    { name: 'Careers', href: '/careers' },
     { name: 'Get in Touch', href: '/contact' },
   ];
 
