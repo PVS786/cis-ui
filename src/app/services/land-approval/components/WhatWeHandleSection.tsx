@@ -145,39 +145,46 @@ export default function WhatWeHandleSection() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  const handleCardHover = (index: number) => {
+    setHoveredIndex(index);
+    setActiveIndex(index);
+  };
+
   const cardWidth = 320;
   const overlapOffset = 50;
   const shelfWidth = (LAND_DOCUMENTS.length - 1) * overlapOffset + cardWidth;
 
   return (
-    <section className="w-full py-12 md:py-20 relative overflow-hidden flex items-center justify-center bg-transparent text-[#0c2c4d]">
-      
-      <div className="max-w-7xl w-full mx-auto flex flex-col lg:flex-row items-center lg:items-start justify-between gap-10 lg:gap-14 relative z-10 px-6 md:px-12">
-        
+    <section
+      className="w-full py-16 px-6 md:py-24 md:px-12 lg:px-20 relative overflow-hidden flex items-center justify-center bg-transparent text-[#0c2c4d]"
+      id="what-we-handle-section"
+    >
+      <div className="max-w-7xl w-full mx-auto flex flex-col lg:flex-row items-center lg:items-start justify-between gap-12 lg:gap-16 relative z-10 px-4 md:px-8">
+
         {/* Left Column: Heading and description */}
-        <div className="w-full lg:w-[42%] flex flex-col items-start justify-start text-left lg:pt-8">
-          
-          <h2 className="font-tibere text-4xl md:text-5xl lg:text-6xl font-extrabold mb-3 leading-tight tracking-tight text-[#0c2c4d] uppercase">
+        <div className="w-full lg:w-[42%] flex flex-col items-start justify-start text-left lg:pt-12">
+
+          <h2 className="font-tibere text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight tracking-tight text-[#0c2c4d] uppercase">
             What We Handle
           </h2>
 
-          {/* Elegant Gold Divider */}
-          <div className="flex items-center gap-3 my-3">
+          {/* Gold Divider with Diamond */}
+          <div className="flex items-center gap-3 my-4">
             <div className="h-[0.5px] bg-[#bfa052]/40 w-12" />
             <div className="w-1.5 h-1.5 bg-[#bfa052] rotate-45" />
             <div className="h-[0.5px] bg-[#bfa052]/40 w-12" />
           </div>
 
-          <p className="font-poppins text-sm md:text-base leading-relaxed text-slate-700 font-normal tracking-wide max-w-xl mt-2">
+          <p className="font-poppins text-sm md:text-base leading-relaxed text-slate-700 font-light tracking-wide max-w-xl">
             From the first submission to the final certificate, every clearance your project needs is tracked, managed, and obtained without it becoming your problem.
           </p>
         </div>
 
-        {/* Right Column: Interactive Horizontal Document Stack */}
-        <div className="w-full lg:w-[58%] flex flex-col items-center lg:items-end justify-center relative mt-6 lg:mt-0">
-          
-          {/* Desktop Stack View (Hidden on Mobile) */}
-          <div 
+        {/* Right Column: Document Showcase Stack */}
+        <div className="w-full lg:w-[58%] flex flex-col items-center lg:items-end justify-center relative mt-10 lg:mt-0" id="document-stack-container">
+
+          {/* Desktop Stack View */}
+          <div
             className="hidden md:block relative select-none"
             style={{
               width: `${shelfWidth}px`,
@@ -187,21 +194,21 @@ export default function WhatWeHandleSection() {
               transition: 'transform 0.3s ease-out',
             }}
           >
-            {/* Baseline shadow line */}
-            <div 
-              className="absolute left-[-40px] right-[-40px] h-[1px] bg-gradient-to-r from-transparent via-[#bfa052]/30 to-transparent pointer-events-none" 
-              style={{ top: '500px' }}
+            <div
+              className="absolute left-[-40px] right-[-40px] h-[1px] bg-gradient-to-r from-transparent via-[#bfa052]/30 to-transparent pointer-events-none"
+              style={{ top: '520px' }}
             />
 
             {LAND_DOCUMENTS.map((doc, idx) => {
               const isRevealed = hoveredIndex === null ? idx === activeIndex : hoveredIndex === idx;
+
               const leftPos = idx * overlapOffset;
-              const topPos = 60;
+              const topPos = 80;
               const zIndex = isRevealed ? 50 : 20 - idx;
 
               const cardStyle: React.CSSProperties = {
-                transform: `translateY(${isRevealed ? -50 : 0}px)`,
-                boxShadow: isRevealed 
+                transform: `translateY(${isRevealed ? -60 : 0}px)`,
+                boxShadow: isRevealed
                   ? '0 25px 50px -12px rgba(12, 44, 77, 0.22), 0 8px 16px -6px rgba(12, 44, 77, 0.12)'
                   : '0 8px 20px -6px rgba(12, 44, 77, 0.08), 0 2px 4px -1px rgba(12, 44, 77, 0.03)',
                 backgroundColor: isRevealed ? '#faf8f5' : '#faf9f6',
@@ -211,7 +218,7 @@ export default function WhatWeHandleSection() {
               return (
                 <div
                   key={doc.id}
-                  onMouseEnter={() => setHoveredIndex(idx)}
+                  onMouseEnter={() => handleCardHover(idx)}
                   onMouseLeave={() => setHoveredIndex(null)}
                   onClick={() => setActiveIndex(idx)}
                   className="absolute h-[440px] w-[320px] rounded-2xl transition-all duration-500 ease-in-out cursor-pointer overflow-hidden select-none"
@@ -221,9 +228,10 @@ export default function WhatWeHandleSection() {
                     zIndex,
                     ...cardStyle
                   }}
+                  id={`desktop-card-${doc.num}`}
                 >
-                  {/* Corner Document Number */}
-                  <div 
+                  {/* Corner Document Number with Underline */}
+                  <div
                     className="absolute top-8 right-0 flex flex-col items-center justify-center select-none pointer-events-none z-30"
                     style={{ width: `${overlapOffset}px` }}
                   >
@@ -233,28 +241,26 @@ export default function WhatWeHandleSection() {
                     <div className="w-4 h-[1.5px] bg-[#bfa052]/60" />
                   </div>
 
-                  {/* Card Content */}
-                  <div 
+                  {/* Card Content Wrapper */}
+                  <div
                     className="absolute inset-0 p-8 flex flex-col justify-between transition-all duration-500 z-15"
                     style={{ width: `${cardWidth}px` }}
                   >
-                    <div className={`absolute inset-4 border border-[#bfa052]/20 border-dashed rounded-xl pointer-events-none transition-opacity duration-500 ${
-                      isRevealed ? 'opacity-100' : 'opacity-0'
-                    }`} />
+                    <div className={`absolute inset-4 border border-[#bfa052]/20 border-dashed rounded-xl pointer-events-none transition-opacity duration-500 ${isRevealed ? 'opacity-100' : 'opacity-0'
+                      }`} />
 
                     <div className="flex flex-col items-start text-left mt-3">
-                      <div className={`w-14 h-14 rounded-full bg-white border border-[#bfa052]/25 shadow-inner flex items-center justify-center mb-4 transition-all duration-500 hover:rotate-6 ${
-                        isRevealed ? 'opacity-100 scale-100 blur-0' : 'opacity-0 scale-95 blur-[1px] pointer-events-none'
-                      }`}>
+                      <div className={`w-14 h-14 rounded-full bg-white border border-[#bfa052]/25 shadow-inner flex items-center justify-center mb-4 transition-all duration-500 hover:rotate-6 ${isRevealed ? 'opacity-100 scale-100 blur-0' : 'opacity-0 scale-95 blur-[1px] pointer-events-none'
+                        }`}>
                         <DocumentIcon type={doc.iconType} className="w-8 h-8 text-[#bfa052]" />
                       </div>
 
-                      <h3 className={`font-tibere text-base md:text-lg font-bold text-[#0c2c4d] tracking-wide leading-tight mb-3 transition-all duration-500 ${
-                        isRevealed ? 'opacity-100 blur-0' : 'opacity-0 blur-[1px] pointer-events-none'
-                      }`}>
+                      <h3 className={`font-tibere text-base md:text-lg font-bold text-[#0c2c4d] tracking-wide leading-tight mb-3 transition-all duration-500 ${isRevealed ? 'opacity-100 blur-0' : 'opacity-0 blur-[1px] pointer-events-none'
+                        }`}>
                         {doc.title}
                       </h3>
 
+                      {/* Skeleton Lines */}
                       <div className="w-full flex flex-col gap-3.5 mt-3">
                         <div className="h-[2.5px] w-[85%] bg-[#bfa052]/25 rounded-full" />
                         <div className="h-[2.5px] w-[85%] bg-[#bfa052]/25 rounded-full" />
@@ -263,9 +269,8 @@ export default function WhatWeHandleSection() {
                       </div>
                     </div>
 
-                    <div className={`flex justify-between items-end border-t border-solid border-[#0c2c4d]/10 pt-4 mt-auto relative transition-all duration-500 ${
-                      isRevealed ? 'opacity-100 blur-0' : 'opacity-0 blur-[1px] pointer-events-none'
-                    }`}>
+                    <div className={`flex justify-between items-end border-t border-solid border-[#0c2c4d]/10 pt-4 mt-auto relative transition-all duration-500 ${isRevealed ? 'opacity-100 blur-0' : 'opacity-0 blur-[1px] pointer-events-none'
+                      }`}>
                       <div className="flex flex-col text-left">
                         <span className="text-xl text-[#0c2c4d]/85 font-tibere italic tracking-wide h-8 select-none">
                           {doc.signatureName}
@@ -275,9 +280,9 @@ export default function WhatWeHandleSection() {
                         </span>
                       </div>
 
-                      <OfficialStamp 
-                        color={doc.stampColor} 
-                        rotate={12} 
+                      <OfficialStamp
+                        color={doc.stampColor}
+                        rotate={12}
                         className="mr-1 mb-1 shadow-[0_4px_10px_rgba(191,160,82,0.05)]"
                       />
                     </div>
@@ -288,26 +293,33 @@ export default function WhatWeHandleSection() {
           </div>
 
           {/* Mobile Accordion View */}
-          <div className="w-full max-w-md block md:hidden space-y-3 px-2 mt-4">
-            <div className="text-[10px] font-bold text-center tracking-[0.25em] text-[#bfa052] uppercase mb-3 flex items-center justify-center gap-2 font-poppins">
-              <Smartphone className="w-4 h-4" /> Tap document below to view details
+          <div className="w-full max-w-md block md:hidden space-y-3 px-2 mt-6">
+            <div className="text-[10px] font-bold text-center tracking-[0.25em] text-[#bfa052] uppercase mb-4 flex items-center justify-center gap-2 font-poppins">
+              <Smartphone className="w-4 h-4" /> Tap document below to open
             </div>
-            
+
             {LAND_DOCUMENTS.map((doc, idx) => {
               const isOpen = idx === activeIndex;
               return (
                 <div
                   key={doc.id}
                   onClick={() => setActiveIndex(idx)}
-                  className={`w-full rounded-xl border p-4 transition-all duration-300 bg-white text-slate-800 relative shadow-sm ${
-                    isOpen ? 'ring-2 ring-[#bfa052] shadow-md' : 'opacity-90'
-                  }`}
+                  className={`w-full rounded-sm border p-4 transition-all duration-300 text-slate-800 relative ${isOpen
+                      ? 'ring-2 ring-[#bfa052] shadow-lg translate-y-[-2px]'
+                      : 'shadow-sm opacity-85 hover:opacity-100'
+                    }`}
+                  style={{
+                    border: isOpen ? '1px solid rgba(191, 160, 82, 0.6)' : '1px solid rgba(191, 160, 82, 0.2)',
+                    backgroundColor: isOpen ? '#fcfaf7' : '#f5f2ed'
+                  }}
+                  id={`mobile-card-${doc.num}`}
                 >
                   {idx !== 0 && (
-                    <div className="absolute -top-3 left-6 z-20 transform scale-[0.6] origin-top">
+                    <div className="absolute top-0 left-6 z-20 transform scale-[0.6] origin-top">
                       <PaperClip />
                     </div>
                   )}
+
                   <div className="flex justify-between items-center">
                     <div className="flex items-center gap-3 pr-2">
                       <span className="font-tibere text-sm font-bold text-[#bfa052]">
@@ -317,25 +329,36 @@ export default function WhatWeHandleSection() {
                         {doc.title}
                       </h4>
                     </div>
-                    
+
                     <div className="w-7 h-7 rounded-full bg-white border border-[#bfa052]/20 flex items-center justify-center shrink-0">
                       <DocumentIcon type={doc.iconType} className="w-4 h-4 text-[#bfa052]" />
                     </div>
                   </div>
 
-                  <div className={`transition-all duration-500 overflow-hidden ${
-                    isOpen ? 'max-h-[500px] opacity-100 pt-4 border-t border-[#0c2c4d]/10 mt-4' : 'max-h-0 opacity-0'
-                  }`}>
-                    <p className="font-poppins text-xs text-slate-600 leading-relaxed mb-3">
-                      {doc.fullText}
-                    </p>
-                    <div className="flex justify-between items-end pt-3 border-t border-[#0c2c4d]/5">
+                  <div className={`transition-all duration-500 overflow-hidden ${isOpen ? 'max-h-[500px] opacity-100 pt-4 border-t border-solid border-[#0c2c4d]/10 mt-4' : 'max-h-0 opacity-0'
+                    }`}>
+                    <div className="w-12 h-12 rounded-full bg-white border border-[#bfa052]/20 flex items-center justify-center mb-3">
+                      <DocumentIcon type={doc.iconType} className="w-7 h-7 text-[#bfa052]" />
+                    </div>
+
+                    <h4 className="font-tibere text-sm font-bold text-[#0c2c4d] tracking-wide mb-2">
+                      {doc.title}
+                    </h4>
+
+                    <div className="w-full flex flex-col gap-3 my-4">
+                      <div className="h-[2.5px] w-[85%] bg-[#bfa052]/25 rounded-full" />
+                      <div className="h-[2.5px] w-[85%] bg-[#bfa052]/25 rounded-full" />
+                      <div className="h-[2.5px] w-[85%] bg-[#bfa052]/25 rounded-full" />
+                      <div className="h-[2.5px] w-[50%] bg-[#bfa052]/25 rounded-full" />
+                    </div>
+
+                    <div className="flex justify-between items-end pt-3 border-t border-solid border-[#0c2c4d]/5">
                       <div className="flex flex-col text-left">
-                        <span className="text-lg text-[#0c2c4d]/85 font-tibere italic">
+                        <span className="text-xl text-[#0c2c4d]/85 font-tibere italic h-8 select-none">
                           {doc.signatureName}
                         </span>
                         <span className="text-[8px] uppercase tracking-wider font-semibold text-slate-400">
-                          {doc.department}
+                          Authorized Signature
                         </span>
                       </div>
                       <OfficialStamp color={doc.stampColor} rotate={12} className="scale-75 origin-bottom-right" />
@@ -349,7 +372,6 @@ export default function WhatWeHandleSection() {
         </div>
 
       </div>
-
     </section>
   );
 }
