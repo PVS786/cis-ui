@@ -116,12 +116,12 @@ export default function AcquisitionBenefitsSection() {
       <div className="w-full max-w-7xl mx-auto px-6 md:px-12 z-10 flex flex-col justify-start">
         
         {/* Editorial Heading Column */}
-        <div className="space-y-3 mb-8 lg:mb-10 w-full text-left">
-          <h2 className="font-tibere text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-[#0C2C4D] uppercase leading-none">
+        <div className="flex flex-col items-center justify-center text-center space-y-3 mb-8 lg:mb-10 w-full max-w-4xl mx-auto">
+          <h2 className="font-tibere text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight text-[#0C2C4D] uppercase leading-none" style={{ wordSpacing: '0.25em' }}>
             KEY BENEFITS
           </h2>
           <p className="font-poppins font-normal text-base sm:text-lg md:text-xl text-slate-600 leading-relaxed max-w-3xl">
-            Delivering value at every step of land acquisition
+            Delivering <span className="text-[#BFA052] font-bold">value</span> at every step of land acquisition
           </p>
         </div>
 

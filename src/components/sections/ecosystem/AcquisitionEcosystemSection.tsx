@@ -35,17 +35,27 @@ export default function AcquisitionEcosystemSection() {
       <div className="w-full max-w-7xl mx-auto px-6 md:px-12 z-10 flex flex-col items-center justify-center">
 
         {/* Section Heading */}
-        <div className="space-y-3 mb-8 lg:mb-10 w-full text-left">
-          <h2 className="font-tibere font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#0C2C4D] tracking-tight leading-none uppercase whitespace-nowrap" style={{ wordSpacing: '0.25em' }}>
-            What We Handle
-          </h2>
-          <p className="font-poppins font-normal text-base sm:text-lg md:text-xl text-slate-600 leading-relaxed max-w-3xl">
-            Acquisition done right means <span className="text-[#BFA052] font-bold">no step is skipped</span> and <span className="text-[#BFA052] font-bold">no risk is overlooked</span>. Here is what we cover.
-          </p>
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-12 lg:gap-16 w-full mb-1 md:mb-2">
+          {/* Title */}
+          <div className="shrink-0">
+            <h2 className="font-tibere font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#0C2C4D] tracking-tight leading-none uppercase whitespace-nowrap" style={{ wordSpacing: '0.25em' }}>
+              What We Handle
+            </h2>
+          </div>
+
+          {/* Subheading with Vertical Divider Line */}
+          <div className="relative flex items-center self-stretch">
+            <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-[#0C2C4D]" />
+            <div className="pl-6 md:pl-8 py-1 max-w-2xl">
+              <p className="font-poppins font-normal text-base sm:text-lg md:text-xl text-slate-600 leading-relaxed">
+                Acquisition done right means <span className="text-[#BFA052] font-bold">no step is skipped</span> and <span className="text-[#BFA052] font-bold">no risk is overlooked</span>. Here is what we cover.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* Main Core SVG Canvas - Centered Hero Artwork */}
-        <div className="relative w-full max-w-[850px] aspect-square flex items-center justify-center">
+        <div className="relative w-full max-w-[850px] aspect-square flex items-center justify-center -mt-6 md:-mt-12 lg:-mt-16">
           <EcosystemSvg
             subdivision={subdivision}
             explodeRadius={explodeRadius}
