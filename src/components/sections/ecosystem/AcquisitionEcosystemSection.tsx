@@ -36,7 +36,7 @@ export default function AcquisitionEcosystemSection() {
 
         {/* Section Heading */}
         <div className="space-y-3 mb-8 lg:mb-10 w-full text-left">
-          <h2 className="font-tibere font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#0C2C4D] tracking-tight leading-none uppercase">
+          <h2 className="font-tibere font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#0C2C4D] tracking-tight leading-none uppercase whitespace-nowrap" style={{ wordSpacing: '0.25em' }}>
             What We Handle
           </h2>
           <p className="font-poppins font-normal text-base sm:text-lg md:text-xl text-slate-600 leading-relaxed max-w-3xl">

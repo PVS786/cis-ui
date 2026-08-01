@@ -164,7 +164,7 @@ export default function WhatWeHandleSection() {
         {/* Left Column: Heading and description */}
         <div className="w-full lg:w-[42%] flex flex-col items-start justify-start text-left lg:pt-12">
 
-          <h2 className="font-tibere text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight tracking-tight text-[#0c2c4d] uppercase">
+          <h2 className="font-tibere text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight tracking-tight text-[#0c2c4d] uppercase whitespace-nowrap" style={{ wordSpacing: '0.25em' }}>
             What We Handle
           </h2>
 
@@ -305,8 +305,8 @@ export default function WhatWeHandleSection() {
                   key={doc.id}
                   onClick={() => setActiveIndex(idx)}
                   className={`w-full rounded-sm border p-4 transition-all duration-300 text-slate-800 relative ${isOpen
-                      ? 'ring-2 ring-[#bfa052] shadow-lg translate-y-[-2px]'
-                      : 'shadow-sm opacity-85 hover:opacity-100'
+                    ? 'ring-2 ring-[#bfa052] shadow-lg translate-y-[-2px]'
+                    : 'shadow-sm opacity-85 hover:opacity-100'
                     }`}
                   style={{
                     border: isOpen ? '1px solid rgba(191, 160, 82, 0.6)' : '1px solid rgba(191, 160, 82, 0.2)',
