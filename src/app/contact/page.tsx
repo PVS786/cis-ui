@@ -63,7 +63,7 @@ export default function ContactPage() {
     return false;
   };
 
-  const [activeIndicator, setActiveIndicator] = useState<'name' | 'email' | 'phone' | 'message'>('name');
+  const [activeIndicator, setActiveIndicator] = useState<'name' | 'company' | 'email' | 'phone' | 'message' | 'submit'>('name');
   const [formSubmitted, setFormSubmitted] = useState(false);
 
   const [fullName, setFullName] = useState('');
@@ -72,13 +72,14 @@ export default function ContactPage() {
   const [phone, setPhone] = useState('');
   const [message, setMessage] = useState('');
 
-  const isNameComplete = fullName.trim() !== '' && companyName.trim() !== '';
+  const isNameComplete = fullName.trim() !== '';
+  const isCompanyComplete = companyName.trim() !== '';
   const isEmailComplete = email.trim() !== '';
   const isPhoneComplete = phone.trim() !== '';
   const isMessageComplete = message.trim() !== '';
 
-  const completedStepsCount = [isNameComplete, isEmailComplete, isPhoneComplete, isMessageComplete].filter(Boolean).length;
-  const progressHeight = completedStepsCount === 0 ? 0 : completedStepsCount === 1 ? 33.3 : completedStepsCount === 2 ? 66.7 : 100;
+  const completedStepsCount = [isNameComplete, isCompanyComplete, isEmailComplete, isPhoneComplete, isMessageComplete].filter(Boolean).length;
+  const progressHeight = completedStepsCount === 0 ? 0 : completedStepsCount === 1 ? 20 : completedStepsCount === 2 ? 40 : completedStepsCount === 3 ? 60 : completedStepsCount === 4 ? 80 : 100;
 
 
 
@@ -131,8 +132,8 @@ export default function ContactPage() {
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: 'easeOut' }}
-            style={{ fontFamily: "'Poppins', sans-serif" }}
-            className="font-poppins text-white text-3xl xs:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.25] min-h-[2.5em]"
+            style={{ fontFamily: "var(--font-tibere), 'Tibere OT W03 Medium', 'FF Tibere Std Bold', serif" }}
+            className="font-tibere text-white text-3xl xs:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.25] min-h-[2.5em]"
           >
             {txt1}
             {showCursorAt(1) && (
@@ -185,130 +186,90 @@ export default function ContactPage() {
       >
         <div className="max-w-[90rem] mx-auto px-6 md:px-12 lg:px-16 pt-6 md:pt-10 pb-16 md:pb-24 relative z-10 w-full flex flex-col justify-start">
 
-          {/* Header Flex Section above the Grid */}
-          <div className="flex flex-col lg:flex-row justify-between items-start lg:items-center gap-8 mb-12 md:mb-16 w-full">
-            {/* Left: Heading text */}
-            <div className="flex-1 lg:max-w-[70%]">
+          {/* Header Section above the Grid (Center Justified) */}
+          <div className="flex flex-col items-center text-center gap-5 md:gap-6 mb-10 md:mb-14 w-full">
+            {/* Top Heading (2 lines, Center Justified) */}
+            <div className="w-full text-center">
               <h2
-                className="font-tibere text-brand-navy text-xl md:text-2xl lg:text-[1.75rem] font-bold leading-tight tracking-wide uppercase"
+                className="font-tibere text-brand-navy text-xl md:text-2xl lg:text-[1.75rem] font-bold leading-tight tracking-wide uppercase text-center"
                 style={{ letterSpacing: '0.04em' }}
               >
-                <span className="block md:whitespace-nowrap">From <span className="text-brand-gold">land acquisition</span> to <span className="text-brand-gold">approvals</span>,</span>
-                <span className="block md:whitespace-nowrap">every successful development starts with</span>
-                <span className="block md:whitespace-nowrap">the <span className="text-brand-gold">right guidance</span>.</span>
+                <span className="block md:whitespace-nowrap text-center">From <span className="text-brand-gold">land acquisition</span> to <span className="text-brand-gold">approvals</span>,</span>
+                <span className="block md:whitespace-nowrap text-center">every successful development starts with the <span className="text-brand-gold">right guidance</span>.</span>
               </h2>
             </div>
 
-            {/* Right: Graphic and Prompt aligned to the right side */}
-            <div className="flex items-center gap-6 lg:gap-8 shrink-0 ml-auto w-full lg:w-auto justify-end">
-              {/* Middle: Brand Chevron graphic */}
-              <div className="hidden lg:flex justify-center items-center relative w-[180px] h-[180px]">
-                <svg viewBox="0 0 200 200" className="w-full h-full select-none" fill="none">
-                  {/* Halftone Dot Grid (Static - Filled Chevron Shape Matching Gold Chevron Angle) */}
-                  <g fill="#BFA052">
-                    {/* Column 1 (X=35, 8 dots, small & faded) */}
-                    <circle cx="35" cy="30" r="1.2" opacity="0.2" />
-                    <circle cx="35" cy="50" r="1.2" opacity="0.2" />
-                    <circle cx="35" cy="70" r="1.2" opacity="0.2" />
-                    <circle cx="35" cy="90" r="1.2" opacity="0.2" />
-                    <circle cx="35" cy="110" r="1.2" opacity="0.2" />
-                    <circle cx="35" cy="130" r="1.2" opacity="0.2" />
-                    <circle cx="35" cy="150" r="1.2" opacity="0.2" />
-                    <circle cx="35" cy="170" r="1.2" opacity="0.2" />
-                    
-                    {/* Column 2 (X=45, 7 dots) */}
-                    <circle cx="45" cy="40" r="1.6" opacity="0.3" />
-                    <circle cx="45" cy="60" r="1.6" opacity="0.3" />
-                    <circle cx="45" cy="80" r="1.6" opacity="0.3" />
-                    <circle cx="45" cy="100" r="1.6" opacity="0.3" />
-                    <circle cx="45" cy="120" r="1.6" opacity="0.3" />
-                    <circle cx="45" cy="140" r="1.6" opacity="0.3" />
-                    <circle cx="45" cy="160" r="1.6" opacity="0.3" />
-                    
-                    {/* Column 3 (X=55, 5 dots) */}
-                    <circle cx="55" cy="60" r="2.0" opacity="0.4" />
-                    <circle cx="55" cy="80" r="2.0" opacity="0.4" />
-                    <circle cx="55" cy="100" r="2.0" opacity="0.4" />
-                    <circle cx="55" cy="120" r="2.0" opacity="0.4" />
-                    <circle cx="55" cy="140" r="2.0" opacity="0.4" />
-                    
-                    {/* Column 4 (X=65, 4 dots) */}
-                    <circle cx="65" cy="70" r="2.4" opacity="0.5" />
-                    <circle cx="65" cy="90" r="2.4" opacity="0.5" />
-                    <circle cx="65" cy="110" r="2.4" opacity="0.5" />
-                    <circle cx="65" cy="130" r="2.4" opacity="0.5" />
-                    
-                    {/* Column 5 (X=75, 3 dots) */}
-                    <circle cx="75" cy="80" r="2.8" opacity="0.6" />
-                    <circle cx="75" cy="100" r="2.8" opacity="0.6" />
-                    <circle cx="75" cy="120" r="2.8" opacity="0.6" />
-                    
-                    {/* Column 6 (X=85, 2 dots) */}
-                    <circle cx="85" cy="90" r="3.2" opacity="0.7" />
-                    <circle cx="85" cy="110" r="3.2" opacity="0.7" />
-                    
-                    {/* Column 7 (X=95, 1 dot, large & opaque) */}
-                    <circle cx="95" cy="100" r="3.8" opacity="0.8" />
-                  </g>
-
-                  {/* Solid Gold Chevron with floating slide animation */}
-                  <motion.path 
-                    d="M 80 20 L 145 100 L 80 180 L 50 180 L 115 100 L 50 20 Z" 
-                    fill="#BFA052" 
-                    animate={{ x: [-3, 3, -3] }}
-                    transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
-                  />
-
-                  {/* Solid Navy Chevron with opposing floating slide animation */}
-                  <motion.path 
-                    d="M 98 0 L 178 100 L 98 200 L 68 200 L 148 100 L 68 0 Z" 
-                    fill="#0C2C4D" 
-                    animate={{ x: [1.5, -1.5, 1.5] }}
-                    transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
-                  />
-                </svg>
-              </div>
-
-              {/* Right: Next step text with animations (Single line, no arrow) */}
+            {/* Elegant Architectural Divider Design Element */}
+            <div className="flex items-center justify-center gap-3 w-full my-1.5 select-none">
               <motion.div 
-                initial={{ opacity: 0, x: 25 }}
-                animate={{ opacity: 1, x: 0 }}
+                className="h-[2px] w-20 md:w-36 bg-gradient-to-r from-transparent via-brand-gold to-brand-navy rounded-full"
+                animate={{ opacity: [0.5, 1, 0.5], scaleX: [0.9, 1.05, 0.9] }}
+                transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
+              />
+              <div className="flex items-center gap-1.5 px-2">
+                <div className="w-1.5 h-1.5 rounded-full bg-brand-gold/70" />
+                <motion.div 
+                  className="w-3 h-3 bg-brand-gold rotate-45 border border-brand-navy shrink-0 shadow-sm"
+                  animate={{ rotate: [45, 225, 45] }}
+                  transition={{ repeat: Infinity, duration: 8, ease: "linear" }}
+                />
+                <div className="w-1.5 h-1.5 rounded-full bg-brand-gold/70" />
+              </div>
+              <motion.div 
+                className="h-[2px] w-20 md:w-36 bg-gradient-to-l from-transparent via-brand-gold to-brand-navy rounded-full"
+                animate={{ opacity: [0.5, 1, 0.5], scaleX: [0.9, 1.05, 0.9] }}
+                transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
+              />
+            </div>
+
+            {/* Call to Action Row (Single-line big text, Center Justified) */}
+            <div className="w-full pt-1 flex justify-center text-center">
+              <motion.div 
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
-                whileHover={{ x: 6 }}
-                className="flex items-center shrink-0 cursor-pointer group"
+                whileHover={{ scale: 1.01 }}
+                className="cursor-pointer group w-full text-center flex justify-center"
               >
-                <p
-                  className="font-poppins text-brand-navy text-base xs:text-lg md:text-xl lg:text-2xl font-bold transition-colors duration-300 group-hover:text-brand-navy/85"
-                  style={{ fontFamily: "'Poppins', sans-serif" }}
+                <motion.p
+                  animate={{
+                    color: ["#0C2C4D", "#0C2C4D", "#BFA052", "#BFA052", "#0C2C4D"]
+                  }}
+                  transition={{ 
+                    repeat: Infinity, 
+                    duration: 1.2, 
+                    ease: "linear",
+                    times: [0, 0.48, 0.5, 0.98, 1]
+                  }}
+                  className="font-tibere text-brand-navy text-lg xs:text-xl sm:text-2xl md:text-3xl lg:text-4xl font-extrabold uppercase tracking-wide leading-none whitespace-nowrap overflow-hidden text-ellipsis text-center"
+                  style={{ fontFamily: "var(--font-tibere), 'Tibere OT W03 Medium', 'FF Tibere Std Bold', serif" }}
                 >
-                  Are you ready to take the<br />
-                  <span className="text-brand-gold transition-colors duration-300 group-hover:text-brand-gold/90">next step</span>?
-                </p>
+                  Are you ready to take the next step?
+                </motion.p>
               </motion.div>
             </div>
           </div>
 
           {/* Dynamic 40:60 Form & Conversation Grid (Equal Heights via items-stretch) */}
           <div className="grid grid-cols-1 lg:grid-cols-[2fr_3fr] gap-12 lg:gap-16 w-full items-stretch">
-            {/* Left Column: Let's Start the Conversation Card */}
+            {/* Left Column: Two Separate Cards */}
             <motion.div
               initial={{ opacity: 0, x: -30 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 0.8, delay: 0.2, ease: 'easeOut' }}
-              className="w-full h-full flex"
+              className="w-full flex flex-col gap-6 lg:gap-8 justify-between h-full"
             >
-              {/* Let's Start the Conversation / Get in Touch Card */}
-              <div className="bg-white rounded-2xl p-8 sm:p-12 md:p-14 shadow-[0_12px_40px_rgba(12,44,77,0.04)] border border-brand-navy/5 flex flex-col justify-between flex-1 relative overflow-hidden text-left h-full min-h-[400px]">
+              {/* Card 1: Let's Start the Conversation */}
+              <div className="bg-white rounded-2xl p-8 sm:p-10 md:p-12 shadow-[0_12px_40px_rgba(12,44,77,0.04)] border border-brand-navy/5 flex flex-col justify-center flex-1 relative overflow-hidden text-left">
                 <div className="absolute top-0 left-0 w-2 h-full bg-brand-gold z-10" />
 
-                {/* Section 1: Let's Start the Conversation */}
                 <div className="flex flex-col">
                   <h3 className="font-tibere text-brand-navy text-3xl md:text-4xl lg:text-[2.25rem] font-bold uppercase tracking-wide leading-tight">
                     Let's Start the <br />
                     <span className="text-brand-gold">Conversation</span>
                   </h3>
 
-                  {/* Stylized divider with dynamic width animation (matches 3 images) */}
+                  {/* Stylized divider */}
                   <div className="flex items-center w-24 h-1.5 mt-4 mb-5">
                     <motion.div
                       className="h-[3px] bg-brand-gold rounded-full"
@@ -330,17 +291,18 @@ export default function ContactPage() {
                     Want to work with us or have questions? We'd love to hear from you.
                   </p>
                 </div>
+              </div>
 
-                {/* Thin separator line */}
-                <div className="w-full h-[1px] bg-slate-100 my-6" />
+              {/* Card 2: Get in Touch */}
+              <div className="bg-white rounded-2xl p-8 sm:p-10 md:p-12 shadow-[0_12px_40px_rgba(12,44,77,0.04)] border border-brand-navy/5 flex flex-col justify-center flex-1 relative overflow-hidden text-left">
+                <div className="absolute top-0 left-0 w-2 h-full bg-brand-navy z-10" />
 
-                {/* Section 2: Get in Touch */}
                 <div className="flex flex-col">
-                  <h3 className="font-tibere text-brand-navy text-2xl md:text-3xl font-bold uppercase tracking-wide">
+                  <h3 className="font-tibere text-brand-navy text-2xl md:text-3xl lg:text-4xl font-bold uppercase tracking-wide">
                     Get in <span className="text-brand-gold">Touch</span>
                   </h3>
 
-                  {/* Stylized divider with dynamic width animation (matches 3 images) */}
+                  {/* Stylized divider */}
                   <div className="flex items-center w-24 h-1.5 mt-3 mb-4">
                     <motion.div
                       className="h-[3px] bg-brand-gold rounded-full"
@@ -396,27 +358,24 @@ export default function ContactPage() {
                   </p>
                 </motion.div>
               ) : (
-                <form onSubmit={handleFormSubmit} className="flex gap-6 md:gap-8 items-stretch text-left">
-                  {/* Left Column: Progress Indicators */}
-                  <div className="hidden sm:flex flex-col items-center justify-between relative w-16 py-6 shrink-0">
-                    {/* Progress bar container (from center of Circle 1 to center of Circle 4) */}
-                    <div className="absolute top-12 bottom-12 w-[8px] bg-[#051424] border border-white/10 z-0 left-1/2 -translate-x-1/2 rounded-full overflow-hidden">
-                      <motion.div
-                        initial={{ height: 0 }}
-                        animate={{ height: `${progressHeight}%` }}
-                        transition={{ type: "spring", stiffness: 70, damping: 14 }}
-                        className="w-full bg-brand-gold rounded-full relative overflow-hidden shadow-[0_0_12px_rgba(191,160,82,0.8)]"
-                      >
-                        {/* Fluid flow animate reflection overlay */}
-                        {progressHeight > 0 && (
-                          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/30 to-transparent w-full h-[60px] animate-liquid-flow" />
-                        )}
-                      </motion.div>
-                    </div>
+                <form onSubmit={handleFormSubmit} className="relative w-full flex flex-col gap-5 text-left">
+                  {/* Connecting vertical line behind all 6 nodes (Node 1 through Submit Node 6) */}
+                  <div className="hidden sm:block absolute left-[21px] top-8 bottom-6 w-[6px] bg-[#051424] border border-white/10 z-0 rounded-full overflow-hidden">
+                    <motion.div
+                      initial={{ height: 0 }}
+                      animate={{ height: `${progressHeight}%` }}
+                      transition={{ type: "spring", stiffness: 70, damping: 14 }}
+                      className="w-full bg-brand-gold rounded-full relative overflow-hidden shadow-[0_0_12px_rgba(191,160,82,0.8)]"
+                    >
+                      {progressHeight > 0 && (
+                        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-white/30 to-transparent w-full h-[60px] animate-liquid-flow" />
+                      )}
+                    </motion.div>
+                  </div>
 
-                    {/* Indicator 1: NAME */}
-                    <div className="z-10 relative">
-                      {/* Pulsing ring for active state */}
+                  {/* Row 1: Full Name */}
+                  <div className="flex items-start gap-4 sm:gap-6 w-full">
+                    <div className="hidden sm:flex shrink-0 w-12 z-10 relative mt-[22px]">
                       {activeIndicator === 'name' && (
                         <motion.div
                           className="absolute -inset-1.5 rounded-full border border-brand-gold/50"
@@ -428,37 +387,87 @@ export default function ContactPage() {
                         whileHover={{ scale: 1.12 }}
                         whileTap={{ scale: 0.95 }}
                         animate={{
-                          backgroundColor: activeIndicator === 'name'
-                            ? '#0C2C4D'
-                            : isNameComplete
-                              ? '#BFA052'
-                              : '#0C2C4D',
-                          borderColor: activeIndicator === 'name' || isNameComplete
-                            ? '#BFA052'
-                            : 'rgba(255, 255, 255, 0.2)',
-                          color: activeIndicator === 'name'
-                            ? '#BFA052'
-                            : isNameComplete
-                              ? '#0C2C4D'
-                              : 'rgba(255, 255, 255, 0.5)',
+                          backgroundColor: activeIndicator === 'name' ? '#0C2C4D' : isNameComplete ? '#BFA052' : '#0C2C4D',
+                          borderColor: activeIndicator === 'name' || isNameComplete ? '#BFA052' : 'rgba(255, 255, 255, 0.2)',
+                          color: activeIndicator === 'name' ? '#BFA052' : isNameComplete ? '#0C2C4D' : 'rgba(255, 255, 255, 0.5)',
                           scale: activeIndicator === 'name' ? 1.1 : 1
                         }}
                         transition={{ duration: 0.4 }}
-                        className={`w-12 h-12 rounded-full flex items-center justify-center border transition-shadow duration-300 z-10 cursor-pointer ${activeIndicator === 'name' ? 'shadow-[0_0_15px_rgba(191,160,82,0.4)]' : ''
-                          }`}
+                        className={`w-12 h-12 rounded-full flex items-center justify-center border transition-shadow duration-300 z-10 cursor-pointer ${activeIndicator === 'name' ? 'shadow-[0_0_15px_rgba(191,160,82,0.4)]' : ''}`}
                       >
-                        <motion.div
-                          animate={isNameComplete ? { scale: [1, 1.2, 1], rotate: [0, 15, -15, 0] } : {}}
-                          transition={{ duration: 0.5 }}
-                        >
+                        <motion.div animate={isNameComplete ? { scale: [1, 1.2, 1], rotate: [0, 15, -15, 0] } : {}} transition={{ duration: 0.5 }}>
                           <User className="w-5 h-5" />
                         </motion.div>
                       </motion.div>
                     </div>
 
-                    {/* Indicator 2: EMAIL */}
-                    <div className="z-10 relative">
-                      {/* Pulsing ring for active state */}
+                    <div className="flex-1 flex flex-col gap-1.5 min-w-0">
+                      <label className="flex items-center gap-2 text-xs font-gotham font-normal tracking-wider text-white/80">
+                        <User className="w-3.5 h-3.5 text-brand-gold" />
+                        <span>FULL NAME <span className="text-brand-gold">*</span></span>
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="e.g. Devendra Singh"
+                        value={fullName}
+                        onChange={(e) => setFullName(e.target.value)}
+                        onFocus={() => setActiveIndicator('name')}
+                        style={{ fontFamily: "'Poppins', sans-serif" }}
+                        className="w-full px-4 py-3 rounded-lg bg-[#061d33] border border-[#1a426b] text-white placeholder-[#647F9E] font-poppins focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-all duration-300"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Row 2: Company Name */}
+                  <div className="flex items-start gap-4 sm:gap-6 w-full">
+                    <div className="hidden sm:flex shrink-0 w-12 z-10 relative mt-[22px]">
+                      {activeIndicator === 'company' && (
+                        <motion.div
+                          className="absolute -inset-1.5 rounded-full border border-brand-gold/50"
+                          animate={{ scale: [1, 1.25, 1], opacity: [0.8, 0.1, 0.8] }}
+                          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                        />
+                      )}
+                      <motion.div
+                        whileHover={{ scale: 1.12 }}
+                        whileTap={{ scale: 0.95 }}
+                        animate={{
+                          backgroundColor: activeIndicator === 'company' ? '#0C2C4D' : isCompanyComplete ? '#BFA052' : '#0C2C4D',
+                          borderColor: activeIndicator === 'company' || isCompanyComplete ? '#BFA052' : 'rgba(255, 255, 255, 0.2)',
+                          color: activeIndicator === 'company' ? '#BFA052' : isCompanyComplete ? '#0C2C4D' : 'rgba(255, 255, 255, 0.5)',
+                          scale: activeIndicator === 'company' ? 1.1 : 1
+                        }}
+                        transition={{ duration: 0.4 }}
+                        className={`w-12 h-12 rounded-full flex items-center justify-center border transition-shadow duration-300 z-10 cursor-pointer ${activeIndicator === 'company' ? 'shadow-[0_0_15px_rgba(191,160,82,0.4)]' : ''}`}
+                      >
+                        <motion.div animate={isCompanyComplete ? { scale: [1, 1.2, 1], rotate: [0, 15, -15, 0] } : {}} transition={{ duration: 0.5 }}>
+                          <Building2 className="w-5 h-5" />
+                        </motion.div>
+                      </motion.div>
+                    </div>
+
+                    <div className="flex-1 flex flex-col gap-1.5 min-w-0">
+                      <label className="flex items-center gap-2 text-xs font-gotham font-normal tracking-wider text-white/80">
+                        <Building2 className="w-3.5 h-3.5 text-brand-gold" />
+                        <span>COMPANY NAME <span className="text-brand-gold">*</span></span>
+                      </label>
+                      <input
+                        type="text"
+                        required
+                        placeholder="e.g. Conservve Infra"
+                        value={companyName}
+                        onChange={(e) => setCompanyName(e.target.value)}
+                        onFocus={() => setActiveIndicator('company')}
+                        style={{ fontFamily: "'Poppins', sans-serif" }}
+                        className="w-full px-4 py-3 rounded-lg bg-[#061d33] border border-[#1a426b] text-white placeholder-[#647F9E] font-poppins focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-all duration-300"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Row 3: Email Address */}
+                  <div className="flex items-start gap-4 sm:gap-6 w-full">
+                    <div className="hidden sm:flex shrink-0 w-12 z-10 relative mt-[22px]">
                       {activeIndicator === 'email' && (
                         <motion.div
                           className="absolute -inset-1.5 rounded-full border border-brand-gold/50"
@@ -470,37 +479,41 @@ export default function ContactPage() {
                         whileHover={{ scale: 1.12 }}
                         whileTap={{ scale: 0.95 }}
                         animate={{
-                          backgroundColor: activeIndicator === 'email'
-                            ? '#0C2C4D'
-                            : isEmailComplete
-                              ? '#BFA052'
-                              : '#0C2C4D',
-                          borderColor: activeIndicator === 'email' || isEmailComplete
-                            ? '#BFA052'
-                            : 'rgba(255, 255, 255, 0.2)',
-                          color: activeIndicator === 'email'
-                            ? '#BFA052'
-                            : isEmailComplete
-                              ? '#0C2C4D'
-                              : 'rgba(255, 255, 255, 0.5)',
+                          backgroundColor: activeIndicator === 'email' ? '#0C2C4D' : isEmailComplete ? '#BFA052' : '#0C2C4D',
+                          borderColor: activeIndicator === 'email' || isEmailComplete ? '#BFA052' : 'rgba(255, 255, 255, 0.2)',
+                          color: activeIndicator === 'email' ? '#BFA052' : isEmailComplete ? '#0C2C4D' : 'rgba(255, 255, 255, 0.5)',
                           scale: activeIndicator === 'email' ? 1.1 : 1
                         }}
                         transition={{ duration: 0.4 }}
-                        className={`w-12 h-12 rounded-full flex items-center justify-center border transition-shadow duration-300 z-10 cursor-pointer ${activeIndicator === 'email' ? 'shadow-[0_0_15px_rgba(191,160,82,0.4)]' : ''
-                          }`}
+                        className={`w-12 h-12 rounded-full flex items-center justify-center border transition-shadow duration-300 z-10 cursor-pointer ${activeIndicator === 'email' ? 'shadow-[0_0_15px_rgba(191,160,82,0.4)]' : ''}`}
                       >
-                        <motion.div
-                          animate={isEmailComplete ? { scale: [1, 1.2, 1], rotate: [0, 15, -15, 0] } : {}}
-                          transition={{ duration: 0.5 }}
-                        >
+                        <motion.div animate={isEmailComplete ? { scale: [1, 1.2, 1], rotate: [0, 15, -15, 0] } : {}} transition={{ duration: 0.5 }}>
                           <Mail className="w-5 h-5" />
                         </motion.div>
                       </motion.div>
                     </div>
 
-                    {/* Indicator 3: PHONE */}
-                    <div className="z-10 relative">
-                      {/* Pulsing ring for active state */}
+                    <div className="flex-1 flex flex-col gap-1.5 min-w-0">
+                      <label className="flex items-center gap-2 text-xs font-gotham font-normal tracking-wider text-white/80">
+                        <Mail className="w-3.5 h-3.5 text-brand-gold" />
+                        <span>EMAIL ADDRESS <span className="text-brand-gold">*</span></span>
+                      </label>
+                      <input
+                        type="email"
+                        required
+                        placeholder="e.g. info@conservve.com"
+                        value={email}
+                        onChange={(e) => setEmail(e.target.value)}
+                        onFocus={() => setActiveIndicator('email')}
+                        style={{ fontFamily: "'Poppins', sans-serif" }}
+                        className="w-full px-4 py-3 rounded-lg bg-[#061d33] border border-[#1a426b] text-white placeholder-[#647F9E] font-poppins focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-all duration-300"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Row 4: Phone Number */}
+                  <div className="flex items-start gap-4 sm:gap-6 w-full">
+                    <div className="hidden sm:flex shrink-0 w-12 z-10 relative mt-[22px]">
                       {activeIndicator === 'phone' && (
                         <motion.div
                           className="absolute -inset-1.5 rounded-full border border-brand-gold/50"
@@ -512,37 +525,41 @@ export default function ContactPage() {
                         whileHover={{ scale: 1.12 }}
                         whileTap={{ scale: 0.95 }}
                         animate={{
-                          backgroundColor: activeIndicator === 'phone'
-                            ? '#0C2C4D'
-                            : isPhoneComplete
-                              ? '#BFA052'
-                              : '#0C2C4D',
-                          borderColor: activeIndicator === 'phone' || isPhoneComplete
-                            ? '#BFA052'
-                            : 'rgba(255, 255, 255, 0.2)',
-                          color: activeIndicator === 'phone'
-                            ? '#BFA052'
-                            : isPhoneComplete
-                              ? '#0C2C4D'
-                              : 'rgba(255, 255, 255, 0.5)',
+                          backgroundColor: activeIndicator === 'phone' ? '#0C2C4D' : isPhoneComplete ? '#BFA052' : '#0C2C4D',
+                          borderColor: activeIndicator === 'phone' || isPhoneComplete ? '#BFA052' : 'rgba(255, 255, 255, 0.2)',
+                          color: activeIndicator === 'phone' ? '#BFA052' : isPhoneComplete ? '#0C2C4D' : 'rgba(255, 255, 255, 0.5)',
                           scale: activeIndicator === 'phone' ? 1.1 : 1
                         }}
                         transition={{ duration: 0.4 }}
-                        className={`w-12 h-12 rounded-full flex items-center justify-center border transition-shadow duration-300 z-10 cursor-pointer ${activeIndicator === 'phone' ? 'shadow-[0_0_15px_rgba(191,160,82,0.4)]' : ''
-                          }`}
+                        className={`w-12 h-12 rounded-full flex items-center justify-center border transition-shadow duration-300 z-10 cursor-pointer ${activeIndicator === 'phone' ? 'shadow-[0_0_15px_rgba(191,160,82,0.4)]' : ''}`}
                       >
-                        <motion.div
-                          animate={isPhoneComplete ? { scale: [1, 1.2, 1], rotate: [0, 15, -15, 0] } : {}}
-                          transition={{ duration: 0.5 }}
-                        >
+                        <motion.div animate={isPhoneComplete ? { scale: [1, 1.2, 1], rotate: [0, 15, -15, 0] } : {}} transition={{ duration: 0.5 }}>
                           <Phone className="w-5 h-5" />
                         </motion.div>
                       </motion.div>
                     </div>
 
-                    {/* Indicator 4: MESSAGE */}
-                    <div className="z-10 relative">
-                      {/* Pulsing ring for active state */}
+                    <div className="flex-1 flex flex-col gap-1.5 min-w-0">
+                      <label className="flex items-center gap-2 text-xs font-gotham font-normal tracking-wider text-white/80">
+                        <Phone className="w-3.5 h-3.5 text-brand-gold" />
+                        <span>PHONE NUMBER <span className="text-brand-gold">*</span></span>
+                      </label>
+                      <input
+                        type="tel"
+                        required
+                        placeholder="e.g. +91 98765 43210"
+                        value={phone}
+                        onChange={(e) => setPhone(e.target.value)}
+                        onFocus={() => setActiveIndicator('phone')}
+                        style={{ fontFamily: "'Poppins', sans-serif" }}
+                        className="w-full px-4 py-3 rounded-lg bg-[#061d33] border border-[#1a426b] text-white placeholder-[#647F9E] font-poppins focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-all duration-300"
+                      />
+                    </div>
+                  </div>
+
+                  {/* Row 5: Message */}
+                  <div className="flex items-start gap-4 sm:gap-6 w-full">
+                    <div className="hidden sm:flex shrink-0 w-12 z-10 relative mt-[22px]">
                       {activeIndicator === 'message' && (
                         <motion.div
                           className="absolute -inset-1.5 rounded-full border border-brand-gold/50"
@@ -554,124 +571,28 @@ export default function ContactPage() {
                         whileHover={{ scale: 1.12 }}
                         whileTap={{ scale: 0.95 }}
                         animate={{
-                          backgroundColor: activeIndicator === 'message'
-                            ? '#0C2C4D'
-                            : isMessageComplete
-                              ? '#BFA052'
-                              : '#0C2C4D',
-                          borderColor: activeIndicator === 'message' || isMessageComplete
-                            ? '#BFA052'
-                            : 'rgba(255, 255, 255, 0.2)',
-                          color: activeIndicator === 'message'
-                            ? '#BFA052'
-                            : isMessageComplete
-                              ? '#0C2C4D'
-                              : 'rgba(255, 255, 255, 0.5)',
+                          backgroundColor: activeIndicator === 'message' ? '#0C2C4D' : isMessageComplete ? '#BFA052' : '#0C2C4D',
+                          borderColor: activeIndicator === 'message' || isMessageComplete ? '#BFA052' : 'rgba(255, 255, 255, 0.2)',
+                          color: activeIndicator === 'message' ? '#BFA052' : isMessageComplete ? '#0C2C4D' : 'rgba(255, 255, 255, 0.5)',
                           scale: activeIndicator === 'message' ? 1.1 : 1
                         }}
                         transition={{ duration: 0.4 }}
-                        className={`w-12 h-12 rounded-full flex items-center justify-center border transition-shadow duration-300 z-10 cursor-pointer ${activeIndicator === 'message' ? 'shadow-[0_0_15px_rgba(191,160,82,0.4)]' : ''
-                          }`}
+                        className={`w-12 h-12 rounded-full flex items-center justify-center border transition-shadow duration-300 z-10 cursor-pointer ${activeIndicator === 'message' ? 'shadow-[0_0_15px_rgba(191,160,82,0.4)]' : ''}`}
                       >
-                        <motion.div
-                          animate={isMessageComplete ? { scale: [1, 1.2, 1], rotate: [0, 15, -15, 0] } : {}}
-                          transition={{ duration: 0.5 }}
-                        >
+                        <motion.div animate={isMessageComplete ? { scale: [1, 1.2, 1], rotate: [0, 15, -15, 0] } : {}} transition={{ duration: 0.5 }}>
                           <FileText className="w-5 h-5" />
                         </motion.div>
                       </motion.div>
                     </div>
-                  </div>
 
-                  {/* Right Column: Input Fields */}
-                  <div className="flex-1 flex flex-col gap-5">
-                    {/* Row 1: Name and Company */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      {/* Full Name */}
-                      <div className="flex flex-col gap-1.5">
-                        <label className="flex items-center gap-2 text-xs font-gotham font-normal tracking-wider text-white/80">
-                          <User className="w-3.5 h-3.5 text-brand-gold" />
-                          <span>FULL NAME <span className="text-brand-gold">*</span></span>
-                        </label>
-                        <input
-                          type="text"
-                          required
-                          placeholder="e.g. Devendra Singh"
-                          value={fullName}
-                          onChange={(e) => setFullName(e.target.value)}
-                          onFocus={() => setActiveIndicator('name')}
-                          style={{ fontFamily: "'Poppins', sans-serif" }}
-                          className="w-full px-4 py-3 rounded-lg bg-[#061d33] border border-[#1a426b] text-white placeholder-[#647F9E] font-poppins focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-all duration-300"
-                        />
-                      </div>
-
-                      {/* Company Name */}
-                      <div className="flex flex-col gap-1.5">
-                        <label className="flex items-center gap-2 text-xs font-gotham font-normal tracking-wider text-white/80">
-                          <Building2 className="w-3.5 h-3.5 text-brand-gold" />
-                          <span>COMPANY NAME <span className="text-brand-gold">*</span></span>
-                        </label>
-                        <input
-                          type="text"
-                          required
-                          placeholder="e.g. Conservve Infra"
-                          value={companyName}
-                          onChange={(e) => setCompanyName(e.target.value)}
-                          onFocus={() => setActiveIndicator('name')}
-                          style={{ fontFamily: "'Poppins', sans-serif" }}
-                          className="w-full px-4 py-3 rounded-lg bg-[#061d33] border border-[#1a426b] text-white placeholder-[#647F9E] font-poppins focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-all duration-300"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Row 2: Email and Phone */}
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      {/* Email Address */}
-                      <div className="flex flex-col gap-1.5">
-                        <label className="flex items-center gap-2 text-xs font-gotham font-normal tracking-wider text-white/80">
-                          <Mail className="w-3.5 h-3.5 text-brand-gold" />
-                          <span>EMAIL ADDRESS <span className="text-brand-gold">*</span></span>
-                        </label>
-                        <input
-                          type="email"
-                          required
-                          placeholder="e.g. info@conservve.com"
-                          value={email}
-                          onChange={(e) => setEmail(e.target.value)}
-                          onFocus={() => setActiveIndicator('email')}
-                          style={{ fontFamily: "'Poppins', sans-serif" }}
-                          className="w-full px-4 py-3 rounded-lg bg-[#061d33] border border-[#1a426b] text-white placeholder-[#647F9E] font-poppins focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-all duration-300"
-                        />
-                      </div>
-
-                      {/* Phone Number */}
-                      <div className="flex flex-col gap-1.5">
-                        <label className="flex items-center gap-2 text-xs font-gotham font-normal tracking-wider text-white/80">
-                          <Phone className="w-3.5 h-3.5 text-brand-gold" />
-                          <span>PHONE NUMBER <span className="text-brand-gold">*</span></span>
-                        </label>
-                        <input
-                          type="tel"
-                          required
-                          placeholder="e.g. +91 98765 43210"
-                          value={phone}
-                          onChange={(e) => setPhone(e.target.value)}
-                          onFocus={() => setActiveIndicator('phone')}
-                          style={{ fontFamily: "'Poppins', sans-serif" }}
-                          className="w-full px-4 py-3 rounded-lg bg-[#061d33] border border-[#1a426b] text-white placeholder-[#647F9E] font-poppins focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-all duration-300"
-                        />
-                      </div>
-                    </div>
-
-                    {/* Row 3: Message */}
-                    <div className="flex flex-col gap-1.5">
+                    <div className="flex-1 flex flex-col gap-1.5 min-w-0">
                       <label className="flex items-center gap-2 text-xs font-gotham font-normal tracking-wider text-white/80">
                         <FileText className="w-3.5 h-3.5 text-brand-gold" />
                         <span>MESSAGE <span className="text-brand-gold">*</span></span>
                       </label>
                       <textarea
                         required
-                        rows={4}
+                        rows={3}
                         placeholder="Provide details about your project scope, locations, or key engineering milestones..."
                         value={message}
                         onChange={(e) => setMessage(e.target.value)}
@@ -680,11 +601,49 @@ export default function ContactPage() {
                         className="w-full px-4 py-3 rounded-lg bg-[#061d33] border border-[#1a426b] text-white placeholder-[#647F9E] font-poppins focus:outline-none focus:border-brand-gold focus:ring-1 focus:ring-brand-gold transition-all duration-300 resize-none"
                       />
                     </div>
+                  </div>
+
+                  {/* Submit Row: Node 6 (Submit Node) & Submit Button */}
+                  <div className="flex items-center gap-4 sm:gap-6 w-full pt-1">
+                    {/* Node 6: Submit Icon Node */}
+                    <div className="hidden sm:flex shrink-0 w-12 z-10 relative">
+                      {(activeIndicator === 'submit' || completedStepsCount === 5) && (
+                        <motion.div
+                          className="absolute -inset-1.5 rounded-full border border-brand-gold/60"
+                          animate={{ scale: [1, 1.25, 1], opacity: [0.8, 0.2, 0.8] }}
+                          transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
+                        />
+                      )}
+                      <motion.div
+                        whileHover={{ scale: 1.12 }}
+                        whileTap={{ scale: 0.95 }}
+                        animate={{
+                          backgroundColor: activeIndicator === 'submit' || completedStepsCount === 5 ? '#BFA052' : '#0C2C4D',
+                          borderColor: '#BFA052',
+                          color: activeIndicator === 'submit' || completedStepsCount === 5 ? '#0C2C4D' : '#BFA052',
+                          scale: activeIndicator === 'submit' ? 1.12 : 1
+                        }}
+                        transition={{ duration: 0.4 }}
+                        className={`w-12 h-12 rounded-full flex items-center justify-center border transition-shadow duration-300 z-10 cursor-pointer ${
+                          activeIndicator === 'submit' || completedStepsCount === 5
+                            ? 'shadow-[0_0_20px_rgba(191,160,82,0.6)]'
+                            : 'shadow-[0_0_10px_rgba(191,160,82,0.2)]'
+                        }`}
+                      >
+                        <motion.div
+                          animate={completedStepsCount === 5 || activeIndicator === 'submit' ? { scale: [1, 1.25, 1], x: [0, 2, 0] } : {}}
+                          transition={{ duration: 0.5 }}
+                        >
+                          <Send className="w-5 h-5" />
+                        </motion.div>
+                      </motion.div>
+                    </div>
 
                     {/* Submit Button */}
                     <button
                       type="submit"
-                      className="w-full py-4 mt-2 rounded-lg bg-brand-gold hover:bg-brand-gold/90 text-brand-navy font-gotham font-medium text-sm tracking-wider uppercase flex items-center justify-center gap-2 cursor-pointer transition-all duration-300 transform active:scale-[0.98]"
+                      onMouseEnter={() => setActiveIndicator('submit')}
+                      className="flex-1 py-4 rounded-lg bg-brand-gold hover:bg-brand-gold/90 text-brand-navy font-gotham font-medium text-sm tracking-wider uppercase flex items-center justify-center gap-2 cursor-pointer transition-all duration-300 transform active:scale-[0.98]"
                     >
                       <span>Submit Message</span>
                       <Send className="w-4 h-4" />
