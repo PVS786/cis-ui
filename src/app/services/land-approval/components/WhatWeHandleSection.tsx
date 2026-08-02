@@ -130,12 +130,17 @@ const LAND_DOCUMENTS: LandDocument[] = [
 export default function WhatWeHandleSection() {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [isHovered, setIsHovered] = useState<boolean>(false);
   const [clientScale, setClientScale] = useState<number>(1);
 
   useEffect(() => {
     const handleResize = () => {
-      if (window.innerWidth < 1280 && window.innerWidth >= 1024) {
-        setClientScale(0.85);
+      if (window.innerWidth < 1440 && window.innerWidth >= 1200) {
+        setClientScale(0.92);
+      } else if (window.innerWidth < 1200 && window.innerWidth >= 992) {
+        setClientScale(0.78);
+      } else if (window.innerWidth < 992 && window.innerWidth >= 768) {
+        setClientScale(0.65);
       } else {
         setClientScale(1);
       }
@@ -145,151 +150,197 @@ export default function WhatWeHandleSection() {
     return () => window.removeEventListener('resize', handleResize);
   }, []);
 
+  // Auto-play page-flip animation timer loop when user is not hovering
+  useEffect(() => {
+    if (isHovered) return;
+
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % LAND_DOCUMENTS.length);
+    }, 2800);
+
+    return () => clearInterval(interval);
+  }, [isHovered]);
+
   const handleCardHover = (index: number) => {
+    setIsHovered(true);
     setHoveredIndex(index);
     setActiveIndex(index);
   };
 
-  const cardWidth = 320;
-  const overlapOffset = 50;
+  const handleCardLeave = () => {
+    setIsHovered(false);
+    setHoveredIndex(null);
+  };
+
+  const cardWidth = 420;
+  const overlapOffset = 100;
   const shelfWidth = (LAND_DOCUMENTS.length - 1) * overlapOffset + cardWidth;
 
   return (
     <section
-      className="w-full py-16 px-6 md:py-24 md:px-12 lg:px-20 relative overflow-hidden flex items-center justify-center bg-transparent text-[#0c2c4d]"
+      className="w-full py-12 px-6 md:py-16 md:px-12 lg:px-20 relative flex flex-col items-center justify-center bg-transparent text-[#0c2c4d]"
       id="what-we-handle-section"
     >
-      <div className="max-w-7xl w-full mx-auto flex flex-col lg:flex-row items-center lg:items-start justify-between gap-12 lg:gap-16 relative z-10 px-4 md:px-8">
+      <div className="max-w-7xl w-full mx-auto flex flex-col items-center justify-center relative z-10 px-4 md:px-8">
 
-        {/* Left Column: Heading and description */}
-        <div className="w-full lg:w-[42%] flex flex-col items-start justify-start text-left lg:pt-12">
-
-          <h2 className="font-tibere text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight tracking-tight text-[#0c2c4d] uppercase whitespace-nowrap" style={{ wordSpacing: '0.25em' }}>
-            What We Handle
-          </h2>
-
-          {/* Gold Divider with Diamond */}
-          <div className="flex items-center gap-3 my-4">
-            <div className="h-[0.5px] bg-[#bfa052]/40 w-12" />
-            <div className="w-1.5 h-1.5 bg-[#bfa052] rotate-45" />
-            <div className="h-[0.5px] bg-[#bfa052]/40 w-12" />
+        {/* Top Header Row: Side-by-side Title & Subheading with Vertical Navy Line */}
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-12 lg:gap-16 w-full mb-8 lg:mb-12">
+          {/* Title */}
+          <div className="shrink-0">
+            <h2 className="font-tibere font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#0C2C4D] tracking-tight leading-none uppercase whitespace-nowrap" style={{ wordSpacing: '0.25em' }}>
+              What We Handle
+            </h2>
           </div>
 
-          <p className="font-poppins text-sm md:text-base leading-relaxed text-slate-700 font-light tracking-wide max-w-xl">
-            From the first submission to the final certificate, every clearance your project needs is tracked, managed, and obtained without it becoming your problem.
-          </p>
+          {/* Subheading with Vertical Divider Line */}
+          <div className="relative flex items-center self-stretch">
+            <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-[#0C2C4D]" />
+            <div className="pl-6 md:pl-8 py-1 max-w-2xl">
+              <p className="font-poppins font-normal text-base sm:text-lg md:text-xl text-slate-600 leading-relaxed">
+                From the first submission to the final certificate, every clearance your project needs is tracked, managed, and obtained without it becoming your problem.
+              </p>
+            </div>
+          </div>
         </div>
 
-        {/* Right Column: Document Showcase Stack */}
-        <div className="w-full lg:w-[58%] flex flex-col items-center lg:items-end justify-center relative mt-10 lg:mt-0" id="document-stack-container">
+        {/* Document Showcase Stack - Centered Below Title */}
+        <div className="w-full flex flex-col items-center justify-center relative mt-4 md:mt-6" id="document-stack-container">
 
-          {/* Desktop Stack View */}
+          {/* Desktop Stack View with 3D Navy Office Desk Surface */}
           <div
-            className="hidden md:block relative select-none"
+            className="hidden md:block relative select-none p-8 md:p-12 pb-14 rounded-3xl"
             style={{
-              width: `${shelfWidth}px`,
-              height: '560px',
               transform: `scale(${clientScale})`,
-              transformOrigin: 'right center',
+              transformOrigin: 'center center',
               transition: 'transform 0.3s ease-out',
             }}
           >
+            {/* 3D Navy Office Tabletop Platform Surface */}
+            <div className="absolute inset-0 top-8 bottom-0 rounded-3xl bg-gradient-to-b from-[#0F355C] via-[#0C2C4D] to-[#06182B] border border-[#BFA052]/40 shadow-2xl shadow-[#06182B]/40 overflow-hidden">
+              {/* Subtle Desk Surface Radial Ambient Light */}
+              <div className="absolute inset-0 bg-radial from-[#1E5C94]/25 via-transparent to-transparent opacity-60 pointer-events-none" />
+              {/* Glossy Surface Reflection Overlay */}
+              <div className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/5 to-transparent pointer-events-none" />
+              {/* Gold Inlay Trim on Desk Surface */}
+              <div className="absolute inset-3.5 border border-[#BFA052]/25 rounded-2xl pointer-events-none" />
+              {/* Subtle Gold Corner Accents */}
+              <div className="absolute top-4 left-4 w-3 h-3 border-t-2 border-l-2 border-[#BFA052]/50 pointer-events-none" />
+              <div className="absolute top-4 right-4 w-3 h-3 border-t-2 border-r-2 border-[#BFA052]/50 pointer-events-none" />
+              <div className="absolute bottom-6 left-4 w-3 h-3 border-b-2 border-l-2 border-[#BFA052]/50 pointer-events-none" />
+              <div className="absolute bottom-6 right-4 w-3 h-3 border-b-2 border-r-2 border-[#BFA052]/50 pointer-events-none" />
+              {/* 3D Front Bevel Table Edge (Desk Lip Thickness) */}
+              <div className="absolute bottom-0 inset-x-0 h-5 bg-gradient-to-b from-[#06182B] via-[#04101D] to-[#02080F] border-t border-[#BFA052]/40 flex items-center justify-center">
+                <div className="w-24 h-[1.5px] bg-[#BFA052]/40 rounded-full" />
+              </div>
+            </div>
+
+            {/* Cards Stack Element */}
             <div
-              className="absolute left-[-40px] right-[-40px] h-[1px] bg-gradient-to-r from-transparent via-[#bfa052]/30 to-transparent pointer-events-none"
-              style={{ top: '520px' }}
-            />
+              className="relative z-10"
+              style={{
+                width: `${shelfWidth}px`,
+                height: '590px',
+              }}
+            >
+              <div
+                className="absolute left-[-40px] right-[-40px] h-[1px] bg-gradient-to-r from-transparent via-[#bfa052]/40 to-transparent pointer-events-none"
+                style={{ top: '550px' }}
+              />
 
-            {LAND_DOCUMENTS.map((doc, idx) => {
-              const isRevealed = hoveredIndex === null ? idx === activeIndex : hoveredIndex === idx;
+              {LAND_DOCUMENTS.map((doc, idx) => {
+                const currentActive = hoveredIndex !== null ? hoveredIndex : activeIndex;
+                const isRevealed = currentActive === idx;
 
-              const leftPos = idx * overlapOffset;
-              const topPos = 80;
-              const zIndex = isRevealed ? 50 : 20 - idx;
+                const leftPos = idx * overlapOffset;
+                const topPos = 70;
+                const zIndex = isRevealed ? 50 : 20 - idx;
 
-              const cardStyle: React.CSSProperties = {
-                transform: `translateY(${isRevealed ? -60 : 0}px)`,
-                boxShadow: isRevealed
-                  ? '0 25px 50px -12px rgba(12, 44, 77, 0.22), 0 8px 16px -6px rgba(12, 44, 77, 0.12)'
-                  : '0 8px 20px -6px rgba(12, 44, 77, 0.08), 0 2px 4px -1px rgba(12, 44, 77, 0.03)',
-                backgroundColor: isRevealed ? '#faf8f5' : '#faf9f6',
-                border: isRevealed ? '1.5px solid rgba(191, 160, 82, 0.45)' : '0.5px solid rgba(191, 160, 82, 0.18)',
-              };
+                const cardStyle: React.CSSProperties = {
+                  transform: `translateY(${isRevealed ? -32 : 0}px)`,
+                  boxShadow: isRevealed
+                    ? '0 25px 50px -12px rgba(12, 44, 77, 0.28), 0 8px 16px -6px rgba(12, 44, 77, 0.15)'
+                    : '0 8px 20px -6px rgba(12, 44, 77, 0.08), 0 2px 4px -1px rgba(12, 44, 77, 0.03)',
+                  backgroundColor: isRevealed ? '#faf8f5' : '#faf9f6',
+                  border: isRevealed ? '1.5px solid rgba(191, 160, 82, 0.55)' : '0.5px solid rgba(191, 160, 82, 0.18)',
+                  transition: 'transform 0.5s ease-out, box-shadow 0.5s ease-out, background-color 0.4s ease-out',
+                };
 
-              return (
-                <div
-                  key={doc.id}
-                  onMouseEnter={() => handleCardHover(idx)}
-                  onMouseLeave={() => setHoveredIndex(null)}
-                  onClick={() => setActiveIndex(idx)}
-                  className="absolute h-[440px] w-[320px] rounded-2xl transition-all duration-500 ease-in-out cursor-pointer overflow-hidden select-none"
-                  style={{
-                    left: `${leftPos}px`,
-                    top: `${topPos}px`,
-                    zIndex,
-                    ...cardStyle
-                  }}
-                  id={`desktop-card-${doc.num}`}
-                >
-                  {/* Corner Document Number with Underline */}
+                return (
                   <div
-                    className="absolute top-8 right-0 flex flex-col items-center justify-center select-none pointer-events-none z-30"
-                    style={{ width: `${overlapOffset}px` }}
+                    key={doc.id}
+                    onMouseEnter={() => handleCardHover(idx)}
+                    onMouseLeave={handleCardLeave}
+                    onClick={() => setActiveIndex(idx)}
+                    className="absolute h-[500px] w-[420px] rounded-2xl cursor-pointer overflow-hidden select-none"
+                    style={{
+                      left: `${leftPos}px`,
+                      top: `${topPos}px`,
+                      zIndex,
+                      ...cardStyle
+                    }}
+                    id={`desktop-card-${doc.num}`}
                   >
-                    <span className="font-tibere text-base font-bold tracking-wider text-[#bfa052] leading-none mb-1">
-                      {doc.num}
-                    </span>
-                    <div className="w-4 h-[1.5px] bg-[#bfa052]/60" />
-                  </div>
-
-                  {/* Card Content Wrapper */}
-                  <div
-                    className="absolute inset-0 p-8 flex flex-col justify-between transition-all duration-500 z-15"
-                    style={{ width: `${cardWidth}px` }}
-                  >
-                    <div className={`absolute inset-4 border border-[#bfa052]/20 border-dashed rounded-xl pointer-events-none transition-opacity duration-500 ${isRevealed ? 'opacity-100' : 'opacity-0'
-                      }`} />
-
-                    <div className="flex flex-col items-start text-left mt-3">
-                      <div className={`w-14 h-14 rounded-full bg-white border border-[#bfa052]/25 shadow-inner flex items-center justify-center mb-4 transition-all duration-500 hover:rotate-6 ${isRevealed ? 'opacity-100 scale-100 blur-0' : 'opacity-0 scale-95 blur-[1px] pointer-events-none'
-                        }`}>
-                        <DocumentIcon type={doc.iconType} className="w-8 h-8 text-[#bfa052]" />
-                      </div>
-
-                      <h3 className={`font-tibere text-base md:text-lg font-bold text-[#0c2c4d] tracking-wide leading-tight mb-3 transition-all duration-500 ${isRevealed ? 'opacity-100 blur-0' : 'opacity-0 blur-[1px] pointer-events-none'
-                        }`}>
-                        {doc.title}
-                      </h3>
-
-                      {/* Skeleton Lines */}
-                      <div className="w-full flex flex-col gap-3.5 mt-3">
-                        <div className="h-[2.5px] w-[85%] bg-[#bfa052]/25 rounded-full" />
-                        <div className="h-[2.5px] w-[85%] bg-[#bfa052]/25 rounded-full" />
-                        <div className="h-[2.5px] w-[85%] bg-[#bfa052]/25 rounded-full" />
-                        <div className="h-[2.5px] w-[50%] bg-[#bfa052]/25 rounded-full" />
-                      </div>
+                    {/* Corner Document Number with Underline */}
+                    <div
+                      className="absolute top-8 right-0 flex flex-col items-center justify-center select-none pointer-events-none z-30"
+                      style={{ width: `${overlapOffset}px` }}
+                    >
+                      <span className="font-tibere text-base font-bold tracking-wider text-[#bfa052] leading-none mb-1">
+                        {doc.num}
+                      </span>
+                      <div className="w-4 h-[1.5px] bg-[#bfa052]/60" />
                     </div>
 
-                    <div className={`flex justify-between items-end border-t border-solid border-[#0c2c4d]/10 pt-4 mt-auto relative transition-all duration-500 ${isRevealed ? 'opacity-100 blur-0' : 'opacity-0 blur-[1px] pointer-events-none'
-                      }`}>
-                      <div className="flex flex-col text-left">
-                        <span className="text-xl text-[#0c2c4d]/85 font-tibere italic tracking-wide h-8 select-none">
-                          {doc.signatureName}
-                        </span>
-                        <span className="text-[8px] uppercase tracking-wider font-semibold text-slate-400 mt-1">
-                          Authorized Signature
-                        </span>
+                    {/* Card Content Wrapper */}
+                    <div
+                      className="absolute inset-0 p-8 flex flex-col justify-between transition-all duration-500 z-15"
+                      style={{ width: `${cardWidth}px` }}
+                    >
+                      <div className={`absolute inset-4 border border-[#bfa052]/20 border-dashed rounded-xl pointer-events-none transition-opacity duration-500 ${isRevealed ? 'opacity-100' : 'opacity-0'
+                        }`} />
+
+                      <div className="flex flex-col items-start text-left mt-3">
+                        <div className={`w-14 h-14 rounded-full bg-white border border-[#bfa052]/25 shadow-inner flex items-center justify-center mb-4 transition-all duration-500 hover:rotate-6 ${isRevealed ? 'opacity-100 scale-100 blur-0' : 'opacity-0 scale-95 blur-[1px] pointer-events-none'
+                          }`}>
+                          <DocumentIcon type={doc.iconType} className="w-8 h-8 text-[#bfa052]" />
+                        </div>
+
+                        <h3 className={`font-tibere text-base md:text-lg font-bold text-[#0c2c4d] tracking-wide leading-tight mb-3 transition-all duration-500 ${isRevealed ? 'opacity-100 blur-0' : 'opacity-0 blur-[1px] pointer-events-none'
+                          }`}>
+                          {doc.title}
+                        </h3>
+
+                        {/* Skeleton Lines */}
+                        <div className="w-full flex flex-col gap-3.5 mt-3">
+                          <div className="h-[2.5px] w-[85%] bg-[#bfa052]/25 rounded-full" />
+                          <div className="h-[2.5px] w-[85%] bg-[#bfa052]/25 rounded-full" />
+                          <div className="h-[2.5px] w-[85%] bg-[#bfa052]/25 rounded-full" />
+                          <div className="h-[2.5px] w-[50%] bg-[#bfa052]/25 rounded-full" />
+                        </div>
                       </div>
 
-                      <OfficialStamp
-                        color={doc.stampColor}
-                        rotate={12}
-                        className="mr-1 mb-1 shadow-[0_4px_10px_rgba(191,160,82,0.05)]"
-                      />
+                      <div className={`flex justify-between items-end border-t border-solid border-[#0c2c4d]/10 pt-4 mt-auto relative transition-all duration-500 ${isRevealed ? 'opacity-100 blur-0' : 'opacity-0 blur-[1px] pointer-events-none'
+                        }`}>
+                        <div className="flex flex-col text-left">
+                          <span className="text-xl text-[#0c2c4d]/85 font-tibere italic tracking-wide h-8 select-none">
+                            {doc.signatureName}
+                          </span>
+                          <span className="text-[8px] uppercase tracking-wider font-semibold text-slate-400 mt-1">
+                            Authorized Signature
+                          </span>
+                        </div>
+
+                        <OfficialStamp
+                          color={doc.stampColor}
+                          rotate={12}
+                          className="mr-1 mb-1 shadow-[0_4px_10px_rgba(191,160,82,0.05)]"
+                        />
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </div>
 
           {/* Mobile Accordion View */}

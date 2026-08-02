@@ -81,36 +81,71 @@ export default function LandApprovalSection() {
 
           </div>
 
-          {/* RIGHT COLUMN: 3D Block Extruded Slab & Auto-Rotating Carousel */}
-          <div className="lg:col-span-5 relative">
+          {/* RIGHT COLUMN: 3D Solid Metallic Block & Auto-Rotating Carousel */}
+          <div className="lg:col-span-5 relative flex items-center justify-center">
             
-            {/* 3D Rectangle Block Container */}
-            <div className="relative w-full max-w-[420px] xl:max-w-[450px] mx-auto lg:ml-auto lg:mr-0 px-4 sm:px-0">
+            {/* 3D Rectangle Metallic Block Container */}
+            <div className="relative w-full max-w-[420px] xl:max-w-[440px] mx-auto lg:ml-auto lg:mr-0 px-4 sm:px-0 mb-6 lg:mb-0">
               
-              {/* 3D Extruded Navy Block Base */}
-              <div className="absolute inset-0 translate-x-5 translate-y-5 md:translate-x-6 md:translate-y-6 bg-[#09223D] rounded-[2.2rem] z-0 shadow-[12px_24px_45px_rgba(12,44,77,0.45)] border-b-[7px] border-r-[7px] border-[#051424]" />
+              {/* 3D Solid Metallic Extruded Side Wall & Bottom Slab */}
+              <div 
+                className="absolute inset-0 rounded-[2.5rem] translate-x-5 translate-y-5 bg-gradient-to-br from-[#1C456F] via-[#0C2C4D] via-[#071B30] to-[#020A14] border-r-[3px] border-b-[3px] border-[#D4AF37]/70 shadow-[18px_35px_60px_rgba(4,16,29,0.7)]"
+              />
 
-              {/* Top 3D Surface Carousel Block */}
-              <div className="relative w-full h-[500px] md:h-[550px] lg:h-[600px] xl:h-[620px] bg-brand-navy shadow-[0_20px_40px_rgba(0,0,0,0.3)] rounded-[2.2rem] border-[2.5px] border-[#BFA052] overflow-hidden z-10">
+              {/* 3D Metallic Connection Bevel Fill (Solid 3D Extrusion) */}
+              <div className="absolute inset-0 rounded-[2.5rem] z-0 pointer-events-none"
+                style={{
+                  boxShadow: `
+                    1px 1px 0px #1c456f,
+                    2px 2px 0px #1a4067,
+                    3px 3px 0px #173b60,
+                    4px 4px 0px #153658,
+                    5px 5px 0px #123150,
+                    6px 6px 0px #102c48,
+                    7px 7px 0px #0e2741,
+                    8px 8px 0px #0c2239,
+                    9px 9px 0px #0a1d31,
+                    10px 10px 0px #08182a,
+                    11px 11px 0px #061322,
+                    12px 12px 0px #050e1a,
+                    13px 13px 0px #040912,
+                    14px 14px 0px #02040a,
+                    15px 15px 0px #010205,
+                    16px 16px 0px #010205,
+                    17px 17px 0px #010205,
+                    18px 18px 0px #010205,
+                    19px 19px 0px #010205,
+                    20px 20px 0px #010205
+                  `
+                }}
+              />
+
+              {/* Polished Metallic Gold Outer Bevel Frame */}
+              <div className="relative p-[2.5px] rounded-[2.5rem] bg-gradient-to-br from-[#FFF3CA] via-[#D4AF37] via-[#AA8820] to-[#5C4505] shadow-[0_12px_30px_rgba(0,0,0,0.4)] z-10">
                 
-                {/* Full-bleed crossfade image stack */}
-                {CAROUSEL_IMAGES.map((img, idx) => (
-                  <div
-                    key={idx}
-                    className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${
-                      idx === currentImageIdx ? 'opacity-100 z-10' : 'opacity-0 z-0'
-                    }`}
-                  >
-                    <Image
-                      src={img.src}
-                      alt={img.alt}
-                      fill
-                      sizes="(max-width: 768px) 100vw, 40vw"
-                      priority={idx === 0}
-                      className="object-cover object-center"
-                    />
-                  </div>
-                ))}
+                {/* Metallic Inner Surface */}
+                <div className="relative w-full h-[480px] md:h-[520px] lg:h-[560px] xl:h-[580px] bg-[#0C2C4D] rounded-[2.35rem] overflow-hidden">
+                  
+                  {/* Full-bleed crossfade image stack */}
+                  {CAROUSEL_IMAGES.map((img, idx) => (
+                    <div
+                      key={idx}
+                      className={`absolute inset-0 w-full h-full transition-opacity duration-1000 ease-in-out ${
+                        idx === currentImageIdx ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                      }`}
+                    >
+                      <Image
+                        src={img.src}
+                        alt={img.alt}
+                        fill
+                        sizes="(max-width: 768px) 100vw, 40vw"
+                        priority={idx === 0}
+                        className="object-cover object-center"
+                      />
+                    </div>
+                  ))}
+
+                </div>
 
               </div>
 
