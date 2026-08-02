@@ -38,7 +38,7 @@ const LEADERS = [
     imagePosition: "object-[center_35%]",
     bio: [
       "Aditya Shetty brings the rare ability to understand both people and problems, systems and stories, making him a true all-rounder in the business world. Driven by curiosity, an engineering graduate from an esteemed university with a strong foundation in quantitative abilities and an equally strong passion for people management, Aditya's professional journey is defined by rapid, merit-driven growth, from intern to senior business analyst in a leading-edge tech unicorn, and now a key leadership figure at Conservve.",
-      "Aditya has successfully led GTM initiatives across geographies, including the US, Canada, and APAC regions, demonstrating his unique capability to build, lead, and scale critical business functions. Whether crafting high-value commercial strategies and proposals, driving sales & GTM initiatives, or leading demand generation & negotiations, his efforts have translated into tangible business outcomes, including a 40% spike in pipeline growth and over $5 million for strategic accounts in a condensed timeframe.",
+      "Aditya has successfully led GTM initiatives across geographies, including the US, Canada, and APAC regions, demonstrating his unique capability to build, lead, and scale critical business functions. Whether crafting high-value commercial strategies and proposals, driving sales & GTM initiatives, or leading demand generation & negotiations, his efforts have translated into tangible business outcomes, including a 40% spike in pipeline growth and over\u00A0$5\u00A0million for strategic accounts in a condensed timeframe.",
       "As Co founder, Aditya plays a pivotal role in identifying growth opportunities within the real estate sector and its aligned domains, leading cross-functional teams, and shaping strategic direction across the organization. He continues to drive innovation and excellence, building ecosystems where business strategy and execution go hand in hand."
     ],
   }
@@ -279,7 +279,7 @@ export default function LeadershipPage() {
       <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-brand-gold/5 rounded-full blur-[140px] pointer-events-none z-0" />
       <div className="absolute bottom-1/4 left-1/4 w-[500px] h-[500px] bg-[#1e5c94]/5 rounded-full blur-[120px] pointer-events-none z-0" />
 
-      {/* Hero Section (dimensions match contact us page) */}
+      {/* Hero Section */}
       <div className="relative w-full h-[450px] xs:h-[520px] md:h-[620px] lg:h-[700px] flex items-start bg-brand-navy overflow-hidden pt-[90px] xs:pt-[110px] sm:pt-[140px] md:pt-[160px] lg:pt-[180px]">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
@@ -302,20 +302,20 @@ export default function LeadershipPage() {
         </div>
 
         {/* Text overlay Container */}
-        <div className="max-w-[90rem] mx-auto px-6 md:px-12 lg:px-16 w-full relative z-20 text-left pt-0 md:pt-0">
+        <div className="max-w-[90rem] mx-auto px-6 md:px-12 lg:px-16 w-full relative z-20 text-left">
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="font-poppins text-white text-3xl xs:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.25] max-w-5xl"
+            className="font-tibere text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[3.75rem] font-bold tracking-tight leading-[1.25] max-w-5xl"
           >
             <div className="overflow-hidden py-1">
-              <motion.span variants={itemVariants} className="block">
-                Experience that understands
+              <motion.span variants={itemVariants} className="block font-tibere">
+                <span className="text-brand-gold">Experience</span> that understands
               </motion.span>
             </div>
             <div className="overflow-hidden py-1 mt-1 sm:mt-2">
-              <motion.span variants={itemVariants} className="block">
+              <motion.span variants={itemVariants} className="block font-tibere">
                 <span className="text-brand-gold">every layer</span> before it unfolds.
               </motion.span>
             </div>
@@ -830,7 +830,7 @@ export default function LeadershipPage() {
                             {/* Row 1: Name and Vertical Navy Bar (Horizontally aligned with end of gold lines below it) */}
                             <div className="flex items-end justify-between w-full relative">
                               {/* Leader Name */}
-                              <h3 className="text-4xl sm:text-5xl font-gotham font-black tracking-wide uppercase text-brand-navy leading-[1.05]">
+                              <h3 className="text-4xl sm:text-5xl font-tibere font-bold tracking-wide uppercase text-brand-navy leading-[1.05]">
                                 {leader.name}
                               </h3>
 
@@ -850,7 +850,7 @@ export default function LeadershipPage() {
                             {/* Row 2: Role and Horizontal Gold Lines (Ending exactly flush under the Navy Vertical Bar) */}
                             <div className="flex items-center space-x-4 w-full relative mt-3">
                               {/* Slightly increased font size from text-xs sm:text-sm to text-sm sm:text-base */}
-                              <span className="text-lg sm:text-xl font-poppins font-black tracking-[0.15em] text-brand-gold uppercase whitespace-nowrap">
+                              <span className="text-lg sm:text-xl font-tibere font-bold tracking-[0.15em] text-brand-gold uppercase whitespace-nowrap">
                                 {leader.role}
                               </span>
 
