@@ -126,40 +126,53 @@ export const PyramidSvg: React.FC<PyramidSvgProps> = ({
   activeId,
   onHover,
 }) => {
-  const height = 410 / 6; // Height of each level (68.33px per level)
-  const centerX_pyramid = 285; // Visual anchor center
-  const y_top_limit = 40;
+  const height = 430 / 6; // Height of each level (71.67px per level)
+  const centerX_pyramid = 600; // Accurately centered at X = 600 in 1200-wide canvas
+  const y_top_limit = 35;
   const slant_ratio = 0.50;
-  const center_slant_ratio = 0.28;
+  const center_slant_ratio = 0.27;
 
-  const getBlockCoordinates = (id: number) => {
-    const y_top = y_top_limit + (6 - id) * height;
-    const y_bottom = y_top + height;
-    const y_start = y_top + 4;
-    const y_end = y_bottom - 4;
+  const getLevelAnchor = (id: number) => {
+    const y_top_full = y_top_limit + (6 - id) * height;
+    const y_bottom_full = y_top_full + height;
+    const y_mid = (y_top_full + y_bottom_full) / 2;
 
-    const x_left_fn = (y: number) => centerX_pyramid + slant_ratio * (y - y_top_limit) + 5;
-    const blockWidth = 72;
+    const xl = centerX_pyramid - slant_ratio * (y_mid - y_top_limit);
+    const xr = centerX_pyramid + slant_ratio * (y_mid - y_top_limit);
 
-    const tl_x = x_left_fn(y_start);
-    const tr_x = tl_x + blockWidth;
-    const bl_x = x_left_fn(y_end);
-    const br_x = bl_x + blockWidth;
+    const isLeft = id % 2 !== 0; // 1, 3, 5 on Left | 2, 4, 6 on Right
 
-    const y_mid = (y_start + y_end) / 2;
-    const x_mid_left = x_left_fn(y_mid);
-    const center_x = x_mid_left + blockWidth / 2;
-
-    return {
-      points: `${tl_x},${y_start} ${tr_x},${y_start} ${br_x},${y_end} ${bl_x},${y_end}`,
-      centerX: center_x,
-      centerY: y_mid,
-      textStartX: x_mid_left + blockWidth + 45,
-    };
+    if (isLeft) {
+      const numberX = xl - 110;
+      const textRightX = numberX - 36;
+      return {
+        isLeft: true,
+        pyramidEdgeX: xl,
+        y_mid,
+        pointerStartX: xl - 12,
+        pointerEndX: xl - 75,
+        numberX,
+        textX: 20,
+        textWidth: Math.max(160, textRightX - 20),
+      };
+    } else {
+      const numberX = xr + 110;
+      const textLeftX = numberX + 36;
+      return {
+        isLeft: false,
+        pyramidEdgeX: xr,
+        y_mid,
+        pointerStartX: xr + 12,
+        pointerEndX: xr + 75,
+        numberX,
+        textX: textLeftX,
+        textWidth: Math.max(160, 1180 - textLeftX),
+      };
+    }
   };
 
-  const y_base_top = y_top_limit + 6 * height; // 450
-  const y_base_bottom = y_base_top + 30; // 480
+  const y_base_top = y_top_limit + 6 * height; // 465
+  const y_base_bottom = y_base_top + 32; // 497
 
   const xl_base_top = centerX_pyramid - slant_ratio * (y_base_top - y_top_limit);
   const xr_base_top = centerX_pyramid + slant_ratio * (y_base_top - y_top_limit);
@@ -168,8 +181,8 @@ export const PyramidSvg: React.FC<PyramidSvgProps> = ({
   const xr_base_bottom = xr_base_top - 16;
 
   return (
-    <div className="w-full max-w-[1250px] mx-auto select-none flex items-center justify-center">
-      <svg viewBox="0 0 1100 500" className="w-full h-auto overflow-visible">
+    <div className="w-full max-w-[1320px] mx-auto select-none flex items-center justify-center">
+      <svg viewBox="0 0 1200 525" className="w-full h-auto overflow-visible">
         <defs>
           <clipPath id="pyramid-only-clip">
             <polygon
@@ -383,12 +396,11 @@ export const PyramidSvg: React.FC<PyramidSvgProps> = ({
           );
         })}
 
-        {/* --- SLANTED BLOCKS, POINTER LINES, AND TEXT GROUPS --- */}
+        {/* --- SYMMETRICAL ALIGNED NUMBER BADGES, POINTER LINES, AND BALANCED TEXT WRAPPING --- */}
         {dnaLevels.map((level) => {
           const isActive = activeId === level.id;
-
           const blockColor = level.color === 'gold' ? '#BFA052' : '#0C2C4D';
-          const { points, centerX, centerY, textStartX } = getBlockCoordinates(level.id);
+          const { isLeft, pointerStartX, pointerEndX, numberX, textX, textWidth, y_mid } = getLevelAnchor(level.id);
 
           return (
             <motion.g
@@ -401,66 +413,72 @@ export const PyramidSvg: React.FC<PyramidSvgProps> = ({
               }}
               transition={{ type: 'spring', stiffness: 320, damping: 24 }}
             >
-              <motion.polygon
-                points={points}
-                fill={blockColor}
-                stroke={isActive ? '#ffffff' : 'none'}
-                strokeWidth={isActive ? 1.5 : 0}
-                animate={{
-                  scale: isActive ? 1.05 : 1,
-                  fill: isActive
-                    ? level.color === 'gold' ? '#CFAE5C' : '#143D66'
-                    : blockColor,
-                }}
-                transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-                style={{ transformOrigin: `${centerX}px ${centerY}px` }}
-              />
+              {/* Geometrically Centered Slanted Number Badge */}
+              <g transform={`translate(${numberX}, ${y_mid})`}>
+                <motion.polygon
+                  points={
+                    isLeft
+                      ? "-14,-22 26,-22 14,22 -26,22"   // Left side: Geometrically centered, slanting down & left
+                      : "-26,-22 14,-22 26,22 -14,22"   // Right side: Geometrically centered, slanting down & right
+                  }
+                  fill={blockColor}
+                  stroke={isActive ? '#ffffff' : 'none'}
+                  strokeWidth={isActive ? 2 : 0}
+                  animate={{
+                    scale: isActive ? 1.08 : 1,
+                    fill: isActive
+                      ? level.color === 'gold' ? '#CFAE5C' : '#143D66'
+                      : blockColor,
+                  }}
+                  transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+                />
 
-              {/* Number Inside Block (Sequence 01 at Bottom to 06 at Top) */}
-              <text
-                x={centerX}
-                y={centerY}
-                dominantBaseline="central"
-                textAnchor="middle"
-                fill="#ffffff"
-                className="font-poppins font-black text-[25px] tracking-wide pointer-events-none"
-              >
-                {level.id.toString().padStart(2, '0')}
-              </text>
+                {/* Number Inside Badge - 100% Dead-Center Aligned at (0, 0) */}
+                <text
+                  x={0}
+                  y={0}
+                  dominantBaseline="central"
+                  textAnchor="middle"
+                  fill="#ffffff"
+                  className="font-poppins font-black text-[22px] sm:text-[24px] tracking-tight pointer-events-none"
+                >
+                  {level.id.toString().padStart(2, '0')}
+                </text>
+              </g>
 
-              {/* Connecting Pointer Line */}
+              {/* Connecting Pointer Line to Level Edge */}
               <motion.line
-                x1={textStartX - 35}
-                y1={centerY}
-                x2={textStartX - 3}
-                y2={centerY}
+                x1={pointerStartX}
+                y1={y_mid}
+                x2={pointerEndX}
+                y2={y_mid}
                 stroke={level.color === 'gold' ? '#BFA052' : '#0C2C4D'}
                 strokeWidth={1.8}
                 initial={{ opacity: 0, scaleX: 0 }}
                 animate={{
-                  opacity: isActive ? 1 : 0,
-                  scaleX: isActive ? 1 : 0,
+                  opacity: isActive ? 1 : 0.45,
+                  scaleX: isActive ? 1 : 0.8,
                 }}
-                style={{ originX: 0 }}
+                style={{ originX: isLeft ? 1 : 0 }}
                 transition={{ duration: 0.25, ease: 'easeOut' }}
               />
 
-              {/* Text Area (Heading and Explanation using POPPINS font) */}
+              {/* Symmetrical Non-Overlapping Text Area */}
               <foreignObject
-                x={textStartX}
-                y={centerY - 14}
-                width={600}
-                height={120}
+                x={textX}
+                y={y_mid - 20}
+                width={textWidth}
+                height={130}
                 style={{ overflow: 'visible' }}
                 className="pointer-events-none"
               >
                 <div
-                  className="flex flex-col justify-start items-start text-left pointer-events-auto select-none"
+                  className={`flex flex-col ${isLeft ? 'items-end text-right' : 'items-start text-left'} pointer-events-auto select-none w-full`}
                   style={{ overflow: 'visible' }}
                 >
                   {/* Level Title */}
                   <div
-                    className="font-poppins font-black text-[18px] sm:text-[20px] md:text-[21px] tracking-[0.14em] uppercase select-none transition-all duration-300"
+                    className="font-poppins font-black text-[16px] sm:text-[18px] md:text-[20px] tracking-[0.12em] uppercase select-none transition-all duration-300 whitespace-nowrap"
                     style={{
                       color: level.color === 'gold' ? '#BFA052' : '#0C2C4D',
                       opacity: isActive ? 1 : 0.85,
@@ -469,16 +487,16 @@ export const PyramidSvg: React.FC<PyramidSvgProps> = ({
                     {level.name}
                   </div>
 
-                  {/* Secondary Explanation Text (Explicit POPPINS font) */}
-                  <div className="h-0 overflow-visible relative w-[600px]">
+                  {/* Secondary Explanation Text */}
+                  <div className={`h-0 overflow-visible relative w-full flex ${isLeft ? 'justify-end' : 'justify-start'}`}>
                     <AnimatePresence>
                       {isActive && (
                         <motion.p
-                          initial={{ opacity: 0, x: -16 }}
+                          initial={{ opacity: 0, x: isLeft ? 12 : -12 }}
                           animate={{ opacity: 1, x: 0 }}
-                          exit={{ opacity: 0, x: -8 }}
+                          exit={{ opacity: 0, x: isLeft ? 6 : -6 }}
                           transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
-                          className="absolute left-0 top-[0px] font-poppins text-[13.5px] sm:text-[14.5px] font-bold text-slate-700 whitespace-nowrap"
+                          className={`absolute ${isLeft ? 'right-0 text-right' : 'left-0 text-left'} top-[4px] font-poppins text-[12px] sm:text-[13px] font-bold text-slate-700 max-w-[210px] sm:max-w-[240px] leading-snug`}
                         >
                           {level.description}
                         </motion.p>
