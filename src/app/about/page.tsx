@@ -408,13 +408,12 @@ function CoreValuesSection() {
   // Symmetrical x coordinates derived from the exact peaks/troughs of the 7-lobe sine wave
   const getXNodes = (width: number) => {
     return [
-      (1 / 14) * width,
-      (3 / 14) * width,
-      (5 / 14) * width,
-      (7 / 14) * width,
-      (9 / 14) * width,
-      (11 / 14) * width,
-      (13 / 14) * width
+      (1 / 12) * width,
+      (3 / 12) * width,
+      (5 / 12) * width,
+      (7 / 12) * width,
+      (9 / 12) * width,
+      (11 / 12) * width
     ];
   };
 
@@ -466,6 +465,14 @@ function CoreValuesSection() {
       icon: Lock,
       isPlaceholder: true,
     },
+    {
+      id: 'val6',
+      num: '6',
+      title: 'Reserved Placeholder',
+      description: 'Keep a sixth DNA node visible as a future placeholder for an upcoming core value.',
+      icon: Lock,
+      isPlaceholder: true,
+    },
   ];
 
   // Track actual SVG container dimensions so viewBox matches exactly
@@ -504,13 +511,13 @@ function CoreValuesSection() {
   const width = svgW || 1200;
   const centerY = 135; // Centered inside a taller 270px canvas
   const amplitude = 58; // Highly pronounced loops for elegant authority
-  const frequency = (Math.PI * 7) / width; // 3.5 complete wave cycles across the dynamic width (7 lobes)
+  const frequency = (Math.PI * 6) / width; // 3 complete wave cycles across the dynamic width (6 lobes)
 
 
   // Returns the fixed x position (aligned to nearest DNA grid point) and ALWAYS the vertical center
   // of the DNA helix (centerY) so icon circles sit at the midpoint of each DNA 'eye' lobe.
   const getActiveNodeCoordinates = (index: number) => {
-    const xRaw = xNodes[index] !== undefined ? xNodes[index] : (index * width) / 4;
+    const xRaw = xNodes[index] !== undefined ? xNodes[index] : (index * width) / 6;
     const pointsCount = 120;
     const step = width / pointsCount;
     const nearestI = Math.round(xRaw / step / 2) * 2;
@@ -671,14 +678,14 @@ function CoreValuesSection() {
       {/* ==================== DESKTOP & TABLET LAYOUT ==================== */}
       <div className="hidden md:block w-full">
 
-        {/* ---- DNA + Icon Circles + Labels all in one unified relative container ---- */}
+        {/* ---- DNA + Icon Circles + Cards all in one unified relative container ---- */}
         <motion.div
           ref={svgContainerRef}
           initial={{ opacity: 0, y: -20, scale: 0.98 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           transition={{ duration: 1.2, ease: "easeOut" }}
           className="w-full relative"
-          style={{ height: '520px' }}
+          style={{ height: '650px' }}
         >
           {/* SVG DNA Layer */}
           <svg
@@ -727,7 +734,7 @@ function CoreValuesSection() {
             {renderDnaStructure()}
 
             {coreValues.map((val, idx) => {
-              const nodePos = getActiveNodeCoordinates(idx + 1);
+              const nodePos = getActiveNodeCoordinates(idx);
               const isHovered = activeIndex === idx;
               const circleR = 36;
 
@@ -767,12 +774,12 @@ function CoreValuesSection() {
                     </>
                   )}
 
-                  {/* Thin connector line from circle bottom down to the label row */}
+                  {/* Connector line extending down to top of cards (y2 = 240) */}
                   <line
                     x1={nodePos.x}
                     y1={nodePos.y + circleR}
                     x2={nodePos.x}
-                    y2={275}
+                    y2={240}
                     stroke={isHovered ? '#BFA052' : 'rgba(12,44,77,0.22)'}
                     strokeWidth={isHovered ? 2 : 1.5}
                     strokeDasharray={isHovered ? 'none' : '3,3'}
@@ -782,17 +789,17 @@ function CoreValuesSection() {
             })}
           </svg>
 
-          {/* ---- HTML interactive columns (combines icon circles and labels/cards in a single hover block) ---- */}
+          {/* ---- HTML interactive columns (combines icon circles and full cards in a single hover block) ---- */}
           <div
             className="absolute left-0 right-0 pointer-events-none"
-            style={{ top: 0, height: '580px' }}
+            style={{ top: 0, height: '650px' }}
           >
             {coreValues.map((val, idx) => {
-              const nodePos = getActiveNodeCoordinates(idx + 1);
+              const nodePos = getActiveNodeCoordinates(idx);
               const isHovered = activeIndex === idx;
               const leftPercent = (nodePos.x / width) * 100;
               const IconComponent = val.icon;
-              const colWidth = width / 7;
+              const colWidth = width / 6;
 
               return (
                 <div
@@ -801,8 +808,8 @@ function CoreValuesSection() {
                   style={{
                     left: `${leftPercent}%`,
                     top: 0,
-                    width: `${colWidth}px`, // Edge-to-edge column width
-                    height: '560px',
+                    width: `${colWidth}px`,
+                    height: '630px',
                     transform: 'translateX(-50%)',
                     zIndex: isHovered ? 40 : 10,
                   }}
@@ -835,120 +842,56 @@ function CoreValuesSection() {
                     </div>
                   </div>
 
-                  {/* 2. Card / Label (positioned at top = 200px) */}
+                  {/* 2. Permanent Card Container (positioned at top = 245px with generous space below DNA strand) */}
                   <div
-                    className="absolute flex flex-col items-center"
+                    className="absolute flex flex-col items-center w-full"
                     style={{
                       left: '50%',
-                      transform: 'translateX(-50%)',
-                      top: '200px',
+                      top: '245px',
+                      transform: isHovered ? 'translate(-50%, -10px)' : 'translate(-50%, 0px)',
+                      transition: 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
                     }}
                   >
-                    {isHovered && !val.isPlaceholder ? (
-                      <motion.div
-                        key="hover-card"
-                        initial={{ opacity: 0, y: 12, scale: 0.94 }}
-                        animate={{ opacity: 1, y: 0, scale: 1 }}
-                        style={{
-                          width: '220px',
-                          minHeight: '260px',
-                          background: 'linear-gradient(145deg, #0d2847 0%, #0C2C4D 40%, #081e36 100%)',
-                          borderTop: '4.5px solid #BFA052',
-                          borderBottom: '4.5px solid #BFA052',
-                          borderLeft: '1.5px solid #BFA052',
-                          borderRight: '1.5px solid #BFA052',
-                          borderRadius: '14px',
-                          padding: '24px 18px 20px',
-                          boxShadow: '0 12px 32px rgba(0,0,0,0.22), 0 0 20px rgba(191,160,82,0.2)',
-                          textAlign: 'left',
-                          color: '#ffffff',
-                          cursor: 'default',
-                        }}
+                    <div
+                      className={`w-[185px] min-h-[295px] rounded-[14px] p-5 text-left flex flex-col transition-all duration-300 ${
+                        isHovered
+                          ? 'bg-[linear-gradient(145deg,#0d2847_0%,#0C2C4D_40%,#081e36_100%)] text-white shadow-[0_16px_36px_rgba(12,44,77,0.3),0_0_24px_rgba(191,160,82,0.25)] border-t-[4px] border-b-[4px] border-l-[1.5px] border-r-[1.5px] border-brand-gold'
+                          : 'bg-white/95 backdrop-blur-sm text-navy shadow-[0_8px_24px_rgba(12,44,77,0.08)] border border-slate-200/90'
+                      }`}
+                    >
+                      {/* Number & Gold Underline */}
+                      <div className="flex flex-col items-center justify-center w-full mb-3.5">
+                        <span
+                          className={`font-gotham font-medium text-center transition-colors duration-300 ${
+                            isHovered ? 'text-gold' : 'text-brand-navy'
+                          }`}
+                          style={{ fontSize: '40px', lineHeight: 1, marginBottom: '6px' }}
+                        >
+                          {val.num}
+                        </span>
+                        <div style={{ width: '36px', height: '3px', background: '#BFA052', borderRadius: '2px' }} />
+                      </div>
+
+                      {/* Title */}
+                      <h3
+                        className={`font-gotham font-semibold uppercase tracking-wider text-center transition-colors duration-300 ${
+                          isHovered ? 'text-white' : val.isPlaceholder ? 'text-slate-500' : 'text-[#0C2C4D]'
+                        }`}
+                        style={{ fontSize: '15px', lineHeight: 1.35, marginBottom: '10px' }}
                       >
-                        {/* Number & Underline */}
-                        <div className="flex flex-col items-center justify-center w-full mb-4">
-                          <span
-                            className="font-gotham font-medium text-gold text-center"
-                            style={{ fontSize: '44px', lineHeight: 1, marginBottom: '6px' }}
-                          >
-                            {val.num}
-                          </span>
-                          <div style={{ width: '36px', height: '3px', background: '#BFA052', borderRadius: '2px' }} />
-                        </div>
+                        {val.title}
+                      </h3>
 
-                        {/* Title */}
-                        <h3
-                          className="font-gotham font-medium uppercase tracking-wider text-white text-center"
-                          style={{ fontSize: '18px', lineHeight: 1.35, marginBottom: '12px' }}
-                        >
-                          {val.title}
-                        </h3>
-
-                        {/* Description */}
-                        <p
-                          className="font-body text-white/80"
-                          style={{ fontSize: '13.5px', lineHeight: 1.65 }}
-                        >
-                          {val.description}
-                        </p>
-                      </motion.div>
-                    ) : (
-                      <motion.div
-                        key="default-label"
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="flex flex-col items-center"
+                      {/* Description */}
+                      <p
+                        className={`font-body transition-colors duration-300 ${
+                          isHovered ? 'text-white/85' : val.isPlaceholder ? 'text-slate-400' : 'text-slate-600'
+                        }`}
+                        style={{ fontSize: '13px', lineHeight: 1.6 }}
                       >
-                        {/* Number row with side tick marks */}
-                        <div className="flex items-center gap-3 mt-1">
-                          <div
-                            className="transition-all duration-300"
-                            style={{
-                              width: '3px',
-                              height: '26px',
-                              background: isHovered ? '#BFA052' : 'rgba(12,44,77,0.4)',
-                            }}
-                          />
-                          <span
-                            className="font-gotham font-medium transition-all duration-300"
-                            style={{
-                              fontSize: isHovered ? '54px' : '44px',
-                              color: isHovered ? '#BFA052' : '#0C2C4D',
-                              lineHeight: 1,
-                              transition: 'all 0.3s ease',
-                            }}
-                          >
-                            {val.num}
-                          </span>
-                          <div
-                            className="transition-all duration-300"
-                            style={{
-                              width: '3px',
-                              height: '26px',
-                              background: isHovered ? '#BFA052' : 'rgba(12,44,77,0.4)',
-                            }}
-                          />
-                        </div>
-
-                        {/* Title label */}
-                        <p
-                          className="font-gotham font-medium uppercase tracking-wider text-center mt-3 transition-all duration-300"
-                          style={{
-                            fontSize: '15px',
-                            lineHeight: 1.4,
-                            maxWidth: '150px',
-                            color: isHovered
-                              ? '#BFA052'
-                              : val.isPlaceholder
-                                ? 'rgba(12,44,77,0.35)'
-                                : 'rgba(12,44,77,0.85)',
-                            transition: 'color 0.3s ease',
-                          }}
-                        >
-                          {val.title}
-                        </p>
-                      </motion.div>
-                    )}
+                        {val.description}
+                      </p>
+                    </div>
                   </div>
                 </div>
               );
@@ -993,9 +936,9 @@ function CoreValuesSection() {
             </defs>
             {renderDnaStructure()}
 
-            {/* Icon circles on mobile DNA (central 5 blocks, indices 1 to 5) */}
+            {/* Icon circles on mobile DNA (6 nodes, indices 0 to 5) */}
             {coreValues.map((val, idx) => {
-              const nodePos = getActiveNodeCoordinates(idx + 1);
+              const nodePos = getActiveNodeCoordinates(idx);
               const isCurrent = idx === mobileActiveIndex;
               const r = 24;
               return (
