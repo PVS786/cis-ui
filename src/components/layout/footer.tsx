@@ -7,6 +7,8 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 
 export function Footer() {
+  const [isAboutHovered, setIsAboutHovered] = useState(false);
+  const [isAboutOpenMobile, setIsAboutOpenMobile] = useState(false);
   const [isServicesHovered, setIsServicesHovered] = useState(false);
   const [isServicesOpenMobile, setIsServicesOpenMobile] = useState(false);
   const [formData, setFormData] = useState({ name: '', phone: '', email: '', message: '' });
@@ -89,10 +91,11 @@ export function Footer() {
               </div>
             </div>
 
-            {/* COLUMN 2: Navigation Links (3fr, Centered Horizontally) */}
-            <div className="flex flex-col items-center lg:pt-[30px] pt-6 w-full justify-self-center text-center">
-              <div className="grid grid-cols-3 gap-x-12 gap-y-6 md:gap-x-16 w-full max-w-[480px] xl:max-w-[560px]">
-                {/* HOME */}
+            {/* COLUMN 2: Navigation Links (Line 1: Home, About Us, Services; Line 2: Careers, Contact Us) */}
+            <div className="flex flex-col items-center lg:pt-[30px] pt-6 w-full justify-self-center text-left">
+              <div className="grid grid-cols-3 gap-x-10 md:gap-x-14 gap-y-6 w-full max-w-[480px] xl:max-w-[560px] justify-items-start text-left">
+                {/* ── ROW 1 ── */}
+                {/* 1. HOME */}
                 <Link
                   href="/"
                   className="font-gotham antialiased uppercase tracking-widest text-[11px] font-semibold whitespace-nowrap relative group pb-1 w-fit"
@@ -104,31 +107,77 @@ export function Footer() {
                   <span className="absolute bottom-0 left-0 w-full h-[1.5px] bg-[#BFA052] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ease-out" />
                 </Link>
 
-                {/* ABOUT US */}
-                <Link
-                  href="/about"
-                  className="font-gotham antialiased uppercase tracking-widest text-[11px] font-semibold whitespace-nowrap relative group pb-1 w-fit"
-                  style={{ fontFamily: "'Gotham', Arial, sans-serif" }}
+                {/* 2. ABOUT US (With Dropdown for Our Leadership) */}
+                <div
+                  className="relative"
+                  onMouseEnter={() => setIsAboutHovered(true)}
+                  onMouseLeave={() => setIsAboutHovered(false)}
                 >
-                  <span className="text-white group-hover:text-[#BFA052] transition-colors duration-300">
-                    About Us
-                  </span>
-                  <span className="absolute bottom-0 left-0 w-full h-[1.5px] bg-[#BFA052] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ease-out" />
-                </Link>
+                  <div className="font-gotham antialiased uppercase tracking-widest text-[11px] font-semibold flex items-center gap-1 focus:outline-none whitespace-nowrap relative group pb-1 w-fit">
+                    <Link
+                      href="/about"
+                      className="text-white group-hover:text-[#BFA052] transition-colors duration-300"
+                      style={{ fontFamily: "'Gotham', Arial, sans-serif" }}
+                    >
+                      About Us
+                    </Link>
+                    <button
+                      type="button"
+                      onClick={() => setIsAboutOpenMobile(!isAboutOpenMobile)}
+                      className="focus:outline-none"
+                      aria-label="Toggle About Us menu"
+                    >
+                      <ChevronDown className="w-3 h-3 text-[#BFA052]" />
+                    </button>
+                    <span className="absolute bottom-0 left-0 w-full h-[1.5px] bg-[#BFA052] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ease-out" />
+                  </div>
 
-                {/* LEADERSHIP */}
-                <Link
-                  href="/leadership"
-                  className="font-gotham antialiased uppercase tracking-widest text-[11px] font-semibold whitespace-nowrap relative group pb-1 w-fit"
-                  style={{ fontFamily: "'Gotham', Arial, sans-serif" }}
-                >
-                  <span className="text-white group-hover:text-[#BFA052] transition-colors duration-300">
-                    Leadership
-                  </span>
-                  <span className="absolute bottom-0 left-0 w-full h-[1.5px] bg-[#BFA052] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ease-out" />
-                </Link>
+                  {/* Desktop Dropdown (Hover) */}
+                  <AnimatePresence>
+                    {isAboutHovered && (
+                      <motion.div
+                        initial={{ opacity: 0, y: 5 }}
+                        animate={{ opacity: 1, y: 0 }}
+                        exit={{ opacity: 0, y: 5 }}
+                        transition={{ duration: 0.15 }}
+                        className="hidden lg:block absolute left-0 top-full mt-2 py-1.5 w-36 rounded shadow-lg z-50 text-left"
+                        style={{ backgroundColor: '#FFFFFF', border: '1.5px solid #BFA052' }}
+                      >
+                        <Link
+                          href="/leadership"
+                          className="block px-3 py-1.5 text-[9.5px] font-bold text-[#0C2C4D] hover:bg-[#BFA052]/10 hover:text-[#BFA052] transition-all tracking-wider font-gotham whitespace-nowrap"
+                          style={{ fontFamily: "'Gotham', Arial, sans-serif" }}
+                        >
+                          OUR LEADERSHIP
+                        </Link>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
 
-                {/* SERVICES */}
+                  {/* Mobile/Tablet Accordion (Click) */}
+                  <AnimatePresence>
+                    {isAboutOpenMobile && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: 'auto', opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.15 }}
+                        className="lg:hidden overflow-hidden mt-2 rounded text-left"
+                        style={{ backgroundColor: '#FFFFFF', border: '1.5px solid #BFA052' }}
+                      >
+                        <Link
+                          href="/leadership"
+                          className="block px-3 py-1.5 text-[9.5px] font-bold text-[#0C2C4D] hover:bg-[#BFA052]/10 hover:text-[#BFA052] transition-all tracking-wider font-gotham whitespace-nowrap"
+                          style={{ fontFamily: "'Gotham', Arial, sans-serif" }}
+                        >
+                          OUR LEADERSHIP
+                        </Link>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+
+                {/* 3. SERVICES (With Dropdown for Land Acquisition & Land Approval) */}
                 <div
                   className="relative"
                   onMouseEnter={() => setIsServicesHovered(true)}
@@ -152,22 +201,22 @@ export function Footer() {
                         animate={{ opacity: 1, y: 0 }}
                         exit={{ opacity: 0, y: 5 }}
                         transition={{ duration: 0.15 }}
-                        className="hidden lg:block absolute left-0 top-full mt-2 py-1.5 w-36 rounded shadow-lg z-50"
+                        className="hidden lg:block absolute left-0 top-full mt-2 py-1.5 w-36 rounded shadow-lg z-50 text-left"
                         style={{ backgroundColor: '#FFFFFF', border: '1.5px solid #BFA052' }}
                       >
-                        <Link
-                          href="/services/land-approval"
-                          className="block px-3 py-1.5 text-[9.5px] font-bold text-[#0C2C4D] hover:bg-[#BFA052]/10 hover:text-[#BFA052] transition-all tracking-wider font-gotham whitespace-nowrap"
-                          style={{ fontFamily: "'Gotham', Arial, sans-serif" }}
-                        >
-                          LAND APPROVAL
-                        </Link>
                         <Link
                           href="/services/land-acquisition"
                           className="block px-3 py-1.5 text-[9.5px] font-bold text-[#0C2C4D] hover:bg-[#BFA052]/10 hover:text-[#BFA052] transition-all tracking-wider font-gotham whitespace-nowrap"
                           style={{ fontFamily: "'Gotham', Arial, sans-serif" }}
                         >
                           LAND ACQUISITION
+                        </Link>
+                        <Link
+                          href="/services/land-approval"
+                          className="block px-3 py-1.5 text-[9.5px] font-bold text-[#0C2C4D] hover:bg-[#BFA052]/10 hover:text-[#BFA052] transition-all tracking-wider font-gotham whitespace-nowrap"
+                          style={{ fontFamily: "'Gotham', Arial, sans-serif" }}
+                        >
+                          LAND APPROVAL
                         </Link>
                       </motion.div>
                     )}
@@ -181,16 +230,9 @@ export function Footer() {
                         animate={{ height: 'auto', opacity: 1 }}
                         exit={{ height: 0, opacity: 0 }}
                         transition={{ duration: 0.15 }}
-                        className="lg:hidden overflow-hidden mt-2 rounded"
+                        className="lg:hidden overflow-hidden mt-2 rounded text-left"
                         style={{ backgroundColor: '#FFFFFF', border: '1.5px solid #BFA052' }}
                       >
-                        <Link
-                          href="/services/land-approval"
-                          className="block px-3 py-1.5 text-[9.5px] font-bold text-[#0C2C4D] hover:bg-[#BFA052]/10 hover:text-[#BFA052] transition-all tracking-wider font-gotham whitespace-nowrap"
-                          style={{ fontFamily: "'Gotham', Arial, sans-serif" }}
-                        >
-                          LAND APPROVAL
-                        </Link>
                         <Link
                           href="/services/land-acquisition"
                           className="block px-3 py-1.5 text-[9.5px] font-bold text-[#0C2C4D] hover:bg-[#BFA052]/10 hover:text-[#BFA052] transition-all tracking-wider font-gotham whitespace-nowrap"
@@ -198,12 +240,20 @@ export function Footer() {
                         >
                           LAND ACQUISITION
                         </Link>
+                        <Link
+                          href="/services/land-approval"
+                          className="block px-3 py-1.5 text-[9.5px] font-bold text-[#0C2C4D] hover:bg-[#BFA052]/10 hover:text-[#BFA052] transition-all tracking-wider font-gotham whitespace-nowrap"
+                          style={{ fontFamily: "'Gotham', Arial, sans-serif" }}
+                        >
+                          LAND APPROVAL
+                        </Link>
                       </motion.div>
                     )}
                   </AnimatePresence>
                 </div>
 
-                {/* CAREERS */}
+                {/* ── ROW 2 ── */}
+                {/* 4. CAREERS (Aligned under Col 1: HOME) */}
                 <Link
                   href="/careers"
                   className="font-gotham antialiased uppercase tracking-widest text-[11px] font-semibold whitespace-nowrap relative group pb-1 w-fit"
@@ -215,7 +265,7 @@ export function Footer() {
                   <span className="absolute bottom-0 left-0 w-full h-[1.5px] bg-[#BFA052] scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ease-out" />
                 </Link>
 
-                {/* CONTACT US */}
+                {/* 5. CONTACT US (Aligned under Col 2: ABOUT US) */}
                 <Link
                   href="/contact"
                   className="font-gotham antialiased uppercase tracking-widest text-[11px] font-semibold whitespace-nowrap relative group pb-1 w-fit"

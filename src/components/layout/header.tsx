@@ -8,9 +8,6 @@ import { usePathname } from 'next/navigation';
 import { useEffect, useRef, useState } from 'react';
 import { cn } from '@/lib/utils';
 
-/* ─── Types ─────────────────────────────────────────────── */
-
-
 /* ─── Nav structure ──────────────────────────────────────── */
 const SERVICES_CHILDREN = [
   {
@@ -25,14 +22,25 @@ const SERVICES_CHILDREN = [
   },
 ];
 
+const ABOUT_CHILDREN = [
+  {
+    name: 'Our Leadership',
+    href: '/leadership',
+  },
+];
+
 export function Header() {
   const pathname = usePathname();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [servicesOpen, setServicesOpen] = useState(false);
+  const [aboutOpen, setAboutOpen] = useState(false);
   const [mobileServicesOpen, setMobileServicesOpen] = useState(false);
-  const dropdownRef = useRef<HTMLDivElement>(null);
-  const triggerRef = useRef<HTMLButtonElement>(null);
+  const [mobileAboutOpen, setMobileAboutOpen] = useState(false);
+  
+  const servicesDropdownRef = useRef<HTMLDivElement>(null);
+  const servicesTriggerRef = useRef<HTMLButtonElement>(null);
+  const aboutDropdownRef = useRef<HTMLDivElement>(null);
 
   /* Scroll detection */
   useEffect(() => {
@@ -42,36 +50,42 @@ export function Header() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  /* Close dropdown on outside click */
+  /* Close dropdowns on outside click */
   useEffect(() => {
-    if (!servicesOpen) return;
     const handler = (e: MouseEvent) => {
       if (
-        dropdownRef.current && !dropdownRef.current.contains(e.target as Node) &&
-        triggerRef.current && !triggerRef.current.contains(e.target as Node)
+        servicesOpen &&
+        servicesDropdownRef.current && !servicesDropdownRef.current.contains(e.target as Node) &&
+        servicesTriggerRef.current && !servicesTriggerRef.current.contains(e.target as Node)
       ) {
         setServicesOpen(false);
+      }
+      if (
+        aboutOpen &&
+        aboutDropdownRef.current && !aboutDropdownRef.current.contains(e.target as Node)
+      ) {
+        setAboutOpen(false);
       }
     };
     document.addEventListener('mousedown', handler);
     return () => document.removeEventListener('mousedown', handler);
-  }, [servicesOpen]);
+  }, [servicesOpen, aboutOpen]);
 
-  /* Close dropdown on route change */
+  /* Close dropdowns on route change */
   useEffect(() => {
     setServicesOpen(false);
+    setAboutOpen(false);
     setMobileMenuOpen(false);
     setMobileServicesOpen(false);
+    setMobileAboutOpen(false);
   }, [pathname]);
 
   const isHome = pathname === '/';
   const isServicesActive = pathname?.startsWith('/services');
+  const isAboutActive = pathname === '/about' || pathname === '/leadership';
 
-  /* Plain nav links (Services is handled separately) */
+  /* Plain nav links (Home, Services & About Us are handled separately) */
   const navLinks: { name: string; href: string }[] = [
-    { name: 'Home', href: isHome ? '#' : '/' },
-    { name: 'About Us', href: '/about' },
-    { name: 'Our Leadership', href: '/leadership' },
     { name: 'Careers', href: '/careers' },
     { name: 'Get in Touch', href: '/contact' },
   ];
@@ -153,19 +167,88 @@ export function Header() {
               <span className="absolute bottom-0 left-0 w-full h-[2px] bg-brand-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ease-out" />
             </Link>
 
-            {/* About Us */}
-            <Link
-              href="/about"
-              className={cn("font-gotham text-[14px] font-normal antialiased uppercase tracking-wider transition-colors duration-300 relative group py-1.5", navTextCls)}
-            >
-              <span className={cn("group-hover:text-brand-gold transition-colors duration-300", pathname === '/about' ? 'text-brand-gold' : '')}>About Us</span>
-              <span className="absolute bottom-0 left-0 w-full h-[2px] bg-brand-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ease-out" />
-            </Link>
+            {/* ── About Us Dropdown ── */}
+            <div className="relative" ref={aboutDropdownRef} onMouseEnter={() => setAboutOpen(true)} onMouseLeave={() => setAboutOpen(false)}>
+              <Link
+                href="/about"
+                className={cn(
+                  "font-gotham text-[14px] font-normal antialiased uppercase tracking-wider transition-colors duration-300 relative group py-1.5 flex items-center gap-1.5 cursor-pointer select-none",
+                  navTextCls,
+                  isAboutActive ? '!text-brand-gold' : ''
+                )}
+              >
+                <span className={cn("group-hover:text-brand-gold transition-colors duration-300", isAboutActive ? 'text-brand-gold' : '')}>
+                  About Us
+                </span>
+                <ChevronDown
+                  className={cn(
+                    "w-3.5 h-3.5 transition-all duration-300",
+                    aboutOpen ? 'rotate-180 text-brand-gold' : 'rotate-0',
+                    isAboutActive ? 'text-brand-gold' : 'group-hover:text-brand-gold'
+                  )}
+                />
+                {/* Active underline */}
+                <span className={cn(
+                  "absolute bottom-0 left-0 h-[2px] bg-brand-gold transition-all duration-300 origin-left",
+                  isAboutActive ? 'w-full scale-x-100' : 'scale-x-0 group-hover:scale-x-100 w-full'
+                )} />
+              </Link>
+
+              {/* Dropdown Panel */}
+              <AnimatePresence>
+                {aboutOpen && (
+                  <motion.div
+                    initial={{ opacity: 0, y: 6, scale: 0.98 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: 6, scale: 0.98 }}
+                    transition={{ duration: 0.2, ease: [0.16, 1, 0.3, 1] }}
+                    onMouseEnter={() => setAboutOpen(true)}
+                    className="absolute top-[calc(100%+10px)] left-1/2 -translate-x-1/2 w-[200px] rounded-lg overflow-hidden z-50 bg-white border border-slate-200/70"
+                    style={{ boxShadow: '0 8px 24px -4px rgba(12,44,77,0.12), 0 2px 8px rgba(12,44,77,0.06)' }}
+                  >
+                    {/* Top gold accent — 1 px */}
+                    <div className="h-px w-full bg-gradient-to-r from-transparent via-[#BFA052]/70 to-transparent" />
+
+                    <div className="py-1">
+                      {ABOUT_CHILDREN.map((child) => {
+                        const isChildActive = pathname === child.href;
+                        return (
+                          <Link
+                            key={child.href}
+                            href={child.href}
+                            className={cn(
+                              "group flex items-center justify-center px-4 py-2.5 transition-all duration-200 relative text-center",
+                              "hover:bg-slate-50 text-brand-navy",
+                              isChildActive ? 'bg-slate-50' : ''
+                            )}
+                          >
+                            {/* Active indicator bar */}
+                            {isChildActive && (
+                              <span className="absolute left-0 top-1/2 -translate-y-1/2 w-[2.5px] h-4 bg-brand-gold rounded-r-full" />
+                            )}
+                            <span className={cn(
+                              "font-gotham text-[11px] uppercase tracking-widest font-medium transition-colors duration-200",
+                              isChildActive ? 'text-brand-gold' : 'group-hover:text-brand-gold'
+                            )}>
+                              {child.name}
+                            </span>
+                          </Link>
+                        );
+                      })}
+                    </div>
+
+                    {/* Bottom gold accent — 1 px */}
+                    <div className="h-px w-full bg-gradient-to-r from-transparent via-[#BFA052]/70 to-transparent" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+            {/* ── End About Us Dropdown ── */}
 
             {/* ── Services Dropdown ── */}
             <div className="relative" onMouseLeave={() => setServicesOpen(false)}>
               <button
-                ref={triggerRef}
+                ref={servicesTriggerRef}
                 onMouseEnter={() => setServicesOpen(true)}
                 onClick={() => setServicesOpen(v => !v)}
                 aria-haspopup="true"
@@ -197,7 +280,7 @@ export function Header() {
               <AnimatePresence>
                 {servicesOpen && (
                   <motion.div
-                    ref={dropdownRef}
+                    ref={servicesDropdownRef}
                     initial={{ opacity: 0, y: 6, scale: 0.98 }}
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 6, scale: 0.98 }}
@@ -246,7 +329,7 @@ export function Header() {
             {/* ── End Services Dropdown ── */}
 
             {/* Remaining plain links */}
-            {navLinks.slice(2).map((link) => {
+            {navLinks.map((link) => {
               const isActive = pathname === link.href;
               return (
                 <Link
@@ -293,15 +376,60 @@ export function Header() {
               <span className="absolute bottom-0 left-0 w-full h-[2px] bg-brand-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ease-out" />
             </Link>
 
-            {/* About Us */}
-            <Link
-              href="/about"
-              onClick={() => setMobileMenuOpen(false)}
-              className={cn("font-gotham text-[16px] font-normal antialiased uppercase tracking-[0.1em] text-brand-navy hover:text-brand-gold relative py-1 self-start group transition-colors duration-300", pathname === '/about' ? 'text-brand-gold' : '')}
-            >
-              <span>About Us</span>
-              <span className="absolute bottom-0 left-0 w-full h-[2px] bg-brand-gold scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left ease-out" />
-            </Link>
+            {/* ── About Us Mobile Accordion ── */}
+            <div className="flex flex-col">
+              <div className="flex items-center justify-between w-full">
+                <Link
+                  href="/about"
+                  onClick={() => setMobileMenuOpen(false)}
+                  className={cn(
+                    "font-gotham text-[16px] font-normal antialiased uppercase tracking-[0.1em] text-brand-navy hover:text-brand-gold relative py-1 self-start group transition-colors duration-300",
+                    pathname === '/about' ? 'text-brand-gold' : ''
+                  )}
+                >
+                  <span>About Us</span>
+                </Link>
+                <button
+                  onClick={() => setMobileAboutOpen(v => !v)}
+                  className="p-1 text-brand-navy hover:text-brand-gold transition-colors"
+                  aria-label="Toggle About Us menu"
+                >
+                  <ChevronDown className={cn("w-4 h-4 transition-transform duration-300 text-brand-gold", mobileAboutOpen ? 'rotate-180' : 'rotate-0')} />
+                </button>
+              </div>
+
+              <AnimatePresence>
+                {mobileAboutOpen && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: 'auto', opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.25, ease: 'easeInOut' }}
+                    className="overflow-hidden"
+                  >
+                    <div className="mt-2 ml-4 flex flex-col gap-1 border-l-2 border-[#BFA052]/30 pl-4">
+                      {ABOUT_CHILDREN.map((child) => {
+                        const isChildActive = pathname === child.href;
+                        return (
+                          <Link
+                            key={child.href}
+                            href={child.href}
+                            onClick={() => setMobileMenuOpen(false)}
+                            className={cn(
+                              "font-gotham text-[13px] font-normal antialiased uppercase tracking-[0.1em] text-brand-navy hover:text-brand-gold py-2 transition-colors duration-300",
+                              isChildActive ? 'text-brand-gold' : ''
+                            )}
+                          >
+                            {child.name}
+                          </Link>
+                        );
+                      })}
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
+            {/* ── End About Us Mobile ── */}
 
             {/* ── Services Mobile Accordion ── */}
             <div className="flex flex-col">
@@ -350,7 +478,7 @@ export function Header() {
             {/* ── End Services Mobile ── */}
 
             {/* Remaining links */}
-            {navLinks.slice(2).map((link) => (
+            {navLinks.map((link) => (
               <Link
                 key={link.name}
                 href={link.href}

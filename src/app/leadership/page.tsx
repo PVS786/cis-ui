@@ -38,7 +38,7 @@ const LEADERS = [
     imagePosition: "object-[center_35%]",
     bio: [
       "Aditya Shetty brings the rare ability to understand both people and problems, systems and stories, making him a true all-rounder in the business world. Driven by curiosity, an engineering graduate from an esteemed university with a strong foundation in quantitative abilities and an equally strong passion for people management, Aditya's professional journey is defined by rapid, merit-driven growth, from intern to senior business analyst in a leading-edge tech unicorn, and now a key leadership figure at Conservve.",
-      "Aditya has successfully led GTM initiatives across geographies, including the US, Canada, and APAC regions, demonstrating his unique capability to build, lead, and scale critical business functions. Whether crafting high-value commercial strategies and proposals, driving sales & GTM initiatives, or leading demand generation & negotiations, his efforts have translated into tangible business outcomes, including a 40% spike in pipeline growth and over $5 million for strategic accounts in a condensed timeframe.",
+      "Aditya has successfully led GTM initiatives across geographies, including the US, Canada, and APAC regions, demonstrating his unique capability to build, lead, and scale critical business functions. Whether crafting high-value commercial strategies and proposals, driving sales & GTM initiatives, or leading demand generation & negotiations, his efforts have translated into tangible business outcomes, including a 40% spike in pipeline growth and over\u00A0$5\u00A0million for strategic accounts in a condensed timeframe.",
       "As Co founder, Aditya plays a pivotal role in identifying growth opportunities within the real estate sector and its aligned domains, leading cross-functional teams, and shaping strategic direction across the organization. He continues to drive innovation and excellence, building ecosystems where business strategy and execution go hand in hand."
     ],
   }
@@ -49,9 +49,10 @@ interface CFrameProps {
   altText: string;
   isImageLeft: boolean;
   imagePosition?: string;
+  isWhiteFrame?: boolean;
 }
 
-function CFrame({ imageSrc, altText, imagePosition = "object-top" }: CFrameProps) {
+function CFrame({ imageSrc, altText, imagePosition = "object-top", isWhiteFrame = false }: CFrameProps) {
 
   const BarBorderGlow = ({ barIndex }: { barIndex: number }) => {
     return (
@@ -132,13 +133,17 @@ function CFrame({ imageSrc, altText, imagePosition = "object-top" }: CFrameProps
       {/* Row 1: Curved C-Frame + Vertical Pill Bar (Unified Alignment to match logo CI shape) */}
       <div className="flex items-center justify-center gap-[8px] sm:gap-[10px] md:gap-[12px] lg:gap-[14px]">
 
-        {/* Navy C-Shape Frame (Curves are always on the left, open on the right to resemble the Logo C) */}
+        {/* C-Shape Frame (Curves are always on the left, open on the right to resemble the Logo C) */}
         <motion.div
           initial={{ opacity: 0, x: -30 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1] }}
-          className="relative z-10 w-[240px] h-[280px] sm:w-[310px] sm:h-[360px] md:w-[340px] sm:md:h-[400px] lg:w-[370px] lg:h-[440px] flex-shrink-0 bg-[linear-gradient(135deg,#0C2C4D_0%,#12365A_40%,#0C2C4D_75%,#09213B_100%)] shadow-[0_8px_30px_rgba(12,44,77,0.12)] border border-brand-navy/30 rounded-tl-[32px] rounded-bl-[32px] sm:rounded-tl-[48px] sm:rounded-bl-[48px] md:rounded-tl-[64px] md:rounded-bl-[64px] lg:rounded-tl-[80px] lg:rounded-bl-[80px]"
+          className={`relative z-10 w-[240px] h-[280px] sm:w-[310px] sm:h-[360px] md:w-[340px] sm:md:h-[400px] lg:w-[370px] lg:h-[440px] flex-shrink-0 rounded-tl-[32px] rounded-bl-[32px] sm:rounded-tl-[48px] sm:rounded-bl-[48px] md:rounded-tl-[64px] md:rounded-bl-[64px] lg:rounded-tl-[80px] lg:rounded-bl-[80px] overflow-hidden ${
+            isWhiteFrame
+              ? "bg-[linear-gradient(135deg,#FFFFFF_0%,#F8FAFC_40%,#E2E8F0_75%,#CBD5E1_100%)] shadow-[0_14px_45px_rgba(0,0,0,0.4)] border-t border-b border-l border-r-0 border-white/80"
+              : "bg-[linear-gradient(135deg,#0C2C4D_0%,#12365A_40%,#0C2C4D_75%,#09213B_100%)] shadow-[0_8px_30px_rgba(12,44,77,0.12)] border-t border-b border-l border-r-0 border-brand-navy/30"
+          }`}
         >
           {/* Continuous Moving SVG Border Glow Accent (Directly on the frame boundary) */}
           <svg
@@ -169,7 +174,9 @@ function CFrame({ imageSrc, altText, imagePosition = "object-top" }: CFrameProps
 
           {/* Portrait Image Container */}
           <div
-            className="absolute overflow-hidden bg-slate-900 flex items-center justify-center transition-all duration-300 border border-brand-navy/10 top-6 bottom-6 left-6 right-0 sm:top-8 sm:bottom-8 sm:left-8 sm:right-0 md:top-10 md:bottom-10 md:left-10 md:right-0 lg:top-12 lg:bottom-12 lg:left-12 lg:right-0 rounded-l-[12px] sm:rounded-l-[16px] md:rounded-l-[20px] lg:rounded-l-[24px]"
+            className={`absolute overflow-hidden bg-slate-900 flex items-center justify-center transition-all duration-300 top-6 bottom-6 left-6 -right-[4px] sm:top-8 sm:bottom-8 sm:left-8 sm:-right-[4px] md:top-10 md:bottom-10 md:left-10 md:-right-[4px] lg:top-12 lg:bottom-12 lg:left-12 lg:-right-[4px] rounded-l-[12px] sm:rounded-l-[16px] md:rounded-l-[20px] lg:rounded-l-[24px] rounded-r-none ${
+              isWhiteFrame ? "border-t border-b border-l border-r-0 border-slate-200" : "border-t border-b border-l border-r-0 border-brand-navy/10"
+            }`}
           >
             <div className="relative w-full h-full overflow-hidden">
               <motion.div
@@ -194,13 +201,17 @@ function CFrame({ imageSrc, altText, imagePosition = "object-top" }: CFrameProps
           </div>
         </motion.div>
 
-        {/* Navy Vertical Pill Bar (Always on the right, matching logo letter thickness. Slides out from behind C-shape) */}
+        {/* Vertical Pill Bar (The 'I' Shape) */}
         <motion.div
           initial={{ opacity: 0, x: -160 }}
           whileInView={{ opacity: 1, x: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 1.5, ease: [0.16, 1, 0.3, 1], delay: 0.3 }}
-          className="relative z-0 w-[32px] sm:w-[42px] md:w-[48px] lg:w-[54px] h-[280px] sm:h-[360px] md:h-[400px] lg:h-[440px] bg-[linear-gradient(135deg,#0C2C4D_0%,#12365A_40%,#0C2C4D_75%,#09213B_100%)] rounded-[3px] shadow-md border border-brand-navy/30 flex-shrink-0 overflow-hidden"
+          className={`relative z-0 w-[32px] sm:w-[42px] md:w-[48px] lg:w-[54px] h-[280px] sm:h-[360px] md:h-[400px] lg:h-[440px] rounded-[3px] flex-shrink-0 overflow-hidden ${
+            isWhiteFrame
+              ? "bg-[linear-gradient(135deg,#FFFFFF_0%,#F8FAFC_40%,#E2E8F0_75%,#CBD5E1_100%)] shadow-[0_14px_45px_rgba(0,0,0,0.4)] border border-white/80"
+              : "bg-[linear-gradient(135deg,#0C2C4D_0%,#12365A_40%,#0C2C4D_75%,#09213B_100%)] shadow-md border border-brand-navy/30"
+          }`}
         >
           {/* Moving Border Glow Trace (Synchronized sequential loop index 1) */}
           <BarBorderGlow barIndex={1} />
@@ -279,7 +290,7 @@ export default function LeadershipPage() {
       <div className="absolute top-0 right-1/4 w-[600px] h-[600px] bg-brand-gold/5 rounded-full blur-[140px] pointer-events-none z-0" />
       <div className="absolute bottom-1/4 left-1/4 w-[500px] h-[500px] bg-[#1e5c94]/5 rounded-full blur-[120px] pointer-events-none z-0" />
 
-      {/* Hero Section (dimensions match contact us page) */}
+      {/* Hero Section */}
       <div className="relative w-full h-[450px] xs:h-[520px] md:h-[620px] lg:h-[700px] flex items-start bg-brand-navy overflow-hidden pt-[90px] xs:pt-[110px] sm:pt-[140px] md:pt-[160px] lg:pt-[180px]">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
@@ -302,20 +313,20 @@ export default function LeadershipPage() {
         </div>
 
         {/* Text overlay Container */}
-        <div className="max-w-[90rem] mx-auto px-6 md:px-12 lg:px-16 w-full relative z-20 text-left pt-0 md:pt-0">
+        <div className="max-w-[90rem] mx-auto px-6 md:px-12 lg:px-16 w-full relative z-20 text-left">
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="font-poppins text-white text-3xl xs:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.25] max-w-5xl"
+            className="font-tibere text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[3.75rem] font-bold tracking-tight leading-[1.25] max-w-5xl"
           >
             <div className="overflow-hidden py-1">
-              <motion.span variants={itemVariants} className="block">
-                Experience that understands
+              <motion.span variants={itemVariants} className="block font-tibere">
+                <span className="text-brand-gold">Experience</span> that understands
               </motion.span>
             </div>
             <div className="overflow-hidden py-1 mt-1 sm:mt-2">
-              <motion.span variants={itemVariants} className="block">
+              <motion.span variants={itemVariants} className="block font-tibere">
                 <span className="text-brand-gold">every layer</span> before it unfolds.
               </motion.span>
             </div>
@@ -645,32 +656,41 @@ export default function LeadershipPage() {
         {/* Alternate Leadership Profiles */}
         <div className="w-full bg-transparent relative">
           {LEADERS.map((leader) => {
-            const isTinted = true; // Both founders are tinted with warm champagne & pattern background
+            const isDarkNavy = leader.id === "kiran-shetty";
 
             return (
               <div key={leader.id} className="relative w-full">
+                {/* Golden Ribbon Top Break for Navy Section */}
+                {isDarkNavy && (
+                  <div className="w-full h-[4px] bg-brand-gold relative z-20 shadow-[0_2px_10px_rgba(0,0,0,0.15)]" />
+                )}
+
                 <section
-                  className="w-full py-10 sm:py-12 lg:py-14 transition-all duration-300 relative bg-transparent"
-                  style={isTinted ? {
-                    backgroundImage: "linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(250, 246, 238, 0.18) 15%, rgba(250, 246, 238, 0.18) 85%, rgba(255, 255, 255, 0) 100%)",
-                  } : undefined}
+                  className={`w-full py-12 sm:py-16 lg:py-20 transition-all duration-300 relative ${
+                    isDarkNavy
+                      ? "bg-[#0C2C4D] text-white"
+                      : "bg-transparent text-slate-800"
+                  }`}
+                  style={
+                    isDarkNavy
+                      ? { backgroundImage: "linear-gradient(180deg, #071D33 0%, #0C2C4D 50%, #06192E 100%)" }
+                      : { backgroundImage: "linear-gradient(to bottom, rgba(255, 255, 255, 0) 0%, rgba(250, 246, 238, 0.18) 15%, rgba(250, 246, 238, 0.18) 85%, rgba(255, 255, 255, 0) 100%)" }
+                  }
                 >
-                  {isTinted && (
-                    <motion.div
-                      initial={{ opacity: 0 }}
-                      whileInView={{ opacity: 0.04 }}
-                      viewport={{ once: true }}
-                      transition={{ duration: 1.0 }}
-                      className="absolute inset-0 pointer-events-none z-0"
-                    >
-                      <svg viewBox="0 0 100 100" className="w-full h-full stroke-brand-gold fill-none stroke-[0.1]">
-                        <pattern id={`founder-mesh-${leader.id}`} x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
-                          <path d="M 10 0 L 0 0 0 10" />
-                        </pattern>
-                        <rect width="100%" height="100%" fill={`url(#founder-mesh-${leader.id})`} />
-                      </svg>
-                    </motion.div>
-                  )}
+                  <motion.div
+                    initial={{ opacity: 0 }}
+                    whileInView={{ opacity: isDarkNavy ? 0.08 : 0.04 }}
+                    viewport={{ once: true }}
+                    transition={{ duration: 1.0 }}
+                    className="absolute inset-0 pointer-events-none z-0"
+                  >
+                    <svg viewBox="0 0 100 100" className="w-full h-full stroke-brand-gold fill-none stroke-[0.1]">
+                      <pattern id={`founder-mesh-${leader.id}`} x="0" y="0" width="10" height="10" patternUnits="userSpaceOnUse">
+                        <path d="M 10 0 L 0 0 0 10" />
+                      </pattern>
+                      <rect width="100%" height="100%" fill={`url(#founder-mesh-${leader.id})`} />
+                    </svg>
+                  </motion.div>
 
                   {/* Subtle Founder-Specific Technical Graphics at Placeholders (Top-Left & Bottom-Right) */}
                   {leader.id === "kiran-shetty" && (
@@ -683,7 +703,7 @@ export default function LeadershipPage() {
                         transition={{ duration: 1.2 }}
                         className="absolute left-6 top-8 w-[130px] h-[130px] pointer-events-none select-none z-0 hidden sm:block"
                       >
-                        <svg viewBox="0 0 100 100" className="w-full h-full stroke-brand-navy fill-none stroke-[1.2]">
+                        <svg viewBox="0 0 100 100" className="w-full h-full stroke-brand-gold/50 fill-none stroke-[1.2]">
                           {/* Rising smooth spline representing business growth velocity */}
                           <path d="M10,80 C30,75 40,40 60,35 C75,30 80,15 90,10" strokeWidth="1.6" />
 
@@ -692,8 +712,8 @@ export default function LeadershipPage() {
                           <line x1="10" y1="80" x2="10" y2="90" strokeWidth="0.8" />
 
                           {/* Trend coordinate nodes */}
-                          <circle cx="53" cy="36" r="2.5" fill="#0C2C4D" stroke="none" />
-                          <circle cx="90" cy="10" r="3" fill="#0C2C4D" stroke="none" />
+                          <circle cx="53" cy="36" r="2.5" fill="#BFA052" stroke="none" />
+                          <circle cx="90" cy="10" r="3" fill="#BFA052" stroke="none" />
 
                           {/* Dotted indicator projections */}
                           <line x1="53" y1="36" x2="53" y2="90" strokeWidth="0.8" strokeDasharray="2,2" />
@@ -709,7 +729,7 @@ export default function LeadershipPage() {
                         transition={{ duration: 1.2, delay: 0.2 }}
                         className="absolute right-6 bottom-8 w-[130px] h-[130px] pointer-events-none select-none z-0 hidden sm:block"
                       >
-                        <svg viewBox="0 0 100 100" className="w-full h-full stroke-brand-navy fill-none stroke-[1.2]">
+                        <svg viewBox="0 0 100 100" className="w-full h-full stroke-brand-gold/50 fill-none stroke-[1.2]">
                           {/* Outer gyroscopic balance alignment rings */}
                           <circle cx="50" cy="50" r="36" />
                           <circle cx="50" cy="50" r="30" strokeDasharray="2,2" opacity="0.7" />
@@ -721,11 +741,11 @@ export default function LeadershipPage() {
                           <line x1="50" y1="20" x2="50" y2="80" strokeWidth="0.8" />
 
                           {/* Balance pivot nodes */}
-                          <circle cx="50" cy="50" r="3.5" fill="#0C2C4D" stroke="none" />
-                          <circle cx="14" cy="50" r="2.5" fill="#0C2C4D" stroke="none" />
-                          <circle cx="86" cy="50" r="2.5" fill="#0C2C4D" stroke="none" />
-                          <circle cx="50" cy="20" r="2" fill="#0C2C4D" stroke="none" />
-                          <circle cx="50" cy="80" r="2" fill="#0C2C4D" stroke="none" />
+                          <circle cx="50" cy="50" r="3.5" fill="#BFA052" stroke="none" />
+                          <circle cx="14" cy="50" r="2.5" fill="#BFA052" stroke="none" />
+                          <circle cx="86" cy="50" r="2.5" fill="#BFA052" stroke="none" />
+                          <circle cx="50" cy="20" r="2" fill="#BFA052" stroke="none" />
+                          <circle cx="50" cy="80" r="2" fill="#BFA052" stroke="none" />
                         </svg>
                       </motion.div>
                     </>
@@ -808,6 +828,7 @@ export default function LeadershipPage() {
                             altText={`${leader.name} - ${leader.role}`}
                             isImageLeft={leader.isImageLeft}
                             imagePosition={leader.imagePosition}
+                            isWhiteFrame={isDarkNavy}
                           />
                         </motion.div>
                       </div>
@@ -827,36 +848,38 @@ export default function LeadershipPage() {
                         >
                           {/* Restructured Name Header Container */}
                           <div className="mb-6 flex flex-col items-start w-full">
-                            {/* Row 1: Name and Vertical Navy Bar (Horizontally aligned with end of gold lines below it) */}
+                            {/* Row 1: Name and Vertical Bar */}
                             <div className="flex items-end justify-between w-full relative">
                               {/* Leader Name */}
-                              <h3 className="text-4xl sm:text-5xl font-gotham font-black tracking-wide uppercase text-brand-navy leading-[1.05]">
+                              <h3 className={`text-4xl sm:text-5xl font-tibere font-bold tracking-wide uppercase leading-[1.05] ${
+                                isDarkNavy ? "text-white" : "text-brand-navy"
+                              }`}>
                                 {leader.name}
                               </h3>
 
-                              {/* Navy vertical line, aligned exactly with the end of the gold lines */}
+                              {/* Vertical line, aligned exactly with the end of the gold lines */}
                               <div className="absolute right-0 bottom-[2px] sm:bottom-[3px]">
                                 <motion.div
                                   initial={{ scaleY: 0 }}
                                   whileInView={{ scaleY: 1 }}
                                   viewport={{ once: true }}
                                   transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
-                                  style={{ originY: 1.0 }} // Grows upwards from the baseline
-                                  className="w-[3.5px] sm:w-[4.5px] h-[38px] sm:h-[50px] bg-[#0C2C4D] rounded-sm"
+                                  style={{ originY: 1.0 }}
+                                  className={`w-[3.5px] sm:w-[4.5px] h-[38px] sm:h-[50px] rounded-sm ${
+                                    isDarkNavy ? "bg-[#BFA052]" : "bg-[#0C2C4D]"
+                                  }`}
                                 />
                               </div>
                             </div>
 
-                            {/* Row 2: Role and Horizontal Gold Lines (Ending exactly flush under the Navy Vertical Bar) */}
+                            {/* Row 2: Role and Horizontal Gold Lines */}
                             <div className="flex items-center space-x-4 w-full relative mt-3">
-                              {/* Slightly increased font size from text-xs sm:text-sm to text-sm sm:text-base */}
-                              <span className="text-lg sm:text-xl font-poppins font-black tracking-[0.15em] text-brand-gold uppercase whitespace-nowrap">
+                              <span className="text-lg sm:text-xl font-tibere font-bold tracking-[0.15em] text-brand-gold uppercase whitespace-nowrap">
                                 {leader.role}
                               </span>
 
-                              {/* Divider block wrapper extending matching the Navy vertical line above */}
+                              {/* Divider block wrapper */}
                               <div className="flex-grow relative h-[12px]">
-                                {/* Gold Horizontal divider lines */}
                                 <motion.div
                                   initial={{ scaleX: 0 }}
                                   whileInView={{ scaleX: 1 }}
@@ -865,15 +888,17 @@ export default function LeadershipPage() {
                                   style={{ originX: 0 }}
                                   className="flex flex-col gap-[3.5px] w-full"
                                 >
-                                  <div className="h-[2.2px] w-full bg-brand-gold" /> {/* Subtly thicker first line */}
-                                  <div className="h-[3px] sm:h-[4px] w-[140px] bg-brand-gold rounded-sm" /> {/* Uniform shape matching Navy vertical bar */}
+                                  <div className="h-[2.2px] w-full bg-brand-gold" />
+                                  <div className="h-[3px] sm:h-[4px] w-[140px] bg-brand-gold rounded-sm" />
                                 </motion.div>
                               </div>
                             </div>
                           </div>
 
                           {/* Biography Paragraphs */}
-                          <div className="space-y-6 text-sm sm:text-base leading-relaxed font-poppins font-normal text-slate-700">
+                          <div className={`space-y-6 text-sm sm:text-base leading-relaxed font-poppins ${
+                            isDarkNavy ? "font-light text-slate-200/90" : "font-normal text-slate-700"
+                          }`}>
                             {leader.bio.map((paragraph, idx) => (
                               <p key={idx} className="last:mb-0">
                                 {paragraph}
@@ -886,6 +911,11 @@ export default function LeadershipPage() {
                     </div>
                   </div>
                 </section>
+
+                {/* Golden Ribbon Bottom Break for Navy Section */}
+                {isDarkNavy && (
+                  <div className="w-full h-[4px] bg-brand-gold relative z-20 shadow-[0_2px_10px_rgba(0,0,0,0.15)]" />
+                )}
               </div>
             );
           })}
