@@ -848,28 +848,13 @@ export default function LeadershipPage() {
                         >
                           {/* Restructured Name Header Container */}
                           <div className="mb-6 flex flex-col items-start w-full">
-                            {/* Row 1: Name and Vertical Bar */}
+                            {/* Row 1: Leader Name */}
                             <div className="flex items-end justify-between w-full relative">
-                              {/* Leader Name */}
                               <h3 className={`text-4xl sm:text-5xl font-tibere font-bold tracking-wide uppercase leading-[1.05] ${
                                 isDarkNavy ? "text-white" : "text-brand-navy"
                               }`}>
                                 {leader.name}
                               </h3>
-
-                              {/* Vertical line, aligned exactly with the end of the gold lines */}
-                              <div className="absolute right-0 bottom-[2px] sm:bottom-[3px]">
-                                <motion.div
-                                  initial={{ scaleY: 0 }}
-                                  whileInView={{ scaleY: 1 }}
-                                  viewport={{ once: true }}
-                                  transition={{ duration: 1.2, ease: [0.16, 1, 0.3, 1], delay: 0.5 }}
-                                  style={{ originY: 1.0 }}
-                                  className={`w-[3.5px] sm:w-[4.5px] h-[38px] sm:h-[50px] rounded-sm ${
-                                    isDarkNavy ? "bg-[#BFA052]" : "bg-[#0C2C4D]"
-                                  }`}
-                                />
-                              </div>
                             </div>
 
                             {/* Row 2: Role and Horizontal Gold Lines */}
@@ -886,10 +871,10 @@ export default function LeadershipPage() {
                                   viewport={{ once: true }}
                                   transition={{ duration: 1.4, ease: [0.16, 1, 0.3, 1], delay: 0.2 }}
                                   style={{ originX: 0 }}
-                                  className="flex flex-col gap-[3.5px] w-full"
+                                  className="flex flex-col gap-[4px] w-full justify-center"
                                 >
-                                  <div className="h-[2.2px] w-full bg-brand-gold" />
-                                  <div className="h-[3px] sm:h-[4px] w-[140px] bg-brand-gold rounded-sm" />
+                                  <div className="h-[2.5px] w-full bg-brand-gold rounded-sm" />
+                                  <div className="h-[2.5px] w-[140px] bg-brand-gold rounded-sm" />
                                 </motion.div>
                               </div>
                             </div>
