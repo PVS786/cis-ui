@@ -18,7 +18,7 @@ export function IntegratedSolutionsSection() {
       title: "Regulatory Approvals & Clearance Management",
       content: [
         "From NOC to OC, every approval, handled end to end. We take full ownership of the regulatory process, managing every submission, clearance, and compliance requirement on your behalf, with precision and care. From environmental clearances and layout sanctions to building plan approvals and occupancy sign-offs, we navigate every stage, stay present at every window, and make sure nothing gets delayed, duplicated, or missed.",
-        "This includes title verification, land use conversions, NA orders, TDR applications, and zoning compliance checks — every technical prerequisite handled before a single brick is laid. Your project keeps moving, your timelines stay intact, and nothing falls through the cracks."
+        "This includes title verification, land use conversions, NA orders, TDR applications, and zoning compliance checks every technical prerequisite handled before a single brick is laid. Your project keeps moving, your timelines stay intact, and nothing falls through the cracks."
       ],
       img: "/reg-appr.png"
     }
@@ -30,9 +30,9 @@ export function IntegratedSolutionsSection() {
         <div className="flex flex-col md:flex-row items-start md:items-center justify-center md:gap-16 gap-8 mb-16 pt-16 pb-10">
           {/* Heading Column */}
           <div className="max-w-3xl shrink-0">
-            <h2 className="text-6xl md:text-7xl font-tibere text-brand-navy leading-[0.95] tracking-tight uppercase">
+            <h2 className="font-tibere text-brand-navy font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[0.95] tracking-tight uppercase whitespace-nowrap">
               Integrated Land <br />
-              <span className="text-brand-gold italic">Solutions.</span>
+              <span className="text-[#BFA052] italic">Solutions</span>
             </h2>
           </div>
           {/* Divider and Paragraph Column */}

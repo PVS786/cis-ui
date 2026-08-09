@@ -11,7 +11,7 @@ const HERO_CONTENT = {
 
 const INTRODUCTION_CONTENT = {
   subtitle: "OUR LEADERSHIP",
-  title: "Guided by Experience,\nDriven by Vision.",
+  title: "Guided by Experience,\nDriven by Vision",
   paragraph: "Our leaders bring decades of expertise in land acquisition, approvals, infrastructure development, and sustainable growth.",
 };
 
@@ -256,19 +256,26 @@ export default function LeadershipPage() {
     visible: {
       opacity: 1,
       transition: {
-        staggerChildren: 0.3,
-        delayChildren: 0.2,
+        staggerChildren: 0.25,
+        delayChildren: 0.25,
       }
     }
   };
 
   const itemVariants = {
-    hidden: { y: "60px", opacity: 0 },
+    hidden: {
+      opacity: 0,
+      x: -30,
+      filter: 'blur(8px)',
+      scale: 0.98,
+    },
     visible: {
-      y: 0,
       opacity: 1,
+      x: 0,
+      filter: 'blur(0px)',
+      scale: 1,
       transition: {
-        duration: 0.9,
+        duration: 1.2,
         ease: [0.16, 1, 0.3, 1] as const,
       }
     }
@@ -318,18 +325,14 @@ export default function LeadershipPage() {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="font-tibere text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[3.75rem] font-bold tracking-tight leading-[1.25] max-w-5xl"
+            className="font-tibere text-white text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-[3.75rem] font-bold tracking-[0.05em] leading-[1.25] max-w-5xl space-y-2 md:space-y-3"
           >
-            <div className="overflow-hidden py-1">
-              <motion.span variants={itemVariants} className="block font-tibere">
-                <span className="text-brand-gold">Experience</span> that understands
-              </motion.span>
-            </div>
-            <div className="overflow-hidden py-1 mt-1 sm:mt-2">
-              <motion.span variants={itemVariants} className="block font-tibere">
-                <span className="text-brand-gold">every layer</span> before it unfolds.
-              </motion.span>
-            </div>
+            <motion.span variants={itemVariants} className="block font-tibere">
+              <span className="text-brand-gold">Experience</span> that understands
+            </motion.span>
+            <motion.span variants={itemVariants} className="block font-tibere">
+              <span className="text-brand-gold">every layer</span> before it unfolds
+            </motion.span>
           </motion.div>
         </div>
       </div>
@@ -362,7 +365,7 @@ export default function LeadershipPage() {
                   className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-tibere text-brand-navy font-bold leading-[1.15] uppercase tracking-wide"
                 >
                   Guided by <span className="text-brand-gold">Experience</span>,<br />
-                  Driven by <span className="text-brand-gold">Vision</span>.
+                  Driven by <span className="text-brand-gold">Vision</span>
                 </motion.h2>
 
                 {/* Description Paragraph matching image2 style */}

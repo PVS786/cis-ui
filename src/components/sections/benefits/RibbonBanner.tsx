@@ -8,8 +8,11 @@ import { motion } from 'framer-motion';
 interface RibbonBannerProps {
   benefit: BenefitItem;
   show3DFolds: boolean;
-  isSelected: boolean;
-  onSelect: () => void;
+  isSelected?: boolean;
+  onSelect?: () => void;
+  isExpandedControlled?: boolean;
+  onHover?: () => void;
+  onLeave?: () => void;
 }
 
 const IconContainer: React.FC<{ name: string; className?: string; size?: number }> = ({ name, className, size = 54 }) => {
@@ -51,8 +54,12 @@ export const RibbonBanner: React.FC<RibbonBannerProps> = ({
   show3DFolds,
   isSelected: _isSelected,
   onSelect: _onSelect,
+  isExpandedControlled,
+  onHover,
+  onLeave,
 }) => {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [internalHover, setInternalHover] = useState(false);
+  const isExpanded = isExpandedControlled !== undefined ? isExpandedControlled : internalHover;
   const isNavy = benefit.type === 'navy';
 
   const ribbonColorClass = isNavy 
@@ -82,8 +89,14 @@ export const RibbonBanner: React.FC<RibbonBannerProps> = ({
       }}
       transition={{ duration: 0.35, ease: 'easeInOut' }}
       whileHover={{ y: isExpanded ? -3 : -6, scale: 1.01 }}
-      onMouseEnter={() => setIsExpanded(true)}
-      onMouseLeave={() => setIsExpanded(false)}
+      onMouseEnter={() => {
+        setInternalHover(true);
+        if (onHover) onHover();
+      }}
+      onMouseLeave={() => {
+        setInternalHover(false);
+        if (onLeave) onLeave();
+      }}
       className="relative w-full max-w-[270px] flex flex-col items-center justify-between select-none cursor-pointer z-10"
       style={{
         filter: isExpanded

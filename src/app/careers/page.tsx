@@ -142,86 +142,70 @@ const HealthPulseIcon = ({ className = "w-8.5 h-8.5 text-white" }: { className?:
   </svg>
 );
 
-interface BenefitItem {
+export interface BenefitItem {
   id: string;
   title: string;
   description: string;
   icon: React.ComponentType<{ className?: string }>;
-  angle: number; // Clock position angle in degrees (-90 = 12h, -30 = 2h, 30 = 4h, 90 = 6h, 150 = 8h, -150 = 10h)
-  side: 'left' | 'right';
-  cardTopPx: number; // Y offset for desktop card
+  ringRadius: number;       // Radius of full 360° concentric target layer (195, 166, 137, 108, 79, 44)
+  ringStrokeWidth: number;  // Stroke width of full 360° concentric target layer
 }
 
-const BENEFIT_ITEMS: BenefitItem[] = [
+export const LEFT_BENEFITS: BenefitItem[] = [
   {
     id: "01",
-    title: "Career Growth and Development",
-    description: "Access structured learning, mentorship, and clear paths for professional progression.",
-    icon: GrowthChartIcon,
-    angle: -90, // 12 o'clock (Top)
-    side: "right",
-    cardTopPx: 90,
-  },
-  {
-    id: "02",
-    title: "Innovative Work",
-    description: "Lead high-impact projects, solve complex challenges, and grow your skills across diverse teams.",
-    icon: InnovativeWorkIcon,
-    angle: -30, // 2 o'clock (Top-Right)
-    side: "right",
-    cardTopPx: 360, // Shifted down for 135px uniform vertical spacing between cards 1, 2 & 3
-  },
-  {
-    id: "03",
-    title: "Flexible Work Environment",
-    description: "We prioritize outcomes over clocked hours, giving you the freedom to work in a way that drives real results.",
-    icon: FlexibleWorkIcon,
-    angle: 30, // 4 o'clock (Bottom-Right)
-    side: "right",
-    cardTopPx: 630,
-  },
-  {
-    id: "04",
-    title: "Competitive Rewards",
-    description: "Benefits that reflect your value and contribution.",
-    icon: Trophy,
-    angle: 90, // 6 o'clock (Bottom)
-    side: "left",
-    cardTopPx: 710,
-  },
-  {
-    id: "05",
-    title: "Make a Difference",
-    description: "Your ideas matter from day one contribute, influence, and see tangible results.",
-    icon: Star,
-    angle: 150, // 8 o'clock (Bottom-Left)
-    side: "left",
-    cardTopPx: 507.5, // Card center y = 547.5px (perfect straight horizontal line matching pos.y)
-  },
-  {
-    id: "06",
     title: "Your Health Matters Here",
     description: "We prioritize your health by offering resources and initiatives that nurture both your physical fitness and emotional well-being.",
     icon: HealthPulseIcon,
-    angle: -150, // 10 o'clock (Top-Left)
-    side: "left",
-    cardTopPx: 312.5, // Card center y = 352.5px (perfect straight horizontal line matching pos.y)
+    ringRadius: 195, // Layer 1: Outer Navy Ring 3
+    ringStrokeWidth: 32,
+  },
+  {
+    id: "02",
+    title: "Make a Difference",
+    description: "Your ideas matter from day one—contribute, influence, and see tangible results.",
+    icon: Star,
+    ringRadius: 166, // Layer 2: Outer White Spacer Ring
+    ringStrokeWidth: 24,
+  },
+  {
+    id: "03",
+    title: "Competitive Rewards",
+    description: "Benefits that reflect your value and contribution.",
+    icon: Trophy,
+    ringRadius: 137, // Layer 3: Middle Gold Ring 2
+    ringStrokeWidth: 32,
   },
 ];
 
-// Target center coordinates for 1200x900 system
-const CX = 600;
-const CY = 450;
+export const RIGHT_BENEFITS: BenefitItem[] = [
+  {
+    id: "04",
+    title: "Career Growth and Development",
+    description: "Access structured learning, mentorship, and clear paths for professional progression.",
+    icon: GrowthChartIcon,
+    ringRadius: 44,  // Layer 6: Center Golden Bullseye Core (Right Top!)
+    ringStrokeWidth: 88,
+  },
+  {
+    id: "05",
+    title: "Innovative Work",
+    description: "Lead high-impact projects, solve complex challenges, and grow your skills across diverse teams.",
+    icon: InnovativeWorkIcon,
+    ringRadius: 79,  // Layer 5: Inner Navy Ring 1 (Right Middle!)
+    ringStrokeWidth: 32,
+  },
+  {
+    id: "06",
+    title: "Flexible Work Environment",
+    description: "We prioritize outcomes over clocked hours, giving you the freedom to work in a way that drives real results.",
+    icon: FlexibleWorkIcon,
+    ringRadius: 108, // Layer 4: Inner White Spacer Ring (Right Bottom!)
+    ringStrokeWidth: 24,
+  },
+];
 
-// Thinner rings with uniform white spacing gaps
-// Bullseye radius: 38px (proportional match to ring dimensions)
-// Gap 1: 38-62px (24px gap)
-// Ring 1 (Inner Navy): mid = 79px, width = 34px (covers 62-96px)
-// Gap 2: 96-120px (24px gap)
-// Ring 2 (Middle Gold): mid = 137px, width = 34px (covers 120-154px)
-// Gap 3: 154-178px (24px gap)
-// Ring 3 (Outer Navy): mid = 195px, width = 34px (covers 178-212px)
-const BADGE_RADIUS_DIST = 195; // Radial distance to badge centers (centered right on Outer Navy Ring)
+const ALL_BENEFITS = [...LEFT_BENEFITS, ...RIGHT_BENEFITS];
 
 export default function CareersPage() {
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -260,15 +244,6 @@ export default function CareersPage() {
         ease: [0.16, 1, 0.3, 1] as const,
       }
     }
-  };
-
-  // Calculate Badge (X, Y) coordinates on SVG canvas
-  const getBadgePos = (angleDeg: number) => {
-    const rad = (angleDeg * Math.PI) / 180;
-    return {
-      x: CX + BADGE_RADIUS_DIST * Math.cos(rad),
-      y: CY + BADGE_RADIUS_DIST * Math.sin(rad),
-    };
   };
 
   return (
@@ -311,7 +286,7 @@ export default function CareersPage() {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="font-poppins text-white text-3xl xs:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.25] max-w-5xl space-y-2 md:space-y-3"
+            className="font-poppins text-white text-3xl xs:text-4xl md:text-5xl lg:text-6xl font-bold tracking-[0.05em] leading-[1.25] max-w-5xl space-y-2 md:space-y-3"
           >
             <motion.span variants={itemVariants} className="block font-tibere">
               Be part of something
@@ -323,7 +298,7 @@ export default function CareersPage() {
               where growth isn't just a <span className="text-brand-gold">goal</span>,
             </motion.span>
             <motion.span variants={itemVariants} className="block font-tibere">
-              it's the <span className="text-brand-gold">culture</span>.
+              it's the <span className="text-brand-gold">culture</span>
             </motion.span>
           </motion.div>
         </div>
@@ -334,7 +309,7 @@ export default function CareersPage() {
 
       {/* Main Content Area — Clean Brand White Pattern Space */}
       <div
-        className="w-full flex-1 py-16 md:py-24"
+        className="w-full flex-1 pt-10 pb-16 md:pt-14 md:pb-24"
         style={{
           backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92)), url('/Logo_Distort_BG.png')",
           backgroundRepeat: 'repeat',
@@ -344,7 +319,7 @@ export default function CareersPage() {
         {/* ========================================================================= */}
         {/* WHY JOIN US SECTION                                                       */}
         {/* ========================================================================= */}
-        <section className="max-w-[94rem] mx-auto px-4 sm:px-6 md:px-12 w-full flex flex-col items-center">
+        <section className="max-w-[94rem] mx-auto px-4 sm:px-6 md:px-12 w-full flex flex-col items-center pt-2 pb-4">
 
           {/* SECTION HEADER: Title with side gold arrows + Underline + Intro Text */}
           <div className="w-full max-w-5xl flex flex-col items-center text-center mb-4">
@@ -358,8 +333,10 @@ export default function CareersPage() {
                 <ChevronRight className="w-4 h-4 text-[#BFA052] -ml-2" />
               </div>
 
-              <h2 className="font-heading text-4xl sm:text-5xl md:text-6xl font-extrabold text-[#0C2C4D] tracking-[0.08em] uppercase">
-                WHY JOIN US
+              {/* Title rendered strictly on ONE single line matching The Five Pillars of Execution style */}
+              <h2 className="font-tibere text-brand-navy text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[0.95] tracking-tight uppercase whitespace-nowrap flex items-center justify-center gap-2 sm:gap-3.5">
+                <span className="text-[#0C2C4D]">WHY </span>{' '}
+                <span className="text-brand-gold italic">JOIN US</span>
               </h2>
 
               {/* Right Gold Arrow */}
@@ -378,287 +355,393 @@ export default function CareersPage() {
 
             {/* Intro Paragraph (Enlarged font size + high legibility) */}
             <p className="font-poppins text-[17px] sm:text-[19px] md:text-[20px] text-slate-800 font-normal leading-[1.85] max-w-5xl">
-              Working at Conservve Infra Solutions means finding a place where your commitment is matched by the culture around you. We move fast, we hold ourselves to high standards. We move with speed and purpose, holding ourselves to high standards in everything we do. We seek people who take genuine ownership and care deeply about the outcomes they create. In return, we invest that same level of commitment and more back into the people who make it all possible. But while striving for excellence and driving results, your well-being is always a top priority because we know that sustainable performance comes from a team that is supported, balanced, and energized. If that's the kind of environment you've been looking for, you'll find it here.
+              Working at Conservve Infra Solutionss means finding a place where your commitment is matched by the culture around you. We move fast, we hold ourselves to high standards. We move with speed and purpose, holding ourselves to high standards in everything we do. We seek people who take genuine ownership and care deeply about the outcomes they create. In return, we invest that same level of commitment and more back into the people who make it all possible. But while striving for excellence and driving results, your well-being is always a top priority because we know that sustainable performance comes from a team that is supported, balanced, and energized. If that's the kind of environment you've been looking for, you'll find it here.
             </p>
           </div>
 
           {/* ========================================================================= */}
-          {/* DESKTOP TARGET BOARD SHOWCASE (Visible on lg screens)                     */}
+          {/* 3 + 3 SYMMETRICAL CARD SHOWCASE WITH HERO CENTRAL TARGET BOARD            */}
           {/* ========================================================================= */}
-          <div className="hidden lg:block w-full max-w-6xl relative select-none -mt-4">
-            <div className="relative w-full aspect-[1200/900] mx-auto filter drop-shadow-[0_20px_40px_rgba(12,44,77,0.18)]">
 
-              {/* SVG Canvas for Concentric Rings + Connecting Lines */}
-              <svg viewBox="0 0 1200 900" className="absolute inset-0 w-full h-full overflow-visible">
-                <defs>
-                  {/* Metallic 3D Gradients */}
-                  <linearGradient id="navy3DGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#1C436C" />
-                    <stop offset="45%" stopColor="#0C2C4D" />
-                    <stop offset="100%" stopColor="#05172A" />
-                  </linearGradient>
-
-                  <linearGradient id="gold3DGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-                    <stop offset="0%" stopColor="#F0D695" />
-                    <stop offset="45%" stopColor="#BFA052" />
-                    <stop offset="100%" stopColor="#8A6E2B" />
-                  </linearGradient>
-
-                  {/* Pure Neutral Shadow Filter without blue bleed */}
-                  <filter id="neutralShadow" x="-30%" y="-30%" width="160%" height="160%">
-                    <feDropShadow dx="0" dy="18" stdDeviation="20" floodColor="#000000" floodOpacity="0.16" />
-                  </filter>
-                </defs>
-
-                {/* TARGET CONCENTRIC RINGS (PURE WHITE BASE, PROPORTIONAL RINGS & GAPS) */}
-                <g filter="url(#neutralShadow)">
-                  {/* Pure Solid White Base Disk under Target (eliminates all blue bleed between rings) */}
-                  <circle cx={CX} cy={CY} r={212} fill="#ffffff" stroke="rgba(0,0,0,0.06)" strokeWidth={1} />
-
-                  {/* Outer Navy Ring 3 (midRadius: 195px, width: 34px) */}
-                  <circle cx={CX} cy={CY} r={195} fill="none" stroke="url(#navy3DGrad)" strokeWidth={34} />
-                  <circle cx={CX} cy={CY} r={212} fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth={1.2} />
-                  <circle cx={CX} cy={CY} r={178} fill="none" stroke="rgba(0,0,0,0.2)" strokeWidth={1.2} />
-
-                  {/* Middle Gold Ring 2 (midRadius: 137px, width: 34px) */}
-                  <circle cx={CX} cy={CY} r={137} fill="none" stroke="url(#gold3DGrad)" strokeWidth={34} />
-                  <circle cx={CX} cy={CY} r={154} fill="none" stroke="rgba(255,255,255,0.45)" strokeWidth={1.2} />
-                  <circle cx={CX} cy={CY} r={120} fill="none" stroke="rgba(0,0,0,0.2)" strokeWidth={1.2} />
-
-                  {/* Inner Navy Ring 1 (midRadius: 79px, width: 34px) */}
-                  <circle cx={CX} cy={CY} r={79} fill="none" stroke="url(#navy3DGrad)" strokeWidth={34} />
-                  <circle cx={CX} cy={CY} r={96} fill="none" stroke="rgba(255,255,255,0.4)" strokeWidth={1.2} />
-                  <circle cx={CX} cy={CY} r={62} fill="none" stroke="rgba(0,0,0,0.2)" strokeWidth={1.2} />
-
-                  {/* Bullseye Center SMALL GOLDEN CIRCLE (radius: 38px, matching ring dimensions) */}
-                  <circle cx={CX} cy={CY} r={38} fill="url(#gold3DGrad)" stroke="#0C2C4D" strokeWidth={3.5} />
-                  <circle cx={CX} cy={CY} r={35} fill="none" stroke="#ffffff" strokeWidth={1.5} strokeOpacity={0.6} />
-                </g>
-
-                {/* CONNECTOR LINES WITH CIRCLE ENDPOINTS FROM BADGES TO CARDS */}
-                {BENEFIT_ITEMS.map((item) => {
-                  const pos = getBadgePos(item.angle);
-                  const cardX = item.side === 'right' ? 920 : 280;
+          {/* DESKTOP COMPOSITION (lg+ screens) */}
+          <div className="hidden lg:block w-full max-w-[1240px] mx-auto my-4 lg:my-6 select-none">
+            <div className="relative w-full h-[580px] flex items-center justify-between">
+              {/* LEFT COLUMN: 3 Compact Cards (Width: ~295px) */}
+              <div className="w-[285px] xl:w-[305px] h-full flex flex-col justify-between py-2 z-20">
+                {LEFT_BENEFITS.map((item) => {
+                  const IconComp = item.icon;
                   const isHovered = activeId === item.id;
 
-                  let pathD = "";
-                  let cardPinY = item.cardTopPx + 40;
-
-                  if (item.id === "06" || item.id === "05") {
-                    // img1 (Your Health Matters) & img2 (Make a Difference): 100% straight horizontal line (no bend)
-                    pathD = `M ${pos.x} ${pos.y} L ${cardX} ${pos.y}`;
-                    cardPinY = pos.y;
-                  } else if (item.id === "02") {
-                    // img3 (Innovative Work): Inverted bend on top (rises up-right to kneeY=315, extends right, then connects to cardPinY=400)
-                    const kneeY = 315;
-                    pathD = `M ${pos.x} ${pos.y} L ${pos.x + 40} ${kneeY} L ${cardX - 55} ${kneeY} L ${cardX} ${cardPinY}`;
-                  } else {
-                    // Standard stepped line for remaining cards
-                    pathD = `M ${pos.x} ${pos.y} L ${item.side === 'right' ? pos.x + 40 : pos.x - 40} ${cardPinY} L ${cardX} ${cardPinY}`;
-                  }
-
                   return (
-                    <g key={`line-${item.id}`}>
-                      {/* Connector Line */}
-                      <path
-                        d={pathD}
-                        fill="none"
-                        stroke={isHovered ? "#BFA052" : "#0C2C4D"}
-                        strokeWidth={isHovered ? 2.8 : 1.8}
-                        style={{ transition: 'all 0.3s' }}
-                      />
-                      {/* Endpoint Circle Pin at Badge */}
-                      <circle
-                        cx={pos.x}
-                        cy={pos.y}
-                        r={5.5}
-                        fill="#0C2C4D"
-                        stroke="#BFA052"
-                        strokeWidth={2}
-                      />
-                      {/* Endpoint Circle Pin at Card */}
-                      <circle
-                        cx={cardX}
-                        cy={cardPinY}
-                        r={4.5}
-                        fill="#0C2C4D"
-                      />
-                    </g>
-                  );
-                })}
-              </svg>
-
-              {/* DART ARROW (public/career/Dart_Arrow.png) pointing diagonally with arrowhead landing DEAD CENTER at (600, 450) */}
-              <div
-                className="absolute z-30 pointer-events-none"
-                style={{
-                  top: '18.8%',
-                  left: '26.6%',
-                  width: '320px',
-                  height: '320px',
-                }}
-              >
-                <motion.div
-                  initial={{ x: -280, y: -280, opacity: 0, scale: 0.8 }}
-                  animate={arrowTrigger ? { x: 0, y: 0, opacity: 1, scale: 1 } : {}}
-                  transition={{ type: "spring", stiffness: 100, damping: 14, mass: 1.1 }}
-                  className="w-full h-full relative"
-                >
-                  <Image
-                    src="/career/Dart_Arrow.png"
-                    alt="Dart Arrow"
-                    fill
-                    className="object-contain filter drop-shadow-[0_16px_30px_rgba(12,44,77,0.4)]"
-                    priority
-                  />
-                </motion.div>
-              </div>
-
-              {/* LARGER RADIAL NODE BADGES (w-16 h-16 / 64px centered on outer navy ring) */}
-              {BENEFIT_ITEMS.map((item) => {
-                const pos = getBadgePos(item.angle);
-                const IconComp = item.icon;
-                const isHovered = activeId === item.id;
-
-                return (
-                  <div
-                    key={`badge-dom-${item.id}`}
-                    style={{
-                      position: 'absolute',
-                      left: `${(pos.x / 1200) * 100}%`,
-                      top: `${(pos.y / 900) * 100}%`,
-                      transform: 'translate(-50%, -50%)',
-                      zIndex: 40,
-                    }}
-                    onMouseEnter={() => setActiveId(item.id)}
-                    onMouseLeave={() => setActiveId(null)}
-                    className="cursor-pointer"
-                  >
                     <motion.div
+                      key={`card-left-${item.id}`}
+                      tabIndex={0}
+                      onMouseEnter={() => setActiveId(item.id)}
+                      onMouseLeave={() => setActiveId(null)}
+                      onFocus={() => setActiveId(item.id)}
+                      onBlur={() => setActiveId(null)}
                       animate={{
-                        scale: isHovered ? 1.18 : 1.0,
+                        y: isHovered ? -6 : 0,
+                        scale: isHovered ? 1.025 : 1.0,
+                        borderColor: isHovered ? '#BFA052' : '#e2e8f0',
                         boxShadow: isHovered
-                          ? '0 0 28px rgba(191,160,82,0.85), 0 10px 24px rgba(12,44,77,0.35)'
-                          : '0 8px 20px rgba(12,44,77,0.25)',
+                          ? '0 20px 40px rgba(12,44,77,0.16), 0 0 22px rgba(191,160,82,0.32)'
+                          : '0 6px 20px rgba(12,44,77,0.07)',
                       }}
-                      transition={{ type: "spring", stiffness: 350, damping: 22 }}
-                      className="w-16 h-16 bg-gradient-to-br from-[#E2C075] via-[#BFA052] to-[#987C38] rounded-full flex items-center justify-center border-[3.5px] border-[#0C2C4D] relative"
-                    >
-                      {/* Inner Crisp White Border Ring matching img1 */}
-                      <div className="absolute inset-[2px] rounded-full border-[1.5px] border-white/90 pointer-events-none" />
-                      <IconComp className="w-8 h-8 text-white filter drop-shadow-[0_1.5px_2px_rgba(0,0,0,0.3)] relative z-10" />
-                    </motion.div>
-                  </div>
-                );
-              })}
-
-              {/* HTML FEATURE CARDS (Positioned on Left & Right Sides) */}
-              {BENEFIT_ITEMS.map((item) => {
-                const isHovered = activeId === item.id;
-
-                const cardStyle: React.CSSProperties = {
-                  position: 'absolute',
-                  top: `${(item.cardTopPx / 900) * 100}%`,
-                  width: '285px',
-                  zIndex: 35,
-                };
-
-                if (item.side === 'right') {
-                  cardStyle.left = '77%';
-                } else {
-                  cardStyle.right = '77%';
-                }
-
-                return (
-                  <div
-                    key={`card-dom-${item.id}`}
-                    style={cardStyle}
-                    onMouseEnter={() => setActiveId(item.id)}
-                    onMouseLeave={() => setActiveId(null)}
-                    className="cursor-pointer"
-                  >
-                    <motion.div
-                      animate={{
-                        scale: isHovered ? 1.04 : 1.0,
-                        boxShadow: isHovered
-                          ? "0 20px 40px rgba(12,44,77,0.16), 0 0 16px rgba(191,160,82,0.3)"
-                          : "0 8px 25px rgba(12,44,77,0.08)",
-                        borderColor: isHovered ? "#BFA052" : "#e2e8f0",
-                      }}
-                      transition={{ type: "spring", stiffness: 350, damping: 24 }}
-                      className="bg-white p-5 rounded-2xl border border-slate-200 text-left relative overflow-hidden backdrop-blur-md"
+                      whileTap={{ scale: 0.98 }}
+                      transition={{ type: 'spring', stiffness: 350, damping: 24 }}
+                      className="group relative bg-white p-4.5 xl:p-5 rounded-2xl border border-slate-200 text-left overflow-visible backdrop-blur-md cursor-pointer min-h-[125px] flex flex-col justify-center focus:outline-none focus:ring-2 focus:ring-[#BFA052]"
                     >
                       {/* Left Gold Accent Bar */}
-                      <div className="absolute left-0 top-0 bottom-0 w-[4.5px] bg-[#BFA052]" />
+                      <div className="absolute left-0 top-0 bottom-0 w-[4px] bg-[#BFA052] rounded-l-2xl" />
 
-                      <h3 className="font-poppins font-extrabold text-[16px] text-[#0C2C4D] leading-snug mb-2 tracking-tight">
-                        {item.title}
-                      </h3>
-                      <p className="font-poppins text-[12px] text-slate-700 font-bold leading-relaxed">
-                        {item.description}
-                      </p>
+                      {/* Left-Side Wallet Badge (Matching RHS design) */}
+                      <div className="absolute -left-5 top-1/2 -translate-y-1/2 z-30">
+                        <motion.div
+                          animate={{
+                            scale: isHovered ? 1.2 : 1.0,
+                            rotate: isHovered ? 8 : 0,
+                            boxShadow: isHovered
+                              ? '0 0 24px rgba(191,160,82,0.95), 0 8px 16px rgba(12,44,77,0.4)'
+                              : '0 4px 12px rgba(12,44,77,0.2)',
+                          }}
+                          transition={{ type: 'spring', stiffness: 350, damping: 22 }}
+                          className="w-12 h-12 xl:w-13 xl:h-13 bg-gradient-to-br from-[#E2C075] via-[#BFA052] to-[#987C38] rounded-full flex items-center justify-center border-2 border-[#0C2C4D] relative overflow-hidden"
+                        >
+                          <div className="absolute inset-[1.5px] rounded-full border border-white/80 pointer-events-none" />
+                          <IconComp className="w-6 h-6 xl:w-6.5 xl:h-6.5 text-white filter drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)] relative z-10" />
+                        </motion.div>
+                      </div>
+
+                      {/* Card Content */}
+                      <div className="pl-10 pr-2">
+                        <h3 className="font-poppins font-extrabold text-[14.5px] xl:text-[15.5px] text-[#0C2C4D] leading-snug mb-1 tracking-tight group-hover:text-[#BFA052] transition-colors duration-300">
+                          {item.title}
+                        </h3>
+                        <p className="font-poppins text-[11.5px] xl:text-[12px] text-slate-700 font-medium leading-relaxed">
+                          {item.description}
+                        </p>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
+
+              {/* CENTER COLUMN: DOMINANT HERO TARGET BOARD (Size: 440px - 470px) */}
+              <div className="flex-1 flex items-center justify-center z-20 px-4">
+                <div className="relative w-[430px] h-[430px] xl:w-[470px] xl:h-[470px] mx-auto select-none filter drop-shadow-[0_22px_45px_rgba(12,44,77,0.2)]">
+                  {/* SVG Concentric Rings + Active Ring Segment Highlights */}
+                  <svg viewBox="0 0 500 500" className="w-full h-full overflow-visible">
+                    <defs>
+                      <linearGradient id="navy3DGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#1C436C" />
+                        <stop offset="45%" stopColor="#0C2C4D" />
+                        <stop offset="100%" stopColor="#05172A" />
+                      </linearGradient>
+
+                      <linearGradient id="gold3DGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#F0D695" />
+                        <stop offset="45%" stopColor="#BFA052" />
+                        <stop offset="100%" stopColor="#8A6E2B" />
+                      </linearGradient>
+
+                      <linearGradient id="white3DGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" stopColor="#FFFFFF" />
+                        <stop offset="60%" stopColor="#F8FAFC" />
+                        <stop offset="100%" stopColor="#E2E8F0" />
+                      </linearGradient>
+
+                      <filter id="neutralShadow" x="-30%" y="-30%" width="160%" height="160%">
+                        <feDropShadow dx="0" dy="16" stdDeviation="18" floodColor="#000000" floodOpacity="0.18" />
+                      </filter>
+                    </defs>
+
+                    {/* Pure Solid White Base Disk */}
+                    <circle cx="250" cy="250" r="218" fill="#ffffff" stroke="rgba(0,0,0,0.06)" strokeWidth="1" filter="url(#neutralShadow)" />
+
+                    {/* LAYER 1 (Card 01 - Your Health Matters Here): Outer Navy Ring 3 */}
+                    <motion.g
+                      animate={{
+                        scale: activeId === "01" ? 1.065 : 1.0,
+                        filter: activeId === "01" ? "drop-shadow(0 14px 28px rgba(191,160,82,0.65)) drop-shadow(0 0 20px rgba(191,160,82,0.7))" : "drop-shadow(0 0 0 rgba(0,0,0,0))",
+                      }}
+                      style={{ transformOrigin: "250px 250px" }}
+                      transition={{ type: "spring", stiffness: 350, damping: 24 }}
+                    >
+                      <circle cx="250" cy="250" r="195" fill="none" stroke="url(#navy3DGrad)" strokeWidth="32" />
+                      <circle cx="250" cy="250" r="211" fill="none" stroke={activeId === "01" ? "#F5D77F" : "rgba(255,255,255,0.4)"} strokeWidth={activeId === "01" ? "3.5" : "1.2"} />
+                      <circle cx="250" cy="250" r="179" fill="none" stroke={activeId === "01" ? "#F5D77F" : "rgba(0,0,0,0.2)"} strokeWidth={activeId === "01" ? "3.5" : "1.2"} />
+                    </motion.g>
+
+                    {/* LAYER 2 (Card 02 - Make a Difference): Outer White Spacer Ring */}
+                    <motion.g
+                      animate={{
+                        scale: activeId === "02" ? 1.065 : 1.0,
+                        filter: activeId === "02" ? "drop-shadow(0 14px 28px rgba(191,160,82,0.65)) drop-shadow(0 0 20px rgba(191,160,82,0.7))" : "drop-shadow(0 0 0 rgba(0,0,0,0))",
+                      }}
+                      style={{ transformOrigin: "250px 250px" }}
+                      transition={{ type: "spring", stiffness: 350, damping: 24 }}
+                    >
+                      <circle cx="250" cy="250" r="166" fill="none" stroke="url(#white3DGrad)" strokeWidth="24" />
+                      <circle cx="250" cy="250" r="178" fill="none" stroke={activeId === "02" ? "#F5D77F" : "rgba(0,0,0,0.12)"} strokeWidth={activeId === "02" ? "3.5" : "1"} />
+                      <circle cx="250" cy="250" r="154" fill="none" stroke={activeId === "02" ? "#F5D77F" : "rgba(0,0,0,0.12)"} strokeWidth={activeId === "02" ? "3.5" : "1"} />
+                    </motion.g>
+
+                    {/* LAYER 3 (Card 03 - Competitive Rewards): Middle Gold Ring 2 */}
+                    <motion.g
+                      animate={{
+                        scale: activeId === "03" ? 1.065 : 1.0,
+                        filter: activeId === "03" ? "drop-shadow(0 14px 28px rgba(191,160,82,0.75)) drop-shadow(0 0 22px rgba(191,160,82,0.8))" : "drop-shadow(0 0 0 rgba(0,0,0,0))",
+                      }}
+                      style={{ transformOrigin: "250px 250px" }}
+                      transition={{ type: "spring", stiffness: 350, damping: 24 }}
+                    >
+                      <circle cx="250" cy="250" r="137" fill="none" stroke="url(#gold3DGrad)" strokeWidth="32" />
+                      <circle cx="250" cy="250" r="153" fill="none" stroke={activeId === "03" ? "#FFFFFF" : "rgba(255,255,255,0.45)"} strokeWidth={activeId === "03" ? "3.5" : "1.2"} />
+                      <circle cx="250" cy="250" r="121" fill="none" stroke={activeId === "03" ? "#F5D77F" : "rgba(0,0,0,0.2)"} strokeWidth={activeId === "03" ? "3.5" : "1.2"} />
+                    </motion.g>
+
+                    {/* LAYER 4 (Card 06 - Flexible Work Environment): Inner White Spacer Ring */}
+                    <motion.g
+                      animate={{
+                        scale: activeId === "06" ? 1.065 : 1.0,
+                        filter: activeId === "06" ? "drop-shadow(0 14px 28px rgba(191,160,82,0.65)) drop-shadow(0 0 20px rgba(191,160,82,0.7))" : "drop-shadow(0 0 0 rgba(0,0,0,0))",
+                      }}
+                      style={{ transformOrigin: "250px 250px" }}
+                      transition={{ type: "spring", stiffness: 350, damping: 24 }}
+                    >
+                      <circle cx="250" cy="250" r="108" fill="none" stroke="url(#white3DGrad)" strokeWidth="24" />
+                      <circle cx="250" cy="250" r="120" fill="none" stroke={activeId === "06" ? "#F5D77F" : "rgba(0,0,0,0.12)"} strokeWidth={activeId === "06" ? "3.5" : "1"} />
+                      <circle cx="250" cy="250" r="96" fill="none" stroke={activeId === "06" ? "#F5D77F" : "rgba(0,0,0,0.12)"} strokeWidth={activeId === "06" ? "3.5" : "1"} />
+                    </motion.g>
+
+                    {/* LAYER 5 (Card 05 - Innovative Work): Inner Navy Ring 1 */}
+                    <motion.g
+                      animate={{
+                        scale: activeId === "05" ? 1.065 : 1.0,
+                        filter: activeId === "05" ? "drop-shadow(0 14px 28px rgba(191,160,82,0.65)) drop-shadow(0 0 20px rgba(191,160,82,0.7))" : "drop-shadow(0 0 0 rgba(0,0,0,0))",
+                      }}
+                      style={{ transformOrigin: "250px 250px" }}
+                      transition={{ type: "spring", stiffness: 350, damping: 24 }}
+                    >
+                      <circle cx="250" cy="250" r="79" fill="none" stroke="url(#navy3DGrad)" strokeWidth="32" />
+                      <circle cx="250" cy="250" r="95" fill="none" stroke={activeId === "05" ? "#F5D77F" : "rgba(255,255,255,0.4)"} strokeWidth={activeId === "05" ? "3.5" : "1.2"} />
+                      <circle cx="250" cy="250" r="63" fill="none" stroke={activeId === "05" ? "#F5D77F" : "rgba(0,0,0,0.2)"} strokeWidth={activeId === "05" ? "3.5" : "1.2"} />
+                    </motion.g>
+
+                    {/* LAYER 6 (Card 04 - Career Growth and Development): Center Bullseye Golden Core Circle */}
+                    <motion.g
+                      animate={{
+                        scale: activeId === "04" ? 1.14 : 1.0,
+                        filter: activeId === "04" ? "drop-shadow(0 14px 30px rgba(191,160,82,0.85)) drop-shadow(0 0 24px rgba(191,160,82,0.9))" : "drop-shadow(0 0 0 rgba(0,0,0,0))",
+                      }}
+                      style={{ transformOrigin: "250px 250px" }}
+                      transition={{ type: "spring", stiffness: 350, damping: 24 }}
+                    >
+                      <circle cx="250" cy="250" r="44" fill="url(#gold3DGrad)" stroke="#0C2C4D" strokeWidth={activeId === "04" ? "5.5" : "3.5"} />
+                      <circle cx="250" cy="250" r="40" fill="none" stroke="#ffffff" strokeWidth="1.5" strokeOpacity="0.85" />
+                    </motion.g>
+
+                    {/* 6 FULL 360° INVISIBLE HIT-TESTING RINGS FOR THE 6 CARDS */}
+                    {ALL_BENEFITS.map((item) => (
+                      <circle
+                        key={`target-layer-hit-${item.id}`}
+                        cx="250"
+                        cy="250"
+                        r={item.ringRadius}
+                        fill={item.id === "04" ? "transparent" : "none"}
+                        stroke={item.id === "04" ? "none" : "transparent"}
+                        strokeWidth={item.ringStrokeWidth + 6}
+                        className="cursor-pointer focus:outline-none"
+                        onMouseEnter={() => setActiveId(item.id)}
+                        onMouseLeave={() => setActiveId(null)}
+                        tabIndex={0}
+                        onFocus={() => setActiveId(item.id)}
+                        onBlur={() => setActiveId(null)}
+                        aria-label={`Select ${item.title}`}
+                      />
+                    ))}
+                  </svg>
+
+                  {/* DART ARROW pointing diagonally into bullseye center (TIP TERMINATES EXACTLY AT 50%, 50%) */}
+                  <div className="absolute inset-0 pointer-events-none z-10">
+                    <motion.div
+                      initial={{ x: -140, y: -140, opacity: 0, scale: 0.8 }}
+                      animate={arrowTrigger ? { x: 0, y: 0, opacity: 1, scale: 1 } : {}}
+                      transition={{ type: "spring", stiffness: 110, damping: 15, mass: 1.0 }}
+                      style={{
+                        position: 'absolute',
+                        width: '76%',
+                        height: '76%',
+                        left: 'calc(50% - 66.12%)',
+                        top: 'calc(50% - 65.36%)',
+                      }}
+                    >
+                      <Image
+                        src="/career/Dart_Arrow.png"
+                        alt="Dart Arrow"
+                        width={380}
+                        height={380}
+                        className="w-full h-full object-contain filter drop-shadow-[0_16px_28px_rgba(12,44,77,0.38)]"
+                        priority
+                      />
                     </motion.div>
                   </div>
-                );
-              })}
+                </div>
+              </div>
+
+              {/* RIGHT COLUMN: 3 Compact Cards (Width: ~295px) */}
+              <div className="w-[285px] xl:w-[305px] h-full flex flex-col justify-between py-2 z-20">
+                {RIGHT_BENEFITS.map((item) => {
+                  const IconComp = item.icon;
+                  const isHovered = activeId === item.id;
+
+                  return (
+                    <motion.div
+                      key={`card-right-${item.id}`}
+                      tabIndex={0}
+                      onMouseEnter={() => setActiveId(item.id)}
+                      onMouseLeave={() => setActiveId(null)}
+                      onFocus={() => setActiveId(item.id)}
+                      onBlur={() => setActiveId(null)}
+                      animate={{
+                        y: isHovered ? -6 : 0,
+                        scale: isHovered ? 1.025 : 1.0,
+                        borderColor: isHovered ? '#BFA052' : '#e2e8f0',
+                        boxShadow: isHovered
+                          ? '0 20px 40px rgba(12,44,77,0.16), 0 0 22px rgba(191,160,82,0.32)'
+                          : '0 6px 20px rgba(12,44,77,0.07)',
+                      }}
+                      whileTap={{ scale: 0.98 }}
+                      transition={{ type: 'spring', stiffness: 350, damping: 24 }}
+                      className="group relative bg-white p-4.5 xl:p-5 rounded-2xl border border-slate-200 text-left overflow-visible backdrop-blur-md cursor-pointer min-h-[125px] flex flex-col justify-center focus:outline-none focus:ring-2 focus:ring-[#BFA052]"
+                    >
+                      {/* Left Gold Accent Bar */}
+                      <div className="absolute left-0 top-0 bottom-0 w-[4px] bg-[#BFA052] rounded-l-2xl" />
+
+                      {/* Left-Side Wallet Badge (Matching RHS design) */}
+                      <div className="absolute -left-5 top-1/2 -translate-y-1/2 z-30">
+                        <motion.div
+                          animate={{
+                            scale: isHovered ? 1.2 : 1.0,
+                            rotate: isHovered ? -8 : 0,
+                            boxShadow: isHovered
+                              ? '0 0 24px rgba(191,160,82,0.95), 0 8px 16px rgba(12,44,77,0.4)'
+                              : '0 4px 12px rgba(12,44,77,0.2)',
+                          }}
+                          transition={{ type: 'spring', stiffness: 350, damping: 22 }}
+                          className="w-12 h-12 xl:w-13 xl:h-13 bg-gradient-to-br from-[#E2C075] via-[#BFA052] to-[#987C38] rounded-full flex items-center justify-center border-2 border-[#0C2C4D] relative overflow-hidden"
+                        >
+                          <div className="absolute inset-[1.5px] rounded-full border border-white/80 pointer-events-none" />
+                          <IconComp className="w-6 h-6 xl:w-6.5 xl:h-6.5 text-white filter drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)] relative z-10" />
+                        </motion.div>
+                      </div>
+
+                      {/* Card Content */}
+                      <div className="pl-10 pr-2">
+                        <h3 className="font-poppins font-extrabold text-[14.5px] xl:text-[15.5px] text-[#0C2C4D] leading-snug mb-1 tracking-tight group-hover:text-[#BFA052] transition-colors duration-300">
+                          {item.title}
+                        </h3>
+                        <p className="font-poppins text-[11.5px] xl:text-[12px] text-slate-700 font-medium leading-relaxed">
+                          {item.description}
+                        </p>
+                      </div>
+                    </motion.div>
+                  );
+                })}
+              </div>
 
             </div>
           </div>
 
-          {/* ========================================================================= */}
-          {/* MOBILE & TABLET RESPONSIVE CARDS (Below lg screens)                       */}
-          {/* ========================================================================= */}
-          <div className="w-full flex flex-col items-center lg:hidden mt-8 gap-4 max-w-xl">
-            {/* Target Board Mobile Badge Circle */}
-            <div className="relative w-[280px] h-[280px] sm:w-[340px] sm:h-[340px] select-none mb-6">
-              <svg viewBox="0 0 600 600" className="w-full h-full overflow-visible">
-                <circle cx="300" cy="300" r="220" fill="none" stroke="url(#navy3DGrad)" strokeWidth={24} />
-                <circle cx="300" cy="300" r="165" fill="none" stroke="url(#gold3DGrad)" strokeWidth={24} />
-                <circle cx="300" cy="300" r="110" fill="none" stroke="url(#navy3DGrad)" strokeWidth={24} />
-                <circle cx="300" cy="300" r="65" fill="url(#navy3DGrad)" stroke="#092642" strokeWidth={2} />
-
-                {/* Bullseye text mobile */}
-                <g className="pointer-events-none select-none font-tibere text-[24px] uppercase tracking-[0.14em]" textAnchor="middle">
-                  <text x="300" y="276" fill="#ffffff" fontWeight="800">WHY</text>
-                  <text x="300" y="303" fill="#ffffff" fontWeight="800">JOIN</text>
-                  <text x="300" y="330" fill="#ffffff" fontWeight="800">US</text>
-                </g>
+          {/* Tablet 2-Column / Mobile 1-Column Responsive Cards Grid */}
+          <div className="w-full flex flex-col items-center lg:hidden my-4 gap-6 max-w-4xl">
+            {/* Target Board Hero Visual */}
+            <div className="relative w-[300px] h-[300px] sm:w-[350px] sm:h-[350px] select-none my-2">
+              <svg viewBox="0 0 500 500" className="w-full h-full overflow-visible filter drop-shadow-lg">
+                <circle cx="250" cy="250" r="215" fill="#ffffff" stroke="rgba(0,0,0,0.06)" strokeWidth="1" />
+                <circle cx="250" cy="250" r="195" fill="none" stroke="url(#navy3DGrad)" strokeWidth="34" />
+                <circle cx="250" cy="250" r="137" fill="none" stroke="url(#gold3DGrad)" strokeWidth="34" />
+                <circle cx="250" cy="250" r="79" fill="none" stroke="url(#navy3DGrad)" strokeWidth="34" />
+                <circle cx="250" cy="250" r="38" fill="url(#gold3DGrad)" stroke="#0C2C4D" strokeWidth="3.5" />
               </svg>
 
-              {/* Mobile Dart Overlay */}
-              <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
-                <Image
-                  src="/career/Dart_Arrow.png"
-                  alt="Dart Arrow"
-                  width={220}
-                  height={220}
-                  className="object-contain transform -rotate-12 translate-x-3 -translate-y-3 filter drop-shadow-lg"
-                />
+              {/* Dart Overlay (Tip terminates at exact center 50%, 50%) */}
+              <div className="absolute inset-0 pointer-events-none z-10">
+                <div
+                  style={{
+                    position: 'absolute',
+                    width: '76%',
+                    height: '76%',
+                    left: 'calc(50% - 66.12%)',
+                    top: 'calc(50% - 65.36%)',
+                  }}
+                >
+                  <Image
+                    src="/career/Dart_Arrow.png"
+                    alt="Dart Arrow"
+                    width={260}
+                    height={260}
+                    className="w-full h-full object-contain filter drop-shadow-md"
+                    priority
+                  />
+                </div>
               </div>
             </div>
 
-            {/* Mobile Feature Cards Stack */}
-            <div className="w-full space-y-4">
-              {BENEFIT_ITEMS.map((item) => {
+            {/* Tablet 2-Column / Mobile 1-Column Responsive Cards Grid */}
+            <div className="w-full grid grid-cols-1 md:grid-cols-2 gap-5 pt-2">
+              {ALL_BENEFITS.map((item) => {
                 const IconComp = item.icon;
+                const isHovered = activeId === item.id;
+
                 return (
-                  <div
+                  <motion.div
                     key={`mobile-card-${item.id}`}
-                    className="bg-white p-5 rounded-2xl border border-slate-200 shadow-md text-left flex gap-4 items-start relative overflow-hidden"
+                    onMouseEnter={() => setActiveId(item.id)}
+                    onMouseLeave={() => setActiveId(null)}
+                    animate={{
+                      y: isHovered ? -4 : 0,
+                      borderColor: isHovered ? '#BFA052' : '#e2e8f0',
+                      boxShadow: isHovered
+                        ? '0 16px 32px rgba(12,44,77,0.14), 0 0 16px rgba(191,160,82,0.25)'
+                        : '0 6px 20px rgba(12,44,77,0.06)',
+                    }}
+                    whileTap={{ scale: 0.98 }}
+                    transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+                    className="group relative bg-white p-4.5 rounded-2xl border border-slate-200 text-left overflow-visible backdrop-blur-md cursor-pointer min-h-[120px] flex flex-col justify-center"
                   >
-                    <div className="absolute left-0 top-0 bottom-0 w-[4.5px] bg-[#BFA052]" />
-                    <div className="w-12 h-12 bg-gradient-to-br from-[#F0D695] via-[#BFA052] to-[#8A6E2B] rounded-full flex items-center justify-center border-2 border-[#0C2C4D] shrink-0">
-                      <IconComp className="w-6 h-6 text-white" />
+                    {/* Left Gold Accent Bar */}
+                    <div className="absolute left-0 top-0 bottom-0 w-[4px] bg-[#BFA052] rounded-l-2xl" />
+
+                    {/* Left-Side Wallet Badge (Matching RHS design) */}
+                    <div className="absolute top-1/2 -translate-y-1/2 -left-4 z-30">
+                      <motion.div
+                        animate={{
+                          scale: isHovered ? 1.15 : 1.0,
+                          rotate: isHovered ? -6 : 0,
+                          boxShadow: isHovered
+                            ? '0 0 20px rgba(191,160,82,0.85), 0 6px 14px rgba(12,44,77,0.3)'
+                            : '0 3px 10px rgba(12,44,77,0.18)',
+                        }}
+                        transition={{ type: 'spring', stiffness: 350, damping: 22 }}
+                        className="w-11 h-11 bg-gradient-to-br from-[#E2C075] via-[#BFA052] to-[#987C38] rounded-full flex items-center justify-center border-2 border-[#0C2C4D] relative overflow-hidden"
+                      >
+                        <div className="absolute inset-[1.5px] rounded-full border border-white/80 pointer-events-none" />
+                        <IconComp className="w-5.5 h-5.5 text-white filter drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)] relative z-10" />
+                      </motion.div>
                     </div>
-                    <div>
-                      <h3 className="font-poppins font-extrabold text-[17.5px] text-[#0C2C4D] mb-1.5 tracking-tight">
+
+                    {/* Card Content */}
+                    <div className="pl-9 pr-2">
+                      <h3 className="font-poppins font-extrabold text-[15px] text-[#0C2C4D] leading-snug mb-1 tracking-tight group-hover:text-[#BFA052] transition-colors duration-300">
                         {item.title}
                       </h3>
-                      <p className="font-poppins text-xs text-slate-700 font-bold leading-relaxed">
+                      <p className="font-poppins text-[11.5px] text-slate-700 font-medium leading-relaxed">
                         {item.description}
                       </p>
                     </div>
-                  </div>
+                  </motion.div>
                 );
               })}
             </div>

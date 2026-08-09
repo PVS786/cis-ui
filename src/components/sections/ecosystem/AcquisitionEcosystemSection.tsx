@@ -38,8 +38,8 @@ export default function AcquisitionEcosystemSection() {
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-12 lg:gap-16 w-full mb-1 md:mb-2">
           {/* Title */}
           <div className="shrink-0">
-            <h2 className="font-tibere font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#0C2C4D] tracking-tight leading-none uppercase whitespace-nowrap" style={{ wordSpacing: '0.25em' }}>
-              What We Handle
+            <h2 className="font-tibere font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-[#0C2C4D] tracking-tight leading-[0.95] uppercase whitespace-nowrap">
+              WHAT <span className="text-[#BFA052] italic">WE HANDLE</span>
             </h2>
           </div>
 

@@ -300,7 +300,7 @@ export function Header() {
                             key={child.href}
                             href={child.href}
                             className={cn(
-                              "group flex items-center justify-center px-4 py-2.5 transition-all duration-200 relative text-center",
+                              "group flex items-center justify-start text-left px-5 py-2.5 transition-all duration-200 relative",
                               "hover:bg-slate-50 text-brand-navy",
                               isChildActive ? 'bg-slate-50' : ''
                             )}

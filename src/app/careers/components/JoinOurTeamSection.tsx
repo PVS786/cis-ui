@@ -590,7 +590,7 @@ const EnvelopeForm: React.FC = () => {
           Application Sealed & Sent!
         </h3>
         <p className="text-[#0C2C4D] font-poppins text-xs md:text-sm max-w-sm mt-3 leading-relaxed font-semibold">
-          Your application has been successfully sent. The recruitment team at <strong className="text-[#BFA052]">Conservve Infra Solutions</strong> has received your resume.
+          Your application has been successfully sent. The recruitment team at <strong className="text-[#BFA052]">Conservve Infra Solutionss</strong> has received your resume.
         </p>
 
         <div className="mt-4 px-4 py-2 bg-[#0C2C4D]/[0.03] border border-[#BFA052]/20 rounded-lg max-w-xs text-center">
@@ -615,7 +615,7 @@ const EnvelopeForm: React.FC = () => {
 export default function JoinOurTeamSection() {
   return (
     <section
-      className="relative flex flex-col justify-between overflow-x-hidden font-poppins select-text pt-6 pb-6 w-full"
+      className="relative flex flex-col justify-between overflow-x-hidden font-poppins select-text pt-2 sm:pt-3 lg:pt-4 pb-6 w-full"
       style={{
         backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92)), url('/Logo_Distort_BG.png')",
         backgroundRepeat: 'repeat',
@@ -631,8 +631,8 @@ export default function JoinOurTeamSection() {
         <div className="lg:col-span-5 flex flex-col justify-center h-full relative min-h-[360px] lg:pr-6 text-left">
 
           <div className="relative">
-            <h2 className="text-[#0C2C4D] font-heading font-extrabold text-4xl sm:text-5xl md:text-6xl lg:text-[72px] tracking-tight leading-none uppercase">
-              Join Our Team
+            <h2 className="font-tibere text-[#0C2C4D] font-bold text-3xl sm:text-4xl md:text-4xl lg:text-5xl xl:text-6xl tracking-tight leading-[0.95] uppercase whitespace-nowrap">
+              JOIN <span className="text-brand-gold italic">OUR TEAM</span>
             </h2>
 
             {/* Gold line + square indicator */}
@@ -643,7 +643,7 @@ export default function JoinOurTeamSection() {
           </div>
 
           <p className="text-[#0C2C4D]/85 font-poppins text-[17px] sm:text-[19px] md:text-[20px] leading-[1.8] tracking-wide max-w-lg font-medium">
-            Take the next step in your career with Conservve Infra Solutions. Explore our open roles and grow with a team where innovation, expertise, and impact go hand in hand.
+            Take the next step in your career with Conservve Infra Solutionss. Explore our open roles and grow with a team where innovation, expertise, and impact go hand in hand.
           </p>
 
           {/* Contact Box with email link */}

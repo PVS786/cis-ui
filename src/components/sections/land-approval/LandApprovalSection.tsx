@@ -59,8 +59,8 @@ export default function LandApprovalSection() {
           </div>
         </div>
 
-        {/* Content Card & 3D Block Carousel Row (Rolled back to previous 3D block version) */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-14 items-center">
+        {/* Content Card & 3D Block Carousel Row */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-10 lg:gap-12 items-center">
           
           {/* LEFT COLUMN: Paragraph Content Card */}
           <div className="lg:col-span-7 relative group">
@@ -70,10 +70,10 @@ export default function LandApprovalSection() {
             <div className="absolute -inset-1.5 border border-brand-navy/5 -z-10 rounded-xl rotate-1" />
             
             {/* Soft White Floating Card styled with Editorial Theme precise shadow and border */}
-            <div className="bg-white/95 backdrop-blur-sm p-6 md:p-8 rounded-r-xl shadow-[0_20px_50px_-15px_rgba(12,44,77,0.1)] border-l-4 border-[#BFA052] relative overflow-hidden">
+            <div className="bg-white/95 backdrop-blur-sm p-6 md:p-8 lg:p-10 rounded-2xl shadow-md border-l-4 border-[#BFA052] relative overflow-hidden">
               
               {/* Detailed Paragraphs formatted with Poppins font */}
-              <div className="font-poppins text-brand-navy/95 text-xs md:text-[13px] leading-relaxed text-justify space-y-3 font-normal">
+              <div className="font-poppins text-slate-800 text-sm sm:text-base md:text-[15px] leading-[1.85] space-y-4 font-normal text-justify">
                 {INTRO_PARAGRAPHS.map((para, idx) => (
                   <p key={idx}>{para}</p>
                 ))}
@@ -83,50 +83,22 @@ export default function LandApprovalSection() {
 
           </div>
 
-          {/* RIGHT COLUMN: 3D Solid Metallic Block & Auto-Rotating Carousel */}
-          <div className="lg:col-span-5 relative flex items-center justify-center">
+          {/* RIGHT COLUMN: 3D Solid Metallic Block & Navy Blue Box Below Image (Vertically Centered) */}
+          <div className="lg:col-span-5 flex flex-col items-center justify-center w-full my-auto">
             
             {/* 3D Rectangle Metallic Block Container */}
-            <div className="relative w-full max-w-[420px] xl:max-w-[440px] mx-auto lg:ml-auto lg:mr-0 px-4 sm:px-0 mb-6 lg:mb-0">
+            <div className="relative w-full max-w-[450px] xl:max-w-[480px] mx-auto lg:ml-auto lg:mr-0 px-2 sm:px-0">
               
               {/* 3D Solid Metallic Extruded Side Wall & Bottom Slab */}
               <div 
-                className="absolute inset-0 rounded-[2.5rem] translate-x-5 translate-y-5 bg-gradient-to-br from-[#1C456F] via-[#0C2C4D] via-[#071B30] to-[#020A14] border-r-[3px] border-b-[3px] border-[#D4AF37]/70 shadow-[18px_35px_60px_rgba(4,16,29,0.7)]"
-              />
-
-              {/* 3D Metallic Connection Bevel Fill (Solid 3D Extrusion) */}
-              <div className="absolute inset-0 rounded-[2.5rem] z-0 pointer-events-none"
-                style={{
-                  boxShadow: `
-                    1px 1px 0px #1c456f,
-                    2px 2px 0px #1a4067,
-                    3px 3px 0px #173b60,
-                    4px 4px 0px #153658,
-                    5px 5px 0px #123150,
-                    6px 6px 0px #102c48,
-                    7px 7px 0px #0e2741,
-                    8px 8px 0px #0c2239,
-                    9px 9px 0px #0a1d31,
-                    10px 10px 0px #08182a,
-                    11px 11px 0px #061322,
-                    12px 12px 0px #050e1a,
-                    13px 13px 0px #040912,
-                    14px 14px 0px #02040a,
-                    15px 15px 0px #010205,
-                    16px 16px 0px #010205,
-                    17px 17px 0px #010205,
-                    18px 18px 0px #010205,
-                    19px 19px 0px #010205,
-                    20px 20px 0px #010205
-                  `
-                }}
+                className="absolute inset-0 rounded-[2.2rem] translate-x-3 translate-y-3 bg-gradient-to-br from-[#1C456F] via-[#0C2C4D] to-[#06182B] border-r border-b border-[#D4AF37]/50 shadow-md"
               />
 
               {/* Polished Metallic Gold Outer Bevel Frame */}
-              <div className="relative p-[2.5px] rounded-[2.5rem] bg-gradient-to-br from-[#FFF3CA] via-[#D4AF37] via-[#AA8820] to-[#5C4505] shadow-[0_12px_30px_rgba(0,0,0,0.4)] z-10">
+              <div className="relative p-[2.5px] rounded-[2.2rem] bg-gradient-to-br from-[#FFF3CA] via-[#D4AF37] via-[#AA8820] to-[#5C4505] shadow-lg z-10">
                 
                 {/* Metallic Inner Surface */}
-                <div className="relative w-full h-[480px] md:h-[520px] lg:h-[560px] xl:h-[580px] bg-[#0C2C4D] rounded-[2.35rem] overflow-hidden">
+                <div className="relative w-full h-[480px] sm:h-[520px] md:h-[570px] lg:h-[610px] xl:h-[640px] bg-[#0C2C4D] rounded-[2.05rem] overflow-hidden">
                   
                   {/* Full-bleed crossfade image stack */}
                   {CAROUSEL_IMAGES.map((img, idx) => (
@@ -153,43 +125,43 @@ export default function LandApprovalSection() {
 
             </div>
 
-          </div>
+            {/* NAVY BLUE BOX (Positioned Directly Below Image on Right Side) */}
+            <div className="mt-7 relative z-20 w-full max-w-[450px] xl:max-w-[480px] lg:ml-auto lg:mr-0">
+              <div className="bg-brand-navy text-white p-5 md:p-6 rounded-2xl border border-[#BFA052]/30 relative overflow-hidden group shadow-lg">
+                
+                {/* Subtly animated decorative lines inside navy card */}
+                <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-5">
+                  <svg className="w-full h-full text-white" viewBox="0 0 100 100">
+                    <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" strokeWidth="0.5" />
+                    <line x1="0" y1="0" x2="100" y2="100" stroke="currentColor" strokeWidth="0.5" />
+                  </svg>
+                </div>
 
-        </div>
+                {/* Card Content Grid */}
+                <div className="flex flex-col sm:flex-row gap-4 sm:gap-5 items-start sm:items-center">
+                  
+                  {/* Custom SVG Geometric Circle Emblem */}
+                  <div className="flex-shrink-0 transition-transform duration-500 group-hover:rotate-12">
+                    <GeometricEmblem className="w-12 h-12 md:w-14 md:h-14 text-[#BFA052]" />
+                  </div>
 
-        {/* FLOATING LAYERED NAVY CARD */}
-        <div className="mt-12 lg:mt-14 relative z-20 max-w-[850px]">
-          <div className="bg-brand-navy text-white p-6 md:p-8 rounded-2xl border border-[#BFA052]/20 relative overflow-hidden group">
-            
-            {/* Subtly animated decorative lines inside navy card */}
-            <div className="absolute inset-0 pointer-events-none overflow-hidden opacity-5">
-              <svg className="w-full h-full text-white" viewBox="0 0 100 100">
-                <circle cx="50" cy="50" r="40" fill="none" stroke="currentColor" strokeWidth="0.5" />
-                <line x1="0" y1="0" x2="100" y2="100" stroke="currentColor" strokeWidth="0.5" />
-              </svg>
+                  {/* Text Side */}
+                  <div className="space-y-1">
+                    <h3 className="font-tibere italic text-base md:text-lg text-[#BFA052] tracking-wide leading-snug font-medium">
+                      {CONCLUSION_TITLE}
+                    </h3>
+                    <p className="font-poppins text-white/85 text-xs md:text-sm leading-relaxed text-justify font-normal">
+                      {CONCLUSION_PARAGRAPH}
+                    </p>
+                  </div>
+
+                </div>
+
+              </div>
             </div>
 
-            {/* Card Content Grid */}
-            <div className="flex flex-col md:flex-row gap-6 md:gap-8 items-start md:items-center">
-              
-              {/* Custom SVG Geometric Circle Emblem */}
-              <div className="flex-shrink-0 transition-transform duration-500 group-hover:rotate-12">
-                <GeometricEmblem className="w-14 h-14 md:w-16 md:h-16" />
-              </div>
-
-              {/* Text Side */}
-              <div className="space-y-2.5">
-                <h3 className="font-tibere italic text-lg md:text-xl text-[#BFA052] tracking-wide leading-tight font-medium">
-                  {CONCLUSION_TITLE}
-                </h3>
-                <p className="font-poppins text-white/85 text-xs md:text-sm leading-relaxed text-justify font-normal">
-                  {CONCLUSION_PARAGRAPH}
-                </p>
-              </div>
-
-            </div>
-
           </div>
+
         </div>
 
       </div>

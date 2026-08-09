@@ -533,7 +533,7 @@ export default function TeamDnaSection() {
   const activeId = hoveredId !== null ? hoveredId : autoActiveId;
 
   return (
-    <section className="max-w-[94rem] mx-auto px-4 sm:px-6 md:px-12 w-full flex flex-col items-center pt-10 pb-0">
+    <section className="max-w-[94rem] mx-auto px-4 sm:px-6 md:px-12 w-full flex flex-col items-center pt-10 sm:pt-12 lg:pt-14 pb-2 sm:pb-3 lg:pb-4">
       
       {/* SECTION HEADER: Title with side gold arrows + Underline (100% Single Line) */}
       <div className="w-full max-w-5xl flex flex-col items-center text-center mb-6">

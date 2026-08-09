@@ -22,16 +22,23 @@ export default function AcquisitionChallengesSection() {
       <div className="w-full max-w-7xl mx-auto px-6 md:px-12 z-10 flex flex-col items-center">
 
         {/* HEADING AND DESCRIPTION ABOVE THE PUZZLE */}
-        <div className="flex flex-col items-center justify-center text-center space-y-3 mb-8 lg:mb-10 w-full max-w-4xl mx-auto">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-12 lg:gap-16 w-full mb-8 lg:mb-12">
           {/* Title */}
-          <h2 className="font-tibere font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#0C2C4D] tracking-tight leading-none uppercase" style={{ wordSpacing: '0.25em' }}>
-            Challenges We <span className="text-[#BFA052]">Solve</span>
-          </h2>
+          <div className="shrink-0">
+            <h2 className="font-tibere text-brand-navy text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[0.95] tracking-tight uppercase whitespace-nowrap">
+              CHALLENGES WE <span className="text-[#BFA052] italic">SOLVE</span>
+            </h2>
+          </div>
 
-          {/* Subheading text below title */}
-          <p className="font-poppins font-normal text-base sm:text-lg md:text-xl text-slate-600 leading-relaxed max-w-3xl">
-            Every piece of land carries potential, but identifying the right one, at the right value, with the right future, is where most fail. That’s where we step in, removing uncertainty and replacing it with clarity and confidence.
-          </p>
+          {/* Subheading with Vertical Divider Line */}
+          <div className="relative flex items-center self-stretch">
+            <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-[#0C2C4D]" />
+            <div className="pl-6 md:pl-8 py-1 max-w-2xl">
+              <p className="font-poppins font-normal text-base sm:text-lg md:text-xl text-slate-600 leading-relaxed">
+                Every piece of land carries potential, but identifying the right one, at the right value, with the right future, is where most fail. That’s where we step in, removing uncertainty and replacing it with clarity and confidence.
+              </p>
+            </div>
+          </div>
         </div>
 
         {/* PUZZLE STAGE */}

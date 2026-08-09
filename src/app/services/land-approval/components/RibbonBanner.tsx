@@ -20,6 +20,9 @@ export interface BenefitItem {
 interface RibbonBannerProps {
   benefit: BenefitItem;
   show3DFolds?: boolean;
+  isExpandedControlled?: boolean;
+  onHover?: () => void;
+  onLeave?: () => void;
 }
 
 const IconContainer: React.FC<{ name: string; className?: string; size?: number }> = ({ name, className, size = 54 }) => {
@@ -59,8 +62,12 @@ const IconContainer: React.FC<{ name: string; className?: string; size?: number 
 export default function RibbonBanner({
   benefit,
   show3DFolds = true,
+  isExpandedControlled,
+  onHover,
+  onLeave,
 }: RibbonBannerProps) {
-  const [isExpanded, setIsExpanded] = useState(false);
+  const [internalHover, setInternalHover] = useState(false);
+  const isExpanded = isExpandedControlled !== undefined ? isExpandedControlled : internalHover;
   const isNavy = benefit.type === 'navy';
 
   const ribbonColorClass = isNavy 
@@ -90,8 +97,14 @@ export default function RibbonBanner({
       }}
       transition={{ duration: 0.35, ease: 'easeInOut' }}
       whileHover={{ y: isExpanded ? -3 : -6, scale: 1.01 }}
-      onMouseEnter={() => setIsExpanded(true)}
-      onMouseLeave={() => setIsExpanded(false)}
+      onMouseEnter={() => {
+        setInternalHover(true);
+        if (onHover) onHover();
+      }}
+      onMouseLeave={() => {
+        setInternalHover(false);
+        if (onLeave) onLeave();
+      }}
       className="relative w-full max-w-[270px] flex flex-col items-center justify-between select-none cursor-pointer z-10"
       style={{
         filter: isExpanded

@@ -85,13 +85,13 @@ export default function AboutUsPage() {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="font-poppins text-white text-3xl xs:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.25] max-w-5xl space-y-2 md:space-y-3"
+            className="font-poppins text-white text-3xl xs:text-4xl md:text-5xl lg:text-6xl font-bold tracking-[0.05em] leading-[1.25] max-w-5xl space-y-2 md:space-y-3"
           >
             <motion.span variants={itemVariants} className="block font-tibere">
               Delivering the Groundwork
             </motion.span>
             <motion.span variants={itemVariants} className="block font-tibere">
-              that <span className="text-brand-gold">Powers Growth.</span>
+              that <span className="text-brand-gold">Powers Growth</span>
             </motion.span>
           </motion.div>
         </div>
@@ -109,7 +109,7 @@ export default function AboutUsPage() {
           backgroundSize: '300px'
         }}
       >
-        <section className="relative w-full pt-14 md:pt-20 pb-4 md:pb-6 bg-transparent overflow-hidden">
+        <section className="relative w-full pt-14 md:pt-20 pb-8 md:pb-12 bg-transparent">
           <div className="max-w-[95rem] mx-auto px-6 md:px-12 lg:px-16 w-full relative z-10">
 
             {/* Introductory Text Structure with Modern Motion Animation */}
@@ -145,7 +145,7 @@ export default function AboutUsPage() {
                 className="flex flex-col items-center gap-3"
               >
                 <h3 className="text-2xl md:text-3xl font-poppins font-bold text-brand-navy max-w-4xl leading-tight">
-                  We built Conservve Infra Solutions to change that experience for you.
+                  We built Conservve Infra Solutionss to change that experience for you.
                 </h3>
                 {/* Bold, radiant gold underline */}
                 <div className="w-24 sm:w-32 h-[3.5px] bg-brand-gold rounded-full shadow-[0_0_12px_rgba(191,160,82,0.45)] mt-1" />
@@ -396,7 +396,6 @@ export default function AboutUsPage() {
 
 // ==================== CORE VALUES SECTION COMPONENT ====================
 function CoreValuesSection() {
-  const [phase, setPhase] = useState(0);
   const [activeIndex, setActiveIndex] = useState<number | null>(null);
   const [mobileActiveIndex, setMobileActiveIndex] = useState(0);
   const [mounted, setMounted] = useState(false);
@@ -407,20 +406,6 @@ function CoreValuesSection() {
   useEffect(() => {
     setMounted(true);
   }, []);
-
-  // Symmetrical x coordinates derived from the exact peaks/troughs of the 7-lobe sine wave
-  const getXNodes = (width: number) => {
-    return [
-      (1 / 12) * width,
-      (3 / 12) * width,
-      (5 / 12) * width,
-      (7 / 12) * width,
-      (9 / 12) * width,
-      (11 / 12) * width
-    ];
-  };
-
-  const xNodes = getXNodes(svgW);
 
   interface CoreValue {
     id: string;
@@ -491,20 +476,6 @@ function CoreValuesSection() {
     return () => ro.disconnect();
   }, []);
 
-  // Fluid continuous gentle movement of DNA strands (slower and more majestic)
-  useEffect(() => {
-    let animationFrameId: number;
-    const tick = () => {
-      setPhase((prev) => (prev + 0.003) % (Math.PI * 2));
-      animationFrameId = requestAnimationFrame(tick);
-    };
-    tick();
-    return () => cancelAnimationFrame(animationFrameId);
-  }, []);
-
-
-
-
   const scrollMobileTo = (index: number) => {
     setMobileActiveIndex(index);
     setActiveIndex(index);
@@ -515,18 +486,12 @@ function CoreValuesSection() {
   const centerY = 135; // Centered inside a taller 270px canvas
   const amplitude = 58; // Highly pronounced loops for elegant authority
   const frequency = (Math.PI * 6) / width; // 3 complete wave cycles across the dynamic width (6 lobes)
+  const phase = 0; // Fixed phase so DNA lobes stay perfectly aligned with icon circles
 
-
-  // Returns the fixed x position (aligned to nearest DNA grid point) and ALWAYS the vertical center
-  // of the DNA helix (centerY) so icon circles sit at the midpoint of each DNA 'eye' lobe.
+  // Returns the exact center x position of the DNA lobe eye (midway inside each cycle)
   const getActiveNodeCoordinates = (index: number) => {
-    const xRaw = xNodes[index] !== undefined ? xNodes[index] : (index * width) / 6;
-    const pointsCount = 120;
-    const step = width / pointsCount;
-    const nearestI = Math.round(xRaw / step / 2) * 2;
-    const x = Math.min(width, Math.max(0, nearestI * step));
-    // y is ALWAYS the DNA center-line so circles are fixed at the midpoint between both strands
-    return { x, y: centerY, nearestI };
+    const x = ((index + 0.5) * width) / 6;
+    return { x, y: centerY };
   };
 
   // Depth-Sorted 3D Painter's Algorithm for physical intertwined look matching the reference image
@@ -670,40 +635,59 @@ function CoreValuesSection() {
   if (!mounted) {
     return (
       <section className="bg-transparent text-navy font-body flex flex-col justify-start items-center pt-10 md:pt-14 pb-12 md:pb-16 border-t border-brand-gold/10 overflow-x-hidden relative select-none">
-        <div className="w-full max-w-[1280px] px-6 md:px-12 lg:px-16 mx-auto text-left mb-6 md:mb-8">
-          <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-widest text-navy uppercase">
-            Our <span className="text-brand-gold">Core</span> Values
-          </h2>
-          <div className="w-24 h-[3px] bg-gold mt-4 rounded-full" />
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-12 lg:gap-16 w-full max-w-7xl mx-auto px-6 md:px-12 mb-8 lg:mb-12">
+          <div className="shrink-0">
+            <h2 className="font-tibere text-brand-navy text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[0.95] tracking-tight uppercase whitespace-nowrap">
+              OUR CORE <span className="text-[#BFA052] italic">VALUES</span>
+            </h2>
+          </div>
+          <div className="relative flex items-center self-stretch">
+            <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-[#0C2C4D]" />
+            <div className="pl-6 md:pl-8 py-1 max-w-2xl">
+              <p className="font-poppins font-normal text-base sm:text-lg md:text-xl text-slate-600 leading-relaxed">
+                Guided by principles that define how we work, make decisions, and deliver results.
+              </p>
+            </div>
+          </div>
         </div>
-        <div className="w-full h-[650px]" />
+        <div className="w-full h-[585px]" />
       </section>
     );
   }
 
   return (
-    <section className="bg-transparent text-navy font-body flex flex-col justify-start items-center pt-10 md:pt-14 pb-12 md:pb-16 border-t border-brand-gold/10 overflow-x-hidden relative select-none">
+    <section className="bg-transparent text-navy font-body flex flex-col justify-start items-center pt-10 md:pt-14 pb-6 md:pb-8 border-t border-brand-gold/10 overflow-x-hidden relative select-none">
 
       {/* ==================== MAIN HEADING SECTION ==================== */}
-      <div className="w-full max-w-[1280px] px-6 md:px-12 lg:px-16 mx-auto text-left mb-6 md:mb-8">
-        <h2 className="font-heading text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-widest text-navy uppercase">
-          Our <span className="text-brand-gold">Core</span> Values
-        </h2>
-        <div className="w-24 h-[3px] bg-gold mt-4 rounded-full" />
+      <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-12 lg:gap-16 w-full max-w-7xl mx-auto px-6 md:px-12 mb-8 lg:mb-12">
+        <div className="shrink-0">
+          <h2 className="font-tibere text-brand-navy text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[0.95] tracking-tight uppercase whitespace-nowrap">
+            OUR CORE <span className="text-[#BFA052] italic">VALUES</span>
+          </h2>
+        </div>
+        <div className="relative flex items-center self-stretch">
+          <div className="absolute left-0 top-0 bottom-0 w-[3px] bg-[#0C2C4D]" />
+          <div className="pl-6 md:pl-8 py-1 max-w-2xl">
+            <p className="font-poppins font-normal text-base sm:text-lg md:text-xl text-slate-600 leading-relaxed">
+              Guided by principles that define how we work, make decisions, and deliver results.
+            </p>
+          </div>
+        </div>
       </div>
 
       {/* ==================== DESKTOP & TABLET LAYOUT ==================== */}
       <div className="hidden md:block w-full">
+        <div className="max-w-7xl mx-auto px-6 md:px-12 w-full relative">
 
-        {/* ---- DNA + Icon Circles + Cards all in one unified relative container ---- */}
-        <motion.div
-          ref={svgContainerRef}
-          initial={{ opacity: 0, y: -20, scale: 0.98 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
-          className="w-full relative"
-          style={{ height: '650px' }}
-        >
+          {/* ---- DNA + Icon Circles + Cards all in one unified relative container ---- */}
+          <motion.div
+            ref={svgContainerRef}
+            initial={{ opacity: 0, y: -20, scale: 0.98 }}
+            animate={{ opacity: 1, y: 0, scale: 1 }}
+            transition={{ duration: 1.2, ease: "easeOut" }}
+            className="w-full relative overflow-visible"
+            style={{ height: '585px' }}
+          >
           {/* SVG DNA Layer */}
           <svg
             suppressHydrationWarning
@@ -791,13 +775,13 @@ function CoreValuesSection() {
                     </>
                   )}
 
-                  {/* Connector line extending down to top of cards (y2 = 240) */}
+                  {/* Connector line extending down to top center of card */}
                   <line
                     x1={nodePos.x}
                     y1={nodePos.y + circleR}
                     x2={nodePos.x}
-                    y2={240}
-                    stroke={isHovered ? '#BFA052' : 'rgba(12,44,77,0.22)'}
+                    y2={245}
+                    stroke={isHovered ? '#BFA052' : 'rgba(12,44,77,0.25)'}
                     strokeWidth={isHovered ? 2 : 1.5}
                     strokeDasharray={isHovered ? 'none' : '3,3'}
                   />
@@ -808,8 +792,8 @@ function CoreValuesSection() {
 
           {/* ---- HTML interactive columns (combines icon circles and full cards in a single hover block) ---- */}
           <div
-            className="absolute left-0 right-0 pointer-events-none"
-            style={{ top: 0, height: '650px' }}
+            className="absolute left-0 right-0 pointer-events-none overflow-visible"
+            style={{ top: 0, height: '585px' }}
           >
             {coreValues.map((val, idx) => {
               const nodePos = getActiveNodeCoordinates(idx);
@@ -821,12 +805,12 @@ function CoreValuesSection() {
               return (
                 <div
                   key={`column-${val.id}`}
-                  className="absolute pointer-events-auto flex flex-col items-center"
+                  className="absolute pointer-events-auto flex flex-col items-center overflow-visible"
                   style={{
                     left: `${leftPercent}%`,
                     top: 0,
                     width: `${colWidth}px`,
-                    height: '630px',
+                    height: '585px',
                     transform: 'translateX(-50%)',
                     zIndex: isHovered ? 40 : 10,
                   }}
@@ -859,9 +843,9 @@ function CoreValuesSection() {
                     </div>
                   </div>
 
-                  {/* 2. Permanent Card Container (positioned at top = 245px with generous space below DNA strand) */}
+                  {/* 2. Permanent Card Container (positioned at top = 245px, UNIFORM SIZE FOR ALL CARDS) */}
                   <div
-                    className="absolute flex flex-col items-center w-full"
+                    className="absolute flex flex-col items-center w-full overflow-visible"
                     style={{
                       left: '50%',
                       top: '245px',
@@ -870,40 +854,45 @@ function CoreValuesSection() {
                     }}
                   >
                     <div
-                      className={`w-[185px] min-h-[295px] rounded-[14px] p-5 text-left flex flex-col transition-all duration-300 ${isHovered
+                      className={`w-[175px] h-[320px] rounded-[14px] p-4 text-center flex flex-col items-center justify-between transition-all duration-300 ${isHovered
                           ? 'bg-[linear-gradient(145deg,#0d2847_0%,#0C2C4D_40%,#081e36_100%)] text-white shadow-[0_16px_36px_rgba(12,44,77,0.3),0_0_24px_rgba(191,160,82,0.25)] border-t-[4px] border-b-[4px] border-l-[1.5px] border-r-[1.5px] border-brand-gold'
                           : 'bg-white/95 backdrop-blur-sm text-navy shadow-[0_8px_24px_rgba(12,44,77,0.08)] border border-slate-200/90'
                         }`}
                     >
-                      {/* Number & Gold Underline */}
-                      <div className="flex flex-col items-center justify-center w-full mb-3.5">
-                        <span
-                          className={`font-gotham font-medium text-center transition-colors duration-300 ${isHovered ? 'text-gold' : 'text-brand-navy'
+                      {/* Top Header Section */}
+                      <div className="flex flex-col items-center justify-center w-full">
+                        {/* Number & Gold Underline */}
+                        <div className="flex flex-col items-center justify-center w-full mb-1.5">
+                          <span
+                            className={`font-gotham font-medium text-center transition-colors duration-300 ${isHovered ? 'text-gold' : 'text-brand-navy'
+                              }`}
+                            style={{ fontSize: '34px', lineHeight: 1, marginBottom: '4px' }}
+                          >
+                            {val.num}
+                          </span>
+                          <div style={{ width: '32px', height: '2.5px', background: '#BFA052', borderRadius: '2px' }} />
+                        </div>
+
+                        {/* Title */}
+                        <h3
+                          className={`font-gotham font-semibold uppercase tracking-wider text-center transition-colors duration-300 px-1 ${isHovered ? 'text-white' : val.isPlaceholder ? 'text-slate-500' : 'text-[#0C2C4D]'
                             }`}
-                          style={{ fontSize: '40px', lineHeight: 1, marginBottom: '6px' }}
+                          style={{ fontSize: '12.5px', lineHeight: 1.25 }}
                         >
-                          {val.num}
-                        </span>
-                        <div style={{ width: '36px', height: '3px', background: '#BFA052', borderRadius: '2px' }} />
+                          {val.title}
+                        </h3>
                       </div>
 
-                      {/* Title */}
-                      <h3
-                        className={`font-gotham font-semibold uppercase tracking-wider text-center transition-colors duration-300 ${isHovered ? 'text-white' : val.isPlaceholder ? 'text-slate-500' : 'text-[#0C2C4D]'
-                          }`}
-                        style={{ fontSize: '15px', lineHeight: 1.35, marginBottom: '10px' }}
-                      >
-                        {val.title}
-                      </h3>
-
-                      {/* Description */}
-                      <p
-                        className={`font-body transition-colors duration-300 ${isHovered ? 'text-white/85' : val.isPlaceholder ? 'text-slate-400' : 'text-slate-600'
-                          }`}
-                        style={{ fontSize: '13px', lineHeight: 1.6 }}
-                      >
-                        {val.description}
-                      </p>
+                      {/* Description Body */}
+                      <div className="flex-1 flex items-center justify-center my-1">
+                        <p
+                          className={`font-body text-center transition-colors duration-300 ${isHovered ? 'text-white/85' : val.isPlaceholder ? 'text-slate-400' : 'text-slate-600'
+                            }`}
+                          style={{ fontSize: '11.5px', lineHeight: 1.5 }}
+                        >
+                          {val.description}
+                        </p>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -911,6 +900,7 @@ function CoreValuesSection() {
             })}
           </div>
         </motion.div>
+        </div>
       </div>
 
       {/* ==================== MOBILE LAYOUT ==================== */}
@@ -1182,12 +1172,21 @@ function EsgInnovationSection() {
 
   if (!mounted) {
     return (
-      <section className="relative w-full py-16 md:py-24 bg-transparent border-t border-brand-gold/10 select-none">
-        <div className="w-full max-w-[1240px] px-6 md:px-12 lg:px-16 mx-auto text-left mb-10 md:mb-12">
-          <h2 className="font-poppins text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-widest text-brand-navy uppercase">
-            ESG and <span className="text-brand-gold">Innovation</span>
+      <section className="relative w-full py-12 md:py-16 bg-transparent border-t border-brand-gold/10 select-none">
+        <div className="w-full max-w-7xl mx-auto px-6 md:px-12 mb-10 lg:mb-14 text-left">
+          <h2 className="font-tibere text-brand-navy text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[0.95] tracking-tight uppercase whitespace-nowrap mb-6 sm:mb-8">
+            ESG AND <span className="text-[#BFA052] italic">INNOVATION</span>
           </h2>
-          <div className="w-24 h-[3px] bg-brand-gold mt-6 rounded-full" />
+          <div className="relative pl-6 md:pl-8 border-l-[3.5px] border-[#0C2C4D]">
+            <div className="font-poppins text-slate-700 text-base sm:text-lg md:text-xl lg:text-[21px] font-medium leading-[1.75] max-w-6xl space-y-3">
+              <p className="block">
+                At Conservve Infra Solutionss, doing the right thing and doing it smarter aren't separate goals — they're the same commitment.
+              </p>
+              <p className="block">
+                Every project we take on is guided by responsible practices, ethical standards, and a drive to push land development forward in ways that genuinely matter.
+              </p>
+            </div>
+          </div>
         </div>
         <div className="w-full max-w-[660px] mx-auto aspect-square" />
       </section>
@@ -1195,19 +1194,25 @@ function EsgInnovationSection() {
   }
 
   return (
-    <section className="relative w-full pt-10 md:pt-14 pb-12 md:pb-16 bg-transparent border-t border-brand-gold/10 select-none overflow-hidden">
+    <section className="relative w-full pt-14 md:pt-20 pb-12 md:pb-16 bg-transparent border-t border-brand-gold/10 select-none overflow-hidden">
       {/* Subtle background decoration */}
       <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full opacity-[0.025] pointer-events-none"
         style={{ background: 'radial-gradient(circle, #BFA052 0%, transparent 70%)', transform: 'translate(30%, -30%)' }} />
 
-      <div className="w-full max-w-[1280px] px-6 md:px-12 lg:px-16 mx-auto text-left mb-6 md:mb-8">
-        <h2 className="font-poppins text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-widest text-brand-navy uppercase">
-          ESG and <span className="text-brand-gold">Innovation</span>
+      <div className="w-full max-w-7xl mx-auto px-6 md:px-12 mb-10 lg:mb-14 text-left">
+        <h2 className="font-tibere text-brand-navy text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[0.95] tracking-tight uppercase whitespace-nowrap mb-6 sm:mb-8">
+          ESG AND <span className="text-[#BFA052] italic">INNOVATION</span>
         </h2>
-        <div className="w-24 h-[3px] bg-brand-gold mt-6 mb-8 rounded-full" />
-        <p className="font-poppins text-brand-navy/85 text-[17px] lg:text-lg font-medium leading-relaxed max-w-3xl text-left">
-          At Conservve Infra Solutions, doing the right thing and doing it smarter aren't separate goals, they're the same commitment. Every project we take on is guided by responsible practices, ethical standards, and a drive to push land development forward in ways that genuinely matter.
-        </p>
+        <div className="relative pl-6 md:pl-8 border-l-[3.5px] border-[#0C2C4D]">
+          <div className="font-poppins text-slate-700 text-base sm:text-lg md:text-xl lg:text-[21px] font-medium leading-[1.75] max-w-6xl space-y-3">
+            <p className="block">
+              At Conservve Infra Solutionss, doing the right thing and doing it smarter aren't separate goals — they're the same commitment.
+            </p>
+            <p className="block">
+              Every project we take on is guided by responsible practices, ethical standards, and a drive to push land development forward in ways that genuinely matter.
+            </p>
+          </div>
+        </div>
       </div>
 
       <div className="w-full max-w-[1280px] px-6 md:px-12 lg:px-16 mx-auto">

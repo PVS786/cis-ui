@@ -124,7 +124,7 @@ export function LandOpportunitySection() {
                 viewport={{ once: true }}
                 className="font-poppins font-medium"
               >
-                At Conservve Infra Solutions, we partner with landowners, aggregators, investors, and foreign institutional funds across India,
+                At Conservve Infra Solutionss, we partner with landowners, aggregators, investors, and foreign institutional funds across India,
                 to handle everything from land acquisition to statutory approvals, turning fragmented processes into a clear,
                 confident path forward.
               </motion.p>
