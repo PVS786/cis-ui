@@ -37,9 +37,9 @@ export function ExecutionPillars() {
           <div className="flex flex-col md:flex-row items-start md:items-center justify-center md:gap-16 gap-8">
             {/* Heading Column */}
             <div className="max-w-3xl shrink-0">
-              <h2 className="text-6xl md:text-7xl font-tibere text-brand-navy leading-[0.95] tracking-tight uppercase">
+              <h2 className="font-tibere text-brand-navy font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[0.95] tracking-tight uppercase whitespace-nowrap">
                 The Five Pillars <br />
-                Of <span className="text-brand-gold italic">Execution.</span>
+                Of <span className="text-[#BFA052] italic">Execution</span>
               </h2>
             </div>
             {/* Divider and Paragraph Column */}
@@ -107,7 +107,7 @@ export function ExecutionPillars() {
                 {/* Content Container (Top-level z-index to stay above overlays) */}
                 <div className="relative z-20 flex-1 flex flex-col">
                   <div className="flex flex-col items-center mb-12">
-                    <span className="text-brand-navy font-tibere font-black text-4xl xl:text-5xl leading-none group-hover:text-brand-gold transition-colors duration-300 ease-in-out">
+                    <span className="text-brand-navy font-gotham font-black text-4xl xl:text-5xl leading-none tabular-nums group-hover:text-brand-gold transition-colors duration-300 ease-in-out">
                       0{idx + 1}
                     </span>
                     <div className="h-px w-16 bg-transparent group-hover:bg-brand-gold transition-colors duration-300 ease-in-out mt-4" />

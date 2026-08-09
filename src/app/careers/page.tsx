@@ -286,7 +286,7 @@ export default function CareersPage() {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="font-poppins text-white text-3xl xs:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.25] max-w-5xl space-y-2 md:space-y-3"
+            className="font-poppins text-white text-3xl xs:text-4xl md:text-5xl lg:text-6xl font-bold tracking-[0.05em] leading-[1.25] max-w-5xl space-y-2 md:space-y-3"
           >
             <motion.span variants={itemVariants} className="block font-tibere">
               Be part of something
@@ -298,7 +298,7 @@ export default function CareersPage() {
               where growth isn't just a <span className="text-brand-gold">goal</span>,
             </motion.span>
             <motion.span variants={itemVariants} className="block font-tibere">
-              it's the <span className="text-brand-gold">culture</span>.
+              it's the <span className="text-brand-gold">culture</span>
             </motion.span>
           </motion.div>
         </div>
@@ -333,10 +333,10 @@ export default function CareersPage() {
                 <ChevronRight className="w-4 h-4 text-[#BFA052] -ml-2" />
               </div>
 
-              {/* Title rendered strictly on ONE single line */}
-              <h2 className="font-heading text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-[0.06em] uppercase whitespace-nowrap flex items-center justify-center gap-2 sm:gap-3.5">
-                <span className="text-[#0C2C4D]">WHY JOIN US /</span>{' '}
-                <span className="text-[#BFA052]">EMPLOYEE BENEFITS</span>
+              {/* Title rendered strictly on ONE single line matching The Five Pillars of Execution style */}
+              <h2 className="font-tibere text-brand-navy text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[0.95] tracking-tight uppercase whitespace-nowrap flex items-center justify-center gap-2 sm:gap-3.5">
+                <span className="text-[#0C2C4D]">WHY </span>{' '}
+                <span className="text-brand-gold italic">JOIN US</span>
               </h2>
 
               {/* Right Gold Arrow */}
@@ -355,7 +355,7 @@ export default function CareersPage() {
 
             {/* Intro Paragraph (Enlarged font size + high legibility) */}
             <p className="font-poppins text-[17px] sm:text-[19px] md:text-[20px] text-slate-800 font-normal leading-[1.85] max-w-5xl">
-              Working at Conservve Infra Solutions means finding a place where your commitment is matched by the culture around you. We move fast, we hold ourselves to high standards. We move with speed and purpose, holding ourselves to high standards in everything we do. We seek people who take genuine ownership and care deeply about the outcomes they create. In return, we invest that same level of commitment and more back into the people who make it all possible. But while striving for excellence and driving results, your well-being is always a top priority because we know that sustainable performance comes from a team that is supported, balanced, and energized. If that's the kind of environment you've been looking for, you'll find it here.
+              Working at Conservve Infra Solutionss means finding a place where your commitment is matched by the culture around you. We move fast, we hold ourselves to high standards. We move with speed and purpose, holding ourselves to high standards in everything we do. We seek people who take genuine ownership and care deeply about the outcomes they create. In return, we invest that same level of commitment and more back into the people who make it all possible. But while striving for excellence and driving results, your well-being is always a top priority because we know that sustainable performance comes from a team that is supported, balanced, and energized. If that's the kind of environment you've been looking for, you'll find it here.
             </p>
           </div>
 
@@ -366,7 +366,7 @@ export default function CareersPage() {
           {/* DESKTOP COMPOSITION (lg+ screens) */}
           <div className="hidden lg:block w-full max-w-[1240px] mx-auto my-4 lg:my-6 select-none">
             <div className="relative w-full h-[580px] flex items-center justify-between">
-                       {/* LEFT COLUMN: 3 Compact Cards (Width: ~295px) */}
+              {/* LEFT COLUMN: 3 Compact Cards (Width: ~295px) */}
               <div className="w-[285px] xl:w-[305px] h-full flex flex-col justify-between py-2 z-20">
                 {LEFT_BENEFITS.map((item) => {
                   const IconComp = item.icon;

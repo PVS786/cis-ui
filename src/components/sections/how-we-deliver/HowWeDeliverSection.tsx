@@ -308,15 +308,8 @@ export function HowWeDeliverSection() {
             viewport={{ once: true }}
             className="max-w-4xl xl:max-w-5xl text-center z-10 mx-auto"
           >
-            <div className="flex items-center justify-center gap-4 mb-6">
-              <div className="w-10 h-[2px] bg-brand-gold" />
-              <span className="text-xs font-gotham font-bold uppercase tracking-[0.2em] text-brand-navy">
-                The Process
-              </span>
-              <div className="w-10 h-[2px] bg-brand-gold" />
-            </div>
-            <h2 className="text-5xl md:text-6xl font-tibere font-black text-brand-navy tracking-normal [word-spacing:0.25em] uppercase mb-6">
-              HOW WE DELIVER
+            <h2 className="font-tibere text-brand-navy font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[0.95] tracking-tight uppercase whitespace-nowrap mb-6">
+              HOW <span className="text-[#BFA052] italic">WE DELIVER</span>
             </h2>
             <div className="text-xl text-brand-navy font-gotham font-medium leading-relaxed">
               A complete <span className="text-[#BFA052]">lifecycle</span> from strategic land aggregation to project execution.

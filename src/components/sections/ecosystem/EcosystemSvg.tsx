@@ -577,15 +577,15 @@ export default function EcosystemSvg({
                   fill="#051424"
                 />
 
-                {/* MAIN BUTTON DIAL FACE - Compacted to r=25 */}
+                {/* MAIN BUTTON DIAL FACE - Scaled up to r=32 */}
                 <motion.circle
                   cx={x}
                   cy={y}
-                  r="25"
+                  r="32"
                   fill="#0C2C4D"
                   stroke={isAnyActive ? "url(#gold-metallic)" : "rgba(191, 160, 82, 0.3)"}
-                  strokeWidth={isAnyActive ? "2.2" : "1.2"}
-                  animate={isAnyActive ? { scale: 1.1, y: -2 } : { scale: 1, y: 0 }}
+                  strokeWidth={isAnyActive ? "2.5" : "1.5"}
+                  animate={isAnyActive ? { scale: 1.12, y: -2 } : { scale: 1, y: 0 }}
                   transition={{ type: "spring", stiffness: 300, damping: 18 }}
                 />
 
@@ -593,7 +593,7 @@ export default function EcosystemSvg({
                 <circle
                   cx={x}
                   cy={y}
-                  r="24"
+                  r="31"
                   fill="url(#glossy-shine)"
                   opacity="0.85"
                   pointerEvents="none"
@@ -603,17 +603,17 @@ export default function EcosystemSvg({
                 <circle
                   cx={x}
                   cy={y}
-                  r="20"
+                  r="26"
                   fill="none"
                   stroke="url(#gold-metallic)"
-                  strokeWidth="0.5"
+                  strokeWidth="0.6"
                   strokeDasharray="2,3"
                   opacity={isAnyActive ? 0.85 : 0.35}
                   pointerEvents="none"
                 />
 
-                {/* GOLD ARCHITECTURAL ICON INSIDE - Scaled down to 1.1 */}
-                <g transform={`translate(${x - 13.2}, ${y - 13.2}) scale(1.1)`} pointerEvents="none">
+                {/* GOLD ARCHITECTURAL ICON INSIDE - Scaled up to 1.4 */}
+                <g transform={`translate(${x - 16.8}, ${y - 16.8}) scale(1.4)`} pointerEvents="none">
                   <motion.path
                     d={node.iconPath}
                     stroke="url(#gold-metallic)"
@@ -630,21 +630,21 @@ export default function EcosystemSvg({
                   <circle
                     cx={x}
                     cy={y}
-                    r="31"
+                    r="40"
                     fill="none"
                     stroke="url(#gold-metallic)"
-                    strokeWidth="1"
-                    opacity="0.4"
+                    strokeWidth="1.2"
+                    opacity="0.45"
                     pointerEvents="none"
                     className="animate-pulse"
                   />
                 )}
 
-                {/* TEXT PLACEMENT DIRECTLY BELOW EACH ICON (STRICTLY BELOW ICON) */}
+                {/* TEXT PLACEMENT DIRECTLY BELOW EACH ICON */}
                 {showAnnotations && (() => {
-                  // Position text label centered horizontally under icon (x) and strictly below (y + 34)
+                  // Position text label centered horizontally under icon (x) and strictly below (y + 42)
                   const labelX = x;
-                  const labelY = y + 34;
+                  const labelY = y + 42;
 
                   const textW = 240;
                   const textH = 80;
