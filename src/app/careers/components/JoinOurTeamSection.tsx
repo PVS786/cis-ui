@@ -615,7 +615,7 @@ const EnvelopeForm: React.FC = () => {
 export default function JoinOurTeamSection() {
   return (
     <section
-      className="relative flex flex-col justify-between overflow-x-hidden font-poppins select-text pt-6 pb-6 w-full"
+      className="relative flex flex-col justify-between overflow-x-hidden font-poppins select-text pt-2 sm:pt-3 lg:pt-4 pb-6 w-full"
       style={{
         backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.92), rgba(255, 255, 255, 0.92)), url('/Logo_Distort_BG.png')",
         backgroundRepeat: 'repeat',

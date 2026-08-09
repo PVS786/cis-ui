@@ -1,7 +1,7 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Mail, MapPin, Phone, User, Building2, FileText, Send } from 'lucide-react';
+import { Mail, MapPin, Phone, User, Building2, FileText, Send, ExternalLink } from 'lucide-react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 
@@ -740,18 +740,36 @@ export default function ContactPage() {
               </div>
             </motion.div>
 
-            {/* Right Column: Empty Map Card Outline */}
+            {/* Right Column: Office Location Map Image Card */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5, ease: 'easeOut' }}
               className="w-full h-full flex"
             >
-              <div className="border-2 border-dashed border-slate-200 rounded-2xl bg-white/40 backdrop-blur-sm flex flex-col items-center justify-center text-center p-8 flex-1 w-full h-full min-h-[320px] relative overflow-hidden">
-                <MapPin className="w-10 h-10 text-slate-300 stroke-[1.5] mb-2 animate-pulse" />
-                <p className="font-poppins font-medium text-slate-400 text-sm">
-                  Map Location Interface Placeholder
-                </p>
+              <div className="bg-white rounded-2xl p-1.5 sm:p-2 shadow-[0_12px_40px_rgba(12,44,77,0.04)] border border-brand-navy/5 flex flex-col justify-between flex-1 relative overflow-hidden h-full min-h-[380px] lg:min-h-[440px]">
+                <div className="relative w-full h-full min-h-[360px] rounded-xl overflow-hidden group">
+                  <Image
+                    src="/contact_us_map.png"
+                    alt="Conservve Infra Solutions Office Location Map"
+                    fill
+                    className="object-cover object-right sm:object-[78%_50%] transition-transform duration-700 ease-out group-hover:scale-105"
+                    priority
+                  />
+
+                  {/* Top-Left Floating Directions Button */}
+                  <div className="absolute top-4 left-4 z-20">
+                    <a
+                      href="https://maps.google.com/?q=Neelkanth+Business+Park+Vidyavihar+West+Mumbai"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-[#0C2C4D]/90 hover:bg-[#0C2C4D] text-white font-gotham font-semibold text-[11px] uppercase tracking-wider px-3.5 py-2 rounded-lg shadow-lg backdrop-blur-md flex items-center gap-1.5 transition-all duration-300 transform hover:scale-105 active:scale-95 border border-[#BFA052]/40"
+                    >
+                      <span>Get Directions</span>
+                      <ExternalLink className="w-3.5 h-3.5 text-white" />
+                    </a>
+                  </div>
+                </div>
               </div>
             </motion.div>
           </div>
