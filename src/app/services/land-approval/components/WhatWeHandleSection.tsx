@@ -30,7 +30,7 @@ const LAND_DOCUMENTS: LandDocument[] = [
     fullText: "Pursuant to the powers conferred by the Town and Country Planning Act, the designated parcel is hereby certified for zone conversion. The master layout plan submitted has been audited and found compliant with municipal setback, density, and public utility ratios.",
     department: "Urban Development & Housing Department",
     date: "July 10, 2026",
-    signatureName: "J. V. Joseph",
+    signatureName: "",
     stampColor: "gold",
     iconType: "building"
   },
@@ -43,8 +43,8 @@ const LAND_DOCUMENTS: LandDocument[] = [
     fullText: "In accordance with the State Revenue Code, permission is hereby granted for the conversion of agricultural acreage (A-Class) to Non-Agricultural (NA) designation. Title deed authenticity has been verified and state taxes cleared.",
     department: "Directorate of Land Revenue & Records",
     date: "June 24, 2026",
-    signatureName: "Alexander Reynolds",
-    stampColor: "bronze",
+    signatureName: "",
+    stampColor: "gold",
     iconType: "conversion"
   },
   {
@@ -56,8 +56,8 @@ const LAND_DOCUMENTS: LandDocument[] = [
     fullText: "The firefighting infrastructure, structural escape routes, dry riser systems, and dedicated water reservoirs detailed in the plan have been surveyed and found fully compliant with national safety regulations.",
     department: "State Fire & Emergency Services Command",
     date: "May 18, 2026",
-    signatureName: "Arthur Pendelton",
-    stampColor: "red",
+    signatureName: "",
+    stampColor: "gold",
     iconType: "fire"
   },
   {
@@ -69,21 +69,21 @@ const LAND_DOCUMENTS: LandDocument[] = [
     fullText: "Sanction is hereby accorded for development under Section 342. Floor Space Index (FSI) calculations, building heights, and structural earthquake safety coefficients have been officially validated and stamped.",
     department: "Municipal Corporation Building Committee",
     date: "April 02, 2026",
-    signatureName: "S. Malpekar",
+    signatureName: "",
     stampColor: "gold",
     iconType: "blueprint"
   },
   {
     id: "doc-5",
     num: "05",
-    title: "Liaison with civic bodies & statutory agencies",
+    title: "Liaison with civic bodies, planning authorities, and statutory agencies",
     subtitle: "Inter-Agency Public Infrastructure Alignment",
     description: "Streamlining communications and handling disputes with government departments.",
     fullText: "This serves as official confirmation that utility easements for water supply, sewage disposal, high-tension power line clearances, and local municipal drainage lines have been coordinated and locked.",
     department: "Directorate of Statutory Liaisons",
     date: "March 15, 2026",
-    signatureName: "Cynthia Vance",
-    stampColor: "bronze",
+    signatureName: "",
+    stampColor: "gold",
     iconType: "liaison"
   },
   {
@@ -95,7 +95,7 @@ const LAND_DOCUMENTS: LandDocument[] = [
     fullText: "Upon inspection of the completed civil structure, it is certified that construction conforms in entirety to sanctioned building regulations. The premises are declared safe and approved for immediate occupancy.",
     department: "Civil Infrastructure Safety Directorate",
     date: "February 28, 2026",
-    signatureName: "Evelyn Sterling",
+    signatureName: "",
     stampColor: "gold",
     iconType: "certificate"
   },
@@ -108,21 +108,21 @@ const LAND_DOCUMENTS: LandDocument[] = [
     fullText: "A legal audit of active files has been completed against the newly revised State Master Plan. All proposed developments comply with revised wetland conservation margins and carbon offsetting statutes.",
     department: "Office of Legislative Compliance",
     date: "January 14, 2026",
-    signatureName: "William Vance",
-    stampColor: "bronze",
+    signatureName: "",
+    stampColor: "gold",
     iconType: "compliance"
   },
   {
     id: "doc-8",
     num: "08",
-    title: "Environmental Clearance and management",
+    title: "Environmental clearance and compliance management",
     subtitle: "Ecology & Pollution Control Board Authorization",
     description: "Securing state/national pollution control board approvals.",
     fullText: "Having evaluated the Environmental Impact Assessment (EIA) and proposed carbon mitigation measures, the department hereby clears the project for immediate setup, subject to periodic ecological audits.",
     department: "National Green Tribunal Directorate",
     date: "December 05, 2025",
-    signatureName: "Dr. Marcus Thorne",
-    stampColor: "red",
+    signatureName: "",
+    stampColor: "gold",
     iconType: "ecology"
   }
 ];
@@ -187,8 +187,8 @@ export default function WhatWeHandleSection() {
         <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-12 lg:gap-16 w-full mb-8 lg:mb-12">
           {/* Title */}
           <div className="shrink-0">
-            <h2 className="font-tibere font-bold text-3xl sm:text-4xl md:text-5xl lg:text-6xl text-[#0C2C4D] tracking-tight leading-none uppercase whitespace-nowrap" style={{ wordSpacing: '0.25em' }}>
-              What We Handle
+            <h2 className="font-tibere font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-[#0C2C4D] tracking-tight leading-[0.95] uppercase whitespace-nowrap">
+              WHAT <span className="text-[#BFA052] italic">WE HANDLE</span>
             </h2>
           </div>
 
@@ -285,10 +285,10 @@ export default function WhatWeHandleSection() {
                       className="absolute top-8 right-0 flex flex-col items-center justify-center select-none pointer-events-none z-30"
                       style={{ width: `${overlapOffset}px` }}
                     >
-                      <span className="font-tibere text-base font-bold tracking-wider text-[#bfa052] leading-none mb-1">
+                      <span className="font-tibere text-xl sm:text-2xl font-extrabold tracking-wider text-[#bfa052] leading-none mb-1">
                         {doc.num}
                       </span>
-                      <div className="w-4 h-[1.5px] bg-[#bfa052]/60" />
+                      <div className="w-5 h-[2px] bg-[#bfa052]" />
                     </div>
 
                     {/* Card Content Wrapper */}
@@ -300,38 +300,26 @@ export default function WhatWeHandleSection() {
                         }`} />
 
                       <div className="flex flex-col items-start text-left mt-3">
-                        <div className={`w-14 h-14 rounded-full bg-white border border-[#bfa052]/25 shadow-inner flex items-center justify-center mb-4 transition-all duration-500 hover:rotate-6 ${isRevealed ? 'opacity-100 scale-100 blur-0' : 'opacity-0 scale-95 blur-[1px] pointer-events-none'
+                        <div className={`w-16 h-16 rounded-full bg-white border-2 border-[#bfa052]/35 shadow-md flex items-center justify-center mb-4 transition-all duration-500 hover:rotate-6 ${isRevealed ? 'opacity-100 scale-100 blur-0' : 'opacity-0 scale-95 blur-[1px] pointer-events-none'
                           }`}>
-                          <DocumentIcon type={doc.iconType} className="w-8 h-8 text-[#bfa052]" />
+                          <DocumentIcon type={doc.iconType} className="w-10 h-10 text-[#bfa052]" />
                         </div>
 
-                        <h3 className={`font-tibere text-base md:text-lg font-bold text-[#0c2c4d] tracking-wide leading-tight mb-3 transition-all duration-500 ${isRevealed ? 'opacity-100 blur-0' : 'opacity-0 blur-[1px] pointer-events-none'
+                        <h3 className={`font-tibere text-lg md:text-xl font-extrabold text-[#0c2c4d] tracking-wide leading-snug mb-2 transition-all duration-500 ${isRevealed ? 'opacity-100 blur-0' : 'opacity-0 blur-[1px] pointer-events-none'
                           }`}>
                           {doc.title}
                         </h3>
 
-                        {/* Skeleton Lines */}
-                        <div className="w-full flex flex-col gap-3.5 mt-3">
-                          <div className="h-[2.5px] w-[85%] bg-[#bfa052]/25 rounded-full" />
-                          <div className="h-[2.5px] w-[85%] bg-[#bfa052]/25 rounded-full" />
-                          <div className="h-[2.5px] w-[85%] bg-[#bfa052]/25 rounded-full" />
-                          <div className="h-[2.5px] w-[50%] bg-[#bfa052]/25 rounded-full" />
-                        </div>
+                        <p className={`font-poppins text-xs md:text-sm text-slate-600 leading-relaxed font-normal mt-2.5 transition-all duration-500 ${isRevealed ? 'opacity-100 blur-0' : 'opacity-0 blur-[1px] pointer-events-none'
+                          }`}>
+                          {doc.description}
+                        </p>
                       </div>
 
-                      <div className={`flex justify-between items-end border-t border-solid border-[#0c2c4d]/10 pt-4 mt-auto relative transition-all duration-500 ${isRevealed ? 'opacity-100 blur-0' : 'opacity-0 blur-[1px] pointer-events-none'
+                      <div className={`flex justify-end items-end border-t border-solid border-[#0c2c4d]/10 pt-4 mt-auto relative transition-all duration-500 ${isRevealed ? 'opacity-100 blur-0' : 'opacity-0 blur-[1px] pointer-events-none'
                         }`}>
-                        <div className="flex flex-col text-left">
-                          <span className="text-xl text-[#0c2c4d]/85 font-tibere italic tracking-wide h-8 select-none">
-                            {doc.signatureName}
-                          </span>
-                          <span className="text-[8px] uppercase tracking-wider font-semibold text-slate-400 mt-1">
-                            Authorized Signature
-                          </span>
-                        </div>
-
                         <OfficialStamp
-                          color={doc.stampColor}
+                          color="gold"
                           rotate={12}
                           className="mr-1 mb-1 shadow-[0_4px_10px_rgba(191,160,82,0.05)]"
                         />

@@ -1,66 +1,39 @@
 'use client';
 
 import { motion } from 'framer-motion';
-import { Mail, MapPin, Phone, User, Building2, FileText, Send } from 'lucide-react';
+import { Mail, MapPin, Phone, User, Building2, FileText, Send, ExternalLink } from 'lucide-react';
 import Image from 'next/image';
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 
 export default function ContactPage() {
-  const [txt1, setTxt1] = useState('');
-  const [txtGold, setTxtGold] = useState('');
-  const [txtComma, setTxtComma] = useState('');
-  const [txt2, setTxt2] = useState('');
-  const [isTyping, setIsTyping] = useState(true);
-
-  useEffect(() => {
-    const p1 = "Your questions deserve ";
-    const p2 = "clarity";
-    const p3 = ",";
-    const p4 = "start the conversation today.";
-
-    let currentIdx = 0;
-    const totalLength = p1.length + p2.length + p3.length + p4.length;
-
-    const timer = setInterval(() => {
-      currentIdx++;
-      if (currentIdx <= p1.length) {
-        setTxt1(p1.slice(0, currentIdx));
-      } else if (currentIdx <= p1.length + p2.length) {
-        setTxt1(p1);
-        setTxtGold(p2.slice(0, currentIdx - p1.length));
-      } else if (currentIdx <= p1.length + p2.length + p3.length) {
-        setTxt1(p1);
-        setTxtGold(p2);
-        setTxtComma(p3.slice(0, currentIdx - p1.length - p2.length));
-      } else if (currentIdx <= totalLength) {
-        setTxt1(p1);
-        setTxtGold(p2);
-        setTxtComma(p3);
-        setTxt2(p4.slice(0, currentIdx - p1.length - p2.length - p3.length));
-      } else {
-        clearInterval(timer);
-        // Keep blinking for 4 seconds, then turn off cursor
-        setTimeout(() => {
-          setIsTyping(false);
-        }, 4000);
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: {
+        staggerChildren: 0.25,
+        delayChildren: 0.25,
       }
-    }, 55); // 55ms per character typing speed
+    }
+  };
 
-    return () => clearInterval(timer);
-  }, []);
-
-  const showCursorAt = (part: number) => {
-    if (!isTyping) return false;
-    const p1Len = 23;
-    const p2Len = 7;
-    const p3Len = 1;
-    const currentLen = txt1.length + txtGold.length + txtComma.length + txt2.length;
-
-    if (part === 1 && currentLen < p1Len) return true;
-    if (part === 2 && currentLen >= p1Len && currentLen < p1Len + p2Len) return true;
-    if (part === 3 && currentLen >= p1Len + p2Len && currentLen < p1Len + p2Len + p3Len) return true;
-    if (part === 4 && currentLen >= p1Len + p2Len + p3Len) return true;
-    return false;
+  const itemVariants = {
+    hidden: {
+      opacity: 0,
+      x: -30,
+      filter: 'blur(8px)',
+      scale: 0.98,
+    },
+    visible: {
+      opacity: 1,
+      x: 0,
+      filter: 'blur(0px)',
+      scale: 1,
+      transition: {
+        duration: 1.2,
+        ease: [0.16, 1, 0.3, 1] as const,
+      }
+    }
   };
 
   const [activeIndicator, setActiveIndicator] = useState<'name' | 'company' | 'email' | 'phone' | 'message' | 'submit'>('name');
@@ -80,8 +53,6 @@ export default function ContactPage() {
 
   const completedStepsCount = [isNameComplete, isCompanyComplete, isEmailComplete, isPhoneComplete, isMessageComplete].filter(Boolean).length;
   const progressHeight = completedStepsCount === 0 ? 0 : completedStepsCount === 1 ? 20 : completedStepsCount === 2 ? 40 : completedStepsCount === 3 ? 60 : completedStepsCount === 4 ? 80 : 100;
-
-
 
   const handleFormSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -128,47 +99,19 @@ export default function ContactPage() {
 
         {/* Text overlay Container */}
         <div className="max-w-[90rem] mx-auto px-6 md:px-12 lg:px-16 w-full relative z-20 pt-20 md:pt-28">
-          <motion.h1
-            initial={{ opacity: 0, y: 30 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.8, ease: 'easeOut' }}
-            style={{ fontFamily: "var(--font-tibere), 'Tibere OT W03 Medium', 'FF Tibere Std Bold', serif" }}
-            className="font-tibere text-white text-3xl xs:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.25] min-h-[2.5em]"
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            animate="visible"
+            className="font-tibere text-white text-3xl xs:text-4xl md:text-5xl lg:text-6xl font-bold tracking-[0.05em] leading-[1.25] max-w-5xl space-y-2 md:space-y-3"
           >
-            {txt1}
-            {showCursorAt(1) && (
-              <motion.span
-                animate={{ opacity: [1, 0, 1] }}
-                transition={{ repeat: Infinity, duration: 0.8 }}
-                className="w-[3px] h-[0.85em] bg-white inline-block align-middle ml-0.5"
-              />
-            )}
-            <span className="text-brand-gold">{txtGold}</span>
-            {showCursorAt(2) && (
-              <motion.span
-                animate={{ opacity: [1, 0, 1] }}
-                transition={{ repeat: Infinity, duration: 0.8 }}
-                className="w-[3px] h-[0.85em] bg-brand-gold inline-block align-middle ml-0.5"
-              />
-            )}
-            {txtComma}
-            {showCursorAt(3) && (
-              <motion.span
-                animate={{ opacity: [1, 0, 1] }}
-                transition={{ repeat: Infinity, duration: 0.8 }}
-                className="w-[3px] h-[0.85em] bg-white inline-block align-middle ml-0.5"
-              />
-            )}
-            <br />
-            {txt2}
-            {showCursorAt(4) && (
-              <motion.span
-                animate={{ opacity: [1, 0, 1] }}
-                transition={{ repeat: Infinity, duration: 0.8 }}
-                className="w-[3px] h-[0.85em] bg-white inline-block align-middle ml-0.5"
-              />
-            )}
-          </motion.h1>
+            <motion.span variants={itemVariants} className="block font-tibere">
+              Your questions deserve <span className="text-brand-gold">clarity,</span>
+            </motion.span>
+            <motion.span variants={itemVariants} className="block font-tibere">
+              start the conversation today
+            </motion.span>
+          </motion.div>
         </div>
       </div>
 
@@ -201,21 +144,21 @@ export default function ContactPage() {
 
             {/* Elegant Architectural Divider Design Element */}
             <div className="flex items-center justify-center gap-3 w-full my-1.5 select-none">
-              <motion.div 
+              <motion.div
                 className="h-[2px] w-20 md:w-36 bg-gradient-to-r from-transparent via-brand-gold to-brand-navy rounded-full"
                 animate={{ opacity: [0.5, 1, 0.5], scaleX: [0.9, 1.05, 0.9] }}
                 transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
               />
               <div className="flex items-center gap-1.5 px-2">
                 <div className="w-1.5 h-1.5 rounded-full bg-brand-gold/70" />
-                <motion.div 
+                <motion.div
                   className="w-3 h-3 bg-brand-gold rotate-45 border border-brand-navy shrink-0 shadow-sm"
                   animate={{ rotate: [45, 225, 45] }}
                   transition={{ repeat: Infinity, duration: 8, ease: "linear" }}
                 />
                 <div className="w-1.5 h-1.5 rounded-full bg-brand-gold/70" />
               </div>
-              <motion.div 
+              <motion.div
                 className="h-[2px] w-20 md:w-36 bg-gradient-to-l from-transparent via-brand-gold to-brand-navy rounded-full"
                 animate={{ opacity: [0.5, 1, 0.5], scaleX: [0.9, 1.05, 0.9] }}
                 transition={{ repeat: Infinity, duration: 2.5, ease: "easeInOut" }}
@@ -224,7 +167,7 @@ export default function ContactPage() {
 
             {/* Call to Action Row (Single-line big text, Center Justified) */}
             <div className="w-full pt-1 flex justify-center text-center">
-              <motion.div 
+              <motion.div
                 initial={{ opacity: 0, y: 15 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.8, delay: 0.4, ease: "easeOut" }}
@@ -235,9 +178,9 @@ export default function ContactPage() {
                   animate={{
                     color: ["#0C2C4D", "#0C2C4D", "#BFA052", "#BFA052", "#0C2C4D"]
                   }}
-                  transition={{ 
-                    repeat: Infinity, 
-                    duration: 1.2, 
+                  transition={{
+                    repeat: Infinity,
+                    duration: 1.2,
                     ease: "linear",
                     times: [0, 0.48, 0.5, 0.98, 1]
                   }}
@@ -624,11 +567,10 @@ export default function ContactPage() {
                           scale: activeIndicator === 'submit' ? 1.12 : 1
                         }}
                         transition={{ duration: 0.4 }}
-                        className={`w-12 h-12 rounded-full flex items-center justify-center border transition-shadow duration-300 z-10 cursor-pointer ${
-                          activeIndicator === 'submit' || completedStepsCount === 5
+                        className={`w-12 h-12 rounded-full flex items-center justify-center border transition-shadow duration-300 z-10 cursor-pointer ${activeIndicator === 'submit' || completedStepsCount === 5
                             ? 'shadow-[0_0_20px_rgba(191,160,82,0.6)]'
                             : 'shadow-[0_0_10px_rgba(191,160,82,0.2)]'
-                        }`}
+                          }`}
                       >
                         <motion.div
                           animate={completedStepsCount === 5 || activeIndicator === 'submit' ? { scale: [1, 1.25, 1], x: [0, 2, 0] } : {}}
@@ -667,17 +609,10 @@ export default function ContactPage() {
                 <div className="absolute top-0 left-0 w-2 h-full bg-brand-navy z-10" />
 
                 <div className="flex flex-col gap-6">
-                  {/* Header Badge */}
-                  <div>
-                    <span className="bg-brand-navy/5 text-brand-navy border border-brand-navy/10 px-3 py-1 rounded-full text-[10px] uppercase tracking-widest font-gotham font-semibold inline-block">
-                      Executive Headquarters
-                    </span>
-                  </div>
-
                   {/* Section Title */}
                   <div>
-                    <h3 className="font-tibere text-brand-navy text-2xl md:text-3xl font-bold uppercase tracking-wider mb-2">
-                      Office Location
+                    <h3 className="font-tibere text-brand-navy text-4xl md:text-5xl lg:text-6xl font-bold leading-[0.95] tracking-tight uppercase mb-2">
+                      Office <span className="text-brand-gold italic">Location</span>
                     </h3>
                     {/* Stylized divider with dynamic width animation (matches 3 images) */}
                     <div className="flex items-center w-24 h-1.5 mt-3">
@@ -728,11 +663,11 @@ export default function ContactPage() {
                     </div>
                     <div>
                       <a
-                        href="mailto:info@conservveinfrasolutions.com"
+                        href="mailto:info@conservveinfrasolutionss.com"
                         className="font-poppins font-bold text-brand-gold hover:text-brand-gold/80 transition-colors text-sm md:text-base"
                         style={{ fontFamily: "'Poppins', sans-serif" }}
                       >
-                        info@conservveinfrasolutions.com
+                        info@conservveinfrasolutionss.com
                       </a>
                     </div>
                   </div>
@@ -740,18 +675,36 @@ export default function ContactPage() {
               </div>
             </motion.div>
 
-            {/* Right Column: Empty Map Card Outline */}
+            {/* Right Column: Office Location Map Image Card */}
             <motion.div
               initial={{ opacity: 0, y: 30 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.8, delay: 0.5, ease: 'easeOut' }}
               className="w-full h-full flex"
             >
-              <div className="border-2 border-dashed border-slate-200 rounded-2xl bg-white/40 backdrop-blur-sm flex flex-col items-center justify-center text-center p-8 flex-1 w-full h-full min-h-[320px] relative overflow-hidden">
-                <MapPin className="w-10 h-10 text-slate-300 stroke-[1.5] mb-2 animate-pulse" />
-                <p className="font-poppins font-medium text-slate-400 text-sm">
-                  Map Location Interface Placeholder
-                </p>
+              <div className="bg-white rounded-2xl p-1.5 sm:p-2 shadow-[0_12px_40px_rgba(12,44,77,0.04)] border border-brand-navy/5 flex flex-col justify-between flex-1 relative overflow-hidden h-full min-h-[380px] lg:min-h-[440px]">
+                <div className="relative w-full h-full min-h-[360px] rounded-xl overflow-hidden group">
+                  <Image
+                    src="/contact_us_map.png"
+                    alt="Conservve Infra Solutions Office Location Map"
+                    fill
+                    className="object-cover object-right sm:object-[78%_50%] transition-transform duration-700 ease-out group-hover:scale-105"
+                    priority
+                  />
+
+                  {/* Top-Left Floating Directions Button */}
+                  <div className="absolute top-4 left-4 z-20">
+                    <a
+                      href="https://maps.google.com/?q=Neelkanth+Business+Park+Vidyavihar+West+Mumbai"
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-[#0C2C4D]/90 hover:bg-[#0C2C4D] text-white font-gotham font-semibold text-[11px] uppercase tracking-wider px-3.5 py-2 rounded-lg shadow-lg backdrop-blur-md flex items-center gap-1.5 transition-all duration-300 transform hover:scale-105 active:scale-95 border border-[#BFA052]/40"
+                    >
+                      <span>Get Directions</span>
+                      <ExternalLink className="w-3.5 h-3.5 text-white" />
+                    </a>
+                  </div>
+                </div>
               </div>
             </motion.div>
           </div>

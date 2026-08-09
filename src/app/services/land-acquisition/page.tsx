@@ -86,13 +86,13 @@ export default function ServicesPage() {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="font-poppins text-white text-3xl xs:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.25] max-w-5xl space-y-2 md:space-y-3"
+            className="font-poppins text-white text-3xl xs:text-4xl md:text-5xl lg:text-6xl font-bold tracking-[0.05em] leading-[1.25] max-w-5xl space-y-2 md:space-y-3"
           >
             <motion.span variants={itemVariants} className="block font-tibere">
-              You bring the <span className="text-[#BFA052]">ambition</span>.
+              You bring the <span className="text-[#BFA052]">ambition</span>
             </motion.span>
             <motion.span variants={itemVariants} className="block font-tibere">
-              We bring everything it takes to <span className="text-[#BFA052]">build</span> it.
+              We bring everything it takes to <span className="text-[#BFA052]">build</span> it
             </motion.span>
           </motion.div>
         </div>

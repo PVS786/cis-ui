@@ -60,7 +60,7 @@ export default function LandApprovalPage() {
       <div className="absolute bottom-1/4 left-1/4 w-[500px] h-[500px] bg-[#1e5c94]/5 rounded-full blur-[120px] pointer-events-none z-0" />
 
       {/* ─── HERO BANNER SECTION ─── */}
-      <div className="relative w-full h-[450px] xs:h-[520px] md:h-[620px] lg:h-[700px] flex items-end pb-12 md:pb-20 lg:pb-24 bg-brand-navy overflow-hidden pt-[60px] md:pt-[80px]">
+      <div className="relative w-full h-[450px] xs:h-[520px] md:h-[620px] lg:h-[700px] flex items-center bg-brand-navy overflow-hidden pt-[60px] md:pt-[80px]">
         {/* Background Image */}
         <div className="absolute inset-0 z-0">
           <motion.div
@@ -82,15 +82,18 @@ export default function LandApprovalPage() {
         </div>
 
         {/* Text overlay Container */}
-        <div className="max-w-[90rem] mx-auto px-6 md:px-12 lg:px-16 w-full relative z-20 text-center flex flex-col items-center justify-center">
+        <div className="max-w-[90rem] mx-auto px-6 md:px-12 lg:px-16 w-full relative z-20 text-left">
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="font-poppins text-white text-3xl xs:text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight leading-[1.25] max-w-5xl space-y-2 md:space-y-3 mx-auto text-center"
+            className="font-poppins text-white text-3xl xs:text-4xl md:text-5xl lg:text-6xl font-bold tracking-[0.05em] leading-[1.25] max-w-5xl space-y-2 md:space-y-3 text-left"
           >
             <motion.span variants={itemVariants} className="block font-tibere text-white">
-              Clearing the path before the <span className="text-[#BFA052]">first brick</span> is laid
+              Clearing the path before
+            </motion.span>
+            <motion.span variants={itemVariants} className="block font-tibere text-white">
+              the <span className="text-[#BFA052]">first brick</span> is laid
             </motion.span>
           </motion.div>
         </div>

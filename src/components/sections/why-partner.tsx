@@ -82,7 +82,7 @@ const pillars: Pillar[] = [
     roman: '05',
     title: 'End-to-End Development Capability',
     titleLines: ['End-to-End Development', 'Capability'],
-    description: 'From land acquisition to final construction, we deliver fully integrated project execution through our associate company, Conservve',
+    description: 'From land acquisition to final construction, we deliver fully integrated project execution through our associate company, Conservve Buildcon.',
     iconName: 'Layers',
     left: '7.3%',
     top: '48.7%'
@@ -229,17 +229,9 @@ export function WhyPartnerSection() {
         {/* Left Column: Heading, Introduction text, and Interactive Accordion */}
         <div className="flex flex-col justify-center space-y-6 lg:space-y-8 h-full">
           <div className="space-y-4 animate-fade-in">
-            {/* Section Label */}
-            <div className="flex items-center gap-4">
-              <div className="w-10 h-[2px] bg-brand-gold" />
-              <span className="text-xs font-gotham font-bold uppercase tracking-[0.2em] text-brand-gold">
-                The Distinction
-              </span>
-            </div>
-
             {/* Main Heading */}
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-tibere font-black text-brand-navy tracking-normal uppercase leading-none mb-0 whitespace-nowrap" style={{ wordSpacing: '0.18em' }}>
-              Why Partner <span className="text-brand-gold">With Us</span>
+            <h2 className="font-tibere text-brand-navy font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[0.95] tracking-tight uppercase whitespace-nowrap mb-0">
+              Why Partner <span className="text-[#BFA052] italic">With Us</span>
             </h2>
 
             {/* Introductory Paragraph */}
@@ -261,7 +253,7 @@ export function WhyPartnerSection() {
                     'w-full border rounded-xl p-3 sm:p-4 transition-all duration-300 cursor-pointer select-none relative z-10 flex flex-col gap-2',
                     isPillarActive
                       ? 'border-[#BFA052] shadow-[0_12px_32px_rgba(12,44,77,0.15),0_4px_16px_rgba(191,160,82,0.2)]'
-                      : 'border-brand-navy/10 bg-white/40 hover:bg-white/85 hover:shadow-[0_8px_20px_rgba(12,44,77,0.04)]'
+                      : 'border-slate-200 bg-white shadow-[0_4px_16px_rgba(12,44,77,0.06)] hover:shadow-[0_8px_20px_rgba(12,44,77,0.1)] hover:border-brand-gold/50'
                   )}
                   style={isPillarActive ? {
                     backgroundImage: "linear-gradient(rgba(12, 44, 77, 0.95), rgba(12, 44, 77, 0.95)), url('/Logo_Distort_BG.png')",
@@ -290,7 +282,7 @@ export function WhyPartnerSection() {
                       {/* Number Indicator */}
                       <span className={cn(
                         'font-gotham text-xs font-bold transition-colors duration-300',
-                        isPillarActive ? 'text-[#BFA052]' : 'text-slate-500'
+                        isPillarActive ? 'text-[#BFA052]' : 'text-brand-navy font-bold'
                       )}>
                         0{pillar.id}
                       </span>

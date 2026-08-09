@@ -316,8 +316,9 @@ export default function AcquisitionPuzzle({
                     onMouseEnter={() => setHoveredId(item.id)}
                     onMouseLeave={() => setHoveredId(null)}
                     whileHover={{
-                      scale: 1,
-                      transition: { duration: 0.2, ease: 'easeOut' }
+                      scale: 1.03,
+                      y: -6,
+                      transition: { type: 'spring', stiffness: 350, damping: 22 }
                     }}
                     animate={{
                       opacity: isHeroInserted && isCenterCol ? 0.92 : 1,
@@ -395,7 +396,6 @@ export default function AcquisitionPuzzle({
               {isHeroInserted && (
                 <motion.g
                   id="gold-hero-piece-group"
-                  className="cursor-pointer"
                   initial={{
                     y: -400,
                     opacity: 0,
@@ -419,10 +419,9 @@ export default function AcquisitionPuzzle({
                   }}
                   whileHover={{
                     scale: 1.03,
-                    y: -5,
-                    transition: { duration: 0.25 }
+                    y: -6,
+                    transition: { type: 'spring', stiffness: 350, damping: 22 }
                   }}
-                  onClick={onToggleHero}
                 >
                   <path
                     d={getGoldPiecePath()}
