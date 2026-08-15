@@ -42,10 +42,21 @@ export function Header() {
   const servicesTriggerRef = useRef<HTMLButtonElement>(null);
   const aboutDropdownRef = useRef<HTMLDivElement>(null);
 
-  /* Scroll detection */
+  /* Scroll detection (rAF throttled & state deduplicated for 60fps scrolling) */
   useEffect(() => {
-    const handleScroll = () => { setIsScrolled(window.scrollY > 50); };
-    handleScroll();
+    let ticking = false;
+    const checkScroll = () => {
+      const scrolled = window.scrollY > 50;
+      setIsScrolled((prev) => (prev !== scrolled ? scrolled : prev));
+      ticking = false;
+    };
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(checkScroll);
+        ticking = true;
+      }
+    };
+    checkScroll();
     window.addEventListener('scroll', handleScroll, { passive: true });
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
@@ -95,7 +106,7 @@ export function Header() {
 
   return (
     <nav className={cn(
-      "fixed top-0 left-0 right-0 z-50 transition-all duration-300",
+      "fixed top-0 left-0 right-0 z-[100] transition-all duration-300",
       isScrolled ? "bg-white shadow-md py-3.5 md:py-4.5" : "bg-transparent py-5 md:py-7"
     )}>
       <div className="max-w-[90rem] mx-auto pl-2 md:pl-4 lg:pl-6 pr-6 md:pr-12 lg:pr-16 flex items-center justify-between">

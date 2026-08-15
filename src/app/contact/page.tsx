@@ -568,8 +568,8 @@ export default function ContactPage() {
                         }}
                         transition={{ duration: 0.4 }}
                         className={`w-12 h-12 rounded-full flex items-center justify-center border transition-shadow duration-300 z-10 cursor-pointer ${activeIndicator === 'submit' || completedStepsCount === 5
-                            ? 'shadow-[0_0_20px_rgba(191,160,82,0.6)]'
-                            : 'shadow-[0_0_10px_rgba(191,160,82,0.2)]'
+                          ? 'shadow-[0_0_20px_rgba(191,160,82,0.6)]'
+                          : 'shadow-[0_0_10px_rgba(191,160,82,0.2)]'
                           }`}
                       >
                         <motion.div

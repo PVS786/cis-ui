@@ -7,7 +7,7 @@ export function ExecutionPillars() {
   const pillars = [
     {
       title: "Land Identification & Acquisition",
-      img: "/Land Identification & Acquisition - 5_pillar.jpg"
+      img: "/Land Identification & Acquisition - 5_pillar.png"
     },
     {
       title: "Statutory Approvals & Compliance",
@@ -23,12 +23,12 @@ export function ExecutionPillars() {
     },
     {
       title: "Fast & Efficient Execution",
-      img: "/Fast & Efficient Execution - 5_pillar_v3.jpg"
+      img: "/Fast & Efficient Execution - 5_pillar_v3.png"
     }
   ];
 
   return (
-    <section 
+    <section
       className="overflow-hidden"
     >
       {/* Header Area Wrapper */}
@@ -68,7 +68,7 @@ export function ExecutionPillars() {
           </div>
         </div>
       </div>
- 
+
       {/* Cards Area Wrapper */}
       <div className="pt-6 pb-16">
         <div className="grid grid-cols-1 md:grid-cols-5 gap-[1px] bg-brand-gray-medium max-w-[90rem] mx-auto border-x border-brand-gray-medium group/grid">
@@ -81,25 +81,22 @@ export function ExecutionPillars() {
                 viewport={{ once: true }}
                 className="bg-brand-white relative h-[500px] lg:h-[600px] flex flex-col p-6 lg:p-8 xl:p-10 transition-all duration-300 ease-in-out hover:-translate-y-[6px] hover:shadow-[0_20px_50px_rgba(12,44,77,0.12)] group overflow-hidden cursor-pointer z-10 hover:z-20"
               >
-                {/* Background Image Layer (Grayscale texture, highly visible) */}
+                {/* Background Image Layer (Strong architectural gray tone) */}
                 <div className="absolute inset-0 z-0 transition-all duration-300 ease-in-out">
                   <Image
                     src={pillar.img} 
-                    className="object-cover transform scale-100 filter grayscale contrast-[118%] brightness-[88%] group-hover:contrast-[110%] group-hover:brightness-[95%] transition-all duration-300" 
+                    className="object-cover transform scale-100 filter grayscale-[80%] contrast-[112%] brightness-[90%] group-hover:scale-105 transition-all duration-500" 
                     alt={pillar.title}
                     fill
                     sizes="(max-width: 768px) 100vw, 20vw"
                   />
                 </div>
 
-                {/* Default White/Gray Veil Overlay */}
-                <div className="absolute inset-0 bg-brand-white/10 group-hover:opacity-0 transition-opacity duration-300 z-10 pointer-events-none" />
-
                 {/* Default Top white gradient for number readability */}
-                <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-brand-white/90 via-brand-white/45 to-transparent opacity-100 group-hover:opacity-0 transition-opacity duration-300 z-10 pointer-events-none" />
+                <div className="absolute inset-x-0 top-0 h-28 bg-gradient-to-b from-brand-white/85 via-brand-white/40 to-transparent opacity-100 group-hover:opacity-0 transition-opacity duration-300 z-10 pointer-events-none" />
 
-                {/* Default Bottom white gradient for title readability (lower transparency for contrast) */}
-                <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-brand-white via-brand-white/90 to-transparent opacity-100 group-hover:opacity-0 transition-opacity duration-300 z-10 pointer-events-none" />
+                {/* Default Bottom white gradient for title readability */}
+                <div className="absolute inset-x-0 bottom-0 h-56 bg-gradient-to-t from-brand-white/90 via-brand-white/60 to-transparent opacity-100 group-hover:opacity-0 transition-opacity duration-300 z-10 pointer-events-none" />
 
                 {/* Hover Premium Navy Overlay */}
                 <div className="absolute inset-0 bg-brand-navy/80 opacity-0 group-hover:opacity-100 transition-opacity duration-300 z-10 pointer-events-none" />
@@ -127,7 +124,7 @@ export function ExecutionPillars() {
 
                 {/* Logo-inspired Inner Border Frame */}
                 <div className="absolute inset-5 border border-brand-gold/0 group-hover:border-brand-gold/30 transition-all duration-500 pointer-events-none z-20" />
-                
+
                 {/* Top Accent Line */}
                 <div className="absolute top-0 left-0 w-full h-2 bg-brand-gold transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300 origin-left z-20" />
               </motion.div>

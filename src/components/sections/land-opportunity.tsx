@@ -193,7 +193,7 @@ export function LandOpportunitySection() {
               className="relative w-full h-full rounded-2xl overflow-hidden shadow-lg border border-[#BFA052]/30 bg-white z-10 transition-shadow duration-500"
             >
               <Image
-                src="/turn-into-land-opp.png"
+                src="/turning_land_into_opp.png"
                 alt="Strategic Land Development"
                 className="object-cover"
                 fill

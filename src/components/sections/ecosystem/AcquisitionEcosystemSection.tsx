@@ -39,7 +39,7 @@ export default function AcquisitionEcosystemSection() {
           {/* Title */}
           <div className="shrink-0">
             <h2 className="font-tibere font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-[#0C2C4D] tracking-tight leading-[0.95] uppercase whitespace-nowrap">
-              WHAT <span className="text-[#BFA052] italic">WE HANDLE</span>
+              WHAT <span className="text-[#BFA052] italic">WE &nbsp;HANDLE</span>
             </h2>
           </div>
 

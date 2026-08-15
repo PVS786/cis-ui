@@ -2,7 +2,6 @@
 
 import { motion } from 'framer-motion';
 import Link from 'next/link';
-import { ArrowRight } from 'lucide-react';
 
 export function Hero() {
   return (
@@ -44,13 +43,14 @@ export function Hero() {
               hidden: { opacity: 0, y: 30 },
               visible: { opacity: 1, y: 0, transition: { duration: 0.8, ease: [0.16, 1, 0.3, 1] } }
             }}
-            className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-tibere font-black leading-[1.1] mb-8 tracking-[0.05em] text-white uppercase drop-shadow-lg"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-tibere font-black leading-[1.1] mb-8 tracking-[0.05em] text-white drop-shadow-lg"
           >
-            Building Global <br />
+            Building <br />
+            Global <br />
             <span className="text-brand-gold italic">Legacy</span>
           </motion.h1>
 
-          {/* Circular Read More Button linking to About Us */}
+          {/* Enterprise Pill READ MORE Button linking to About Us */}
           <motion.div
             variants={{
               hidden: { opacity: 0, y: 20 },
@@ -59,16 +59,9 @@ export function Hero() {
           >
             <Link
               href="/about"
-              className="group relative flex items-center gap-4 text-white font-gotham font-medium text-sm sm:text-base tracking-wider uppercase transition-all duration-300"
+              className="inline-flex items-center justify-center px-8 py-3.5 sm:px-9 sm:py-4 bg-[#BFA052] hover:bg-[#0C2C4D] text-white font-gotham font-bold text-sm sm:text-base tracking-widest uppercase rounded-full transition-colors duration-300 ease-in-out border border-[#BFA052] hover:border-[#0C2C4D]"
             >
-              <div className="relative w-12 h-12 sm:w-14 sm:h-14 rounded-full border-2 border-brand-gold/70 bg-[#0C2C4D]/80 backdrop-blur-md flex items-center justify-center group-hover:bg-brand-gold group-hover:border-brand-gold transition-all duration-300 shadow-[0_0_20px_rgba(191,160,82,0.3)] group-hover:shadow-[0_0_25px_rgba(191,160,82,0.6)]">
-                {/* Rotating dashed outer accent ring */}
-                <span className="absolute inset-[-4px] rounded-full border border-dashed border-brand-gold/50 group-hover:border-white/80 animate-spin transition-colors duration-300" style={{ animationDuration: '16s' }} />
-                <ArrowRight className="w-5 h-5 text-brand-gold group-hover:text-brand-navy transition-all duration-300 group-hover:translate-x-0.5" strokeWidth={2.2} />
-              </div>
-              <span className="font-poppins font-semibold text-white group-hover:text-brand-gold transition-colors duration-300">
-                Read More
-              </span>
+              READ MORE
             </Link>
           </motion.div>
         </motion.div>

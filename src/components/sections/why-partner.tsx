@@ -1,7 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
 import {
   Shield,
   Handshake,
@@ -100,6 +100,8 @@ const pillars: Pillar[] = [
 ];
 
 export function WhyPartnerSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const isInView = useInView(sectionRef, { margin: '0px' });
   const [hoveredId, setHoveredId] = useState<number | null>(null);
   const [activeId, setActiveId] = useState<number | null>(99);
 
@@ -120,11 +122,15 @@ export function WhyPartnerSection() {
   }, []);
 
   useEffect(() => {
-    startAutoPlay();
+    if (isInView) {
+      startAutoPlay();
+    } else {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    }
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [startAutoPlay]);
+  }, [isInView, startAutoPlay]);
 
   const handleHoverStart = (id: number) => {
     isUserHovering.current = true;
@@ -144,6 +150,7 @@ export function WhyPartnerSection() {
 
   return (
     <section
+      ref={sectionRef}
       className="why-partner-section text-brand-navy relative transition-colors duration-700 py-16 md:py-24 lg:py-28 px-6 md:px-12 lg:px-16 overflow-hidden"
       style={{
         backgroundColor: '#FFFFFF',

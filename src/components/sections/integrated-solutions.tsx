@@ -18,7 +18,10 @@ export function IntegratedSolutionsSection() {
       title: "Regulatory Approvals & Clearance Management",
       content: [
         "From NOC to OC, every approval, handled end to end. We take full ownership of the regulatory process, managing every submission, clearance, and compliance requirement on your behalf, with precision and care. From environmental clearances and layout sanctions to building plan approvals and occupancy sign-offs, we navigate every stage, stay present at every window, and make sure nothing gets delayed, duplicated, or missed.",
-        "This includes title verification, land use conversions, NA orders, TDR applications, and zoning compliance checks every technical prerequisite handled before a single brick is laid. Your project keeps moving, your timelines stay intact, and nothing falls through the cracks."
+        <>
+          This includes title verification, land use conversions,<br />
+          NA orders, TDR applications, and zoning compliance checks. Every technical prerequisite handled before a single brick is laid. Your project keeps moving, your timelines stay intact, and nothing falls through the cracks.
+        </>
       ],
       img: "/reg-appr.png"
     }
