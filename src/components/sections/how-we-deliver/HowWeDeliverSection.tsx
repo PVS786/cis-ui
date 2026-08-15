@@ -32,7 +32,7 @@ function tlCorner(step: Step) {
 interface Step {
   id: number;
   title: string;
-  desc: string;
+  desc: React.ReactNode;
   imagePath: string;
   imgW: number;
   imgH: number;
@@ -122,7 +122,12 @@ const steps: Step[] = [
   {
     id: 7,
     title: 'Complete Project Execution',
-    desc: 'Through our associate company Conservve Buildcon, we deliver fully integrated commercial project execution.',
+    desc: (
+      <>
+        Beyond acquisition and approvals, we deliver turnkey commercial projects<br />
+        via <span className="font-bold text-[#BFA052] whitespace-nowrap">Conservve Buildcon</span>, from land to construction.
+      </>
+    ),
     imagePath: '/how_we_deliver/HWD_Section_7.png',
     imgW: 2390, imgH: 1792,
     cropX1: 74, cropX2: 2360, cropY1: 88, cropY2: 1706,
