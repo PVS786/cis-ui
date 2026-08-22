@@ -364,8 +364,8 @@ export default function LeadershipPage() {
                   transition={{ duration: 0.8 }}
                   className="text-3xl sm:text-4xl md:text-5xl lg:text-[3.25rem] font-tibere text-brand-navy font-bold leading-[1.15] uppercase tracking-wide"
                 >
-                  Guided by <span className="text-brand-gold">Experience</span>,<br />
-                  Driven by <span className="text-brand-gold">Vision</span>
+                  Guided by <span className="text-brand-gold italic">Experience</span>,<br />
+                  Driven by <span className="text-brand-gold italic">Vision</span>
                 </motion.h2>
 
                 {/* Description Paragraph matching image2 style */}
@@ -504,10 +504,6 @@ export default function LeadershipPage() {
                       <line x1="54" y1="190" x2="194" y2="50" stroke="#0C2C4D" strokeWidth="1" />
                       <circle cx="194" cy="50" r="3" fill="#0C2C4D" />
                       <circle cx="54" cy="190" r="3" fill="#0C2C4D" />
-
-                      {/* Extra architectural thin lines */}
-                      <line x1="30" y1="185" x2="90" y2="70" stroke="#0C2C4D" strokeWidth="0.75" opacity="0.3" />
-                      <line x1="125" y1="185" x2="148" y2="145" stroke="#0C2C4D" strokeWidth="0.75" opacity="0.3" />
                     </g>
 
                     {/* 1. COMPASS OUTER DIAL (Scale & Spin Inception + Continuous Slow Spin on rims only) */}

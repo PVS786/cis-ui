@@ -151,12 +151,12 @@ export default function AcquisitionBenefitsSection() {
         </div>
 
         {/* CONNECTED LINE & CARD LAYOUT */}
-        <div className="relative pt-24 px-2">
+        <div className="relative pt-28 px-2">
           {/* Connected Line Behind the Ribbons */}
           <div className="absolute top-[48%] left-[10%] right-[10%] h-[1.5px] bg-[#BFA052]/50 z-0 hidden lg:block" />
 
           {/* Banners Grid Container */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-16 justify-items-center items-start relative z-10 max-w-6xl mx-auto">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-6 gap-y-20 justify-items-center items-start relative z-10 max-w-7xl lg:max-w-[84rem] mx-auto">
             {BENEFITS.map((benefit, idx) => (
               <RibbonBanner
                 key={benefit.id}

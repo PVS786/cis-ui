@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion, AnimatePresence, useInView } from 'framer-motion';
 import { useState, useEffect, useRef, useCallback } from 'react';
 import Image from 'next/image';
 import { cn } from '@/lib/utils';
@@ -32,7 +32,7 @@ function tlCorner(step: Step) {
 interface Step {
   id: number;
   title: string;
-  desc: string;
+  desc: React.ReactNode;
   imagePath: string;
   imgW: number;
   imgH: number;
@@ -122,7 +122,12 @@ const steps: Step[] = [
   {
     id: 7,
     title: 'Complete Project Execution',
-    desc: 'Through our associate company Conservve Buildcon, we deliver fully integrated commercial project execution.',
+    desc: (
+      <>
+        Beyond acquisition and approvals, we deliver turnkey commercial projects<br />
+        via <span className="font-bold text-[#BFA052] whitespace-nowrap">Conservve Buildcon</span>, from land to construction.
+      </>
+    ),
     imagePath: '/how_we_deliver/HWD_Section_7.png',
     imgW: 2390, imgH: 1792,
     cropX1: 74, cropX2: 2360, cropY1: 88, cropY2: 1706,
@@ -245,8 +250,9 @@ function CornerPattern({ isRight = false }: { isRight?: boolean }) {
 }
 
 export function HowWeDeliverSection() {
+  const sectionRef = useRef<HTMLElement>(null);
+  const isInView = useInView(sectionRef, { margin: '0px' });
   const [activeId, setActiveId] = useState<number>(1);
-  const [cycleKey, setCycleKey] = useState(0);
   const isUserHovering = useRef(false);
   const autoIndexRef = useRef(0);
   const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
@@ -257,17 +263,19 @@ export function HowWeDeliverSection() {
       if (isUserHovering.current) return;
       autoIndexRef.current = (autoIndexRef.current + 1) % steps.length;
       setActiveId(steps[autoIndexRef.current].id);
-      setCycleKey((k) => k + 1);
     }, STEP_DURATION);
   }, []);
 
   useEffect(() => {
-    setActiveId(steps[0].id);
-    startAutoPlay();
+    if (isInView) {
+      startAutoPlay();
+    } else {
+      if (intervalRef.current) clearInterval(intervalRef.current);
+    }
     return () => {
       if (intervalRef.current) clearInterval(intervalRef.current);
     };
-  }, [startAutoPlay]);
+  }, [isInView, startAutoPlay]);
 
   const handleHoverStart = (id: number) => {
     isUserHovering.current = true;
@@ -278,13 +286,12 @@ export function HowWeDeliverSection() {
 
   const handleHoverEnd = () => {
     isUserHovering.current = false;
-    setCycleKey((k) => k + 1);
   };
 
   const active = steps.find((s) => s.id === activeId) ?? steps[0];
 
   return (
-    <section className="bg-transparent w-full relative overflow-x-clip pt-8 md:pt-12 pb-16 md:pb-24 animate-cycleKey" key={cycleKey}>
+    <section ref={sectionRef} className="bg-transparent w-full relative overflow-x-clip pt-8 md:pt-12 pb-16 md:pb-24">
 
       {/* ── HEADER ── */}
       <div className="max-w-[90rem] mx-auto px-6 md:px-12 lg:px-16 pt-4 lg:pt-6 pb-6 relative z-10">
@@ -309,7 +316,7 @@ export function HowWeDeliverSection() {
             className="max-w-4xl xl:max-w-5xl text-center z-10 mx-auto"
           >
             <h2 className="font-tibere text-brand-navy font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl leading-[0.95] tracking-tight uppercase whitespace-nowrap mb-6">
-              HOW <span className="text-[#BFA052] italic">WE DELIVER</span>
+              HOW <span className="text-[#BFA052] italic">WE &nbsp;DELIVER</span>
             </h2>
             <div className="text-xl text-brand-navy font-gotham font-medium leading-relaxed">
               A complete <span className="text-[#BFA052]">lifecycle</span> from strategic land aggregation to project execution.
@@ -387,7 +394,7 @@ export function HowWeDeliverSection() {
                     left: `${lp}%`,
                     top: `${tp}%`,
                     width: `${img_dw}%`,
-                    zIndex: isActive ? 40 : (step.cy > 50 ? 20 : 10),
+                    zIndex: isActive ? 30 : (step.cy > 50 ? 20 : 10),
                   }}
                 >
                   <motion.div
@@ -477,7 +484,7 @@ export function HowWeDeliverSection() {
                   animate={{ opacity: 1, scale: 1, x: "-50%", y: "-50%" }}
                   exit={{ opacity: 0, scale: 0.95, x: "-50%", y: "-60%" }}
                   transition={{ duration: 0.25, ease: 'easeOut' }}
-                  className="absolute z-50 w-[62%] min-w-[700px] max-w-[860px]"
+                  className="absolute z-30 w-[62%] min-w-[700px] max-w-[860px]"
                   style={{
                     left: '44%',
                     top: '46.0%',

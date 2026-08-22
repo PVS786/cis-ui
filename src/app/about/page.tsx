@@ -1299,53 +1299,18 @@ function EsgInnovationSection() {
                 })}
               </svg>
 
-              {/* Central 3D CIS Brand Medallion (Sleek Proportioned 19% Size) */}
+              {/* Central ESG Icon (Static) */}
               <div
-                className="medallion-float absolute top-[48%] left-[50%] z-30 flex items-center justify-center cursor-default transition-transform duration-300 hover:scale-105"
-                style={{ width: '19%', aspectRatio: '1 / 1', transform: 'translate(-50%, -50%)' }}
+                className="absolute top-[48%] left-[50%] z-30 flex items-center justify-center cursor-default"
+                style={{ width: '20%', aspectRatio: '1 / 1', transform: 'translate(-50%, -50%)' }}
               >
-                {/* Layer 1: Ambient Floor Shadow */}
-                <div className="absolute inset-0 rounded-full" style={{ background: 'radial-gradient(circle at 50% 110%, rgba(12,44,77,0.55) 0%, transparent 65%)', transform: 'translateY(6px) scaleX(0.88)', filter: 'blur(8px)' }} />
+                {/* Ambient Glow */}
+                <div className="absolute inset-0 rounded-full" style={{ background: 'radial-gradient(circle at 50% 50%, rgba(191,160,82,0.25) 0%, transparent 70%)', filter: 'blur(10px)' }} />
 
-                {/* Layer 2: Gold Outer Glow */}
-                <div className="absolute rounded-full pointer-events-none" style={{ inset: '-25%', background: 'radial-gradient(circle, rgba(191,160,82,0.25) 0%, rgba(191,160,82,0.07) 50%, transparent 72%)', filter: 'blur(10px)' }} />
-
-                {/* Layer 3: Metallic Gold Outer Rim */}
-                <div className="spin-ring absolute inset-0 rounded-full" style={{
-                  background: 'conic-gradient(from 0deg, #7a4d16, #e8be74, #fef0d1, #BFA052, #c29242, #fae1a5, #fef0d1, #e8be74, #8c5c1e, #7a4d16)',
-                  padding: '3px',
-                  boxShadow: '0 0 0 1px rgba(191,160,82,0.35), 0 8px 24px rgba(12,44,77,0.25), 0 0 16px rgba(191,160,82,0.35)',
-                }}>
-                  <div className="w-full h-full rounded-full" style={{ background: 'rgba(250,225,165,0.18)' }} />
-                </div>
-
-                {/* Layer 4: Inner Metallic Bezel */}
-                <div className="absolute rounded-full" style={{
-                  inset: '4px',
-                  background: 'transparent',
-                  border: '1.5px solid rgba(191,160,82,0.4)',
-                  boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.18)',
-                }} />
-
-                {/* Layer 5: Porcelain Coin Surface */}
-                <div className="absolute rounded-full" style={{
-                  inset: '6px',
-                  background: 'radial-gradient(circle at 35% 30%, #ffffff 0%, #f6f3eb 45%, #e8e1d3 100%)',
-                  boxShadow: 'inset 0 3.5px 8px rgba(255,255,255,0.95), inset 0 -3.5px 7px rgba(12,44,77,0.14)',
-                }} />
-
-                {/* Layer 6: Glass Specular Highlight */}
-                <div className="absolute rounded-full pointer-events-none" style={{
-                  inset: '6px',
-                  background: 'linear-gradient(155deg, rgba(255,255,255,0.75) 0%, transparent 46%)',
-                }} />
-
-                {/* Layer 7: CIS Brand Logo */}
                 <img
-                  src="/logo-dark-transparent.png"
-                  alt="Conservve Infra Solutions"
-                  className="relative z-10 select-none"
-                  style={{ width: '68%', height: '68%', objectFit: 'contain' }}
+                  src="/ESG_Icon.png"
+                  alt="ESG Icon"
+                  className="relative z-10 select-none w-full h-full object-contain filter drop-shadow-[0_8px_20px_rgba(12,44,77,0.3)]"
                   draggable={false}
                 />
               </div>

@@ -14,7 +14,8 @@ export default function Home() {
         style={{
           backgroundImage: "linear-gradient(rgba(255, 255, 255, 0.90), rgba(255, 255, 255, 0.90)), url('/Logo_Distort_BG.png')",
           backgroundRepeat: 'repeat',
-          backgroundSize: '300px'
+          backgroundSize: '300px',
+          contain: 'paint',
         }}
       >
         <LandOpportunitySection />
