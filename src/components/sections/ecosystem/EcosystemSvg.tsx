@@ -28,11 +28,17 @@ export default function EcosystemSvg({
   const [activeHoverNode, setActiveHoverNode] = useState<EcosystemNode | null>(null);
   const animationFrameId = useRef<number | null>(null);
 
-  // Smooth orbital rotation loop
+  const lastTimeRef = useRef<number>(0);
+
+  // High-performance timestamp-delta orbital rotation loop (butter smooth 60/120/144 FPS, continuous motion)
   useEffect(() => {
     if (isRotating) {
-      const tick = () => {
-        setRotationOffset((prev) => (prev + 0.12) % 360);
+      lastTimeRef.current = performance.now();
+      const tick = (now: number) => {
+        const delta = now - lastTimeRef.current;
+        lastTimeRef.current = now;
+        // Smooth constant speed: 360 degrees in 50 seconds (~0.0072 deg/ms)
+        setRotationOffset((prev) => (prev + delta * 0.0072) % 360);
         animationFrameId.current = requestAnimationFrame(tick);
       };
       animationFrameId.current = requestAnimationFrame(tick);
@@ -49,25 +55,25 @@ export default function EcosystemSvg({
   }, [isRotating]);
 
   // Center coordinate of SVG
-  const cx = 500;
-  const cy = 500;
-  const rRing = 165; // Small inner blueprint circle track around land tile
+  const cx = 550;
+  const cy = 430;
+  const rRing = 165; // Inner blueprint circle track around land tile
 
   // Active highlighted node (either hovered or clicked)
   const activeNode = activeHoverNode || ECOSYSTEM_NODES.find((n) => n.id === selectedNodeId) || null;
 
-  // Isometric Coordinates for Land Tile (UNTOUCHED)
-  const tileWidth = 158;
-  const tileHeight = 79;
+  // Isometric Coordinates for Land Tile
+  const tileWidth = 160;
+  const tileHeight = 80;
 
-  // Grid cell coordinate calculations (UNTOUCHED)
+  // Grid cell coordinate calculations
   const getIsometricPoint = (u: number, v: number) => {
     const x = cx + (v - u) * tileWidth;
     const y = cy - tileHeight + (u + v) * tileHeight;
     return { x, y };
   };
 
-  // 9 grid cells mapped to Node IDs (1-8) and null for center (UNTOUCHED)
+  // 9 grid cells mapped to Node IDs (1-8) and null for center
   const gridCells = [
     { i: 0, j: 0, nodeId: 1 }, // Top (Title Due Diligence)
     { i: 0, j: 1, nodeId: 2 }, // Top-Right (Encumbrance Checks)
@@ -83,8 +89,8 @@ export default function EcosystemSvg({
   return (
     <div id="ecosystem-canvas" className="relative w-full h-full flex items-center justify-center select-none">
       <svg
-        viewBox="0 0 1000 1000"
-        className="w-full h-full max-w-[800px] max-h-[800px] aspect-square drop-shadow-sm"
+        viewBox="0 0 1100 910"
+        className="w-full h-auto max-w-[1020px] aspect-[1100/910] drop-shadow-sm overflow-hidden"
         xmlns="http://www.w3.org/2000/svg"
       >
         <defs>
@@ -160,16 +166,11 @@ export default function EcosystemSvg({
           </linearGradient>
         </defs>
 
-        {/* 1. COMPASS OR DRAFTING CARDINAL DIRECTIONS (Softened background opacity) */}
+        {/* 1. COMPASS CROSSHAIRS (Clean design, degree numbers removed) */}
         {showAnnotations && (
           <g id="drafting-annotations" className="font-mono text-[9px] fill-[#0C2C4D] opacity-25">
             <line x1={cx - 30} y1={cy} x2={cx + 30} y2={cy} stroke="#0C2C4D" strokeWidth="0.5" strokeDasharray="2,2" />
             <line x1={cx} y1={cy - 30} x2={cx} y2={cy + 30} stroke="#0C2C4D" strokeWidth="0.5" strokeDasharray="2,2" />
-
-            <text x={cx} y={cy - rRing - 8} textAnchor="middle">0.00° [N]</text>
-            <text x={cx + rRing + 8} y={cy + 3} textAnchor="start">90.00° [E]</text>
-            <text x={cx} y={cy + rRing + 14} textAnchor="middle">180.00° [S]</text>
-            <text x={cx - rRing - 8} y={cy + 3} textAnchor="end">270.00° [W]</text>
           </g>
         )}
 
@@ -218,9 +219,9 @@ export default function EcosystemSvg({
                   x2={xRingNode}
                   y2={yRingNode}
                   stroke={isCurrentActive ? "url(#gold-metallic)" : "#0C2C4D"}
-                  strokeWidth={isCurrentActive ? "2" : "1"}
+                  strokeWidth={isCurrentActive ? "2.2" : "1.2"}
                   strokeDasharray={isCurrentActive ? "none" : "3,3"}
-                  opacity={isCurrentActive ? 0.9 : 0.4}
+                  opacity={isCurrentActive ? 0.9 : 0.45}
                   animate={isCurrentActive ? { strokeDashoffset: [0, -10] } : {}}
                   transition={{ repeat: Infinity, duration: 1, ease: "linear" }}
                 />
@@ -245,29 +246,16 @@ export default function EcosystemSvg({
                     onHoverNode(null);
                   }}
                 />
-
-                {showAnnotations && (
-                  <g opacity="0.25" className="font-mono text-[8px] fill-[#0C2C4D]">
-                    <circle cx={xRingNode} cy={yRingNode} r="8" fill="none" stroke="#0C2C4D" strokeWidth="0.5" strokeDasharray="1,1" />
-                    <text
-                      x={cx + (rRing - 14) * Math.cos(angleRad)}
-                      y={cy + (rRing - 14) * Math.sin(angleRad) + 3}
-                      textAnchor="middle"
-                    >
-                      {node.angle.toFixed(1)}°
-                    </text>
-                  </g>
-                )}
               </g>
             );
           })}
         </g>
 
         {/* 4. CENTRAL AMBIENT SHADOW */}
-        <ellipse cx={cx} cy={cy + 105} rx="180" ry="42" fill="#0C2C4D" opacity="0.14" filter="blur(16px)" />
-        <ellipse cx={cx} cy={cy + 105} rx="120" ry="24" fill="#051424" opacity="0.22" filter="blur(8px)" />
+        <ellipse cx={cx} cy={cy + 110} rx="180" ry="42" fill="#0C2C4D" opacity="0.14" filter="blur(16px)" />
+        <ellipse cx={cx} cy={cy + 110} rx="120" ry="24" fill="#051424" opacity="0.22" filter="blur(8px)" />
 
-        {/* 5. ISOMETRIC GEOMETRIC LAND PARCEL WITH DYNAMIC 3D POP-OUT GRID CELLS (UNTOUCHED) */}
+        {/* 5. ISOMETRIC GEOMETRIC LAND PARCEL WITH DYNAMIC 3D POP-OUT GRID CELLS */}
         <g id="central-land-parcel" filter="url(#soft-shadow)" className="transition-all duration-300">
           <polygon
             points={`
@@ -287,8 +275,8 @@ export default function EcosystemSvg({
             points={`
               ${cx - tileWidth},${cy}
               ${cx},${cy + tileHeight}
-              ${cx},${cy + tileHeight + 14}
-              ${cx - tileWidth},${cy + 14}
+              ${cx},${cy + tileHeight + 15}
+              ${cx - tileWidth},${cy + 15}
             `}
             fill="url(#depth-shading-left)"
           />
@@ -297,8 +285,8 @@ export default function EcosystemSvg({
             points={`
               ${cx},${cy + tileHeight}
               ${cx + tileWidth},${cy}
-              ${cx + tileWidth},${cy + 14}
-              ${cx},${cy + tileHeight + 14}
+              ${cx + tileWidth},${cy + 15}
+              ${cx},${cy + tileHeight + 15}
             `}
             fill="url(#depth-shading-right)"
           />
@@ -469,7 +457,7 @@ export default function EcosystemSvg({
             transition={{ repeat: Infinity, duration: 2, ease: "easeOut" }}
           />
 
-          <g transform={`translate(${cx}, ${cy}) scale(1.4)`}>
+          <g transform={`translate(${cx}, ${cy}) scale(1.45)`}>
             <motion.g
               animate={{ y: [0, -12, 0] }}
               transition={{ repeat: Infinity, duration: 3.5, ease: "easeInOut" }}
@@ -511,10 +499,10 @@ export default function EcosystemSvg({
                     transition={{ type: "spring", stiffness: 300, damping: 24 }}
                   >
                     <g transform={`translate(${p_mid.x}, ${p_mid.y - 45})`}>
-                      <circle cx="0" cy="0" r="15" fill="#ffffff" filter="drop-shadow(0px 4px 8px rgba(12, 44, 77, 0.3))" />
-                      <circle cx="0" cy="0" r="15" fill="none" stroke="#0C2C4D" strokeWidth="1" opacity="0.15" />
+                      <circle cx="0" cy="0" r="16" fill="#ffffff" filter="drop-shadow(0px 4px 8px rgba(12, 44, 77, 0.3))" />
+                      <circle cx="0" cy="0" r="16" fill="none" stroke="#0C2C4D" strokeWidth="1" opacity="0.15" />
 
-                      <g transform="translate(-10, -10) scale(0.83)">
+                      <g transform="translate(-10, -10) scale(0.85)">
                         <path
                           d={correspondingNode.iconPath}
                           stroke="#0C2C4D"
@@ -532,7 +520,7 @@ export default function EcosystemSvg({
           })}
         </g>
 
-        {/* 7. EIGHT OUTER FEATURE DIALS (Sleek Compact r=25 Icon Buttons & Large High-Legibility Titles) */}
+        {/* 7. EIGHT OUTER FEATURE DIALS (Scaled r=36 Circular Badges & Precision Text Placement) */}
         <g id="outer-glossy-buttons">
           {ECOSYSTEM_NODES.map((node) => {
             const finalAngle = (node.angle + rotationOffset) % 360;
@@ -562,8 +550,8 @@ export default function EcosystemSvg({
                 {/* BACKING SHADOW FILTER FOR 3D EXTENSION */}
                 <circle
                   cx={x}
-                  cy={y + 4}
-                  r="25"
+                  cy={y + 5}
+                  r="38"
                   fill="#051424"
                   opacity="0.3"
                   filter="url(#button-shadow)"
@@ -572,18 +560,18 @@ export default function EcosystemSvg({
                 {/* 3D EXTRUDED SIDE LIP */}
                 <circle
                   cx={x}
-                  cy={y + 2.5}
-                  r="25"
+                  cy={y + 3}
+                  r="36"
                   fill="#051424"
                 />
 
-                {/* MAIN BUTTON DIAL FACE - Scaled up to r=32 */}
+                {/* MAIN BUTTON DIAL FACE - Scaled r=36 */}
                 <motion.circle
                   cx={x}
                   cy={y}
-                  r="32"
+                  r="36"
                   fill="#0C2C4D"
-                  stroke={isAnyActive ? "url(#gold-metallic)" : "rgba(191, 160, 82, 0.3)"}
+                  stroke={isAnyActive ? "url(#gold-metallic)" : "rgba(191, 160, 82, 0.4)"}
                   strokeWidth={isAnyActive ? "2.5" : "1.5"}
                   animate={isAnyActive ? { scale: 1.12, y: -2 } : { scale: 1, y: 0 }}
                   transition={{ type: "spring", stiffness: 300, damping: 18 }}
@@ -593,7 +581,7 @@ export default function EcosystemSvg({
                 <circle
                   cx={x}
                   cy={y}
-                  r="31"
+                  r="35"
                   fill="url(#glossy-shine)"
                   opacity="0.85"
                   pointerEvents="none"
@@ -603,25 +591,25 @@ export default function EcosystemSvg({
                 <circle
                   cx={x}
                   cy={y}
-                  r="26"
+                  r="29"
                   fill="none"
                   stroke="url(#gold-metallic)"
-                  strokeWidth="0.6"
+                  strokeWidth="0.7"
                   strokeDasharray="2,3"
                   opacity={isAnyActive ? 0.85 : 0.35}
                   pointerEvents="none"
                 />
 
-                {/* GOLD ARCHITECTURAL ICON INSIDE - Scaled up to 1.4 */}
-                <g transform={`translate(${x - 16.8}, ${y - 16.8}) scale(1.4)`} pointerEvents="none">
+                {/* GOLD ARCHITECTURAL ICON INSIDE - Scaled up to 1.65 */}
+                <g transform={`translate(${x - 19.8}, ${y - 19.8}) scale(1.65)`} pointerEvents="none">
                   <motion.path
                     d={node.iconPath}
                     stroke="url(#gold-metallic)"
-                    strokeWidth="1.3"
+                    strokeWidth="1.6"
                     fill="none"
                     strokeLinecap="round"
                     strokeLinejoin="round"
-                    animate={isAnyActive ? { strokeWidth: 1.7 } : { strokeWidth: 1.3 }}
+                    animate={isAnyActive ? { strokeWidth: 2.0 } : { strokeWidth: 1.6 }}
                   />
                 </g>
 
@@ -630,36 +618,34 @@ export default function EcosystemSvg({
                   <circle
                     cx={x}
                     cy={y}
-                    r="40"
+                    r="44"
                     fill="none"
                     stroke="url(#gold-metallic)"
-                    strokeWidth="1.2"
+                    strokeWidth="1.4"
                     opacity="0.45"
                     pointerEvents="none"
                     className="animate-pulse"
                   />
                 )}
 
-                {/* TEXT PLACEMENT DIRECTLY BELOW EACH ICON */}
+                {/* TEXT LABEL ALWAYS CENTERED HORIZONTALLY DIRECTLY BELOW ITS CIRCLE ICON */}
                 {showAnnotations && (() => {
-                  // Position text label centered horizontally under icon (x) and strictly below (y + 42)
-                  const labelX = x;
-                  const labelY = y + 42;
-
-                  const textW = 240;
+                  const textW = 220;
                   const textH = 80;
+                  const labelX = x - textW / 2;
+                  const labelY = y + 42;
 
                   return (
                     <foreignObject
-                      x={labelX - textW / 2}
+                      x={labelX}
                       y={labelY}
                       width={textW}
                       height={textH}
                       pointerEvents="none"
-                      className="transition-opacity duration-300"
+                      className="transition-opacity duration-300 overflow-visible"
                     >
                       <div className="flex flex-col items-center justify-start text-center h-full select-none">
-                        <span className="font-gotham font-normal text-[15px] sm:text-[16px] md:text-[17px] text-[#0C2C4D] leading-[1.25] max-w-[220px]">
+                        <span className="font-gotham font-normal text-[15px] sm:text-[16px] text-[#0C2C4D] leading-[1.25] tracking-normal max-w-[200px]">
                           {node.title}
                         </span>
                       </div>

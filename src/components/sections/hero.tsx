@@ -5,15 +5,15 @@ import Link from 'next/link';
 
 export function Hero() {
   return (
-    <section className="relative min-h-screen flex items-center bg-[#020c18] overflow-hidden">
-      {/* Background Video */}
+    <section className="relative min-h-[112vh] flex items-center bg-[#020c18] overflow-hidden pb-12">
+      {/* Background Video - Increased section height so lower video graphic text is 100% visible */}
       <video
         src="/hero-section-vid.mp4"
         autoPlay
         loop
         muted
         playsInline
-        className="absolute inset-0 w-full h-full object-cover z-0"
+        className="absolute inset-0 w-full h-full object-cover object-bottom z-0"
       />
 
       {/* Content wrapper - horizontally left-aligned, vertically centered */}
