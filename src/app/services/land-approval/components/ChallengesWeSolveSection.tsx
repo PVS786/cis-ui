@@ -24,7 +24,7 @@ export default function ChallengesWeSolveSection() {
           {/* Title */}
           <div className="shrink-0">
             <h2 className="font-tibere text-brand-navy text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold leading-[0.95] tracking-tight uppercase whitespace-nowrap">
-              CHALLENGES WE <span className="text-[#BFA052] italic">SOLVE</span>
+              CHALLENGES &nbsp;WE &nbsp;<span className="text-[#BFA052] italic">SOLVE</span>
             </h2>
           </div>
 

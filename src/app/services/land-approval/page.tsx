@@ -8,7 +8,7 @@ import ChallengesWeSolveSection from './components/ChallengesWeSolveSection';
 import KeyBenefitsSection from './components/KeyBenefitsSection';
 
 const HERO_CONTENT = {
-  backgroundImage: "/Services/land-approval/land-approval-hero.png",
+  backgroundImage: "/Land_Approval_Banner.png",
   title: "Clearing the path before the first brick is laid",
 };
 

@@ -396,7 +396,8 @@ export default function AboutUsPage() {
 
 // ==================== CORE VALUES SECTION COMPONENT ====================
 function CoreValuesSection() {
-  const [activeIndex, setActiveIndex] = useState<number | null>(null);
+  const [activeIndex, setActiveIndex] = useState<number>(0);
+  const [userHoveredIndex, setUserHoveredIndex] = useState<number | null>(null);
   const [mobileActiveIndex, setMobileActiveIndex] = useState(0);
   const [mounted, setMounted] = useState(false);
 
@@ -406,6 +407,21 @@ function CoreValuesSection() {
   useEffect(() => {
     setMounted(true);
   }, []);
+
+  // 2-second continuous auto-counter pop timer
+  useEffect(() => {
+    if (userHoveredIndex !== null) return; // Pause auto-counter while user is actively hovering over a card
+
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => {
+        const next = (prev + 1) % 6; // 6 core value elements
+        setMobileActiveIndex(next);
+        return next;
+      });
+    }, 2000); // Pops next element continuously every 2 seconds
+
+    return () => clearInterval(interval);
+  }, [userHoveredIndex]);
 
   interface CoreValue {
     id: string;
@@ -688,218 +704,222 @@ function CoreValuesSection() {
             className="w-full relative overflow-visible"
             style={{ height: '585px' }}
           >
-          {/* SVG DNA Layer */}
-          <svg
-            suppressHydrationWarning
-            width="100%"
-            height="280"
-            viewBox={`0 0 ${width} 280`}
-            className="absolute top-0 left-0 overflow-visible"
-            style={{ filter: "url(#dna-shadow)" }}
-          >
-            <defs>
-              <radialGradient id="navy-bead-grad" cx="30%" cy="30%" r="70%">
-                <stop offset="0%" stopColor="#4174a3" />
-                <stop offset="35%" stopColor="#153d63" />
-                <stop offset="100%" stopColor="#051526" />
-              </radialGradient>
-              <radialGradient id="gold-bead-grad" cx="30%" cy="30%" r="70%">
-                <stop offset="0%" stopColor="#ffe49e" />
-                <stop offset="35%" stopColor="#cca141" />
-                <stop offset="100%" stopColor="#785917" />
-              </radialGradient>
-              <linearGradient id="navy-strand-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#081b30" />
-                <stop offset="50%" stopColor="#1c4d7d" />
-                <stop offset="100%" stopColor="#081b30" />
-              </linearGradient>
-              <linearGradient id="gold-strand-grad" x1="0%" y1="0%" x2="100%" y2="0%">
-                <stop offset="0%" stopColor="#755615" />
-                <stop offset="50%" stopColor="#d6b35c" />
-                <stop offset="100%" stopColor="#755615" />
-              </linearGradient>
-              <filter id="dna-shadow" x="-5%" y="-15%" width="110%" height="140%">
-                <feDropShadow dx="0" dy="16" stdDeviation="12" floodColor="#0C2C4D" floodOpacity="0.14" />
-              </filter>
-              <filter id="glow-highlight" x="-40%" y="-40%" width="180%" height="180%">
-                <feGaussianBlur stdDeviation="10" result="blur" />
-                <feComposite in="SourceGraphic" in2="blur" operator="over" />
-              </filter>
-              <filter id="icon-glow" x="-60%" y="-60%" width="220%" height="220%">
-                <feGaussianBlur stdDeviation="6" result="blur" />
-                <feComposite in="SourceGraphic" in2="blur" operator="over" />
-              </filter>
-            </defs>
+            {/* SVG DNA Layer */}
+            <svg
+              suppressHydrationWarning
+              width="100%"
+              height="280"
+              viewBox={`0 0 ${width} 280`}
+              className="absolute top-0 left-0 overflow-visible"
+              style={{ filter: "url(#dna-shadow)" }}
+            >
+              <defs>
+                <radialGradient id="navy-bead-grad" cx="30%" cy="30%" r="70%">
+                  <stop offset="0%" stopColor="#4174a3" />
+                  <stop offset="35%" stopColor="#153d63" />
+                  <stop offset="100%" stopColor="#051526" />
+                </radialGradient>
+                <radialGradient id="gold-bead-grad" cx="30%" cy="30%" r="70%">
+                  <stop offset="0%" stopColor="#ffe49e" />
+                  <stop offset="35%" stopColor="#cca141" />
+                  <stop offset="100%" stopColor="#785917" />
+                </radialGradient>
+                <linearGradient id="navy-strand-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#081b30" />
+                  <stop offset="50%" stopColor="#1c4d7d" />
+                  <stop offset="100%" stopColor="#081b30" />
+                </linearGradient>
+                <linearGradient id="gold-strand-grad" x1="0%" y1="0%" x2="100%" y2="0%">
+                  <stop offset="0%" stopColor="#755615" />
+                  <stop offset="50%" stopColor="#d6b35c" />
+                  <stop offset="100%" stopColor="#755615" />
+                </linearGradient>
+                <filter id="dna-shadow" x="-5%" y="-15%" width="110%" height="140%">
+                  <feDropShadow dx="0" dy="16" stdDeviation="12" floodColor="#0C2C4D" floodOpacity="0.14" />
+                </filter>
+                <filter id="glow-highlight" x="-40%" y="-40%" width="180%" height="180%">
+                  <feGaussianBlur stdDeviation="10" result="blur" />
+                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+                <filter id="icon-glow" x="-60%" y="-60%" width="220%" height="220%">
+                  <feGaussianBlur stdDeviation="6" result="blur" />
+                  <feComposite in="SourceGraphic" in2="blur" operator="over" />
+                </filter>
+              </defs>
 
-            {/* DNA Double Helix */}
-            {renderDnaStructure()}
+              {/* DNA Double Helix */}
+              {renderDnaStructure()}
 
-            {coreValues.map((val, idx) => {
-              const nodePos = getActiveNodeCoordinates(idx);
-              const isHovered = activeIndex === idx;
-              const circleR = 36;
+              {coreValues.map((val, idx) => {
+                const nodePos = getActiveNodeCoordinates(idx);
+                const isHovered = activeIndex === idx;
+                const circleR = 36;
 
-              return (
-                <g key={`icon-node-${val.id}`}>
-                  {/* Outer hover glow rings */}
-                  {isHovered && (
-                    <>
-                      <circle
-                        cx={nodePos.x}
-                        cy={nodePos.y}
-                        r="62"
-                        fill="url(#gold-bead-grad)"
-                        fillOpacity="0.10"
-                        filter="url(#glow-highlight)"
-                      />
-                      <circle
-                        cx={nodePos.x}
-                        cy={nodePos.y}
-                        r="52"
-                        fill="none"
-                        stroke="#BFA052"
-                        strokeWidth="1.5"
-                        strokeOpacity="0.45"
-                        className="animate-ping"
-                        style={{ animationDuration: '1.8s' }}
-                      />
-                      <circle
-                        cx={nodePos.x}
-                        cy={nodePos.y}
-                        r="46"
-                        fill="none"
-                        stroke="#BFA052"
-                        strokeWidth="2"
-                        strokeOpacity="0.65"
-                      />
-                    </>
-                  )}
+                return (
+                  <g key={`icon-node-${val.id}`}>
+                    {/* Outer hover glow rings */}
+                    {isHovered && (
+                      <>
+                        <circle
+                          cx={nodePos.x}
+                          cy={nodePos.y}
+                          r="62"
+                          fill="url(#gold-bead-grad)"
+                          fillOpacity="0.10"
+                          filter="url(#glow-highlight)"
+                        />
+                        <circle
+                          cx={nodePos.x}
+                          cy={nodePos.y}
+                          r="52"
+                          fill="none"
+                          stroke="#BFA052"
+                          strokeWidth="1.5"
+                          strokeOpacity="0.45"
+                          className="animate-ping"
+                          style={{ animationDuration: '1.8s' }}
+                        />
+                        <circle
+                          cx={nodePos.x}
+                          cy={nodePos.y}
+                          r="46"
+                          fill="none"
+                          stroke="#BFA052"
+                          strokeWidth="2"
+                          strokeOpacity="0.65"
+                        />
+                      </>
+                    )}
 
-                  {/* Connector line extending down to top center of card */}
-                  <line
-                    x1={nodePos.x}
-                    y1={nodePos.y + circleR}
-                    x2={nodePos.x}
-                    y2={245}
-                    stroke={isHovered ? '#BFA052' : 'rgba(12,44,77,0.25)'}
-                    strokeWidth={isHovered ? 2 : 1.5}
-                    strokeDasharray={isHovered ? 'none' : '3,3'}
-                  />
-                </g>
-              );
-            })}
-          </svg>
+                    {/* Connector line extending down to top center of card */}
+                    <line
+                      x1={nodePos.x}
+                      y1={nodePos.y + circleR}
+                      x2={nodePos.x}
+                      y2={245}
+                      stroke={isHovered ? '#BFA052' : 'rgba(12,44,77,0.25)'}
+                      strokeWidth={isHovered ? 2 : 1.5}
+                      strokeDasharray={isHovered ? 'none' : '3,3'}
+                    />
+                  </g>
+                );
+              })}
+            </svg>
 
-          {/* ---- HTML interactive columns (combines icon circles and full cards in a single hover block) ---- */}
-          <div
-            className="absolute left-0 right-0 pointer-events-none overflow-visible"
-            style={{ top: 0, height: '585px' }}
-          >
-            {coreValues.map((val, idx) => {
-              const nodePos = getActiveNodeCoordinates(idx);
-              const isHovered = activeIndex === idx;
-              const leftPercent = (nodePos.x / width) * 100;
-              const IconComponent = val.icon;
-              const colWidth = width / 6;
+            {/* ---- HTML interactive columns (combines icon circles and full cards in a single hover block) ---- */}
+            <div
+              className="absolute left-0 right-0 pointer-events-none overflow-visible"
+              style={{ top: 0, height: '585px' }}
+            >
+              {coreValues.map((val, idx) => {
+                const nodePos = getActiveNodeCoordinates(idx);
+                const isHovered = activeIndex === idx;
+                const leftPercent = (nodePos.x / width) * 100;
+                const IconComponent = val.icon;
+                const colWidth = width / 6;
 
-              return (
-                <div
-                  key={`column-${val.id}`}
-                  className="absolute pointer-events-auto flex flex-col items-center overflow-visible"
-                  style={{
-                    left: `${leftPercent}%`,
-                    top: 0,
-                    width: `${colWidth}px`,
-                    height: '585px',
-                    transform: 'translateX(-50%)',
-                    zIndex: isHovered ? 40 : 10,
-                  }}
-                  onMouseEnter={() => setActiveIndex(idx)}
-                  onMouseLeave={() => setActiveIndex(null)}
-                >
-                  {/* 1. Icon Badge (centered at nodePos.y = 135px) */}
+                return (
                   <div
-                    className="absolute flex items-center justify-center rounded-full transition-all duration-300 shadow-md"
+                    key={`column-${val.id}`}
+                    className="absolute pointer-events-auto flex flex-col items-center overflow-visible"
                     style={{
-                      left: '50%',
-                      top: '135px',
-                      transform: 'translate(-50%, -50%)',
-                      width: isHovered ? '78px' : '72px',
-                      height: isHovered ? '78px' : '72px',
-                      background: isHovered ? '#0C2C4D' : '#ffffff',
-                      border: isHovered ? '3px solid #BFA052' : '2px solid #d4c9a8',
-                      cursor: 'pointer',
+                      left: `${leftPercent}%`,
+                      top: 0,
+                      width: `${colWidth}px`,
+                      height: '585px',
+                      transform: 'translateX(-50%)',
+                      zIndex: isHovered ? 40 : 10,
                     }}
-                  >
-                    <div style={{ width: '22px', height: '22px', flexShrink: 0 }}>
-                      <IconComponent
-                        className={`w-full h-full transition-colors duration-300 ${isHovered
-                          ? 'text-gold'
-                          : val.isPlaceholder
-                            ? 'text-slate-400'
-                            : 'text-navy'
-                          }`}
-                      />
-                    </div>
-                  </div>
-
-                  {/* 2. Permanent Card Container (positioned at top = 245px, UNIFORM SIZE FOR ALL CARDS) */}
-                  <div
-                    className="absolute flex flex-col items-center w-full overflow-visible"
-                    style={{
-                      left: '50%',
-                      top: '245px',
-                      transform: isHovered ? 'translate(-50%, -10px)' : 'translate(-50%, 0px)',
-                      transition: 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
+                    onMouseEnter={() => {
+                      setUserHoveredIndex(idx);
+                      setActiveIndex(idx);
+                      setMobileActiveIndex(idx);
                     }}
+                    onMouseLeave={() => setUserHoveredIndex(null)}
                   >
+                    {/* 1. Icon Badge (centered at nodePos.y = 135px) */}
                     <div
-                      className={`w-[175px] h-[320px] rounded-[14px] p-4 text-center flex flex-col items-center justify-between transition-all duration-300 ${isHovered
+                      className="absolute flex items-center justify-center rounded-full transition-all duration-300 shadow-md"
+                      style={{
+                        left: '50%',
+                        top: '135px',
+                        transform: 'translate(-50%, -50%)',
+                        width: isHovered ? '78px' : '72px',
+                        height: isHovered ? '78px' : '72px',
+                        background: isHovered ? '#0C2C4D' : '#ffffff',
+                        border: isHovered ? '3px solid #BFA052' : '2px solid #d4c9a8',
+                        cursor: 'pointer',
+                      }}
+                    >
+                      <div style={{ width: '22px', height: '22px', flexShrink: 0 }}>
+                        <IconComponent
+                          className={`w-full h-full transition-colors duration-300 ${isHovered
+                            ? 'text-gold'
+                            : val.isPlaceholder
+                              ? 'text-slate-400'
+                              : 'text-navy'
+                            }`}
+                        />
+                      </div>
+                    </div>
+
+                    {/* 2. Permanent Card Container (positioned at top = 245px, UNIFORM SIZE FOR ALL CARDS) */}
+                    <div
+                      className="absolute flex flex-col items-center w-full overflow-visible"
+                      style={{
+                        left: '50%',
+                        top: '245px',
+                        transform: isHovered ? 'translate(-50%, -10px)' : 'translate(-50%, 0px)',
+                        transition: 'transform 0.35s cubic-bezier(0.16, 1, 0.3, 1)',
+                      }}
+                    >
+                      <div
+                        className={`w-[185px] h-[328px] rounded-[14px] px-3.5 py-4 text-center flex flex-col items-center justify-between transition-all duration-300 ${isHovered
                           ? 'bg-[linear-gradient(145deg,#0d2847_0%,#0C2C4D_40%,#081e36_100%)] text-white shadow-[0_16px_36px_rgba(12,44,77,0.3),0_0_24px_rgba(191,160,82,0.25)] border-t-[4px] border-b-[4px] border-l-[1.5px] border-r-[1.5px] border-brand-gold'
                           : 'bg-white/95 backdrop-blur-sm text-navy shadow-[0_8px_24px_rgba(12,44,77,0.08)] border border-slate-200/90'
-                        }`}
-                    >
-                      {/* Top Header Section */}
-                      <div className="flex flex-col items-center justify-center w-full">
-                        {/* Number & Gold Underline */}
-                        <div className="flex flex-col items-center justify-center w-full mb-1.5">
-                          <span
-                            className={`font-gotham font-medium text-center transition-colors duration-300 ${isHovered ? 'text-gold' : 'text-brand-navy'
+                          }`}
+                      >
+                        {/* Top Header Section */}
+                        <div className="flex flex-col items-center justify-center w-full">
+                          {/* Number & Gold Underline */}
+                          <div className="flex flex-col items-center justify-center w-full mb-1.5">
+                            <span
+                              className={`font-gotham font-medium text-center transition-colors duration-300 ${isHovered ? 'text-gold' : 'text-brand-navy'
+                                }`}
+                              style={{ fontSize: '34px', lineHeight: 1, marginBottom: '4px' }}
+                            >
+                              {val.num}
+                            </span>
+                            <div style={{ width: '32px', height: '2.5px', background: '#BFA052', borderRadius: '2px' }} />
+                          </div>
+
+                          {/* Title */}
+                          <h3
+                            className={`font-gotham font-semibold uppercase tracking-wider text-center transition-colors duration-300 px-0.5 ${isHovered ? 'text-white' : val.isPlaceholder ? 'text-slate-500' : 'text-[#0C2C4D]'
                               }`}
-                            style={{ fontSize: '34px', lineHeight: 1, marginBottom: '4px' }}
+                            style={{ fontSize: '13px', lineHeight: 1.25 }}
                           >
-                            {val.num}
-                          </span>
-                          <div style={{ width: '32px', height: '2.5px', background: '#BFA052', borderRadius: '2px' }} />
+                            {val.title}
+                          </h3>
                         </div>
 
-                        {/* Title */}
-                        <h3
-                          className={`font-gotham font-semibold uppercase tracking-wider text-center transition-colors duration-300 px-1 ${isHovered ? 'text-white' : val.isPlaceholder ? 'text-slate-500' : 'text-[#0C2C4D]'
-                            }`}
-                          style={{ fontSize: '12.5px', lineHeight: 1.25 }}
-                        >
-                          {val.title}
-                        </h3>
-                      </div>
-
-                      {/* Description Body */}
-                      <div className="flex-1 flex items-center justify-center my-1">
-                        <p
-                          className={`font-body text-center transition-colors duration-300 ${isHovered ? 'text-white/85' : val.isPlaceholder ? 'text-slate-400' : 'text-slate-600'
-                            }`}
-                          style={{ fontSize: '11.5px', lineHeight: 1.5 }}
-                        >
-                          {val.description}
-                        </p>
+                        {/* Description Body */}
+                        <div className="flex-1 flex items-center justify-center my-1 w-full">
+                          <p
+                            className={`font-body text-center transition-colors duration-300 ${isHovered ? 'text-white/95 font-normal' : val.isPlaceholder ? 'text-slate-400' : 'text-slate-700'
+                              }`}
+                            style={{ fontSize: '13.5px', lineHeight: 1.45 }}
+                          >
+                            {val.description}
+                          </p>
+                        </div>
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-          </div>
-        </motion.div>
+                );
+              })}
+            </div>
+          </motion.div>
         </div>
       </div>
 
@@ -1299,53 +1319,18 @@ function EsgInnovationSection() {
                 })}
               </svg>
 
-              {/* Central 3D CIS Brand Medallion (Sleek Proportioned 19% Size) */}
+              {/* Central ESG Icon (Static) */}
               <div
-                className="medallion-float absolute top-[48%] left-[50%] z-30 flex items-center justify-center cursor-default transition-transform duration-300 hover:scale-105"
-                style={{ width: '19%', aspectRatio: '1 / 1', transform: 'translate(-50%, -50%)' }}
+                className="absolute top-[48%] left-[50%] z-30 flex items-center justify-center cursor-default"
+                style={{ width: '20%', aspectRatio: '1 / 1', transform: 'translate(-50%, -50%)' }}
               >
-                {/* Layer 1: Ambient Floor Shadow */}
-                <div className="absolute inset-0 rounded-full" style={{ background: 'radial-gradient(circle at 50% 110%, rgba(12,44,77,0.55) 0%, transparent 65%)', transform: 'translateY(6px) scaleX(0.88)', filter: 'blur(8px)' }} />
+                {/* Ambient Glow */}
+                <div className="absolute inset-0 rounded-full" style={{ background: 'radial-gradient(circle at 50% 50%, rgba(191,160,82,0.25) 0%, transparent 70%)', filter: 'blur(10px)' }} />
 
-                {/* Layer 2: Gold Outer Glow */}
-                <div className="absolute rounded-full pointer-events-none" style={{ inset: '-25%', background: 'radial-gradient(circle, rgba(191,160,82,0.25) 0%, rgba(191,160,82,0.07) 50%, transparent 72%)', filter: 'blur(10px)' }} />
-
-                {/* Layer 3: Metallic Gold Outer Rim */}
-                <div className="spin-ring absolute inset-0 rounded-full" style={{
-                  background: 'conic-gradient(from 0deg, #7a4d16, #e8be74, #fef0d1, #BFA052, #c29242, #fae1a5, #fef0d1, #e8be74, #8c5c1e, #7a4d16)',
-                  padding: '3px',
-                  boxShadow: '0 0 0 1px rgba(191,160,82,0.35), 0 8px 24px rgba(12,44,77,0.25), 0 0 16px rgba(191,160,82,0.35)',
-                }}>
-                  <div className="w-full h-full rounded-full" style={{ background: 'rgba(250,225,165,0.18)' }} />
-                </div>
-
-                {/* Layer 4: Inner Metallic Bezel */}
-                <div className="absolute rounded-full" style={{
-                  inset: '4px',
-                  background: 'transparent',
-                  border: '1.5px solid rgba(191,160,82,0.4)',
-                  boxShadow: 'inset 0 1px 3px rgba(0,0,0,0.18)',
-                }} />
-
-                {/* Layer 5: Porcelain Coin Surface */}
-                <div className="absolute rounded-full" style={{
-                  inset: '6px',
-                  background: 'radial-gradient(circle at 35% 30%, #ffffff 0%, #f6f3eb 45%, #e8e1d3 100%)',
-                  boxShadow: 'inset 0 3.5px 8px rgba(255,255,255,0.95), inset 0 -3.5px 7px rgba(12,44,77,0.14)',
-                }} />
-
-                {/* Layer 6: Glass Specular Highlight */}
-                <div className="absolute rounded-full pointer-events-none" style={{
-                  inset: '6px',
-                  background: 'linear-gradient(155deg, rgba(255,255,255,0.75) 0%, transparent 46%)',
-                }} />
-
-                {/* Layer 7: CIS Brand Logo */}
                 <img
-                  src="/logo-dark-transparent.png"
-                  alt="Conservve Infra Solutions"
-                  className="relative z-10 select-none"
-                  style={{ width: '68%', height: '68%', objectFit: 'contain' }}
+                  src="/ESG_Icon.png"
+                  alt="ESG Icon"
+                  className="relative z-10 select-none w-full h-full object-contain filter drop-shadow-[0_8px_20px_rgba(12,44,77,0.3)]"
                   draggable={false}
                 />
               </div>
@@ -1395,11 +1380,10 @@ function EsgInnovationSection() {
                     >
                       {/* Icon Badge */}
                       <div
-                        className={`w-[26px] h-[26px] sm:w-[34px] sm:h-[34px] rounded-full flex items-center justify-center shadow-lg transition-all duration-300 mb-1.5 ${
-                          isHovered
-                            ? 'bg-[#0C2C4D] text-[#BFA052] border border-[#BFA052]'
-                            : 'bg-white text-[#0C2C4D] border border-slate-100'
-                        }`}
+                        className={`w-[26px] h-[26px] sm:w-[34px] sm:h-[34px] rounded-full flex items-center justify-center shadow-lg transition-all duration-300 mb-1.5 ${isHovered
+                          ? 'bg-[#0C2C4D] text-[#BFA052] border border-[#BFA052]'
+                          : 'bg-white text-[#0C2C4D] border border-slate-100'
+                          }`}
                         style={{
                           boxShadow: isHovered
                             ? '0 0 20px rgba(191,160,82,0.6), 0 4px 12px rgba(12,44,77,0.25)'
@@ -1411,11 +1395,10 @@ function EsgInnovationSection() {
 
                       {/* High-Readability Frosted Backdrop Pill for Parcel Text */}
                       <div
-                        className={`px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-lg sm:rounded-xl backdrop-blur-md transition-all duration-300 ${
-                          isHovered
-                            ? 'bg-[#0C2C4D]/94 text-white border border-[#BFA052]/70 shadow-[0_6px_20px_rgba(12,44,77,0.4)]'
-                            : 'bg-white/92 backdrop-blur-sm text-[#0C2C4D] border border-white/90 shadow-[0_4px_14px_rgba(12,44,77,0.16)]'
-                        }`}
+                        className={`px-2 sm:px-2.5 py-0.5 sm:py-1 rounded-lg sm:rounded-xl backdrop-blur-md transition-all duration-300 ${isHovered
+                          ? 'bg-[#0C2C4D]/94 text-white border border-[#BFA052]/70 shadow-[0_6px_20px_rgba(12,44,77,0.4)]'
+                          : 'bg-white/92 backdrop-blur-sm text-[#0C2C4D] border border-white/90 shadow-[0_4px_14px_rgba(12,44,77,0.16)]'
+                          }`}
                       >
                         <div className="font-poppins font-extrabold text-[8.5px] sm:text-[10px] md:text-[11.5px] uppercase tracking-wider leading-[1.15] text-center select-none">
                           {parcel.shortTitle.split('\n').map((line, idx) => (

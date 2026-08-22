@@ -364,39 +364,51 @@ export default function CareersPage() {
           {/* ========================================================================= */}
 
           {/* DESKTOP COMPOSITION (lg+ screens) */}
-          <div className="hidden lg:block w-full max-w-[1240px] mx-auto my-4 lg:my-6 select-none">
-            <div className="relative w-full h-[580px] flex items-center justify-between">
-              {/* LEFT COLUMN: 3 Compact Cards (Width: ~295px) */}
-              <div className="w-[285px] xl:w-[305px] h-full flex flex-col justify-between py-2 z-20">
+          <div className="hidden lg:block w-full max-w-[1360px] mx-auto my-4 lg:my-6 select-none">
+            <div className="relative w-full h-[620px] flex items-center justify-between">
+              {/* LEFT COLUMN: 3 Cards (Width: ~340px - 365px) */}
+              <div className="w-[340px] xl:w-[365px] h-full flex flex-col justify-between py-2 z-20">
                 {LEFT_BENEFITS.map((item) => {
                   const IconComp = item.icon;
                   const isHovered = activeId === item.id;
 
                   return (
-                    <motion.div
-                      key={`card-left-${item.id}`}
-                      tabIndex={0}
-                      onMouseEnter={() => setActiveId(item.id)}
-                      onMouseLeave={() => setActiveId(null)}
-                      onFocus={() => setActiveId(item.id)}
-                      onBlur={() => setActiveId(null)}
-                      animate={{
-                        y: isHovered ? -6 : 0,
-                        scale: isHovered ? 1.025 : 1.0,
-                        borderColor: isHovered ? '#BFA052' : '#e2e8f0',
-                        boxShadow: isHovered
-                          ? '0 20px 40px rgba(12,44,77,0.16), 0 0 22px rgba(191,160,82,0.32)'
-                          : '0 6px 20px rgba(12,44,77,0.07)',
-                      }}
-                      whileTap={{ scale: 0.98 }}
-                      transition={{ type: 'spring', stiffness: 350, damping: 24 }}
-                      className="group relative bg-white p-4.5 xl:p-5 rounded-2xl border border-slate-200 text-left overflow-visible backdrop-blur-md cursor-pointer min-h-[125px] flex flex-col justify-center focus:outline-none focus:ring-2 focus:ring-[#BFA052]"
-                    >
-                      {/* Left Gold Accent Bar */}
-                      <div className="absolute left-0 top-0 bottom-0 w-[4px] bg-[#BFA052] rounded-l-2xl" />
+                    <div key={`card-left-${item.id}`} className="relative group overflow-visible">
+                      {/* The Card Box with overflow-hidden to perfectly clip the gold accent bar along rounded-2xl corners */}
+                      <motion.div
+                        tabIndex={0}
+                        onMouseEnter={() => setActiveId(item.id)}
+                        onMouseLeave={() => setActiveId(null)}
+                        onFocus={() => setActiveId(item.id)}
+                        onBlur={() => setActiveId(null)}
+                        animate={{
+                          y: isHovered ? -6 : 0,
+                          scale: isHovered ? 1.025 : 1.0,
+                          borderColor: isHovered ? '#BFA052' : '#e2e8f0',
+                          boxShadow: isHovered
+                            ? '0 20px 40px rgba(12,44,77,0.16), 0 0 22px rgba(191,160,82,0.32)'
+                            : '0 6px 20px rgba(12,44,77,0.07)',
+                        }}
+                        whileTap={{ scale: 0.98 }}
+                        transition={{ type: 'spring', stiffness: 350, damping: 24 }}
+                        className="relative w-full bg-white p-5.5 xl:p-6 rounded-2xl border border-slate-200 text-left overflow-hidden backdrop-blur-md cursor-pointer min-h-[145px] xl:min-h-[155px] flex flex-col justify-center focus:outline-none focus:ring-2 focus:ring-[#BFA052]"
+                      >
+                        {/* Left Gold Accent Bar - Entire Left Side Top to Bottom */}
+                        <div className="absolute left-0 top-0 bottom-0 w-[5px] bg-[#BFA052]" />
 
-                      {/* Left-Side Wallet Badge (Matching RHS design) */}
-                      <div className="absolute -left-5 top-1/2 -translate-y-1/2 z-30">
+                        {/* Card Content */}
+                        <div className="pl-11 xl:pl-12 pr-2">
+                          <h3 className="font-poppins font-extrabold text-[16.5px] xl:text-[18px] text-[#0C2C4D] leading-snug mb-1.5 tracking-tight group-hover:text-[#BFA052] transition-colors duration-300">
+                            {item.title}
+                          </h3>
+                          <p className="font-poppins text-[13px] xl:text-[14px] text-slate-700 font-medium leading-relaxed">
+                            {item.description}
+                          </p>
+                        </div>
+                      </motion.div>
+
+                      {/* Overlapping Badge (Outside overflow-hidden so it pops out over the card gracefully!) */}
+                      <div className="absolute -left-6 top-1/2 -translate-y-1/2 z-30 pointer-events-none">
                         <motion.div
                           animate={{
                             scale: isHovered ? 1.2 : 1.0,
@@ -406,23 +418,13 @@ export default function CareersPage() {
                               : '0 4px 12px rgba(12,44,77,0.2)',
                           }}
                           transition={{ type: 'spring', stiffness: 350, damping: 22 }}
-                          className="w-12 h-12 xl:w-13 xl:h-13 bg-gradient-to-br from-[#E2C075] via-[#BFA052] to-[#987C38] rounded-full flex items-center justify-center border-2 border-[#0C2C4D] relative overflow-hidden"
+                          className="w-13.5 h-13.5 xl:w-15 xl:h-15 bg-gradient-to-br from-[#E2C075] via-[#BFA052] to-[#987C38] rounded-full flex items-center justify-center border-2 border-[#0C2C4D] relative overflow-hidden"
                         >
                           <div className="absolute inset-[1.5px] rounded-full border border-white/80 pointer-events-none" />
-                          <IconComp className="w-6 h-6 xl:w-6.5 xl:h-6.5 text-white filter drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)] relative z-10" />
+                          <IconComp className="w-6.5 h-6.5 xl:w-7.5 xl:h-7.5 text-white filter drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)] relative z-10" />
                         </motion.div>
                       </div>
-
-                      {/* Card Content */}
-                      <div className="pl-10 pr-2">
-                        <h3 className="font-poppins font-extrabold text-[14.5px] xl:text-[15.5px] text-[#0C2C4D] leading-snug mb-1 tracking-tight group-hover:text-[#BFA052] transition-colors duration-300">
-                          {item.title}
-                        </h3>
-                        <p className="font-poppins text-[11.5px] xl:text-[12px] text-slate-700 font-medium leading-relaxed">
-                          {item.description}
-                        </p>
-                      </div>
-                    </motion.div>
+                    </div>
                   );
                 })}
               </div>
@@ -590,37 +592,49 @@ export default function CareersPage() {
                 </div>
               </div>
 
-              {/* RIGHT COLUMN: 3 Compact Cards (Width: ~295px) */}
-              <div className="w-[285px] xl:w-[305px] h-full flex flex-col justify-between py-2 z-20">
+              {/* RIGHT COLUMN: 3 Cards (Width: ~340px - 365px) */}
+              <div className="w-[340px] xl:w-[365px] h-full flex flex-col justify-between py-2 z-20">
                 {RIGHT_BENEFITS.map((item) => {
                   const IconComp = item.icon;
                   const isHovered = activeId === item.id;
 
                   return (
-                    <motion.div
-                      key={`card-right-${item.id}`}
-                      tabIndex={0}
-                      onMouseEnter={() => setActiveId(item.id)}
-                      onMouseLeave={() => setActiveId(null)}
-                      onFocus={() => setActiveId(item.id)}
-                      onBlur={() => setActiveId(null)}
-                      animate={{
-                        y: isHovered ? -6 : 0,
-                        scale: isHovered ? 1.025 : 1.0,
-                        borderColor: isHovered ? '#BFA052' : '#e2e8f0',
-                        boxShadow: isHovered
-                          ? '0 20px 40px rgba(12,44,77,0.16), 0 0 22px rgba(191,160,82,0.32)'
-                          : '0 6px 20px rgba(12,44,77,0.07)',
-                      }}
-                      whileTap={{ scale: 0.98 }}
-                      transition={{ type: 'spring', stiffness: 350, damping: 24 }}
-                      className="group relative bg-white p-4.5 xl:p-5 rounded-2xl border border-slate-200 text-left overflow-visible backdrop-blur-md cursor-pointer min-h-[125px] flex flex-col justify-center focus:outline-none focus:ring-2 focus:ring-[#BFA052]"
-                    >
-                      {/* Left Gold Accent Bar */}
-                      <div className="absolute left-0 top-0 bottom-0 w-[4px] bg-[#BFA052] rounded-l-2xl" />
+                    <div key={`card-right-${item.id}`} className="relative group overflow-visible">
+                      {/* The Card Box with overflow-hidden to perfectly clip the gold accent bar along rounded-2xl corners */}
+                      <motion.div
+                        tabIndex={0}
+                        onMouseEnter={() => setActiveId(item.id)}
+                        onMouseLeave={() => setActiveId(null)}
+                        onFocus={() => setActiveId(item.id)}
+                        onBlur={() => setActiveId(null)}
+                        animate={{
+                          y: isHovered ? -6 : 0,
+                          scale: isHovered ? 1.025 : 1.0,
+                          borderColor: isHovered ? '#BFA052' : '#e2e8f0',
+                          boxShadow: isHovered
+                            ? '0 20px 40px rgba(12,44,77,0.16), 0 0 22px rgba(191,160,82,0.32)'
+                            : '0 6px 20px rgba(12,44,77,0.07)',
+                        }}
+                        whileTap={{ scale: 0.98 }}
+                        transition={{ type: 'spring', stiffness: 350, damping: 24 }}
+                        className="relative w-full bg-white p-5.5 xl:p-6 rounded-2xl border border-slate-200 text-left overflow-hidden backdrop-blur-md cursor-pointer min-h-[145px] xl:min-h-[155px] flex flex-col justify-center focus:outline-none focus:ring-2 focus:ring-[#BFA052]"
+                      >
+                        {/* Left Gold Accent Bar - Entire Left Side Top to Bottom */}
+                        <div className="absolute left-0 top-0 bottom-0 w-[5px] bg-[#BFA052]" />
 
-                      {/* Left-Side Wallet Badge (Matching RHS design) */}
-                      <div className="absolute -left-5 top-1/2 -translate-y-1/2 z-30">
+                        {/* Card Content */}
+                        <div className="pl-11 xl:pl-12 pr-2">
+                          <h3 className="font-poppins font-extrabold text-[16.5px] xl:text-[18px] text-[#0C2C4D] leading-snug mb-1.5 tracking-tight group-hover:text-[#BFA052] transition-colors duration-300">
+                            {item.title}
+                          </h3>
+                          <p className="font-poppins text-[13px] xl:text-[14px] text-slate-700 font-medium leading-relaxed">
+                            {item.description}
+                          </p>
+                        </div>
+                      </motion.div>
+
+                      {/* Overlapping Badge (Outside overflow-hidden so it pops out over the card gracefully!) */}
+                      <div className="absolute -left-6 top-1/2 -translate-y-1/2 z-30 pointer-events-none">
                         <motion.div
                           animate={{
                             scale: isHovered ? 1.2 : 1.0,
@@ -630,23 +644,13 @@ export default function CareersPage() {
                               : '0 4px 12px rgba(12,44,77,0.2)',
                           }}
                           transition={{ type: 'spring', stiffness: 350, damping: 22 }}
-                          className="w-12 h-12 xl:w-13 xl:h-13 bg-gradient-to-br from-[#E2C075] via-[#BFA052] to-[#987C38] rounded-full flex items-center justify-center border-2 border-[#0C2C4D] relative overflow-hidden"
+                          className="w-13.5 h-13.5 xl:w-15 xl:h-15 bg-gradient-to-br from-[#E2C075] via-[#BFA052] to-[#987C38] rounded-full flex items-center justify-center border-2 border-[#0C2C4D] relative overflow-hidden"
                         >
                           <div className="absolute inset-[1.5px] rounded-full border border-white/80 pointer-events-none" />
-                          <IconComp className="w-6 h-6 xl:w-6.5 xl:h-6.5 text-white filter drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)] relative z-10" />
+                          <IconComp className="w-6.5 h-6.5 xl:w-7.5 xl:h-7.5 text-white filter drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)] relative z-10" />
                         </motion.div>
                       </div>
-
-                      {/* Card Content */}
-                      <div className="pl-10 pr-2">
-                        <h3 className="font-poppins font-extrabold text-[14.5px] xl:text-[15.5px] text-[#0C2C4D] leading-snug mb-1 tracking-tight group-hover:text-[#BFA052] transition-colors duration-300">
-                          {item.title}
-                        </h3>
-                        <p className="font-poppins text-[11.5px] xl:text-[12px] text-slate-700 font-medium leading-relaxed">
-                          {item.description}
-                        </p>
-                      </div>
-                    </motion.div>
+                    </div>
                   );
                 })}
               </div>
@@ -696,26 +700,37 @@ export default function CareersPage() {
                 const isHovered = activeId === item.id;
 
                 return (
-                  <motion.div
-                    key={`mobile-card-${item.id}`}
-                    onMouseEnter={() => setActiveId(item.id)}
-                    onMouseLeave={() => setActiveId(null)}
-                    animate={{
-                      y: isHovered ? -4 : 0,
-                      borderColor: isHovered ? '#BFA052' : '#e2e8f0',
-                      boxShadow: isHovered
-                        ? '0 16px 32px rgba(12,44,77,0.14), 0 0 16px rgba(191,160,82,0.25)'
-                        : '0 6px 20px rgba(12,44,77,0.06)',
-                    }}
-                    whileTap={{ scale: 0.98 }}
-                    transition={{ type: 'spring', stiffness: 350, damping: 25 }}
-                    className="group relative bg-white p-4.5 rounded-2xl border border-slate-200 text-left overflow-visible backdrop-blur-md cursor-pointer min-h-[120px] flex flex-col justify-center"
-                  >
-                    {/* Left Gold Accent Bar */}
-                    <div className="absolute left-0 top-0 bottom-0 w-[4px] bg-[#BFA052] rounded-l-2xl" />
+                  <div key={`mobile-card-${item.id}`} className="relative group overflow-visible">
+                    <motion.div
+                      onMouseEnter={() => setActiveId(item.id)}
+                      onMouseLeave={() => setActiveId(null)}
+                      animate={{
+                        y: isHovered ? -4 : 0,
+                        borderColor: isHovered ? '#BFA052' : '#e2e8f0',
+                        boxShadow: isHovered
+                          ? '0 16px 32px rgba(12,44,77,0.14), 0 0 16px rgba(191,160,82,0.25)'
+                          : '0 6px 20px rgba(12,44,77,0.06)',
+                      }}
+                      whileTap={{ scale: 0.98 }}
+                      transition={{ type: 'spring', stiffness: 350, damping: 25 }}
+                      className="relative w-full bg-white p-5.5 rounded-2xl border border-slate-200 text-left overflow-hidden backdrop-blur-md cursor-pointer min-h-[135px] flex flex-col justify-center"
+                    >
+                      {/* Left Gold Accent Bar */}
+                      <div className="absolute left-0 top-0 bottom-0 w-[5px] bg-[#BFA052]" />
 
-                    {/* Left-Side Wallet Badge (Matching RHS design) */}
-                    <div className="absolute top-1/2 -translate-y-1/2 -left-4 z-30">
+                      {/* Card Content */}
+                      <div className="pl-10 pr-2">
+                        <h3 className="font-poppins font-extrabold text-[16.5px] text-[#0C2C4D] leading-snug mb-1.5 tracking-tight group-hover:text-[#BFA052] transition-colors duration-300">
+                          {item.title}
+                        </h3>
+                        <p className="font-poppins text-[13px] text-slate-700 font-medium leading-relaxed">
+                          {item.description}
+                        </p>
+                      </div>
+                    </motion.div>
+
+                    {/* Left-Side Wallet Badge */}
+                    <div className="absolute top-1/2 -translate-y-1/2 -left-5 z-30 pointer-events-none">
                       <motion.div
                         animate={{
                           scale: isHovered ? 1.15 : 1.0,
@@ -725,23 +740,13 @@ export default function CareersPage() {
                             : '0 3px 10px rgba(12,44,77,0.18)',
                         }}
                         transition={{ type: 'spring', stiffness: 350, damping: 22 }}
-                        className="w-11 h-11 bg-gradient-to-br from-[#E2C075] via-[#BFA052] to-[#987C38] rounded-full flex items-center justify-center border-2 border-[#0C2C4D] relative overflow-hidden"
+                        className="w-13 h-13 bg-gradient-to-br from-[#E2C075] via-[#BFA052] to-[#987C38] rounded-full flex items-center justify-center border-2 border-[#0C2C4D] relative overflow-hidden"
                       >
                         <div className="absolute inset-[1.5px] rounded-full border border-white/80 pointer-events-none" />
-                        <IconComp className="w-5.5 h-5.5 text-white filter drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)] relative z-10" />
+                        <IconComp className="w-6.5 h-6.5 text-white filter drop-shadow-[0_1px_2px_rgba(0,0,0,0.3)] relative z-10" />
                       </motion.div>
                     </div>
-
-                    {/* Card Content */}
-                    <div className="pl-9 pr-2">
-                      <h3 className="font-poppins font-extrabold text-[15px] text-[#0C2C4D] leading-snug mb-1 tracking-tight group-hover:text-[#BFA052] transition-colors duration-300">
-                        {item.title}
-                      </h3>
-                      <p className="font-poppins text-[11.5px] text-slate-700 font-medium leading-relaxed">
-                        {item.description}
-                      </p>
-                    </div>
-                  </motion.div>
+                  </div>
                 );
               })}
             </div>

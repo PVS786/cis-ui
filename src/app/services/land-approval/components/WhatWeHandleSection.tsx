@@ -127,6 +127,41 @@ const LAND_DOCUMENTS: LandDocument[] = [
   }
 ];
 
+const ExecutiveSignature = ({ index, className }: { index: number; className?: string }) => {
+  const mode = index % 3;
+  if (mode === 0) {
+    // Style matching Image 1: Sweeping flourish with high loop and sharp underline
+    return (
+      <svg
+        className={className || "h-11 w-36 text-[#0C2C4D] fill-none stroke-current stroke-[2.2] stroke-linecap-round stroke-linejoin-round select-none filter drop-shadow-[0_1px_1px_rgba(12,44,77,0.15)]"}
+        viewBox="0 0 160 70"
+      >
+        <path d="M 8 52 C 28 42, 52 36, 74 30 C 82 24, 108 8, 122 6 C 132 4, 134 16, 114 24 C 96 30, 72 42, 40 62 C 54 50, 68 40, 78 48 C 88 54, 98 42, 110 36 C 122 30, 138 20, 154 22 M 138 20 L 88 66 C 102 60, 125 54, 148 50" />
+      </svg>
+    );
+  }
+  if (mode === 1) {
+    // Style matching Image 2: Bold initial loop, ascender loop, right-hand flourish & underline
+    return (
+      <svg
+        className={className || "h-11 w-36 text-[#0C2C4D] fill-none stroke-current stroke-[2.2] stroke-linecap-round stroke-linejoin-round select-none filter drop-shadow-[0_1px_1px_rgba(12,44,77,0.15)]"}
+        viewBox="0 0 170 70"
+      >
+        <path d="M 5 45 C 20 44, 48 38, 62 32 C 52 48, 32 66, 16 68 C 8 70, 10 56, 32 40 C 52 24, 78 8, 92 5 C 98 4, 95 16, 82 24 C 68 34, 56 46, 70 38 C 80 30, 92 40, 100 36 C 110 32, 120 38, 132 36 C 136 18, 146 4, 156 2 C 162 1, 154 18, 140 28 C 132 32, 146 34, 164 34 M 55 50 L 168 44 C 132 48, 85 54, 60 52" />
+      </svg>
+    );
+  }
+  // Style matching Image 3: Continuous wave cursive with sharp strike
+  return (
+    <svg
+      className={className || "h-11 w-36 text-[#0C2C4D] fill-none stroke-current stroke-[2.2] stroke-linecap-round stroke-linejoin-round select-none filter drop-shadow-[0_1px_1px_rgba(12,44,77,0.15)]"}
+      viewBox="0 0 160 65"
+    >
+      <path d="M 18 24 C 8 20, 14 12, 32 10 C 46 8, 40 24, 22 32 C 12 36, 16 50, 36 40 C 54 30, 72 14, 84 10 C 90 8, 84 22, 68 30 C 56 34, 76 26, 92 22 C 104 18, 116 25, 142 16 M 8 58 C 40 46, 75 35, 118 28 C 135 25, 150 22, 158 20" />
+    </svg>
+  );
+};
+
 export default function WhatWeHandleSection() {
   const [activeIndex, setActiveIndex] = useState<number>(0);
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
@@ -188,7 +223,7 @@ export default function WhatWeHandleSection() {
           {/* Title */}
           <div className="shrink-0">
             <h2 className="font-tibere font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-[#0C2C4D] tracking-tight leading-[0.95] uppercase whitespace-nowrap">
-              WHAT <span className="text-[#BFA052] italic">WE HANDLE</span>
+              WHAT <span className="text-[#BFA052] italic">WE &nbsp;HANDLE</span>
             </h2>
           </div>
 
@@ -293,37 +328,87 @@ export default function WhatWeHandleSection() {
 
                     {/* Card Content Wrapper */}
                     <div
-                      className="absolute inset-0 p-8 flex flex-col justify-between transition-all duration-500 z-15"
+                      className="absolute inset-0 transition-all duration-500 z-15"
                       style={{ width: `${cardWidth}px` }}
                     >
-                      <div className={`absolute inset-4 border border-[#bfa052]/20 border-dashed rounded-xl pointer-events-none transition-opacity duration-500 ${isRevealed ? 'opacity-100' : 'opacity-0'
-                        }`} />
+                      {idx === 0 && !isRevealed ? (
+                        /* Cover Dossier Page View for Card 01 when not hovered (Matching Reference Image 2) */
+                        <div className="absolute inset-0 p-8 flex flex-col justify-between transition-all duration-500 z-20">
+                          {/* Left Navy-Gold Margin Spine */}
+                          <div className="absolute top-0 bottom-0 left-0 w-3.5 bg-gradient-to-b from-[#0C2C4D] via-[#184a77] to-[#06182B] border-r-2 border-[#BFA052]" />
 
-                      <div className="flex flex-col items-start text-left mt-3">
-                        <div className={`w-16 h-16 rounded-full bg-white border-2 border-[#bfa052]/35 shadow-md flex items-center justify-center mb-4 transition-all duration-500 hover:rotate-6 ${isRevealed ? 'opacity-100 scale-100 blur-0' : 'opacity-0 scale-95 blur-[1px] pointer-events-none'
-                          }`}>
-                          <DocumentIcon type={doc.iconType} className="w-10 h-10 text-[#bfa052]" />
+                          {/* Dashed Inset Border */}
+                          <div className="absolute inset-4 left-8 border border-[#bfa052]/35 border-dashed rounded-xl pointer-events-none" />
+
+                          {/* Cover Center Title Content */}
+                          <div className="absolute inset-0 pl-12 pr-14 py-8 flex flex-col justify-between items-start text-left z-20">
+                            {/* Vertically Centered Title Block */}
+                            <div className="flex-1 flex flex-col justify-center items-start w-full my-auto">
+                              <div className="w-14 h-[3px] bg-[#BFA052] mb-6" />
+                              <span className="font-poppins text-xs font-bold tracking-[0.25em] text-[#BFA052] uppercase mb-3">
+                                Statutory & Legal File
+                              </span>
+
+                              <h3 className="font-tibere font-black text-4xl sm:text-5xl lg:text-[44px] text-[#0C2C4D] uppercase leading-[1.02]">
+                                <span className="tracking-[0.14em] inline-block">CONTRACT</span>
+                                <br />
+                                <span className="text-[#BFA052] italic font-serif tracking-normal">AGREEMENT</span>
+                              </h3>
+                            </div>
+
+                            {/* Bottom Footer */}
+                            <div className="w-full flex justify-between items-end border-t border-solid border-[#0C2C4D]/10 pt-4">
+                              <div className="flex flex-col items-start">
+                                <span className="font-poppins text-[10px] font-bold tracking-widest text-[#BFA052] uppercase">
+                                  Confidential Dossier
+                                </span>
+                              </div>
+                            </div>
+                          </div>
                         </div>
+                      ) : (
+                        /* Standard Document Content View */
+                        <div className="absolute inset-0 p-8 md:p-9 pb-8 flex flex-col justify-between transition-all duration-500 z-15">
+                          <div className={`absolute inset-4 border border-[#bfa052]/20 border-dashed rounded-xl pointer-events-none transition-opacity duration-500 ${isRevealed ? 'opacity-100' : 'opacity-60'
+                            }`} />
 
-                        <h3 className={`font-tibere text-lg md:text-xl font-extrabold text-[#0c2c4d] tracking-wide leading-snug mb-2 transition-all duration-500 ${isRevealed ? 'opacity-100 blur-0' : 'opacity-0 blur-[1px] pointer-events-none'
-                          }`}>
-                          {doc.title}
-                        </h3>
+                          <div className="flex flex-col items-start text-left mt-2">
+                            <div className={`w-18 h-18 rounded-full bg-white border-2 border-[#bfa052]/35 shadow-md flex items-center justify-center mb-5 transition-all duration-500 hover:rotate-6 ${isRevealed ? 'scale-100 shadow-lg border-[#bfa052]' : 'scale-95 opacity-90'
+                              }`}>
+                              <DocumentIcon type={doc.iconType} className="w-[42px] h-[42px] text-[#bfa052]" />
+                            </div>
 
-                        <p className={`font-poppins text-xs md:text-sm text-slate-600 leading-relaxed font-normal mt-2.5 transition-all duration-500 ${isRevealed ? 'opacity-100 blur-0' : 'opacity-0 blur-[1px] pointer-events-none'
-                          }`}>
-                          {doc.description}
-                        </p>
-                      </div>
+                            <h3 className={`font-tibere text-2xl sm:text-3xl md:text-[27px] font-extrabold text-[#0c2c4d] tracking-tight leading-[1.2] mb-4 transition-all duration-500 ${isRevealed ? 'text-[#0c2c4d]' : 'text-[#0c2c4d]/90'
+                              }`}>
+                              {doc.title}
+                            </h3>
 
-                      <div className={`flex justify-end items-end border-t border-solid border-[#0c2c4d]/10 pt-4 mt-auto relative transition-all duration-500 ${isRevealed ? 'opacity-100 blur-0' : 'opacity-0 blur-[1px] pointer-events-none'
-                        }`}>
-                        <OfficialStamp
-                          color="gold"
-                          rotate={12}
-                          className="mr-1 mb-1 shadow-[0_4px_10px_rgba(191,160,82,0.05)]"
-                        />
-                      </div>
+                            <p className={`font-poppins text-base sm:text-lg md:text-[18px] text-slate-600 leading-[1.65] font-normal tracking-wide mt-1 transition-all duration-500 ${isRevealed ? 'text-slate-600' : 'text-slate-500'
+                              }`}>
+                              {doc.description}
+                            </p>
+                          </div>
+
+                          <div className="flex justify-between items-end border-t border-solid border-[#0c2c4d]/10 pt-4 mt-auto relative z-20">
+                            {/* Bottom Left: Executive Signature */}
+                            <div className="flex flex-col items-start text-left max-w-[220px] pr-2">
+                              <div className="h-10 flex items-center justify-start overflow-visible -mb-0.5">
+                                <ExecutiveSignature index={idx} />
+                              </div>
+                              <span className="text-[9px] uppercase tracking-widest font-bold text-slate-500 font-poppins">
+                                Authorized Signature
+                              </span>
+                            </div>
+
+                            {/* Bottom Right: Stamp */}
+                            <OfficialStamp
+                              color="gold"
+                              rotate={12}
+                              className="mr-1 mb-1 shadow-[0_4px_10px_rgba(191,160,82,0.05)] shrink-0"
+                            />
+                          </div>
+                        </div>
+                      )}
                     </div>
                   </div>
                 );
@@ -391,16 +476,16 @@ export default function WhatWeHandleSection() {
                       <div className="h-[2.5px] w-[50%] bg-[#bfa052]/25 rounded-full" />
                     </div>
 
-                    <div className="flex justify-between items-end pt-3 border-t border-solid border-[#0c2c4d]/5">
-                      <div className="flex flex-col text-left">
-                        <span className="text-xl text-[#0c2c4d]/85 font-tibere italic h-8 select-none">
-                          {doc.signatureName}
-                        </span>
-                        <span className="text-[8px] uppercase tracking-wider font-semibold text-slate-400">
+                    <div className="flex justify-between items-end pt-3 border-t border-solid border-[#0c2c4d]/10">
+                      <div className="flex flex-col items-start text-left">
+                        <div className="h-9 flex items-center justify-start overflow-visible -mb-0.5">
+                          <ExecutiveSignature index={idx} className="h-9 w-32 text-[#0C2C4D] fill-none stroke-current stroke-[2] stroke-linecap-round stroke-linejoin-round select-none" />
+                        </div>
+                        <span className="text-[8px] uppercase tracking-widest font-bold text-slate-500 font-poppins">
                           Authorized Signature
                         </span>
                       </div>
-                      <OfficialStamp color={doc.stampColor} rotate={12} className="scale-75 origin-bottom-right" />
+                      <OfficialStamp color={doc.stampColor} rotate={12} className="scale-75 origin-bottom-right shrink-0" />
                     </div>
                   </div>
                 </div>

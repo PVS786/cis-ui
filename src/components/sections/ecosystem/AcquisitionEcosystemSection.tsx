@@ -7,7 +7,7 @@ import EcosystemSvg from "./EcosystemSvg";
 export default function AcquisitionEcosystemSection() {
   const [selectedNode, setSelectedNode] = useState<EcosystemNode | null>(null);
   const [subdivision] = useState<number>(3); // Pristine 3x3 subdivision
-  const [explodeRadius] = useState<number>(340); // Expanded outer orbit radius for breathing space
+  const [explodeRadius] = useState<number>(345); // Extended outer orbit radius to lengthen connector lines
   const [isRotating] = useState<boolean>(true); // Slowly rotate orbit for high-end feel
   const [showAnnotations] = useState<boolean>(true); // Keep elegant blueprints, scales and labels
 
@@ -26,20 +26,20 @@ export default function AcquisitionEcosystemSection() {
   };
 
   return (
-    <section className="w-full pt-6 md:pt-10 pb-2 md:pb-4 flex flex-col items-center justify-center overflow-hidden font-sans text-[#0C2C4D] relative">
+    <section className="w-full pt-6 md:pt-10 pb-4 md:pb-8 flex flex-col items-center justify-center overflow-hidden font-sans text-[#0C2C4D] relative">
 
       {/* Ambient center radial shading */}
-      <div className="absolute w-[600px] h-[600px] rounded-full bg-radial from-[#0C2C4D]/5 to-transparent blur-3xl pointer-events-none" />
+      <div className="absolute w-[750px] h-[750px] rounded-full bg-radial from-[#0C2C4D]/5 to-transparent blur-3xl pointer-events-none" />
 
       {/* Main Core Container */}
-      <div className="w-full max-w-7xl mx-auto px-6 md:px-12 z-10 flex flex-col items-center justify-center">
+      <div className="w-full max-w-7xl mx-auto px-4 sm:px-6 md:px-12 z-10 flex flex-col items-center justify-center">
 
         {/* Section Heading */}
-        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-12 lg:gap-16 w-full mb-1 md:mb-2">
+        <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-6 md:gap-12 lg:gap-16 w-full mb-2 md:mb-4">
           {/* Title */}
           <div className="shrink-0">
             <h2 className="font-tibere font-bold text-4xl sm:text-5xl md:text-6xl lg:text-7xl text-[#0C2C4D] tracking-tight leading-[0.95] uppercase whitespace-nowrap">
-              WHAT <span className="text-[#BFA052] italic">WE HANDLE</span>
+              WHAT <span className="text-[#BFA052] italic">WE &nbsp;HANDLE</span>
             </h2>
           </div>
 
@@ -54,8 +54,8 @@ export default function AcquisitionEcosystemSection() {
           </div>
         </div>
 
-        {/* Main Core SVG Canvas - Centered Hero Artwork */}
-        <div className="relative w-full max-w-[850px] aspect-square flex items-center justify-center -mt-6 md:-mt-12 lg:-mt-16">
+        {/* Main Core SVG Canvas - Perfectly sized & centered hero artwork */}
+        <div className="relative w-full max-w-[1020px] aspect-[1100/910] flex items-center justify-center -mt-2 md:-mt-4">
           <EcosystemSvg
             subdivision={subdivision}
             explodeRadius={explodeRadius}

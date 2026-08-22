@@ -74,7 +74,7 @@ export default function RibbonBanner({
     ? 'bg-gradient-to-b from-[#184a77] via-[#0C2C4D] to-[#061a2f]' 
     : 'bg-gradient-to-b from-[#e7c775] via-[#BFA052] to-[#8d6d2b]';
   const textColorClass = 'text-white';
-  const descColorClass = isNavy ? 'text-[#DCE6F1]' : 'text-[#FFF2D4]';
+  const descColorClass = isNavy ? 'text-[#DCE6F1]' : 'text-white';
   const starColorClass = isNavy ? 'text-[#BFA052]' : 'text-white';
 
   const leftFoldStyle = {
@@ -93,7 +93,7 @@ export default function RibbonBanner({
       animate={{ 
         opacity: 1, 
         y: 0,
-        height: isExpanded ? 355 : 210
+        height: isExpanded ? 410 : 265
       }}
       transition={{ duration: 0.35, ease: 'easeInOut' }}
       whileHover={{ y: isExpanded ? -3 : -6, scale: 1.01 }}
@@ -105,7 +105,7 @@ export default function RibbonBanner({
         setInternalHover(false);
         if (onLeave) onLeave();
       }}
-      className="relative w-full max-w-[270px] flex flex-col items-center justify-between select-none cursor-pointer z-10"
+      className="relative w-full max-w-[310px] flex flex-col items-center justify-between select-none cursor-pointer z-10"
       style={{
         filter: isExpanded
           ? 'drop-shadow(0 24px 36px rgba(12, 44, 77, 0.25)) drop-shadow(0 6px 14px rgba(0, 0, 0, 0.18)) drop-shadow(0 0 10px rgba(191, 160, 82, 0.18))'
@@ -115,11 +115,11 @@ export default function RibbonBanner({
       {show3DFolds && (
         <>
           <div 
-            className="absolute top-12 -left-[10px] w-[10px] h-4 transition-transform duration-300" 
+            className="absolute top-14 -left-[10px] w-[10px] h-4 transition-transform duration-300" 
             style={leftFoldStyle} 
           />
           <div 
-            className="absolute top-12 -right-[10px] w-[10px] h-4 transition-transform duration-300" 
+            className="absolute top-14 -right-[10px] w-[10px] h-4 transition-transform duration-300" 
             style={rightFoldStyle} 
           />
         </>
@@ -127,7 +127,7 @@ export default function RibbonBanner({
 
       {/* Main Ribbon Body */}
       <div
-        className={`relative w-full h-full pt-20 px-5 flex flex-col justify-between items-center transition-all duration-300 ${ribbonColorClass} ${isExpanded ? 'pb-8' : 'pb-6'}`}
+        className={`relative w-full h-full pt-24 px-6 flex flex-col justify-between items-center transition-all duration-300 ${ribbonColorClass} ${isExpanded ? 'pb-12' : 'pb-10'}`}
         style={{
           clipPath: 'polygon(0% 0%, 100% 0%, 100% 100%, 50% 90%, 0% 100%)',
           boxShadow: isNavy
@@ -158,7 +158,7 @@ export default function RibbonBanner({
         </svg>
 
         <div className="flex flex-col items-center text-center mt-2 flex-grow justify-start w-full z-10">
-          <h3 className={`font-tibere font-bold text-base sm:text-lg leading-snug tracking-wide uppercase ${textColorClass}`}>
+          <h3 className={`font-tibere font-bold text-lg sm:text-xl md:text-2xl leading-snug tracking-wide uppercase ${textColorClass}`}>
             {benefit.title}
           </h3>
           
@@ -171,42 +171,42 @@ export default function RibbonBanner({
             transition={{ duration: 0.3, ease: 'easeInOut' }}
             className="overflow-hidden flex flex-col items-center w-full"
           >
-            <div className={`w-6 h-[1.5px] my-3.5 ${isNavy ? 'bg-[#BFA052]/50' : 'bg-white/50'}`} />
-            <p className={`font-poppins text-[14px] sm:text-[15px] font-normal leading-relaxed tracking-wide ${descColorClass}`}>
+            <div className={`w-8 h-[2px] my-4 ${isNavy ? 'bg-[#BFA052]/60' : 'bg-white/60'}`} />
+            <p className={`font-poppins text-base sm:text-[17px] font-medium leading-relaxed tracking-wide ${descColorClass}`}>
               {benefit.description}
             </p>
           </motion.div>
         </div>
 
-        <div className="flex flex-col items-center mt-auto z-10">
-          <div className="flex items-center gap-1">
-            <div className={`w-1 h-1 rounded-full ${isNavy ? 'bg-[#BFA052]/30' : 'bg-white/30'}`} />
+        <div className="flex flex-col items-center mt-auto mb-4 z-10">
+          <div className="flex items-center gap-1.5">
+            <div className={`w-1.5 h-1.5 rounded-full ${isNavy ? 'bg-[#BFA052]/40' : 'bg-white/40'}`} />
             <svg 
-              className={`w-3.5 h-3.5 ${starColorClass} fill-current transition-transform duration-500`} 
+              className={`w-4 h-4 ${starColorClass} fill-current transition-transform duration-500`} 
               viewBox="0 0 24 24"
             >
               <path d="M12 2l2.4 7.2h7.6l-6 4.8 2.4 7.2-6-4.8-6 4.8 2.4-7.2-6-4.8h7.6z" />
             </svg>
-            <div className={`w-1 h-1 rounded-full ${isNavy ? 'bg-[#BFA052]/30' : 'bg-white/30'}`} />
+            <div className={`w-1.5 h-1.5 rounded-full ${isNavy ? 'bg-[#BFA052]/40' : 'bg-white/40'}`} />
           </div>
         </div>
       </div>
 
       {/* Top Overlapping Metallic Emblem Badge */}
       <div 
-        className="absolute -top-18 left-1/2 -translate-x-1/2 z-30 transition-transform duration-300 group-hover:scale-105"
+        className="absolute -top-22 left-1/2 -translate-x-1/2 z-30 transition-transform duration-300 group-hover:scale-105"
       >
         {isNavy ? (
-          <div className="w-36 h-36 rounded-full bg-gradient-to-b from-[#184a77] via-[#0C2C4D] to-[#061a2f] flex items-center justify-center border-[4px] border-[#BFA052] shadow-[0_16px_32px_rgba(5,20,36,0.4),inset_0_4px_8px_rgba(255,255,255,0.22),inset_0_-4px_8px_rgba(0,0,0,0.4)] relative">
-            <div className="absolute inset-[5px] rounded-full border border-[#BFA052]/35" />
-            <div className="absolute inset-[8px] rounded-full border border-[#BFA052]/10" />
-            <IconContainer name={benefit.iconName} className="text-white" size={54} />
+          <div className="w-44 h-44 rounded-full bg-gradient-to-b from-[#184a77] via-[#0C2C4D] to-[#061a2f] flex items-center justify-center border-[4.5px] border-[#BFA052] shadow-[0_18px_36px_rgba(5,20,36,0.45),inset_0_4px_8px_rgba(255,255,255,0.22),inset_0_-4px_8px_rgba(0,0,0,0.4)] relative">
+            <div className="absolute inset-[6px] rounded-full border border-[#BFA052]/35" />
+            <div className="absolute inset-[10px] rounded-full border border-[#BFA052]/10" />
+            <IconContainer name={benefit.iconName} className="text-white" size={66} />
           </div>
         ) : (
-          <div className="w-36 h-36 rounded-full bg-gradient-to-b from-[#fad57b] via-[#BFA052] to-[#8d6d2b] flex items-center justify-center border-[3.5px] border-white/95 shadow-[0_16px_32px_rgba(92,72,25,0.4),inset_0_4px_8px_rgba(255,255,255,0.45),inset_0_-4px_8px_rgba(0,0,0,0.3)] relative">
-            <div className="absolute inset-[-8px] rounded-full border border-[#BFA052]/15 bg-[#BFA052]/5 blur-md pointer-events-none" />
-            <div className="absolute inset-[5px] rounded-full border border-white/30" />
-            <IconContainer name={benefit.iconName} className="text-white" size={54} />
+          <div className="w-44 h-44 rounded-full bg-gradient-to-b from-[#fad57b] via-[#BFA052] to-[#8d6d2b] flex items-center justify-center border-[4px] border-white/95 shadow-[0_18px_36px_rgba(92,72,25,0.45),inset_0_4px_8px_rgba(255,255,255,0.45),inset_0_-4px_8px_rgba(0,0,0,0.3)] relative">
+            <div className="absolute inset-[-10px] rounded-full border border-[#BFA052]/15 bg-[#BFA052]/5 blur-md pointer-events-none" />
+            <div className="absolute inset-[6px] rounded-full border border-white/30" />
+            <IconContainer name={benefit.iconName} className="text-white" size={66} />
           </div>
         )}
       </div>

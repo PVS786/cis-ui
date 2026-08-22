@@ -1,0 +1,6 @@
+{
+  "name": "Land Acquisition Challenges",
+  "description": "A premium luxury interactive landing section presenting challenges and solutions in land acquisition with an architectural, 3D jigsaw puzzle design.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
