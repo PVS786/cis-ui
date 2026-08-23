@@ -32,7 +32,7 @@ export function Footer() {
 
       {/* ─── TOP SECTION: CONTENT & ARTWORK BACKGROUND ─── */}
       <div
-        className="w-full pt-20 pb-24 relative"
+        className="w-full pt-10 pb-24 relative"
         style={{
           backgroundImage: "url('/footer_base.png')",
           backgroundSize: 'cover',
@@ -45,7 +45,7 @@ export function Footer() {
           <div className="grid grid-cols-1 lg:grid-cols-[3.5fr_3fr_3.5fr] gap-12 lg:gap-16 justify-between items-start w-full">
 
             {/* COLUMN 1: Company Branding (Left-Justified) */}
-            <div className="flex flex-col items-start pt-[19px] w-full justify-self-start text-left">
+            <div className="flex flex-col items-start pt-1 w-full justify-self-start text-left">
               <div className="flex items-center gap-[14px] xl:gap-[18px]">
                 {/* Logo Container matching Header scale but larger */}
                 <div className="w-[72px] h-[72px] xl:w-[82px] xl:h-[82px] relative flex items-center justify-center shrink-0" style={{ transform: 'translateY(-6px)' }}>
@@ -92,7 +92,7 @@ export function Footer() {
             </div>
 
             {/* COLUMN 2: Navigation Links (Line 1: Home, About Us, Services; Line 2: Careers, Contact Us) */}
-            <div className="flex flex-col items-center lg:pt-[30px] pt-6 w-full justify-self-center text-left">
+            <div className="flex flex-col items-center lg:pt-3 pt-3 w-full justify-self-center text-left">
               <div className="grid grid-cols-3 gap-x-10 md:gap-x-14 gap-y-6 w-full max-w-[480px] xl:max-w-[560px] justify-items-start text-left">
                 {/* ── ROW 1 ── */}
                 {/* 1. HOME */}
@@ -280,7 +280,7 @@ export function Footer() {
             </div>
 
             {/* COLUMN 3: Mini Contact Form (4fr, Right-Justified) */}
-            <div className="flex flex-col space-y-6 w-full lg:max-w-[380px] lg:ml-auto pt-[19px] justify-self-end text-left">
+            <div className="flex flex-col space-y-6 w-full lg:max-w-[380px] lg:ml-auto pt-1 justify-self-end text-left">
               <h4
                 className="font-gotham text-center"
                 style={{

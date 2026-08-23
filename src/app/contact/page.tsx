@@ -695,7 +695,7 @@ export default function ContactPage() {
                   {/* Top-Left Floating Directions Button */}
                   <div className="absolute top-4 left-4 z-20">
                     <a
-                      href="https://maps.google.com/?q=Neelkanth+Business+Park+Vidyavihar+West+Mumbai"
+                      href="https://maps.app.goo.gl/a7oYmSJvEnPMZoXH6"
                       target="_blank"
                       rel="noopener noreferrer"
                       className="bg-[#0C2C4D]/90 hover:bg-[#0C2C4D] text-white font-gotham font-semibold text-[11px] uppercase tracking-wider px-3.5 py-2 rounded-lg shadow-lg backdrop-blur-md flex items-center gap-1.5 transition-all duration-300 transform hover:scale-105 active:scale-95 border border-[#BFA052]/40"
