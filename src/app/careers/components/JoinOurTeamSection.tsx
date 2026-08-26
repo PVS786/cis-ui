@@ -109,7 +109,17 @@ const EnvelopeForm: React.FC = () => {
     } else if (!/^[+]*[(]{0,1}[0-9]{1,4}[)]{0,1}[-\s\./0-9]*$/.test(form.phone)) {
       newErrors.phone = 'Please enter a valid phone number';
     }
-    if (!form.resume) newErrors.resume = 'Please upload your resume';
+    if (!form.resume) {
+      newErrors.resume = 'Please upload your resume';
+    } else {
+      const fileName = form.resume.name;
+      const fileExt = fileName.substring(fileName.lastIndexOf('.')).toLowerCase();
+      if (!['.pdf', '.doc', '.docx'].includes(fileExt)) {
+        newErrors.resume = 'Only .pdf, .doc, and .docx files are allowed';
+      } else if (form.resume.size > 5 * 1024 * 1024) {
+        newErrors.resume = 'File size must be 5 MB or less';
+      }
+    }
 
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
@@ -162,11 +172,43 @@ const EnvelopeForm: React.FC = () => {
     if (fileInputRef.current) fileInputRef.current.value = '';
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!validate()) return;
     setStep('submitting');
-    setTimeout(() => setStep('submitted'), 2200);
+
+    try {
+      const formData = new FormData();
+      formData.append('fullName', form.fullName.trim());
+      formData.append('email', form.email.trim());
+      formData.append('phone', form.phone.trim());
+      if (form.resume) {
+        formData.append('resume', form.resume);
+      }
+
+      const res = await fetch('/api/careers', {
+        method: 'POST',
+        body: formData,
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        setErrors((prev) => ({
+          ...prev,
+          resume: data.error || 'Failed to submit application.',
+        }));
+        setStep('ready');
+        return;
+      }
+
+      setStep('submitted');
+    } catch (err: any) {
+      setErrors((prev) => ({
+        ...prev,
+        resume: err.message || 'Something went wrong. Please try again.',
+      }));
+      setStep('ready');
+    }
   };
 
   const handleReset = () => {

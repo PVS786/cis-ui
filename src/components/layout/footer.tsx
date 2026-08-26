@@ -13,15 +13,41 @@ export function Footer() {
   const [isServicesOpenMobile, setIsServicesOpenMobile] = useState(false);
   const [formData, setFormData] = useState({ name: '', phone: '', email: '', message: '' });
   const [isSubmitted, setIsSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.name && formData.phone && formData.email && formData.message) {
+    setFormError(null);
+    if (!formData.name || !formData.phone || !formData.email || !formData.message) return;
+
+    setIsSubmitting(true);
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullName: formData.name,
+          phone: formData.phone,
+          email: formData.email,
+          message: formData.message,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to send message.');
+      }
+
       setIsSubmitted(true);
+      setFormData({ name: '', phone: '', email: '', message: '' });
       setTimeout(() => {
         setIsSubmitted(false);
-        setFormData({ name: '', phone: '', email: '', message: '' });
-      }, 3000);
+      }, 5000);
+    } catch (err: any) {
+      setFormError(err.message || 'Something went wrong. Please try again.');
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -389,8 +415,15 @@ export function Footer() {
                     className="placeholder-white/70 focus:ring-1 focus:ring-[#BFA052] transition-all font-gotham"
                   />
 
+                  {formError && (
+                    <div className="border border-red-400/60 rounded-lg p-2 text-[11px] font-gotham text-red-300 bg-red-950/40 backdrop-blur-sm">
+                      {formError}
+                    </div>
+                  )}
+
                   <button
                     type="submit"
+                    disabled={isSubmitting}
                     style={{
                       fontFamily: "'Gotham', Arial, sans-serif",
                       fontWeight: 700,
@@ -401,12 +434,13 @@ export function Footer() {
                       height: '42px',
                       fontSize: '11px',
                       border: 'none',
-                      cursor: 'pointer',
+                      cursor: isSubmitting ? 'not-allowed' : 'pointer',
                       letterSpacing: '0.1em',
+                      opacity: isSubmitting ? 0.7 : 1,
                     }}
                     className="transition-all duration-300 hover:brightness-110 hover:-translate-y-0.5 hover:shadow-[0_0_15px_rgba(191,160,82,0.5)] active:scale-[0.98] font-gotham"
                   >
-                    LET&apos;S CONNECT
+                    {isSubmitting ? 'SENDING...' : "LET'S CONNECT"}
                   </button>
                 </form>
               )}
