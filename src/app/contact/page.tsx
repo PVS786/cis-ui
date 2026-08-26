@@ -38,6 +38,8 @@ export default function ContactPage() {
 
   const [activeIndicator, setActiveIndicator] = useState<'name' | 'company' | 'email' | 'phone' | 'message' | 'submit'>('name');
   const [formSubmitted, setFormSubmitted] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [formError, setFormError] = useState<string | null>(null);
 
   const [fullName, setFullName] = useState('');
   const [companyName, setCompanyName] = useState('');
@@ -54,18 +56,44 @@ export default function ContactPage() {
   const completedStepsCount = [isNameComplete, isCompanyComplete, isEmailComplete, isPhoneComplete, isMessageComplete].filter(Boolean).length;
   const progressHeight = completedStepsCount === 0 ? 0 : completedStepsCount === 1 ? 20 : completedStepsCount === 2 ? 40 : completedStepsCount === 3 ? 60 : completedStepsCount === 4 ? 80 : 100;
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    setFormSubmitted(true);
-    // Reset values upon submission success
-    setTimeout(() => {
-      setFormSubmitted(false);
-      setFullName('');
-      setCompanyName('');
-      setEmail('');
-      setPhone('');
-      setMessage('');
-    }, 6000);
+    setFormError(null);
+    if (!fullName.trim() || !email.trim() || !message.trim()) return;
+
+    setIsSubmitting(true);
+    try {
+      const res = await fetch('/api/contact', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullName,
+          companyName,
+          email,
+          phone,
+          message,
+        }),
+      });
+
+      const data = await res.json();
+      if (!res.ok) {
+        throw new Error(data.error || 'Failed to send message.');
+      }
+
+      setFormSubmitted(true);
+      setTimeout(() => {
+        setFormSubmitted(false);
+        setFullName('');
+        setCompanyName('');
+        setEmail('');
+        setPhone('');
+        setMessage('');
+      }, 6000);
+    } catch (err: any) {
+      setFormError(err.message || 'Something went wrong. Please try again.');
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
   return (
@@ -581,13 +609,20 @@ export default function ContactPage() {
                       </motion.div>
                     </div>
 
+                    {formError && (
+                      <div className="text-red-500 font-gotham text-xs font-semibold text-center bg-red-50 p-2.5 rounded-lg border border-red-200">
+                        {formError}
+                      </div>
+                    )}
+
                     {/* Submit Button */}
                     <button
                       type="submit"
+                      disabled={isSubmitting}
                       onMouseEnter={() => setActiveIndicator('submit')}
-                      className="flex-1 py-4 rounded-lg bg-brand-gold hover:bg-brand-gold/90 text-brand-navy font-gotham font-medium text-sm tracking-wider uppercase flex items-center justify-center gap-2 cursor-pointer transition-all duration-300 transform active:scale-[0.98]"
+                      className={`flex-1 py-4 rounded-lg bg-brand-gold hover:bg-brand-gold/90 text-brand-navy font-gotham font-medium text-sm tracking-wider uppercase flex items-center justify-center gap-2 cursor-pointer transition-all duration-300 transform active:scale-[0.98] ${isSubmitting ? 'opacity-70 cursor-not-allowed' : ''}`}
                     >
-                      <span>Submit Message</span>
+                      <span>{isSubmitting ? 'Sending Message...' : 'Submit Message'}</span>
                       <Send className="w-4 h-4" />
                     </button>
                   </div>
